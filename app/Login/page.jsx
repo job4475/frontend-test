@@ -2,7 +2,7 @@
 import React from "react";
 import LoginForm from "../ui/login/LoginForm/LoginForm";
 import Image from "next/image";
-import Chiclogo from "@/assets/images/sigin/Chiclogo.png";
+import Chiclogo from "@/assets/assets/images/sigin/Chiclogo.png";
 
 const page = () => {
   return (

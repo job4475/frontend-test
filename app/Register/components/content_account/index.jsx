@@ -2,7 +2,7 @@ import { data_register } from '@/data/register'
 import { Box } from '@mui/material'
 import Image from 'next/image'
 import React from 'react'
-import accountimg from '@/assets/images/register/account.png'
+import accountimg from '@/assets/assets/images/register/account.png'
 
 function index() {
   return (

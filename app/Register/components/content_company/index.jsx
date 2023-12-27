@@ -2,10 +2,10 @@ import { data_register } from '@/data/register'
 import { Box, Radio } from '@mui/material'
 import Image from 'next/image'
 import React from 'react'
-import logo from '@/assets/images/logotrac.png'
-import website from '@/assets/images/register/website.png'
-import tel from '@/assets/images/register/tel.png'
-import map from '@/assets/images/register/location.png'
+import logo from '@/assets/assets/images/logotrac.png'
+import website from '@/assets/assets/images/register/website.png'
+import tel from '@/assets/assets/images/register/tel.png'
+import map from '@/assets/assets/images/register/location.png'
 
 function index() {
   return (

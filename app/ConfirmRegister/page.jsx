@@ -5,8 +5,6 @@ import { StateContext } from '@/context/Context';
 import { Box } from '@mui/material';
 import Image from 'next/image';
 import React, { useContext } from 'react'
-import accountimg from '@/assets/images/register/account.png'
-import { data_register } from '@/data/register';
 import ContentAccount from './components/content_account'
 import ContentCompany from './components/content_company'
 import ContentPersonal from './components/content_personal'

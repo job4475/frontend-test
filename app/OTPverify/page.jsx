@@ -2,7 +2,7 @@
 import React from "react";
 import OTPverify from "../ui/login/OTPverify/OTPverify";
 import Image from "next/image";
-import Chiclogo from "@/assets/images/sigin/Chiclogo.png";
+import Chiclogo from "@/assets/assets/images/sigin/Chiclogo.png";
 
 const page = () => {
   return (
