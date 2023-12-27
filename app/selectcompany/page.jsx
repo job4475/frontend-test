@@ -1,7 +1,7 @@
 "use client"
 import React from "react";
 import Image from "next/image";
-import Logotrac from "@/assets/images/logotrac.png";
+import Logotrac from "@/assets/assets/images/logotrac.png";
 import { Box } from "@mui/material";
 import { useRouter } from "next/navigation";
 

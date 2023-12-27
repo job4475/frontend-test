@@ -2,7 +2,7 @@
 
 import { Box, Button, TextField } from '@mui/material';
 import React, { useState } from 'react';
-import done from '@/assets/images/done.png'
+import done from '@/assets/assets/images/done.png'
 import Image from 'next/image';
 
 function Index() {
