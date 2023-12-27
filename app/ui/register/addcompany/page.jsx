@@ -3,8 +3,8 @@
 import { Box, Button, Grid, TextField, Typography } from '@mui/material'
 import React from 'react'
 import Image from 'next/image'
-import Ellipse from '@/assets/images/Ellipse 19.png'
-import Subtract from '@/assets/images/Subtract.png'
+import Ellipse from '@/assets/assets/images/Ellipse 19.png'
+import Subtract from '@/assets/assets/images/Subtract.png'
 import ArrowRightAltIcon from '@mui/icons-material/ArrowRightAlt';
 import { useRouter } from "next/navigation";
 

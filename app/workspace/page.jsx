@@ -1,12 +1,12 @@
 "use client"
 import React from "react";
 import Image from "next/image";
-import Logotrac from "@/assets/images/logotrac.png";
-import CarReserve from "@/assets/images/workspace/CarReserve.png";
-import MyOpportunity from "@/assets/images/workspace/MyOpportunity.png";
-import RemoteSupport from "@/assets/images/workspace/RemoteSupport.png";
-import ShareDocument from "@/assets/images/workspace/ShareDocument.png";
-import UnderReview from "@/assets/images/workspace/UnderReview.png";
+import Logotrac from "@/assets/assets/images/logotrac.png";
+import CarReserve from "@/assets/assets/images/workspace/CarReserve.png";
+import MyOpportunity from "@/assets/assets/images/workspace/MyOpportunity.png";
+import RemoteSupport from "@/assets/assets/images/workspace/RemoteSupport.png";
+import ShareDocument from "@/assets/assets/images/workspace/ShareDocument.png";
+import UnderReview from "@/assets/assets/images/workspace/UnderReview.png";
 import { Box } from "@mui/material";
 import { useRouter } from "next/navigation";
 

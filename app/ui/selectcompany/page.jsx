@@ -8,8 +8,8 @@ import CssBaseline from "@mui/material/CssBaseline";
 import Container from "@mui/material/Container";
 import { useTheme } from "@mui/material/styles";
 import Image from "next/image";
-import Logotrac from "@/assets/images/logotrac.png";
-import Logoplus from "@/assets/images/plus.svg";
+import Logotrac from "@/assets/assets/images/logotrac.png";
+import Logoplus from "@/assets/assets/images/plus.svg";
 import useMediaQuery from "@mui/material/useMediaQuery";
 
 const Index = () => {
