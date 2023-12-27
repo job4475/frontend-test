@@ -2,7 +2,7 @@
 import React from "react";
 import ResetSucceed from "../ui/login/ResetSucceed/ResetSucceed";
 import Image from "next/image";
-import Chiclogo from "@/assets/images/sigin/Chiclogo.png";
+import Chiclogo from "@/assets/images/sigin/chiclogo.png";
 
 
 const page = () => {

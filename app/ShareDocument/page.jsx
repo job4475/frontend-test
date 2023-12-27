@@ -1,8 +1,8 @@
 "use client";
 import React, { useContext, useRef, useState } from "react";
 import Image from "next/image";
-import Logotrac from "@/assets/images/logotrac.png";
-import Upfile from '@/assets/images/upfile.png';
+import Logotrac from "@/assets/assets/images/logotrac.png";
+import Upfile from '@/assets/assets/images/upfile.png';
 import { Box, Button, Checkbox, FormControlLabel, FormGroup, Grid, Switch, TextField } from "@mui/material";
 import EmailIcon from '@mui/icons-material/Email';
 import LockIcon from '@mui/icons-material/Lock';

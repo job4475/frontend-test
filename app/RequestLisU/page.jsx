@@ -3,7 +3,7 @@ import * as React from 'react';
 import { Box, Button, Paper, Table, TableBody, TableCell, TableContainer, TableHead, TableRow } from '@mui/material'
 import { useState } from "react";
 import Image from "next/image";
-import Logotrac from "@/assets/assets/logotrac.png";
+import Logotrac from "@/assets/assets/images/logotrac.png";
 import TextSnippetIcon from '@mui/icons-material/TextSnippet';
 function page() {
   const getStatusColor = (status) => {
