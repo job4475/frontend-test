@@ -1,8 +1,7 @@
 import { Box } from '@mui/material'
 import React from 'react'
-import arrow from '@/assets/images/register/arrow.png'
+import arrow from '@/assets/assets/images/register/arrow.png'
 import Image from 'next/image'
-import logo from '@/assets/images/logotrac.png'
 
 function index() {
   return (
