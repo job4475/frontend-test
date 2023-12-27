@@ -1,3 +1,5 @@
+'use client'
+
 import React from "react";
 import styles from "./Signupframe.module.css";
 import Box from "@mui/material/Box";

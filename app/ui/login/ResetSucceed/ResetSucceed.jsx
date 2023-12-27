@@ -1,3 +1,5 @@
+'use client'
+
 import { Box, Button, TextField } from '@mui/material';
 import React, { useState } from 'react';
 import done from '@/assets/images/done.png'

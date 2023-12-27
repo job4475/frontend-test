@@ -1,3 +1,5 @@
+'use client'
+
 import React from 'react'
 import VerificationCodeInput from './VerificationCodeInput'
 import { Box, Button } from '@mui/material';

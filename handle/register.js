@@ -5,8 +5,6 @@ import React, { useContext } from 'react'
 
 function register() {
   const {state, setState} = useContext(StateContext);
-  console.log("🚀 ~ file: register.js:8 ~ register ~ state:", state)
-
   const  handlechangeTitle =(e)=>{
     setState((prevData) => ({ ...prevData, titleselect: e.target.value }))
   }
