@@ -2,7 +2,7 @@
 import React from "react";
 import ForgotPassword from "../ui/login/ForgotPassword/ForgotPassword";
 import Image from "next/image";
-import Chiclogo from "@/assets/images/sigin/Chiclogo.png";
+import Chiclogo from "@/assets/assets/images/sigin/chiclogo.png";
 
 const page = () => {
   return (
@@ -12,7 +12,6 @@ const page = () => {
       </div>
       <div className="my-[auto] xl:mt-[auto] basis-1/1 xl:basis-1/3 flex flex-col content-center justify-center items-center">
         <ForgotPassword />
-       
       </div>
     </div>
   );
