@@ -1,22 +1,17 @@
-'use client'
-
 import { Box, Button, TextField } from '@mui/material';
-import React, { useState } from 'react';
+import React, { useContext, useState } from 'react';
 import IconButton from '@mui/material/IconButton';
-import InputAdornment from '@mui/material/InputAdornment';
 import VisibilityIcon from '@mui/icons-material/Visibility';
 import VisibilityOffIcon from '@mui/icons-material/VisibilityOff';
-
-
+import { StateContext } from '@/context/Context';
 
 function Index() {
+  const {state, setState} = useContext(StateContext);
   const [info, setInfo] = React.useState(0);
   const [showPassword, setShowPassword] = useState(false);
-
   const handleTogglePassword = () => {
     setShowPassword(!showPassword);
   };
-
   const handleSignInClick = () => {
     window.location.replace('/OTPVerify')
   }
@@ -44,9 +39,9 @@ function Index() {
           </Box>
         </Box>
         <Box sx={{display: 'flex',flexDirection: 'column',justifyContent: 'center',alignItems: 'center',}}>
-          <TextField id="standard-basic" label="Email" variant="standard" sx={{ width: '90%' }} />
+          <TextField id="standard-basic" label="Email" variant="standard" value={state.Email} sx={{ width: '90%' }} />
           {info === 0 && (
-            <TextField label="Password"variant="standard"type={showPassword ? 'text' : 'password'}sx={{ width: '90%' }}
+            <TextField label="Password"variant="standard" value={state.Password} type={showPassword ? 'text' : 'password'}sx={{ width: '90%' }}
               InputProps={{
                 endAdornment: (
                      <IconButton onClick={handleTogglePassword} edge="end">
@@ -63,7 +58,8 @@ function Index() {
           )}
         </Box>
         <Box sx={{display:'flex',justifyContent:'center'}}>
-        <Button variant="contained" onClick={info === 0 ? handleSignInClick : handleSignUpClick}style={{ background: '#84BAA1', width: '90%', textTransform: 'capitalize', marginTop: 10 }}>
+        <Button variant="contained" onClick={info === 0 ? handleSignInClick : handleSignUpClick}style={{ background: '#84BAA1', width: '90%', textTransform: 'capitalize', marginTop: 10,boxShadow:'0px 0px 0px'
+ }}>
          {info === 0 ? 'Sign In' : 'Sign Up'}
         </Button>
         </Box>
