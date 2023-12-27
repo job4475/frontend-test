@@ -1,21 +1,20 @@
 'use client'
-
 import { Box, Button, TextField } from '@mui/material';
-import React, { useState } from 'react';
+import React, { useContext, useState } from 'react';
+import { StateContext } from '@/context/Context';
 
 function Index() {
-  const [info, setInfo] = React.useState(0);
-  const [showPassword, setShowPassword] = useState(false);
+  const {state, setState} = useContext(StateContext);
 
-  const handleTogglePassword = () => {
-    setShowPassword(!showPassword);
-  };
   const Back = () => {
     window.location.replace('/Login')
   }
   const getlink = () => {
     window.location.replace('/ResetSucceed')
   }
+  const Email = (e) => {
+    setState({...state,Email: e.target.value,});
+  };
   return (
     <Box>
       <Box p={3} sx={{display: 'flex',flexDirection: 'column',background: 'width',width: '400px',height: '500px',
@@ -25,7 +24,7 @@ function Index() {
          <Box sx={{textAlign: 'left', color: '#778296', fontSize: 15,  lineHeight: 3,}}>We need your email to reset your password</Box>
         </Box>
         <Box>
-        <TextField id="standard-basic" label="Email"  variant="standard" sx={{ width: '90%' }} />
+        <TextField id="standard-basic" label="Email"  variant="standard" value={state.Email} onChange={Email} sx={{ width: '90%' }} />
         </Box>
         <Box sx={{display: 'flex',flexDirection: 'column',justifyContent: 'center',alignItems: 'center', fontSize: 11}}>
           <Button variant="text" onClick={Back}  sx={{color:'#828895',textTransform: 'capitalize', fontSize: 14}} >Back to sign in</Button>

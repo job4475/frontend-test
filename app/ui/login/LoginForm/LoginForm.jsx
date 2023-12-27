@@ -21,6 +21,13 @@ function Index() {
   const ForgotPassword = () => {
     window.location.replace('/ForgotPassword')
   }
+  const Email= (e) => {
+    setState({...state,Email: e.target.value,});
+  };
+  const Password = (e) => {
+    setState({...state,Password: e.target.value,});
+  };
+
   return (
     <Box>
       <Box p={3} sx={{display: 'flex',flexDirection: 'column',background: 'width',width: '400px',height: '500px',
@@ -39,9 +46,9 @@ function Index() {
           </Box>
         </Box>
         <Box sx={{display: 'flex',flexDirection: 'column',justifyContent: 'center',alignItems: 'center',}}>
-          <TextField id="standard-basic" label="Email" variant="standard" value={state.Email} sx={{ width: '90%' }} />
+          <TextField id="standard-basic" label="Email" variant="standard" value={state.Email} onChange={Email} sx={{ width: '90%' }} />
           {info === 0 && (
-            <TextField label="Password"variant="standard" value={state.Password} type={showPassword ? 'text' : 'password'}sx={{ width: '90%' }}
+            <TextField label="Password"variant="standard" value={state.Password} onChange={Password} type={showPassword ? 'text' : 'password'}sx={{ width: '90%' }}
               InputProps={{
                 endAdornment: (
                      <IconButton onClick={handleTogglePassword} edge="end">
