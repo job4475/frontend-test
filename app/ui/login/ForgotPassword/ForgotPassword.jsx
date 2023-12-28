@@ -2,15 +2,16 @@
 import { Box, Button, TextField } from '@mui/material';
 import React, { useContext, useState } from 'react';
 import { StateContext } from '@/context/Context';
+import { useRouter } from 'next/router';
 
 function Index() {
   const {state, setState} = useContext(StateContext);
-
+  const router = useRouter();
   const Back = () => {
-    window.location.replace('/Login')
+    router.push('/Login')
   }
   const getlink = () => {
-    window.location.replace('/ResetSucceed')
+    router.push('/ResetSucceed')
   }
   const Email = (e) => {
     setState({...state,Email: e.target.value,});

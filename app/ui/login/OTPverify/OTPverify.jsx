@@ -1,15 +1,16 @@
 'use client'
-
 import React from 'react'
 import VerificationCodeInput from './VerificationCodeInput'
 import { Box, Button } from '@mui/material';
+import { useRouter } from 'next/router';
 
 function OTPverify() {
+  const router = useRouter();
   const handleCodeChange = (code) => {
     console.log('Verification Code:', code);
   }
   const workspace = () => {
-    window.location.replace('/Workspace')
+    router.push('/Workspace')
   }
   return (
     <Box p={3} sx={{display: 'flex',flexDirection: 'column',background: 'width',width: '400px',height: '500px',

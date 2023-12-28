@@ -18,10 +18,10 @@ function Index() {
     router.push('/OTPverify');
   }
   const handleSignUpClick = () => {
-    window.location.replace('/Selectcompany')
+    router.push('/Selectcompany')
   }
   const ForgotPassword = () => {
-    window.location.replace('/ForgotPassword')
+    router.push('/ForgotPassword')
   }
   const Email= (e) => {
     setState({...state,Email: e.target.value,});
