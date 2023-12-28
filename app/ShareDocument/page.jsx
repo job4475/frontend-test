@@ -4,7 +4,6 @@ import Image from "next/image";
 import Logotrac from "@/assets/assets/images/logotrac.png";
 import Upfile from '@/assets/assets/images/upfile.png';
 import { Box, Button, Checkbox, FormControlLabel, FormGroup, Grid, Switch, TextField } from "@mui/material";
-import EmailIcon from '@mui/icons-material/Email';
 import LockIcon from '@mui/icons-material/Lock';
 import CalendarMonthIcon from '@mui/icons-material/CalendarMonth';
 import AccessAlarmIcon from '@mui/icons-material/AccessAlarm';
