@@ -4,16 +4,18 @@ import IconButton from '@mui/material/IconButton';
 import VisibilityIcon from '@mui/icons-material/Visibility';
 import VisibilityOffIcon from '@mui/icons-material/VisibilityOff';
 import { StateContext } from '@/context/Context';
+import { useRouter } from "next/navigation";
 
 function Index() {
   const {state, setState} = useContext(StateContext);
+  const router = useRouter();
   const [info, setInfo] = React.useState(0);
   const [showPassword, setShowPassword] = useState(false);
   const handleTogglePassword = () => {
     setShowPassword(!showPassword);
   };
   const handleSignInClick = () => {
-    window.location.replace('/OTPVerify')
+    router.push('/OTPverify');
   }
   const handleSignUpClick = () => {
     window.location.replace('/Selectcompany')

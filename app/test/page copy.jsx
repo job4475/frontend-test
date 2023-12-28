@@ -1,6 +1,6 @@
 'use client'
 import React, { useState } from 'react';
-import { TextField, Chip, Box, Grid } from '@mui/material';
+import { TextField, Chip, Box } from '@mui/material';
 import EmailIcon from '@mui/icons-material/Email';
 
 function Page() {
@@ -36,7 +36,7 @@ function Page() {
         label="Recipient"
         size="small"
         variant="outlined"
-        style={{ width: '500px' }}
+        style={{ width: '500px', wordWrap: 'break-word' }} // Enable word wrap
         value={email}
         onChange={handleInputChange}
         onKeyPress={handleKeyPress}
@@ -45,8 +45,8 @@ function Page() {
           startAdornment: (
             <>
               <EmailIcon style={{ color: 'gray' }} />
-              <Box sx={{display: 'flex',alignItems: 'center',flexWrap: 'wrap',justifyContent: 'center',}}>
-                {emails.map((email, index) => (
+              <Box sx={{ width: '500px',display: 'grid', alignItems: 'center' }}>
+                {test.map((email, index) => (
                   <Chip key={index} label={email} onDelete={() => handleDelete(index)} style={{ margin: 5 }} />
                 ))}
               </Box>
