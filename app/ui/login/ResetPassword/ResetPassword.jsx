@@ -1,42 +1,60 @@
-'use client'
-
-import { Box, Button, Stack, TextField, Typography } from '@mui/material';
+import { Box, Button, TextField, Typography } from '@mui/material';
 import React, { useState } from 'react';
 import IconButton from '@mui/material/IconButton';
 import VisibilityIcon from '@mui/icons-material/Visibility';
 import VisibilityOffIcon from '@mui/icons-material/VisibilityOff';
 
 function Index() {
-  const [info, setInfo] = React.useState(0);
+  const [password, setPassword] = useState('');
   const [showPassword, setShowPassword] = useState(false);
 
   const handleTogglePassword = () => {
     setShowPassword(!showPassword);
   };
-  const handleTogglePassword1 = () => {
-    setShowPassword(!showPassword);
+
+  const isPasswordValid = () => {
+    const hasMinLength = password.length >= 8;
+    const hasUpperCase = /[A-Z]/.test(password);
+    const hasLowerCase = /[a-z]/.test(password);
+    const hasNumber = /\d/.test(password);
+
+    return hasMinLength && hasUpperCase && hasLowerCase && hasNumber;
   };
+
   return (
     <Box>
-      <Box p={3} sx={{display: 'flex',flexDirection: 'column',background: 'width',width: '400px',height: '500px',
-        borderRadius: "15px",marginLeft: 'auto',mr: 5,mt: 1,boxShadow: '0px 0px 10px rgba(0, 0, 0, 0.1)',justifyContent:'space-between'}}>
+      <Box p={3} sx={{ display: 'flex', flexDirection: 'column', width: '400px', height: '500px', borderRadius: "15px", marginLeft: 'auto', marginRight: 5, marginTop: 1, boxShadow: '0px 0px 10px rgba(0, 0, 0, 0.1)', justifyContent: 'space-between' }}>
         <Box>
-        <Box style={{ color: '#1F2939', fontSize: 20,  fontWeight: '600', }}>Reset your password here</Box>
-        <Box sx={{display:'flex',flexDirection:'column',justifyContent:'center',alignItems:'center',mt:2}}>
-        <TextField label="New Password"variant="standard"type={showPassword ? 'text' : 'password'}sx={{ width: '100%' }}
-             InputProps={{
-                endAdornment: (
-                     <IconButton onClick={handleTogglePassword} edge="end">
-                      {showPassword ? <VisibilityIcon /> : <VisibilityOffIcon />}
-                    </IconButton> 
-                ),}}/>
-            <TextField label="Confirm Password"variant="standard"type={showPassword ? 'text' : 'password'}sx={{ width: '100%' }}
+          <Box style={{ color: '#1F2939', fontSize: 20, fontWeight: '600' }}>Reset your password here</Box>
+          <Box sx={{ display: 'flex', flexDirection: 'column', justifyContent: 'center', alignItems: 'center', marginTop: 2 }}>
+            <TextField
+              label="New Password"
+              variant="standard"
+              type={showPassword ? 'text' : 'password'}
+              value={password}
+              onChange={(e) => setPassword(e.target.value)}
+              sx={{ width: '100%' }}
               InputProps={{
                 endAdornment: (
-                     <IconButton onClick={handleTogglePassword1} edge="end">
-                      {showPassword ? <VisibilityIcon /> : <VisibilityOffIcon />}
-                    </IconButton> 
-                ),}}/>
+                  <IconButton onClick={handleTogglePassword} edge="end">
+                    {showPassword ? <VisibilityIcon /> : <VisibilityOffIcon />}
+                  </IconButton>
+                ),
+              }}
+            />
+            <TextField
+              label="Confirm Password"
+              variant="standard"
+              type={showPassword ? 'text' : 'password'}
+              sx={{ width: '100%' }}
+              InputProps={{
+                endAdornment: (
+                  <IconButton onClick={handleTogglePassword} edge="end">
+                    {showPassword ? <VisibilityIcon /> : <VisibilityOffIcon />}
+                  </IconButton>
+                ),
+              }}
+            />
         </Box>
                 <Box sx={{display:'flex',justifyContent:'center',mt:"18px"}}>
                 <Box sx={{bgcolor:'#E8E8E8',width:'20%',height:'5px',mr:"2px"}}></Box>
@@ -83,9 +101,16 @@ function Index() {
     </Box>
         </Box>
         </Box>
-        <Box sx={{display:'flex',justifyContent:'center',alignItems:'center'}}>
-        <Button variant="contained"  style={{ background: '#84BAA1', width: '90%',textTransform:'capitalize', mt: 10 }}>Sign In</Button>
-        </Box>
+        <Box sx={{ display: 'flex', justifyContent: 'center', alignItems: 'center' }}>
+        <Button
+          variant="contained"
+          style={{ background: '#84BAA1', width: '90%', textTransform: 'capitalize', mt: 10 }}
+          disabled={!isPasswordValid()}
+        >
+          Sign In
+        </Button>
+
+    </Box>
       </Box>
     </Box>
   );

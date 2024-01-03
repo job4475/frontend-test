@@ -2,7 +2,7 @@
 import React from 'react'
 import VerificationCodeInput from './VerificationCodeInput'
 import { Box, Button } from '@mui/material';
-import { useRouter } from 'next/router';
+import { useRouter } from 'next/navigation';
 
 function OTPverify() {
   const router = useRouter();
