@@ -7,6 +7,7 @@
       "@/context/*": ["context/*"],
       "@/data/*": ["data/*"],
       "@/handle/*": ["handle/*"],
+      "@/hook/*": ["hook/*"],
       "@/components/*": ["components/*"],
 
     }

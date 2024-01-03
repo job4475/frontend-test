@@ -1,67 +1,53 @@
 'use client'
-import React, { useState } from 'react';
-import { TextField, Chip, Box, Grid } from '@mui/material';
-import EmailIcon from '@mui/icons-material/Email';
+import * as React from 'react';
+import PropTypes from 'prop-types';
+import CircularProgress from '@mui/material/CircularProgress';
+import Typography from '@mui/material/Typography';
+import Box from '@mui/material/Box';
+import Circle from "@/assets/assets/images/workspace/circle.png";
+import Image from 'next/image';
 
-function Page() {
-  const [email, setEmail] = useState('');
-  const [emails, setEmails] = useState([]);
-  console.log("🚀 ~ file: page.jsx:9 ~ Page ~ emails:", emails)
-
-  const handleKeyPress = (event) => {
-    if (event.key === 'Enter' && email.trim() !== '') {
-      setEmails([...emails, email.trim()]);
-      setEmail('');
-    }
-  };
-
-  const handleInputChange = (event) => {
-    setEmail(event.target.value);
-  };
-
-  const handleKeyDown = (event) => {
-    if (event.key === 'Backspace' && email === '' && emails.length > 0) {
-      const newEmails = [...emails];
-      newEmails.pop();
-      setEmails(newEmails);
-    }
-  };
-  const test = [
-    "thananchai@gmail.com","thananchai@gmail.com","thananchai@gmail.com","thananchai@gmail.com","thananchai@gmail.com"
-  ]
-
+function CircularProgressWithLabel(props) {
   return (
-    <div style={{ marginTop: 10 }}>
-      <TextField
-        label="Recipient"
-        size="small"
-        variant="outlined"
-        style={{ width: '500px' }}
-        value={email}
-        onChange={handleInputChange}
-        onKeyPress={handleKeyPress}
-        onKeyDown={handleKeyDown}
-        InputProps={{
-          startAdornment: (
-            <>
-              <EmailIcon style={{ color: 'gray' }} />
-              <Box sx={{display: 'flex',alignItems: 'center',flexWrap: 'wrap',justifyContent: 'center',}}>
-                {emails.map((email, index) => (
-                  <Chip key={index} label={email} onDelete={() => handleDelete(index)} style={{ margin: 5 }} />
-                ))}
-              </Box>
-            </>
-          ),
-        }}
-      />
-    </div>
+    <>
+    <Box sx={{display:"flex",alignItems:"center"}}>
+    <Box sx={{ position: 'relative', display: 'inline-flex' }}>
+      <Image alt="test" src={Circle}></Image>
+      <Box sx={{top: 0,left: 0,bottom: 0,right: 0,position: 'absolute',display: 'flex',alignItems: 'center',justifyContent: 'center',}}>
+        <Typography variant="caption" component="div" color="text.secondary">PDF</Typography>
+      </Box>
+    </Box>
+    <Box>
+      <Box>tessadsadasdsa</Box>
+      <Box>tessadsadasdsa</Box>
+      <Box>tessadsadasdsa</Box>
+      <Box>tessadsadasdsa</Box>
+    </Box>
+    </Box>
+    </>
   );
-
-  function handleDelete(index) {
-    const newEmails = [...emails];
-    newEmails.splice(index, 1);
-    setEmails(newEmails);
-  }
 }
 
-export default Page;
+CircularProgressWithLabel.propTypes = {
+  /**
+   * The value of the progress indicator for the determinate variant.
+   * Value between 0 and 100.
+   * @default 0
+   */
+  value: PropTypes.number.isRequired,
+};
+
+export default function CircularWithValueLabel() {
+  const [progress, setProgress] = React.useState(10);
+
+  React.useEffect(() => {
+    const timer = setInterval(() => {
+      setProgress((prevProgress) => (prevProgress >= 100 ? 0 : prevProgress + 10));
+    }, 800);
+    return () => {
+      clearInterval(timer);
+    };
+  }, []);
+
+  return <CircularProgressWithLabel value={progress} />;
+}
