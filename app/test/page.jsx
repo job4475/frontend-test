@@ -1,67 +1,26 @@
-'use client'
-import React, { useState } from 'react';
-import { TextField, Chip, Box, Grid } from '@mui/material';
-import EmailIcon from '@mui/icons-material/Email';
+'use client';
 
-function Page() {
-  const [email, setEmail] = useState('');
-  const [emails, setEmails] = useState([]);
-  console.log("🚀 ~ file: page.jsx:9 ~ Page ~ emails:", emails)
+import { useState } from 'react';
 
-  const handleKeyPress = (event) => {
-    if (event.key === 'Enter' && email.trim() !== '') {
-      setEmails([...emails, email.trim()]);
-      setEmail('');
-    }
+const Upload = () => {
+  const [file, setFile] = useState(null);
+
+  const handleFileChange = (e) => {
+    const selectedFile = e.target.files[0];
+    setFile(selectedFile);
   };
 
-  const handleInputChange = (event) => {
-    setEmail(event.target.value);
+  const handleUpload = async () => {
+    // Your upload logic here
   };
-
-  const handleKeyDown = (event) => {
-    if (event.key === 'Backspace' && email === '' && emails.length > 0) {
-      const newEmails = [...emails];
-      newEmails.pop();
-      setEmails(newEmails);
-    }
-  };
-  const test = [
-    "thananchai@gmail.com","thananchai@gmail.com","thananchai@gmail.com","thananchai@gmail.com","thananchai@gmail.com"
-  ]
 
   return (
-    <div style={{ marginTop: 10 }}>
-      <TextField
-        label="Recipient"
-        size="small"
-        variant="outlined"
-        style={{ width: '500px' }}
-        value={email}
-        onChange={handleInputChange}
-        onKeyPress={handleKeyPress}
-        onKeyDown={handleKeyDown}
-        InputProps={{
-          startAdornment: (
-            <>
-              <EmailIcon style={{ color: 'gray' }} />
-              <Box sx={{display: 'flex',alignItems: 'center',flexWrap: 'wrap',justifyContent: 'center',}}>
-                {emails.map((email, index) => (
-                  <Chip key={index} label={email} onDelete={() => handleDelete(index)} style={{ margin: 5 }} />
-                ))}
-              </Box>
-            </>
-          ),
-        }}
-      />
+    <div>
+      <h1>File Upload</h1>
+      <input type="file" onChange={handleFileChange} />
+      <button onClick={handleUpload}>Upload</button>
     </div>
   );
+};
 
-  function handleDelete(index) {
-    const newEmails = [...emails];
-    newEmails.splice(index, 1);
-    setEmails(newEmails);
-  }
-}
-
-export default Page;
+export default Upload;

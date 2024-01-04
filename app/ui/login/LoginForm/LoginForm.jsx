@@ -4,16 +4,15 @@ import IconButton from '@mui/material/IconButton';
 import VisibilityIcon from '@mui/icons-material/Visibility';
 import VisibilityOffIcon from '@mui/icons-material/VisibilityOff';
 import { StateContext } from '@/context/Context';
-import handlelogin from "@/handle/Login"
+import handlelogin from "@/handle/login"
 
 function Index() {
   const {state, setState} = useContext(StateContext);
  const HandleLogin = handlelogin();
-
   return (
     <Box>
-      <Box p={3} sx={{display: 'flex',flexDirection: 'column',background: 'width',width: '400px',height: '500px',
-        borderRadius: "15px",marginLeft: 'auto',mr: 5,mt: 1,boxShadow: '0px 0px 10px rgba(0, 0, 0, 0.1)',justifyContent:'space-between'}}>
+      <Box p={3} sx={{display: 'flex',flexDirection: 'column',background: 'width',width: '120%',height: '500px',
+        borderRadius: "15px",marginLeft: 'auto',mr: 6,mt: 1,boxShadow: '0px 0px 10px rgba(0, 0, 0, 0.1)',justifyContent:'space-between'}}>
         <Box ml={2} sx={{display: 'flex',flexDirection: 'row',width: '190px',height: '45px',borderRadius: '50px',
           background: '#DAEBE3',alignItems: 'center',justifyContent: 'center',}}>
           <Box onClick={() => { setState({...state,info: 0});(0); }} sx={{cursor: "pointer",width: "100px",height: "39px",flexShrink: 0,

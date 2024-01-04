@@ -1,17 +1,7 @@
 'use client'
 
 import React, {useState} from "react";
-
-import {
-  Tabs,
-  Tab,
-  Input,
-  Link,
-  Button,
-  Card,
-  CardBody,
-  CardHeader,
-} from "@nextui-org/react";
+import { Tabs,Tab, Input,Link, Button,Card,CardBody,CardHeader,} from "@nextui-org/react";
 
 const ResetPassword = () => {
   const [selected, setSelected] = useState("login");

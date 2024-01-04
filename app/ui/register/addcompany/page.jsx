@@ -11,14 +11,13 @@ import handlecompany from "@/handle/addcompany"
 function page() {
   const {state, setState} = useContext(StateContext);
   const Handlecompany = handlecompany();
-
   return (
     <Box sx={{display:'flex',flexDirection:'column',justifyContent:'space-between',alignItems:'flex-start',p:3, }}>
       <Box >
       <Box sx={{display:'flex',alignItems:'center',justifyContent:'center'}}>
             <Image src={Subtract} alt="logo" style={{width:"80px"}}/>
             <Box sx={{pl:3}}>
-            <Box sx={{fontWeight:'800',fontSize:'18px'}}>Hello good morning "name" <br></br>Welcome to ChicCRM registration process now you are in</Box>
+            <Box sx={{fontWeight:'800',fontSize:'18px'}}>Hello good morning {state.Email} <br></br>Welcome to ChicCRM registration process now you are in</Box>
             <Box sx={{fontSize:'13px'}}>After complete all infomation you will received email your password</Box>
             </Box>
           </Box>
@@ -28,7 +27,7 @@ function page() {
       <Typography variant="h6">Create Company</Typography>
     </Box>
     <Box sx={{display:'flex',ml:5}}>
-      <Box sx={{pt:2 ,width:'100px'}}>
+      <Box onClick={Handlecompany.handleFileChange}  sx={{pt:2 ,width:'100px','&:hover':{ cursor: 'pointer',}}}>
       <Image src={Ellipse} alt="logo" style={{ width:'100%' }} />
       </Box>
       <Box sx={{ ml: 5,display:'flex',flexDirection:'row' }}>
