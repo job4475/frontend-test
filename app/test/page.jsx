@@ -1,53 +1,67 @@
 'use client'
-import * as React from 'react';
-import PropTypes from 'prop-types';
-import CircularProgress from '@mui/material/CircularProgress';
-import Typography from '@mui/material/Typography';
-import Box from '@mui/material/Box';
-import Circle from "@/assets/assets/images/workspace/circle.png";
-import Image from 'next/image';
+import { StateContext } from '@/context/Context';
+import { TextField } from '@mui/material';
+import React, { useContext, useState } from 'react';
 
-function CircularProgressWithLabel(props) {
+function Page() {
+  const { state, setState } = useContext(StateContext);
+  const [timeValue, setTimeValue] = useState('');
+
+  const formatDatetime = (rawDatetime) => {
+    const date = new Date(rawDatetime);
+    const year = date.getFullYear();
+    const month = (date.getMonth() + 1).toString().padStart(2, '0');
+    const day = date.getDate().toString().padStart(2, '0');
+    const hours = date.getHours().toString().padStart(2, '0');
+    const minutes = date.getMinutes().toString().padStart(2, '0');
+    
+    return `${year}/${month}/${day}_${hours}:${minutes}:00`;
+  };
+
+  const handleDatetimeChangeBefore = (event) => {
+    const rawDateValue = event.target.value;
+    const formattedDatetime = formatDatetime(rawDateValue + ' ' + timeValue + ':00');
+    setState((prevData) => ({ ...prevData, timelimitBefore: formattedDatetime, timelimitBeforeOri: rawDateValue }));
+  };
+
+  const handleTimeChange = (event) => {
+    const rawTimeValue = event.target.value;
+    setTimeValue(rawTimeValue);
+    if (state.timelimitBefore!=="") {
+      const formattedDatetime = formatDatetime(state.timelimitBeforeOri + ' ' + rawTimeValue + ':00');
+      setState((prevData) => ({ ...prevData, timelimitBefore: formattedDatetime }));
+    }
+  };
+
   return (
-    <>
-    <Box sx={{display:"flex",alignItems:"center"}}>
-    <Box sx={{ position: 'relative', display: 'inline-flex' }}>
-      <Image alt="test" src={Circle}></Image>
-      <Box sx={{top: 0,left: 0,bottom: 0,right: 0,position: 'absolute',display: 'flex',alignItems: 'center',justifyContent: 'center',}}>
-        <Typography variant="caption" component="div" color="text.secondary">PDF</Typography>
-      </Box>
-    </Box>
-    <Box>
-      <Box>tessadsadasdsa</Box>
-      <Box>tessadsadasdsa</Box>
-      <Box>tessadsadasdsa</Box>
-      <Box>tessadsadasdsa</Box>
-    </Box>
-    </Box>
-    </>
+    <div>
+      <p>Date : {state.timelimitBefore}</p>
+      <TextField
+      value={state.timelimitBeforeOri} 
+        onChange={handleDatetimeChangeBefore}
+        type="date"
+        onKeyDown={(e) => e.preventDefault()}
+        id="standard-basic-date"
+        size="small"
+        variant="standard"
+        style={{ width: "100px", marginRight: "10px" }}
+        InputProps={{
+          style: { fontSize: '10px' },
+        }}
+      />
+      <TextField
+        onChange={handleTimeChange}
+        type="time"
+        id="standard-basic-time"
+        size="small"
+        variant="standard"
+        style={{ width: "100px", marginRight: "10px" }}
+        InputProps={{
+          style: { fontSize: '10px' },
+        }}
+      />
+    </div>
   );
 }
 
-CircularProgressWithLabel.propTypes = {
-  /**
-   * The value of the progress indicator for the determinate variant.
-   * Value between 0 and 100.
-   * @default 0
-   */
-  value: PropTypes.number.isRequired,
-};
-
-export default function CircularWithValueLabel() {
-  const [progress, setProgress] = React.useState(10);
-
-  React.useEffect(() => {
-    const timer = setInterval(() => {
-      setProgress((prevProgress) => (prevProgress >= 100 ? 0 : prevProgress + 10));
-    }, 800);
-    return () => {
-      clearInterval(timer);
-    };
-  }, []);
-
-  return <CircularProgressWithLabel value={progress} />;
-}
+export default Page;
