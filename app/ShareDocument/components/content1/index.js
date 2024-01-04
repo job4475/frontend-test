@@ -10,8 +10,6 @@ import SubjectIcon from '@mui/icons-material/Subject';
 import Circle from "@/assets/assets/images/workspace/circle.png";
 import UseefOutsideClick from '@/hook/securedoc'
 
-
-
 function index() {
   const {state, setState} = useContext(StateContext);
   const fileInputRef = useRef(null);
@@ -64,7 +62,7 @@ function index() {
                               <Image alt="test" src={Circle}></Image>&nbsp;
                               <Box sx={{ top: 0, left: -3, bottom: 0, right: 0, position: 'absolute', display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
                                 <Typography style={{ textTransform: "uppercase", fontSize: "10px", color: "#48846B", fontWeight: 700 }} variant="caption" component="div" color="text.secondary">
-                                  {state.selectedFileName[index].split('.')[1]}
+                                {state.selectedFileName[index].split('.')[1].length > 5 ? state.selectedFileName[index].split('.')[1].slice(0, 2) + '..': state.selectedFileName[index].split('.')[1]}
                                 </Typography>
                               </Box>
                             </Box>
@@ -81,7 +79,6 @@ function index() {
              )}
             </Box>
             {/* //*&Upload File */}
-
          </Box>
          </>
   )

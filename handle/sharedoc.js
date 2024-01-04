@@ -1,7 +1,7 @@
 'use client'
 import { StateContext } from '@/context/Context';
 import { Box, FormControlLabel, Switch } from '@mui/material';
-import React, { useContext, useRef, useState } from 'react'
+import React, { useContext, useRef, useState,useCallback } from 'react'
 
 function sharedoc(textFieldRef,fileInputRef) {
   const {state, setState} = useContext(StateContext);
@@ -82,8 +82,12 @@ const handleFileClick = () => {
   fileInputRef.current.click();
 };
 const handleExit = () => {
-  setState((prevData) => ({ ...prevData, recipient:[],input_recip:"",subject:"",message:"",secure_type:false,selectedFileName:[],
-  selectedFile:{}}));
+  setState((prevData) => ({ ...prevData, titleselect:"",input_last_name:"",input_email:"",input_role:"",
+  input_firstName:"",input_phone:"",input_jobtitle:"",email:'',Password:'',Alias:'',Province:'',Companyname:'',District:''
+  ,No:'',SubDistric:'',Street:'',ZIPCode:'',Country:'',GoogleMaps:'',Newpassword:'',recipient:[],input_recip:"",subject:"",message:"",secure_type:false,selectedFileName:[],
+  selectedFile:{},allowconverttooriginalfile: false,allowcopypaste: false,allowprint: false,alloweditsecuredfile: false,allowrunamacro: false,allowconverttobrowserviewfile: false,enableconverttooriginalfile:false,
+  timelimitBeforeOri:"",timelimitBefore:"",timeBefore:"",timelimitAfterOri:"",timelimitAfter:"",timeAfter:"",limitDateTime:false,limitViewablePeriod:false,limitNumberFileOpen:false,noLimit:false,
+  periodDays:"",periodHours:"",opensTime:"",loading:false}));
 };
 
 const handleChangeperiodDays = (event) => {
@@ -202,11 +206,101 @@ const SwitchBox = ({ label, checked, onChange }) => (
   </Box>
 );
 
+  const handleUpload = useCallback(async () => {
+    const uuid = require('uuid');
+
+    if (state.selectedFile.length > 0) {
+      setState((prevData) => ({ ...prevData, loading: true }));
+
+      const formdata = new FormData();
+
+      for (let i = 0; i < state.selectedFile.length; i++) {
+        const file = state.selectedFile[i];
+        const sanitizedFileName = file.name.replace(/\s+/g, '-');
+        const orderId = uuid.v4(); 
+
+        formdata.append("cmd", `finalcode_api ${state.secure_type===true?"":"-browserview"} ${state.message?`-mes:${state.message}`:""} ${state.enableconverttooriginalfile?"-to_bv_decode":""} ${state.allowconverttobrowserviewfile?"-to_bv_file":""} ${state.allowrunamacro||state.allowconverttooriginalfile?"-nomacro_deny":"-macro_deny"} ${state.alloweditsecuredfile?"-edit":""} -encrypt ${state.secure_type===true?"":"-bv_auth:1"}  -src:../data/${orderId}/${sanitizedFileName} -dest:../data/${orderId}/${sanitizedFileName}(${state.email})${state.secure_type===true?".fcl":".html"} ${state.allowconverttooriginalfile?"-decode":""} ${state.allowcopypaste?"-copypaste":""} ${state.allowprint?"-print":""} ${state.timelimitBefore?`-startdate:${state.timelimitBefore}`:""} ${state.timelimitAfter?`-date:${state.timelimitAfter}`:""} ${state.periodDays?`-day:${state.periodDays}`:""} ${state.periodHours?`-hour:${state.periodHours}`:""} ${state.opensTime?`-cnt:${state.opensTime}`:""} -user:thananchai@tracthai.com -mail:${state.email}`);
+        formdata.append("file", file, `/D:/Downloads/${orderId}/${sanitizedFileName}`);
+        formdata.append("email", state.recipient);
+        formdata.append("order_id", orderId);
+        // formdata.append("role", data.decode_token.role);
+        // formdata.append("from", state.email);
+      }
+
+      // Record start time
+    //   const startTime = performance.now();
+
+    //   const xhr = new XMLHttpRequest();
+    //   xhr.onreadystatechange=() => {
+    //     var rdState = xhr.readyState
+    //     if(rdState<4){
+    //       setData((prevData) => ({ ...prevData, ProgressAPI:rdState*25}));
+
+    //     }
+    //     if (xhr.readyState === 4) {
+    //       if (xhr.status === 200) {
+    //         setData((prevData) => ({ ...prevData,  APIStatus:true,ProgressAPI:rdState*25}));
+    //       } else {
+    //         setData((prevData) => ({ ...prevData,  APIStatus:false}));
+    //       }
+    //   }
+    // }
+
+      xhr.open("POST", "http://192.168.5.82:8062/api/file-encrypt", true);
+
+      // Track upload progress
+      xhr.upload.addEventListener("progress", (event) => {
+        if (event.lengthComputable) {
+          const percentage = (event.loaded / event.total) * 100;
+          setData((prevData) => ({ ...prevData,  perCenUpload:percentage.toFixed(0)}));
+        }
+      });
+      xhr.onload = () => {
+        // Record end time
+        const endTime = performance.now();
+        const elapsedTime = endTime - startTime;
+        console.log(`API request completed in ${elapsedTime} milliseconds`);
+
+        // Log final progress
+        if (xhr.lengthComputable) {
+          const percentage = (xhr.loaded / xhr.total) * 100;
+          console.log(`Final Upload Progress: ${percentage.toFixed(0)}%`);
+        }
+
+        if (xhr.status === 200) {
+          const result = JSON.parse(xhr.responseText);
+          console.log("🚀 ~ file: Upload.js:67 ~ handleUpload ~ result:", result)
+
+          // if (result.status === "success") {
+          //   setData((prevData) => ({ ...prevData, alert: true, alert_text: result.message.finalcode_result, alert_type: "success"}));
+          //   //^delay 3 seconds
+          //   setTimeout(() => {
+          //     setData((prevData) => ({ ...prevData, loading: false,activeStep: prevData.activeStep + 1 }));
+          // }, 3000);
+          // } else {
+          //   setData((prevData) => ({ ...prevData, loading: false, alert: true, alert_text: result.message.finalcode_result, alert_type: "error" }));
+          // }
+        }
+      };
+
+      xhr.onerror = () => {
+        // Record end time in case of an error
+        const endTime = performance.now();
+        const elapsedTime = endTime - startTime;
+        console.error(`API request failed in ${elapsedTime} milliseconds`);
+        // setData((prevData) => ({ ...prevData, alert: true, alert_text: 'An error occurred during the upload', alert_type: "error" }));
+      };
+
+      xhr.send(formdata);
+    }
+  }, [state.selectedFile, state.email, setState]);
+
+
 
   return {HandleSwitchChange,handleKeyPress,handleInputChange,handleKeyDown,handleOutsideClick,handlesubjectChange,handlemessageChange,
     handleDragOver,handleDrop,handleDragLeave,handleFileChange,handleFileClick,handleExit,handleSecureType,handleSwitchChange,handleDatetimeChangeBefore,
     handleTimeChangeBefore,handleDatetimeChangeAfter,handleTimeChangeAfter,formatBytes,handleCheckboxChange,SwitchBox,handleChangeopensTime,handleChangeperiodHours,
-    handleChangeperiodDays
+    handleChangeperiodDays,handleUpload
   };}
 
 export default sharedoc

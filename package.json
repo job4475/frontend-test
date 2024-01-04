@@ -20,7 +20,8 @@
     "react-dom": "^18.2.0",
     "react-icons": "^4.12.0",
     "react-multi-email": "^1.0.19",
-    "react-verification-code-input": "^1.2.9"
+    "react-verification-code-input": "^1.2.9",
+    "uuid": "^9.0.1"
   },
   "devDependencies": {
     "autoprefixer": "^10.4.16",
