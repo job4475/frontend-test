@@ -2,6 +2,7 @@
 import { StateContext } from '@/context/Context';
 import { Box, FormControlLabel, Switch } from '@mui/material';
 import React, { useContext, useRef, useState,useCallback } from 'react'
+import { styled } from '@mui/material/styles';
 
 function sharedoc(textFieldRef,fileInputRef) {
   const {state, setState} = useContext(StateContext);
@@ -48,7 +49,7 @@ function sharedoc(textFieldRef,fileInputRef) {
 
 const handleFileChange = (e) => {
   const files = e.target.files;
-  setState((prevData) => ({ ...prevData, selectedFile: files, selectedFileName: files ? Array.from(files).map(f => f.name) : null,selectedFileType: files ? Array.from(files).map(f => f.type) : null,selectedFileSize:files ? Array.from(files).map(f => f.size) : null}));
+  setState((prevData) => ({ ...prevData, selectedFile: files, selectedFileName: files ? Array.from(files).map(f => f.name) : null}));
   document.getElementById('upload').style.backgroundColor = `#F7F8F9`;
 };
 const handleSecureType = (e) => {
@@ -105,10 +106,10 @@ const handleSwitchChange = (key, event) => {
     const newState = { ...prevData, [key]: event.target.checked };
 
     if (state.secure_type===true && key === 'allowconverttooriginalfile' && event.target.checked) {
-      newState.allowcopypaste = true;
-      newState.allowprint = true;
-      newState.alloweditsecuredfile = true;
-      newState.allowrunamacro = true;
+      newState.allowcopypaste = false;
+      newState.allowprint = false;
+      newState.alloweditsecuredfile = false;
+      newState.allowrunamacro = false;
     }else if (state.secure_type===true && key === 'allowconverttooriginalfile'){
       newState.allowcopypaste = false;
       newState.allowprint = false;
@@ -190,17 +191,70 @@ const handleCheckboxChange = (checkboxType) => {
     break;
   }
 };
+const IOSSwitchPolicy = styled((props) => (
+  <Switch focusVisibleClassName=".Mui-focusVisible"  disableRipple {...props} />
+))(({ theme }) => ({
+  width: 42,
+  height: 26,
+  padding: 0,
+  '& .MuiSwitch-switchBase': {
+    padding: 0,
+    margin: 2,
+    transitionDuration: '300ms',
+    '&.Mui-checked': {
+      transform: 'translateX(16px)',
+      color: '#48846B',
+      '& + .MuiSwitch-track': {
+        backgroundColor: theme.palette.mode === 'dark' ? '#48846B' : '#E9E9EA',
+        opacity: 1,
+        border: 0,
+      },
+      '&.Mui-disabled + .MuiSwitch-track': {
+        opacity: 0.5,
+      },
+    },
+    '&.Mui-focusVisible .MuiSwitch-thumb': {
+      color: '#33cf4d',
+      border: '6px solid #fff',
+    },
+    '&.Mui-disabled .MuiSwitch-thumb': {
+      color:
+        theme.palette.mode === 'light'
+          ? theme.palette.grey[100]
+          : theme.palette.grey[600],
+    },
+    '&.Mui-disabled + .MuiSwitch-track': {
+      opacity: theme.palette.mode === 'light' ? 0.7 : 0.3,
+    },
+  },
+  '& .MuiSwitch-thumb': {
+    boxSizing: 'border-box',
+    width: 22,
+    height: 22,
+  },
+  '& .MuiSwitch-track': {
+    borderRadius: 26 / 2,
+    backgroundColor: theme.palette.mode === 'light' ? '#E9E9EA' : '#39393D',
+    opacity: 1,
+    transition: theme.transitions.create(['background-color'], {
+      duration: 500,
+    }),
+  },
+}));
 
 const SwitchBox = ({ label, checked, onChange }) => (
-  <Box sx={{ borderRadius:"7px",background: '#F7F8F9', width: '200px', height: '40px', m: 1, display: 'flex', alignItems: 'center', fontSize: '10px', justifyContent: 'space-between', p: 1 }}>
+  <Box sx={{ borderRadius:"7px",background: '#F7F8F9', width: '100%', height: '40px',  display: 'flex', alignItems: 'center', fontSize: '10px', justifyContent: 'space-between', p: 3 }}>
     {label}
     <FormControlLabel
       disabled={state.secure_type && state.allowconverttooriginalfile && (label === 'Allow copy paste' || label === 'Allow print' || label === 'Allow run a macro' || label === 'Allow edit secured file')}
       labelPlacement="start"
-      control={<Switch checked={checked} onChange={onChange} sx={{
-        '& .MuiSwitch-switchBase.Mui-checked': { color: '#FFFFFF', '&:hover': { backgroundColor: 'transparent' } },
-        '& .MuiSwitch-switchBase.Mui-checked + .MuiSwitch-track': { backgroundColor: '#5DCBFF' },
-      }} />}
+      control={
+      // <Switch checked={checked} onChange={onChange} sx={{
+      //   '& .MuiSwitch-switchBase.Mui-checked': { color: '#FFFFFF', '&:hover': { backgroundColor: 'transparent' } },
+      //   '& .MuiSwitch-switchBase.Mui-checked + .MuiSwitch-track': { backgroundColor: '#5DCBFF' },
+      // }} />
+      <IOSSwitchPolicy  checked={checked} onChange={onChange}/>
+    }
       sx={{ color: '#778296', marginLeft: '10px' }}
     />
   </Box>
@@ -296,11 +350,63 @@ const SwitchBox = ({ label, checked, onChange }) => (
   }, [state.selectedFile, state.email, setState]);
 
 
+    const IOSSwitch = styled((props) => (
+      <Switch focusVisibleClassName=".Mui-focusVisible" checked={state.secure_type} onChange={handleSecureType} disableRipple {...props} />
+    ))(({ theme }) => ({
+      width: 42,
+      height: 26,
+      padding: 0,
+      '& .MuiSwitch-switchBase': {
+        padding: 0,
+        margin: 2,
+        transitionDuration: '300ms',
+        '&.Mui-checked': {
+          transform: 'translateX(16px)',
+          color: '#48846B',
+          '& + .MuiSwitch-track': {
+            backgroundColor: theme.palette.mode === 'dark' ? '#48846B' : '#E9E9EA',
+            opacity: 1,
+            border: 0,
+          },
+          '&.Mui-disabled + .MuiSwitch-track': {
+            opacity: 0.5,
+          },
+        },
+        '&.Mui-focusVisible .MuiSwitch-thumb': {
+          color: '#33cf4d',
+          border: '6px solid #fff',
+        },
+        '&.Mui-disabled .MuiSwitch-thumb': {
+          color:
+            theme.palette.mode === 'light'
+              ? theme.palette.grey[100]
+              : theme.palette.grey[600],
+        },
+        '&.Mui-disabled + .MuiSwitch-track': {
+          opacity: theme.palette.mode === 'light' ? 0.7 : 0.3,
+        },
+      },
+      '& .MuiSwitch-thumb': {
+        boxSizing: 'border-box',
+        width: 22,
+        height: 22,
+      },
+      '& .MuiSwitch-track': {
+        borderRadius: 26 / 2,
+        backgroundColor: theme.palette.mode === 'light' ? '#E9E9EA' : '#39393D',
+        opacity: 1,
+        transition: theme.transitions.create(['background-color'], {
+          duration: 500,
+        }),
+      },
+    }));
+
+
 
   return {HandleSwitchChange,handleKeyPress,handleInputChange,handleKeyDown,handleOutsideClick,handlesubjectChange,handlemessageChange,
     handleDragOver,handleDrop,handleDragLeave,handleFileChange,handleFileClick,handleExit,handleSecureType,handleSwitchChange,handleDatetimeChangeBefore,
     handleTimeChangeBefore,handleDatetimeChangeAfter,handleTimeChangeAfter,formatBytes,handleCheckboxChange,SwitchBox,handleChangeopensTime,handleChangeperiodHours,
-    handleChangeperiodDays,handleUpload
+    handleChangeperiodDays,handleUpload,IOSSwitch
   };}
 
 export default sharedoc

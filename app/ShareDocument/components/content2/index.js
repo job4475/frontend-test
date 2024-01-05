@@ -20,54 +20,52 @@ function index() {
   const handleShareDoc = HandleShareDoc(textFieldRef,fileInputRef);
   return (
     <Box sx={{display:'flex',flexDirection:'column'}}>
-           <Box sx={{display:"flex",justifyContent:'space-between',alignItems:'center'}}> 
+           <Box sx={{display:"flex",justifyContent:'space-between',alignItems:'center',pb:1}}> 
            <FormControlLabel
          control={
-           <Switch checked={state.secure_type} onChange={handleShareDoc.handleSecureType} sx={{
-               '& .MuiSwitch-switchBase.Mui-checked': {
-                 color: '#fff',
-               },
-               '& .MuiSwitch-switchBase.Mui-checked + .MuiSwitch-track': {
-                 backgroundColor: '#C2CCE1',
-               },
-             }}
-           />
+          <handleShareDoc.IOSSwitch sx={{ m: 1 }}  />
          }
          label={(
-           <span style={{fontWeight:500,color:"gray"}}>
+           <span style={{fontWeight:500,color:"gray",textAlign:"center"}}>
              {state.secure_type ? "FCL file" : "HTML file"}
            </span>
          )}
        />
-         <Box display="flex" alignItems="center" flexDirection="row"> 
+         <Box display="flex" alignItems="center" flexDirection="row" > 
            <Box style={{color:"red"}}>*&nbsp;</Box>{state.secure_type ? " For recipients using the FinalCode." : ` For recipients who do not use the FinalCode.`}
          </Box>
          </Box>
-         <TextField disabled id="outlined-basic" label="Template policy"size="small" variant="outlined" style={{width:"500px",paddingBottom:10}}
+         <TextField disabled id="outlined-basic" label="Template policy"size="small" variant="outlined" style={{width:"100%",paddingBottom:10}}
          InputProps={{
            startAdornment: (
              <LockIcon style={{ color: "gray" }} />
            ),
          }}/>
-         <Box sx={{width: "500px", height: "355px", borderRadius: "10px", backgroundColor: "#FFFFFF", borderWidth: "1px", borderColor: "#ccc", display: 'flex', flexDirection: 'row', justifyContent: 'center', p: 2 }}>
-         <Box sx={{ width: '100%', ml: 0.5 }}>
-            <Grid container rowSpacing={1} columnSpacing={{ xs: 1, sm: 2, md: 3 }}>
+         <Box sx={{width: "100%", height: "355px", borderRadius: "10px", backgroundColor: "#FFFFFF", borderWidth: "1px", borderColor: "#ccc", display: 'flex', flexDirection: 'row', justifyContent: 'center', p: 1.5 }}>
+      <Box sx={{ flexGrow: 1,m:2 }}>
+      <Grid container spacing={{ xs: 1, md: 3 }} columns={{ xs: 2, sm: 4, md: 8 }}>
             {state.secure_type
              ? ['Allow convert to original file', 'Allow copy paste', 'Allow print', 'Allow edit secured file', 'Allow run a macro', 'Allow convert to browser view file'].map((label, index) => (
-                 <Grid key={index} item xs={6}>
-                   <handleShareDoc.SwitchBox label={label} checked={state[label.toLowerCase().replace(/ /g, '')]} onChange={(event) => handleShareDoc.handleSwitchChange(label.toLowerCase().replace(/ /g, ''), event)} />
+              <Grid key={index} item xs={2} sm={4} md={4}>
+                <Box>
+                 <handleShareDoc.SwitchBox label={label} checked={state[label.toLowerCase().replace(/ /g, '')]} onChange={(event) => handleShareDoc.handleSwitchChange(label.toLowerCase().replace(/ /g, ''), event)} />
+                </Box>
                  </Grid>
                ))
              : ['Allow convert to original file', 'Allow copy paste', 'Allow print'].map((label, index) => (
-                 <Grid key={index} item xs={6}>
-                   <handleShareDoc.SwitchBox label={label} checked={state[label.toLowerCase().replace(/ /g, '')]} onChange={(event) => handleShareDoc.handleSwitchChange(label.toLowerCase().replace(/ /g, ''), event)} />
+              <Grid key={index} item xs={2} sm={4} md={4}>
+                <Box>
+                 <handleShareDoc.SwitchBox label={label} checked={state[label.toLowerCase().replace(/ /g, '')]} onChange={(event) => handleShareDoc.handleSwitchChange(label.toLowerCase().replace(/ /g, ''), event)} />
+                </Box>
                  </Grid>
                ))}
            
            {state.allowconverttobrowserviewfile && (
-             <Grid item xs={6}>
+          <Grid item xs={2} sm={4} md={4}>
+            <Box>
                <handleShareDoc.SwitchBox label="Enable convert to original file" checked={state.enableconverttooriginalfile} onChange={(event) => handleShareDoc.handleSwitchChange('enableconverttooriginalfile', event)} />
-             </Grid>
+            </Box>
+          </Grid>
            )}
         
             </Grid>
