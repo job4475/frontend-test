@@ -2,7 +2,7 @@
 import React from 'react'
 import VerificationCodeInput from './VerificationCodeInput'
 import { Box, Button } from '@mui/material';
-import handleotp from "@/handle/forgetpassword"
+import handleotp from "@/handle/otpvelify"
 
 function OTPverify() {
   const HandleOTP = handleotp();

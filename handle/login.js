@@ -25,7 +25,7 @@ function login() {
         redirect: 'follow'
       };
 
-      fetch("http://192.168.5.96:8888/api/LoginChicCRM", requestOptions)
+      fetch("http://192.168.5.81:8888/api/LoginChicCRM", requestOptions)
         .then(response => response.json())
         .then(result => {
           if (result.status === "OK") {
@@ -52,7 +52,7 @@ function login() {
         body: JSON.stringify(otpData),
         redirect: 'follow'
       };
-  fetch("http://192.168.5.96:8888/api/sendOTPEmail", otpRequestOptions)
+  fetch("http://192.168.5.81:8888/api/sendOTPEmail", otpRequestOptions)
     .then(response => response.text())
     .then(result => {
       console.log(result);
@@ -74,7 +74,7 @@ function login() {
       body: raw,
       redirect: 'follow'
     };
-    fetch("http://192.168.5.96:8888/api/validateDomainChicCRM", requestOptions)
+    fetch("http://192.168.5.81:8888/api/validateDomainChicCRM", requestOptions)
     .then(response => response.json()) 
     .then(result => {
       console.log(result);

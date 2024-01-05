@@ -36,7 +36,7 @@ function forgetpassword() {
             redirect: 'follow'
         };
     
-        fetch("http://192.168.5.96:8888/api/validateOTPEmail", requestOptions)
+        fetch("http://192.168.5.81:8888/api/validateOTPEmail", requestOptions)
         .then(response => response.json()) 
         .then(result => {
             console.log(result);

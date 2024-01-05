@@ -4,39 +4,51 @@ import { useRouter } from 'next/navigation';
 import React, { useContext } from 'react'
 
 function otpvelify() {
-    
-    const VerificationCodeInput = ({ length = 6, onChange }) => {
-        const [codes, setCodes] = useState([]);
-        useEffect(() => {
-          setCodes(Array(length).fill(''));
-        }, [length]);
-      
-        const handleChange = (index, value) => {
-          const newCodes = [...codes];
-          newCodes[index] = value;
-          setCodes(newCodes);
-          onChange(newCodes.join(''));
-        };
-      
-        const handleKeyDown = (e, index) => {
-          if (e.key === 'Backspace' && index === codes.length - 1) {
-            codes[index] = '';
-            document.getElementById(`code-input-${index - 1}`).focus(); 
-          } else if (e.key === 'Backspace' && index > 0) {
-            codes[index] = '';
-            document.getElementById(`code-input-${index - 1}`).focus();
-          } else if (e.key !== 'Backspace' && e.key !== 'Delete' && codes[index].length === 1) {
-            const nextIndex = index + 1;
-            const nextElement = document.getElementById(`code-input-${nextIndex}`);
-            if (nextElement) {
-              nextElement.focus();
+    const {state, setState} = useContext(StateContext);
+    const router = useRouter();
+    const handleCodeChange = (code) => {
+        console.log('Verification Code:', code);
+        if (code.length === 6) {
+            setState({...state,input_OTP: code});
+        }
+      }
+      const workspace = (code) => {
+        var myHeaders = new Headers();
+        myHeaders.append("Content-Type", "application/json");
+        var seen = new WeakSet();
+        var raw = JSON.stringify({
+            "email": state.Email,
+            "otp": state.input_OTP
+        }, (key, value) => {
+            if (typeof value === 'object' && value !== null) {
+                if (seen.has(value)) {
+                    return; 
+                }
+                seen.add(value);
             }
-          }
+            return value;
+        });
+    
+        var requestOptions = {
+            method: 'POST',
+            headers: myHeaders,
+            body: raw,
+            redirect: 'follow'
         };
-   
-
-  return {VerificationCodeInput,handleChange,handleKeyDown,}
+    
+        fetch("http://192.168.5.81:8888/api/validateOTPEmail", requestOptions)
+        .then(response => response.json()) 
+        .then(result => {
+            console.log(result);
+            if (result.status === "OK") {
+                router.push('/Workspace');
+            } else {
+                console.log("Validation failed:", result.message);
+            }
+        })
+        .catch(error => console.log('error', error));
     }
+  return {handleCodeChange,workspace}
 }
 
 export default otpvelify
