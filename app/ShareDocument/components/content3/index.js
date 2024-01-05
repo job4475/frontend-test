@@ -64,7 +64,7 @@ function index() {
          </Box>
              <Box display="flex" justifyContent="flex-end" mr={4}>
            <Button variant="outlined"size="large" onClick={handleShareDoc.handleExit} style={{borderColor:"#84BAA1",color:"#84BAA1", marginRight: "10px",textTransform:'capitalize' }}>Exit</Button>
-           <Button variant="contained" size="large"  style={{ background: '#84BAA1', marginRight: "10px",textTransform:'capitalize' }}>Send file</Button>
+           <Button variant="contained" size="large"  style={{color:"white", background: '#84BAA1', marginRight: "10px",textTransform:'capitalize' }}>Send file</Button>
          </Box>
          </Box>
   )

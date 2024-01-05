@@ -9,6 +9,7 @@
       "@/handle/*": ["handle/*"],
       "@/hook/*": ["hook/*"],
       "@/components/*": ["components/*"],
+      "@/utils/*": ["utils/*"],
 
     }
   }

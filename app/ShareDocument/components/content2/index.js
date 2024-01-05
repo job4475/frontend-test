@@ -34,7 +34,7 @@ function index() {
            />
          }
          label={(
-           <span>
+           <span style={{fontWeight:500,color:"gray"}}>
              {state.secure_type ? "FCL file" : "HTML file"}
            </span>
          )}

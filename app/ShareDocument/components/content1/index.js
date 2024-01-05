@@ -48,7 +48,7 @@ function index() {
               <>
                <Image src={Upfile} alt="logo"style={{ width: "90px", height: "auto", borderRadius: "99px" }}/>
                <Box>Drag & Drop your file here</Box>
-               <Button variant="contained"size="small" style={{background:'#48846B',textTransform:'capitalize'}} onClick={handleShareDoc.handleFileClick}>Upload</Button>
+               <Button sx={{color:"white.main"}} variant="contained"size="small" style={{background:'#48846B',textTransform:'capitalize'}} onClick={handleShareDoc.handleFileClick}>Upload</Button>
                <input type="file" ref={fileInputRef} style={{ display: 'none' }} onChange={handleShareDoc.handleFileChange} multiple/>
               </>
               ):(

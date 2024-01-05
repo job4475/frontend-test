@@ -1,9 +1,7 @@
 
-import { Montserrat } from "next/font/google";
 import "./globals.css";
 import { StateProvider } from '@/context/Context'
-
-const montserrat = Montserrat({ subsets: ["latin"] });
+import ThemeRegistry from "@/utils/ThemeRegistry";
 
 export const metadata = {
   title: "Create Next App",
@@ -13,13 +11,15 @@ export const metadata = {
 export default function RootLayout({ children }) {
   return (
     <html lang="en">
-      <body className={montserrat.className}>
+      <ThemeRegistry options={{ key: 'mui-theme' }}>
+      <body>
           <header></header>
           <StateProvider>
             {children}
           </StateProvider>          
           <footer></footer>
       </body>
+      </ThemeRegistry>
     </html>
   );
 }
