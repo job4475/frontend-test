@@ -8,6 +8,7 @@
       "@/data/*": ["data/*"],
       "@/handle/*": ["handle/*"],
       "@/components/*": ["components/*"],
+      "@/services/*": ["services/*"],
 
     }
   }

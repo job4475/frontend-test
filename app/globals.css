@@ -2,6 +2,8 @@
 @tailwind components;
 @tailwind utilities;
 
+@import url('https://fonts.googleapis.com/css2?family=Montserrat&display=swap');
+
 :root {
   --headertext: #1F2939;;
   --text: #778296;;
@@ -58,7 +60,7 @@ p {
 }
 
 body {
-  font-family: sans-serif;
+  font-family: 'Montserrat';
   font-size: 1rem;
   line-height: 1.5;
   color: #333;

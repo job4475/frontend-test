@@ -2,21 +2,15 @@ import { Box } from '@mui/material'
 import React from 'react'
 import arrow from '@/assets/assets/images/register/arrow.png'
 import Image from 'next/image'
-import { useRouter } from "next/navigation";
+import handleregis from "@/handle/register"
 
 function index() {
-  const router = useRouter();
-  const Workspace = () => {
-    router.push('/Workspace');
-  }
-  const Selectcompany = () => {
-    router.push('/Selectcompany');
-  }
+  const Handleregis = handleregis();
   return (
     <Box sx={{mt:2,display:"flex"}}>
-        <Box onClick={Selectcompany}  sx={{width: "80px",height: "50px",padding: "5px 60px",border:"1px solid #84BAA1",display:"flex",justifyContent:"center",alignItems:"center",borderRadius:"6px"
+        <Box onClick={Handleregis.Selectcompany}  sx={{width: "80px",height: "50px",padding: "5px 60px",border:"1px solid #84BAA1",display:"flex",justifyContent:"center",alignItems:"center",borderRadius:"6px"
          ,color:"#84BAA1",cursor:"pointer",fontWeight:500}}>Back</Box>
-        <Box onClick={Workspace} sx={{ml:2,width: "auto",height: "50px",padding: "5px 50px",border:"1px solid #84BAA1",background:"#84BAA1",display:"flex",justifyContent:"center",alignItems:"center",borderRadius:"6px"
+        <Box onClick={Handleregis.Login} sx={{ml:2,width: "auto",height: "50px",padding: "5px 50px",border:"1px solid #84BAA1",background:"#84BAA1",display:"flex",justifyContent:"center",alignItems:"center",borderRadius:"6px"
          ,color:"#fff",cursor:"pointer",fontWeight:500}}>
             <Box>Next</Box>  
             <Box sx={{ml:1}}>

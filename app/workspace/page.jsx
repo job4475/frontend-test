@@ -1,5 +1,5 @@
 "use client"
-import React from "react";
+import React, { useEffect, useState } from "react";
 import Image from "next/image";
 import Logotrac from "@/assets/assets/images/logotrac.png";
 import CarReserve from "@/assets/assets/images/workspace/CarReserve.png";
@@ -9,8 +9,11 @@ import ShareDocument from "@/assets/assets/images/workspace/ShareDocument.png";
 import UnderReview from "@/assets/assets/images/workspace/UnderReview.png";
 import { Box } from "@mui/material";
 import { useRouter } from "next/navigation";
+import { useContext } from "react";
+import { StateContext } from "@/context/Context";
 
 const page = () => {
+  const { state, setState } = useContext(StateContext);
   const router = useRouter();
   const Register = () => {
     router.push('/ShareDocument');
@@ -23,14 +26,14 @@ const page = () => {
           <div className="mr-3">
             <Image
               src={Logotrac}
-              alt="logo"
+              alt={state.CompanyLogoOriginal}
               style={{ width: "90px", height: "90px", borderRadius: "99px" }}
             />
           </div>
           <div className="m-2">
             <div className="flex flex-col lg:flex-row justify-start lg:justify-between items-start lg:items-center">
               <span className="text-lg font-semibold mr-1">
-                Sarayuth Kosiyarug
+                {state.FirstnameOriginal}   {state.SurnameTokenOriginal}
               </span>
               <svg
                 xmlns="http://www.w3.org/2000/svg"

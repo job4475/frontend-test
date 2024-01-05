@@ -7,23 +7,13 @@ import { StateContext } from '@/context/Context'
 
 function Index() {
   const { state, setState } = useContext(StateContext);
-
   const HandleChange = (event) => {
     const { name, value } = event.target;
-    setState((prevState) => ({
-      ...prevState,
-      [name]: value,
-    }));
+    setState((prevState) => ({...prevState,[name]: value,}));
   };
-
   const HandleChangeTitle = (event) => {
     const value = event.target.value;
-    setState((prevState) => ({
-      ...prevState,
-      titleselect: value,
-    }));
-  };
-
+    setState((prevState) => ({...prevState,titleselect: value,}));};
   return (
     <Box>
       <Box sx={{ fontWeight: 600, mb: 3 }}>{data_register[0].title_content2}</Box>

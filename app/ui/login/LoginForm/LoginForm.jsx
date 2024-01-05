@@ -17,12 +17,12 @@ function Index() {
           background: '#DAEBE3',alignItems: 'center',justifyContent: 'center',}}>
           <Box onClick={() => { setState({...state,info: 0});(0); }} sx={{cursor: "pointer",width: "100px",height: "39px",flexShrink: 0,
             background: state.info === 0 ? "#84BAA1" : "",color: state.info === 0 ? "#fff" : "#000",borderRadius: "40px",display: "flex",
-            justifyContent: "center",alignItems: "center", fontFamily: "",fontSize:'15px'}}>
+            justifyContent: "center",alignItems: "center",fontSize:'15px'}}>
             <Box>Sign In</Box>
           </Box>
           <Box onClick={() => { setState({...state,info: 1});(1); }} sx={{cursor: "pointer",ml: -2,width: "100px",height: "39px",flexShrink: 0,
             background: state.info === 1 ? "#84BAA1" : "",color: state.info === 1 ? "#fff" : "#000",borderRadius: "40px",display: "flex",
-            justifyContent: "center",alignItems: "center", fontFamily: '',fontSize:'15px'}}>
+            justifyContent: "center",alignItems: "center",fontSize:'15px'}}>
             <Box>Sign Up</Box>
           </Box>
         </Box>
@@ -48,7 +48,7 @@ function Index() {
         <Box sx={{display:'flex',justifyContent:'center'}}>
         <Button variant="contained" onClick={state.info === 0 ? HandleLogin.handleSignInClick : HandleLogin.handleSignUpClick}style={{ background: '#84BAA1', width: '90%', textTransform: 'capitalize', marginTop: 10,boxShadow:'0px 0px 0px'
  }}>
-         {state.info === 0 ? 'Sign In' : 'Sign Up'}
+         {state.info === 0 ? 'Sign In' : 'Next'}
         </Button>
         </Box>
       </Box>
