@@ -10,6 +10,7 @@
       "@/hook/*": ["hook/*"],
       "@/components/*": ["components/*"],
       "@/utils/*": ["utils/*"],
+      "@/services/*": ["services/*"],
 
     }
   }
