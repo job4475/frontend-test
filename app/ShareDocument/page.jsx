@@ -15,14 +15,14 @@ const page = () => {
       <AppBar/>
       <Title/>
       <Box sx={{ flexGrow: 1,m:3 }}>
-      <Grid container spacing={{ xs: 1, md: 3 }} columns={{ xs: 2, sm: 8, md: 12 }} justifyContent="center"alignItems="center">
+      <Grid container spacing={{ xs: 1, md: 3 }} columns={{ xs: 2, sm: 8, md: 13 }} justifyContent="center"alignItems="center">
           <Grid item xs={2} sm={4} md={5}>
             <Box><Content1/></Box>
           </Grid>
           <Grid item xs={2} sm={4} md={5}>
             <Box><Content2/></Box>
           </Grid>
-          <Grid item xs={2} sm={4} md={2}>
+          <Grid item xs={2} sm={4} md={3}>
             <Box><Content3/></Box>
           </Grid>
       </Grid>

@@ -267,16 +267,47 @@ const SwitchBox = ({ label, checked, onChange }) => (
       setState((prevData) => ({ ...prevData, loading: true }));
 
       const formdata = new FormData();
+      const orderId = uuid.v4(); 
+      formdata.append("scdact_status", "Pending");
+      formdata.append("scdact_reqid", orderId);
+      formdata.append("scdact_name", "wwww");
+      formdata.append("scdact_type", state.secure_type?"FCL":"HTML");
+      formdata.append("scdact_starttime", state.timelimitBefore&&statetimeBefore?state.timelimitBefore + state.timeBefore:0);
+      formdata.append("scdact_endtime", state.timelimitAfter&&state.timeAfter?state.timelimitAfter + state.timeAfter:0);
+      formdata.append("scdact_numberopen", state.opensTime?state.opensTime:0);
+      formdata.append("scdact_periodday", state.periodDays?state.periodDays:0);
+      formdata.append("scdact_periodhour",state.periodHours?state.periodHours:0);
+      formdata.append("scdact_nolimit", state.noLimit);
+      formdata.append("scdact_cvtoriginal", state.allowconverttooriginalfile);
+      formdata.append("scdact_edit", state.alloweditsecuredfile);
+      formdata.append("scdact_print", state.allowprint);
+      formdata.append("scdact_copy", state.allowcopypaste);
+      formdata.append("scdact_scrwatermark", true);
+      formdata.append("scdact_watermark", true);
+      formdata.append("scdact_cvthtml", state.allowconverttobrowserviewfile);
+      formdata.append("scdact_cvtfcl", "true");
+      formdata.append("scdact_marcro", state.allowrunamacro);
+      formdata.append("scdact_msgtext", state.message);
+      formdata.append("scdact_subject", state.subject);
+      formdata.append("scdact_createlocation", "สำเร็จ");
+      formdata.append("scdact_updatelocation", "สำเร็จ");
+      formdata.append("scdact_reciepient", state.recipient);
+      formdata.append("scdact_sender", state.email?state.email:"thananchai@tracthai.com");
 
       for (let i = 0; i < state.selectedFile.length; i++) {
         const file = state.selectedFile[i];
         const sanitizedFileName = file.name.replace(/\s+/g, '-');
-        const orderId = uuid.v4(); 
 
-        formdata.append("cmd", `finalcode_api ${state.secure_type===true?"":"-browserview"} ${state.message?`-mes:${state.message}`:""} ${state.enableconverttooriginalfile?"-to_bv_decode":""} ${state.allowconverttobrowserviewfile?"-to_bv_file":""} ${state.allowrunamacro||state.allowconverttooriginalfile?"-nomacro_deny":"-macro_deny"} ${state.alloweditsecuredfile?"-edit":""} -encrypt ${state.secure_type===true?"":"-bv_auth:1"}  -src:../data/${orderId}/${sanitizedFileName} -dest:../data/${orderId}/${sanitizedFileName}(${state.email})${state.secure_type===true?".fcl":".html"} ${state.allowconverttooriginalfile?"-decode":""} ${state.allowcopypaste?"-copypaste":""} ${state.allowprint?"-print":""} ${state.timelimitBefore?`-startdate:${state.timelimitBefore}`:""} ${state.timelimitAfter?`-date:${state.timelimitAfter}`:""} ${state.periodDays?`-day:${state.periodDays}`:""} ${state.periodHours?`-hour:${state.periodHours}`:""} ${state.opensTime?`-cnt:${state.opensTime}`:""} -user:thananchai@tracthai.com -mail:${state.email}`);
-        formdata.append("file", file, `/D:/Downloads/${orderId}/${sanitizedFileName}`);
-        formdata.append("email", state.recipient);
-        formdata.append("order_id", orderId);
+        formdata.append("scdact_command", `finalcode_api ${state.secure_type===true?"":"-browserview"} ${state.message?`-mes:${state.message}`:""} ${state.enableconverttooriginalfile?"-to_bv_decode":""} ${state.allowconverttobrowserviewfile?"-to_bv_file":""} ${state.allowrunamacro||state.allowconverttooriginalfile?"-nomacro_deny":"-macro_deny"} ${state.alloweditsecuredfile?"-edit":""} -encrypt ${state.secure_type===true?"":"-bv_auth:1"}  -src:../data/${orderId}/${sanitizedFileName} -dest:../data/${orderId}/${sanitizedFileName}(${state.email})${state.secure_type===true?".fcl":".html"} ${state.allowconverttooriginalfile?"-decode":""} ${state.allowcopypaste?"-copypaste":""} ${state.allowprint?"-print":""} ${state.timelimitBefore?`-startdate:${state.timelimitBefore}`:""} ${state.timelimitAfter?`-date:${state.timelimitAfter}`:""} ${state.periodDays?`-day:${state.periodDays}`:""} ${state.periodHours?`-hour:${state.periodHours}`:""} ${state.opensTime?`-cnt:${state.opensTime}`:""} -user:thananchai@tracthai.com -mail:${state.email}`);
+        formdata.append("scdact_binary", file, `/D:/Downloads/${orderId}/${sanitizedFileName}`);
+
+        formdata.append("scdact_filename", sanitizedFileName);
+        formdata.append("scdact_filetype", state.selectedFileName[i].split('.')[1]);
+        formdata.append("scdact_filehash", "A");
+        formdata.append("scdact_filesize", formatBytes(file.size));
+        formdata.append("scdact_filecreated", file.lastModified);
+        formdata.append("scdact_filemodified", "A");
+        formdata.append("scdact_filelocation", "A");
         // formdata.append("role", data.decode_token.role);
         // formdata.append("from", state.email);
       }
@@ -284,7 +315,7 @@ const SwitchBox = ({ label, checked, onChange }) => (
       // Record start time
     //   const startTime = performance.now();
 
-    //   const xhr = new XMLHttpRequest();
+       const xhr = new XMLHttpRequest();
     //   xhr.onreadystatechange=() => {
     //     var rdState = xhr.readyState
     //     if(rdState<4){
@@ -300,20 +331,20 @@ const SwitchBox = ({ label, checked, onChange }) => (
     //   }
     // }
 
-      xhr.open("POST", "http://192.168.5.82:8062/api/file-encrypt", true);
+      xhr.open("POST", "http://10.1.1.137:8062/api/request_doc", true);
 
       // Track upload progress
       xhr.upload.addEventListener("progress", (event) => {
         if (event.lengthComputable) {
           const percentage = (event.loaded / event.total) * 100;
-          setData((prevData) => ({ ...prevData,  perCenUpload:percentage.toFixed(0)}));
+          // setData((prevData) => ({ ...prevData,  perCenUpload:percentage.toFixed(0)}));
         }
       });
       xhr.onload = () => {
         // Record end time
         const endTime = performance.now();
-        const elapsedTime = endTime - startTime;
-        console.log(`API request completed in ${elapsedTime} milliseconds`);
+        // const elapsedTime = endTime - startTime;
+        // console.log(`API request completed in ${elapsedTime} milliseconds`);
 
         // Log final progress
         if (xhr.lengthComputable) {
@@ -340,8 +371,8 @@ const SwitchBox = ({ label, checked, onChange }) => (
       xhr.onerror = () => {
         // Record end time in case of an error
         const endTime = performance.now();
-        const elapsedTime = endTime - startTime;
-        console.error(`API request failed in ${elapsedTime} milliseconds`);
+        // const elapsedTime = endTime - startTime;
+        // console.error(`API request failed in ${elapsedTime} milliseconds`);
         // setData((prevData) => ({ ...prevData, alert: true, alert_text: 'An error occurred during the upload', alert_type: "error" }));
       };
 

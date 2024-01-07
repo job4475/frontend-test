@@ -16,6 +16,12 @@ const theme = createTheme({
     gray: {
       main: "#778296",
     },
+    textgreen: {
+      main: "#48846B",
+    },
+    btncolor: {
+      main: "#84BAA1",
+    },
   },
   typography: {
     fontFamily: [

@@ -31,7 +31,7 @@ function index() {
            </span>
          )}
        />
-         <Box display="flex" alignItems="center" flexDirection="row" > 
+         <Box sx={{color:"gray.main",fontWeight:500}} display="flex" alignItems="center" flexDirection="row" > 
            <Box style={{color:"red"}}>*&nbsp;</Box>{state.secure_type ? " For recipients using the FinalCode." : ` For recipients who do not use the FinalCode.`}
          </Box>
          </Box>
@@ -47,14 +47,14 @@ function index() {
             {state.secure_type
              ? ['Allow convert to original file', 'Allow copy paste', 'Allow print', 'Allow edit secured file', 'Allow run a macro', 'Allow convert to browser view file'].map((label, index) => (
               <Grid key={index} item xs={2} sm={4} md={4}>
-                <Box>
+                <Box sx={{color:"gray.main",fontWeight:500}}>
                  <handleShareDoc.SwitchBox label={label} checked={state[label.toLowerCase().replace(/ /g, '')]} onChange={(event) => handleShareDoc.handleSwitchChange(label.toLowerCase().replace(/ /g, ''), event)} />
                 </Box>
                  </Grid>
                ))
              : ['Allow convert to original file', 'Allow copy paste', 'Allow print'].map((label, index) => (
               <Grid key={index} item xs={2} sm={4} md={4}>
-                <Box>
+                <Box sx={{color:"gray.main",fontWeight:500}}>
                  <handleShareDoc.SwitchBox label={label} checked={state[label.toLowerCase().replace(/ /g, '')]} onChange={(event) => handleShareDoc.handleSwitchChange(label.toLowerCase().replace(/ /g, ''), event)} />
                 </Box>
                  </Grid>
@@ -62,7 +62,7 @@ function index() {
            
            {state.allowconverttobrowserviewfile && (
           <Grid item xs={2} sm={4} md={4}>
-            <Box>
+            <Box sx={{color:"gray.main",fontWeight:500}}>
                <handleShareDoc.SwitchBox label="Enable convert to original file" checked={state.enableconverttooriginalfile} onChange={(event) => handleShareDoc.handleSwitchChange('enableconverttooriginalfile', event)} />
             </Box>
           </Grid>

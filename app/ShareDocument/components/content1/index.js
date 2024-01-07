@@ -30,7 +30,7 @@ function index() {
     <UseefOutsideClick handleOutsideClick={handleShareDoc.handleOutsideClick}/>
       {/* //*!Hook Useeffect */}
     <Box sx={{display:'flex',flexDirection:'column'}}>
-            <TextField label="Recipient" size="small" variant="outlined" style={{ width: '100%' }} value={state.input_recip} onChange={handleShareDoc.handleInputChange} onKeyPress={handleShareDoc.handleKeyPress}
+            <TextField label={<Box sx={{color:"gray.main",fontWeight:500}}>Recipient</Box>} size="small" variant="outlined" style={{ width: '100%'}} value={state.input_recip} onChange={handleShareDoc.handleInputChange} onKeyPress={handleShareDoc.handleKeyPress}
               onKeyDown={handleShareDoc.handleKeyDown} inputRef={textFieldRef} InputProps={{startAdornment: (
                   <>
                     <Box sx={{pr:1}}>
@@ -45,10 +45,10 @@ function index() {
                 ),
               }}
             />
-            <TextField value={state.subject} onChange={handleShareDoc.handlesubjectChange} id="outlined-basic" label="Subject"size="small" variant="outlined" sx={{mt:1.3}} style={{width:"100%",paddingBottom:10}}
+            <TextField value={state.subject} onChange={handleShareDoc.handlesubjectChange} id="outlined-basic" label={<Box sx={{color:"gray.main",fontWeight:500}}>Subject</Box>}size="small" variant="outlined" sx={{mt:1.3}} style={{width:"100%",paddingBottom:10}}
               InputProps={{startAdornment: (<><Box sx={{pr:1}}><SubjectIcon style={{ color: 'gray' }} /></Box></>),}}/>
               
-            <TextField value={state.message} multiline rows={4} onChange={handleShareDoc.handlemessageChange} id="outlined-basic" label="Message"size="small" variant="outlined"inputProps={{ style: { height: "70px" } }} style={{width:"100%",paddingBottom:10}}
+            <TextField value={state.message} multiline rows={4} onChange={handleShareDoc.handlemessageChange} id="outlined-basic" label={<Box sx={{color:"gray.main",fontWeight:500}}>Message</Box>}size="small" variant="outlined"inputProps={{ style: { height: "70px" } }} style={{width:"100%",paddingBottom:10}}
               InputProps={{startAdornment: (<></>),}}/>
 
             {/* //*&Upload File */}
@@ -56,8 +56,8 @@ function index() {
             {!state.selectedFileName.length > 0?(
               <>
                <Image src={Upfile} alt="logo"style={{ width: "90px", height: "auto", borderRadius: "99px" }}/>
-               <Box sx={{mt:4}}>Drag & Drop your file here</Box>
-               <Button sx={{color:"white.main"}} variant="contained"size="small" style={{background:'#48846B',textTransform:'capitalize'}} onClick={handleShareDoc.handleFileClick}>Upload</Button>
+               <Box sx={{mt:4,color:"textgreen.main",fontWeight:500}}>Drag & Drop your file here</Box>
+               <Button sx={{color:"white.main",pl:3,pr:3}} variant="contained"size="small" style={{background:'#48846B',textTransform:'capitalize'}} onClick={handleShareDoc.handleFileClick}>Upload</Button>
                <input type="file" ref={fileInputRef} style={{ display: 'none' }} onChange={handleShareDoc.handleFileChange} multiple/>
               </>
               ):(
@@ -65,7 +65,7 @@ function index() {
                  <Grid container spacing={{ xs: 2, md: 3 }} columns={{ xs: 4, sm: 8, md: 12 }} justifyContent="center"alignItems="center">
                  {state.selectedFile.length > 0 ? (
                       Array.from(state.selectedFile).slice(0, 9).map((file, index) => (
-                     <Grid item xs={2} sm={4} md={4} key={index}>
+                     <Grid sx={{display: "flex", alignItems: "center",justifyContent:"center" }} item xs={2} sm={4} md={4} key={index}>
                       <Chip variant="outlined" sx={{border:"none"}} label={
                         <Box sx={{ textAlign: "center", fontSize: "12px", display: "flex", alignItems: "center",justifyContent:"center" }}>
                         <Box sx={{ position: 'relative', display: 'inline-flex' }}>

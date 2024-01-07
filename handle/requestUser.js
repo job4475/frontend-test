@@ -6,11 +6,7 @@ import { useRouter } from "next/navigation";
 
 function userlist() {
     const router = useRouter();
-    const handleNewRequest = ()=>{
-        router.push('/ShareDocument');
-      }
-
-      const handleClicktoGetFile = (uuid) => {
+    const handleClicktoGetFile = (uuid) => {
         var requestOptions = {
           method: 'GET',
           responseType: 'blob',
@@ -26,12 +22,12 @@ function userlist() {
           })
           .catch(error => console.log('error', error));
       };
-      
+    
+      return {handleClicktoGetFile};
+    }
 
 
-  return {handleNewRequest,handleClicktoGetFile};
-
-}
+  return {handleClicktoGetFile};
 
 export default userlist
 

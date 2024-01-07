@@ -1,36 +1,63 @@
 'use client'
-import * as React from 'react';
-import { experimentalStyled as styled } from '@mui/material/styles';
-import Box from '@mui/material/Box';
-import Paper from '@mui/material/Paper';
-import Grid from '@mui/material/Grid';
-import { Chip } from '@mui/material';
+import React, { useState } from "react";
 
-const Item = styled(Paper)(({ theme }) => ({
-  backgroundColor: theme.palette.mode === 'dark' ? '#1A2027' : '#fff',
-  ...theme.typography.body2,
-  padding: theme.spacing(2),
-  textAlign: 'center',
-  color: theme.palette.text.secondary,
-}));
+function App() {
+  const [file, setFile] = useState();
 
-export default function ResponsiveGrid() {
-  return (
-    <Box sx={{ flexGrow: 1 }}>
-      <Grid container spacing={{ xs: 2, md: 3 }} columns={{ xs: 4, sm: 8, md: 12 }}>
-        {Array.from(Array(6)).map((_, index) => (
-          <Grid  item xs={2} sm={4} md={4} key={index}>
-            <Chip   label="Clickable Deletable"onDelete={() => handleDelete(index)}/>
-          </Grid>
-        ))}
-      </Grid>
-    </Box>
-  );
+  const fileReader = new FileReader();
 
+  const handleOnChange = (e) => {
+    setFile(e.target.files[0]);
+  };
 
-  function handleDelete(index) {
-    // const newEmails = [...state.recipient];
-    // newEmails.splice(index, 1);
-    // setState((prevData) => ({ ...prevData, recipient:newEmails}));
+  const handleOnSubmit = (e) => {
+    e.preventDefault();
+
+    if (file) {
+      // Use URL.createObjectURL to create a URL for the selected file
+      const fileURL = URL.createObjectURL(file);
+      console.log("🚀 ~ file: page.jsx:19 ~ handleOnSubmit ~ fileURL:", file)
+
+      // console.log("File details:", {
+      //   name: file.name,
+      //   type: file.type,
+      //   size: file.size,
+      //   lastModified: file.lastModified,
+      //   url: fileURL,
+      // });
+
+      // Perform further actions as needed
+    }
+  };
+  const getBase64 = (e) => {
+    var filesss = e.target.files[0]
+    let reader = new FileReader()
+    reader.readAsDataURL(filesss)
+    reader.onload = () => {
+      console.log("Base64 result:", reader.result);
+    };
+    reader.onerror = function (error) {
+      console.log('Error: ', error);
+    }
   }
+  return (
+    <div style={{ textAlign: "center" }}>
+          <input type="file" className="input-file" name="imgUpload" accept='.png' onChange={getBase64} />
+
+      <h1>REACTJS CSV IMPORT EXAMPLE </h1>
+      <form>
+        <input type={"file"} id={"csvFileInput"} onChange={handleOnChange} />
+
+        <button
+          onClick={(e) => {
+            handleOnSubmit(e);
+          }}
+        >
+          IMPORT CSV
+        </button>
+      </form>
+    </div>
+  );
 }
+
+export default App;
