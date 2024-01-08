@@ -1,67 +1,83 @@
 'use client'
-import React, { useState } from 'react';
-import { TextField, Chip, Box, Grid } from '@mui/material';
-import EmailIcon from '@mui/icons-material/Email';
+import { Box, Tooltip } from '@mui/material';
+import React, { useState } from 'react'
 
-function Page() {
-  const [email, setEmail] = useState('');
-  const [emails, setEmails] = useState([]);
-  console.log("🚀 ~ file: page.jsx:9 ~ Page ~ emails:", emails)
+function page() {
+  const [tooltipOpen, setTooltipOpen] = useState({});
+  console.log("🚀 ~ file: page.jsx:7 ~ page ~ tooltipOpen:", tooltipOpen)
+  const [tooltipContent, setTooltipContent] = useState({});
+  console.log("🚀 ~ file: page.jsx:9 ~ page ~ tooltipContent:", tooltipContent)
 
-  const handleKeyPress = (event) => {
-    if (event.key === 'Enter' && email.trim() !== '') {
-      setEmails([...emails, email.trim()]);
-      setEmail('');
-    }
+  const handleOpen = (index, sender) => {
+    setTooltipOpen({ ...tooltipOpen, [index]: true });
+    setTooltipContent({ ...tooltipContent, [index]: sender });
   };
 
-  const handleInputChange = (event) => {
-    setEmail(event.target.value);
+  const handleClose = (index) => {
+    setTooltipOpen({ ...tooltipOpen, [index]: false });
   };
-
-  const handleKeyDown = (event) => {
-    if (event.key === 'Backspace' && email === '' && emails.length > 0) {
-      const newEmails = [...emails];
-      newEmails.pop();
-      setEmails(newEmails);
-    }
-  };
-  const test = [
-    "thananchai@gmail.com","thananchai@gmail.com","thananchai@gmail.com","thananchai@gmail.com","thananchai@gmail.com"
-  ]
-
+  const initialData = [
+    {
+      id: "sd4g58-4555-6641",
+      date: "2023-10-30T03:00:00",
+      file: "test.pdf",
+      sender: "Thanachai@tracthai.com1",
+      recipient: "Thanachai@tracthai.com",
+      status: "Pending",
+      action: "Approve",
+    },
+    {
+      id: "sd4g58-4555-356d",
+      date: "2023-10-29T17:00:38",
+      file: "another-test.pdf",
+      sender: "Thanachai@tracthai.com2",
+      recipient: "Thanachai@tracthai.com",
+      status: "Approved",
+      action: "Approve",
+    },
+    {
+      id: "sd4g58-4555-564d",
+      date: "2023-10-25T10:02:48",
+      file: "important-document.docx",
+      sender: "Thanachal@tracthai.com3",
+      recipient: "Thanachal@tracthai.com",
+      status: "Reject",
+      action: "Reject",
+    },
+    {
+      id: "ad4958-4545-4840",
+      date: "2023-10-25T10:02:48",
+      file: "invoice.pdf",
+      sender: "Thanachai@tracthai.com4",
+      recipient: "Thanachai@tracthai.com",
+      status: "Pending",
+      action: "Reject",
+    },
+    {
+      id: "sd4g58-4555-9660",
+      date: "2023-10-25T10:02:48",
+      file: "contract.pdf",
+      sender: "Thanachai@tracthai.com5",
+      recipient: "Thanachai@tracthai.com",
+      status: "Pending",
+      action: "Approve",
+    },
+  ];
   return (
-    <div style={{ marginTop: 10 }}>
-      <TextField
-        label="Recipient"
-        size="small"
-        variant="outlined"
-        style={{ width: '500px' }}
-        value={email}
-        onChange={handleInputChange}
-        onKeyPress={handleKeyPress}
-        onKeyDown={handleKeyDown}
-        InputProps={{
-          startAdornment: (
-            <>
-              <EmailIcon style={{ color: 'gray' }} />
-              <Box sx={{display: 'flex',alignItems: 'center',flexWrap: 'wrap',justifyContent: 'center',}}>
-                {emails.map((email, index) => (
-                  <Chip key={index} label={email} onDelete={() => handleDelete(index)} style={{ margin: 5 }} />
-                ))}
-              </Box>
-            </>
-          ),
-        }}
-      />
-    </div>
-  );
-
-  function handleDelete(index) {
-    const newEmails = [...emails];
-    newEmails.splice(index, 1);
-    setEmails(newEmails);
-  }
+    <div>
+    {initialData.map((row, index) => (
+      <Box key={index}>
+        <Tooltip
+          open={tooltipOpen[index] || false}
+          title={tooltipContent[index] || ''}
+          onClose={() => handleClose(index)}
+        >
+          <button onClick={() => handleOpen(index, row.sender)}>Test</button>
+        </Tooltip>
+      </Box>
+    ))}
+  </div>
+  )
 }
 
-export default Page;
+export default page
