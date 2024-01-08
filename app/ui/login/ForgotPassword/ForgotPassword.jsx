@@ -2,19 +2,11 @@
 import { Box, Button, TextField } from '@mui/material';
 import React, { useContext, useState } from 'react';
 import { StateContext } from '@/context/Context';
-
+import { useRouter } from 'next/router';
+import handleforget from '@/handle/forgetpassword'
 function Index() {
   const {state, setState} = useContext(StateContext);
-
-  const Back = () => {
-    window.location.replace('/Login')
-  }
-  const getlink = () => {
-    window.location.replace('/ResetSucceed')
-  }
-  const Email = (e) => {
-    setState({...state,Email: e.target.value,});
-  };
+  const HandleForget = handleforget();
   return (
     <Box>
       <Box p={3} sx={{display: 'flex',flexDirection: 'column',background: 'width',width: '400px',height: '500px',
@@ -24,11 +16,11 @@ function Index() {
          <Box sx={{textAlign: 'left', color: '#778296', fontSize: 15,  lineHeight: 3,}}>We need your email to reset your password</Box>
         </Box>
         <Box>
-        <TextField id="standard-basic" label="Email"  variant="standard" value={state.Email} onChange={Email} sx={{ width: '90%' }} />
+        <TextField id="standard-basic" label="Email"  variant="standard" value={state.Email} onChange={HandleForget.Email} sx={{ width: '90%' }} />
         </Box>
         <Box sx={{display: 'flex',flexDirection: 'column',justifyContent: 'center',alignItems: 'center', fontSize: 11}}>
-          <Button variant="text" onClick={Back}  sx={{color:'#828895',textTransform: 'capitalize', fontSize: 14}} >Back to sign in</Button>
-          <Button variant="contained" onClick={getlink} style={{ background: '#84BAA1', width: '90%',textTransform: 'capitalize', fontSize: 14 }}>Get recovery link</Button>
+          <Button variant="text" onClick={HandleForget.Back}  sx={{color:'#828895',textTransform: 'capitalize', fontSize: 14}} >Back to sign in</Button>
+          <Button variant="contained" onClick={HandleForget.getlink} style={{ background: '#84BAA1', width: '90%',textTransform: 'capitalize', fontSize: 14 }}>Get recovery link</Button>
         </Box>
       </Box>
     </Box>

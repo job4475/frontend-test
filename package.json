@@ -9,10 +9,12 @@
     "lint": "next lint"
   },
   "dependencies": {
-    "@emotion/react": "^11.11.1",
+    "@emotion/cache": "^11.11.0",
+    "@emotion/react": "^11.11.3",
     "@emotion/styled": "^11.11.0",
+    "@fontsource/roboto": "^5.0.8",
     "@mui/icons-material": "^5.14.19",
-    "@mui/material": "^5.14.20",
+    "@mui/material": "^5.15.3",
     "context": "^3.0.19",
     "i": "^0.3.7",
     "next": "^14.0.4",
@@ -20,7 +22,10 @@
     "react-dom": "^18.2.0",
     "react-icons": "^4.12.0",
     "react-multi-email": "^1.0.19",
-    "react-verification-code-input": "^1.2.9"
+    "react-verification-code-input": "^1.2.9",
+    "typeface-montserrat": "^1.1.13",
+    "typeface-prompt": "^1.1.13",
+    "uuid": "^9.0.1"
   },
   "devDependencies": {
     "autoprefixer": "^10.4.16",
