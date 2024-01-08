@@ -1,14 +1,15 @@
 "use client"
-import React from "react";
+import React, { useContext } from "react";
 import Image from "next/image";
 import Logotrac from "@/assets/assets/images/logotrac.png";
 import { Box } from "@mui/material";
 import { useRouter } from "next/navigation";
+import { StateContext } from "@/context/Context";
 
 const page = () => {
   
   const router = useRouter();
-
+  const { state, setState } = useContext(StateContext);
   const Register = () => {
     router.push('/Register');
   }
@@ -35,7 +36,7 @@ const page = () => {
               />
             </div>
             <div>
-              <h4>The Recovery Advisor Company Limited</h4>
+              <h4>{state.decode_token.CompanynameOrginal}</h4>
             </div>
             <div className="my-2">
               <svg

@@ -18,16 +18,16 @@ const page = () => {
   const Register = () => {
     router.push('/ShareDocument');
   }
-
   return (
     <>
       <div className="max-w-screen-xl p-2 lg:p-0 container mx-auto my-2 lg:my-12 flex flex-col lg:flex-row justify-start lg:justify-between items-start lg:items-center">
         <div className="m-2 flex flex-col lg:flex-row">
           <div className="mr-3">
             <Image
-              src={Logotrac}
+              src={"https://www.tracthai.com/_next/static/media/logonew.10e8c496.png"}
               alt={state.CompanyLogoOriginal}
-              style={{ width: "90px", height: "90px", borderRadius: "99px" }}
+              width={100}
+              height={100}
             />
           </div>
           <div className="m-2">

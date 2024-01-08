@@ -14,7 +14,7 @@ function login() {
       myHeaders.append("Content-Type", "application/json");
 
       var raw = JSON.stringify({
-        "username": state.Email,
+        "username": state.email,
         "password": state.Password
       });
 
@@ -25,7 +25,7 @@ function login() {
         redirect: 'follow'
       };
 
-      fetch("http://192.168.5.81:8888/api/LoginChicCRM", requestOptions)
+      fetch(`${process.env.NEXT_PUBLIC_API_ENDPOINT_GET}:${process.env.NEXT_PUBLIC_API_PORT_LOGIN}/api/LoginChicCRM`, requestOptions)
         .then(response => response.json())
         .then(result => {
           if (result.status === "OK") {
@@ -43,7 +43,7 @@ function login() {
       myHeaders.append("Content-Type", "application/json");
 
       var otpData = {
-        "email": state.Email
+        "email": state.email
       };
 
       var otpRequestOptions = {
@@ -52,7 +52,7 @@ function login() {
         body: JSON.stringify(otpData),
         redirect: 'follow'
       };
-  fetch("http://192.168.5.81:8888/api/sendOTPEmail", otpRequestOptions)
+  fetch(`${process.env.NEXT_PUBLIC_API_ENDPOINT_GET}:${process.env.NEXT_PUBLIC_API_PORT_LOGIN}/api/sendOTPEmail`, otpRequestOptions)
     .then(response => response.text())
     .then(result => {
       console.log(result);
@@ -66,7 +66,7 @@ function login() {
     myHeaders.append("Content-Type", "application/json");
 
     var raw = JSON.stringify({
-      "username": state.Email
+      "username": state.email
     });
     var requestOptions = {
       method: 'POST',
@@ -74,12 +74,25 @@ function login() {
       body: raw,
       redirect: 'follow'
     };
-    fetch("http://192.168.5.81:8888/api/validateDomainChicCRM", requestOptions)
+    fetch(`${process.env.NEXT_PUBLIC_API_ENDPOINT_GET}:${process.env.NEXT_PUBLIC_API_PORT_LOGIN}/api/validateDomainChicCRM`, requestOptions)
     .then(response => response.json()) 
     .then(result => {
       console.log(result);
       if (result.match === true) {
-        setState({...state,datacompany: result.data})
+        setState({
+          ...state,
+          datacompany: result.data,
+          companyname: result.data.Companyname,
+          alias: result.data.CompanyAlias,
+          no: result.data.AddressNo,
+          street: result.data.Address1En,
+          googlemaps: result.data.Geolocation,
+          province: result.data.Province,
+          district: result.data.District,
+          subdistric: result.data.SubDistrict,
+          zipcode: result.data.Zipcode,
+          country: result.data.Country
+      });
         router.push('/Selectcompany');
       } else {
         console.log("Status is not OK:", result.status);
@@ -91,7 +104,7 @@ function login() {
     router.push('/ForgotPassword')
   }
   const Email= (e) => {
-    setState({...state,Email: e.target.value,});
+    setState({...state,email: e.target.value,});
   };
   const Password = (e) => {
     setState({...state,Password: e.target.value,});

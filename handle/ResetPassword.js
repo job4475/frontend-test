@@ -15,7 +15,7 @@ function addcompany() {
         myHeaders.append("Authorization", state.confirmlink);
         
         var raw = JSON.stringify({
-          "username": "surachai@tracthai.com",
+          "username": state.email,
           "newpassword": state.password,
           "requires_action": ""
         });
@@ -27,7 +27,7 @@ function addcompany() {
           redirect: 'follow'
         };
         
-        fetch("http://192.168.5.81:8888/api/InitPasswordChicCRM", requestOptions)
+        fetch(`${process.env.NEXT_PUBLIC_API_ENDPOINT_GET}:${process.env.NEXT_PUBLIC_API_PORT_LOGIN}/api/InitPasswordChicCRM`, requestOptions)
           .then(response => response.json())
           .then(result => {
             console.log(result);

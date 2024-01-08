@@ -11,26 +11,26 @@ function register() {
 myHeaders.append("Content-Type", "application/json");
 
 var raw = JSON.stringify({
-  "username": state.Email,
+  "username": state.email,
   "title": state.titleselect,
-  "firstname_en": state.input_firstName,
-  "Surname_en": state.input_last_name,
-  "mobile_phone": state.input_phone,
-  "country": state.Country,
-  "province": state.Province,
-  "district": state.District,
-  "sub_district": state.SubDistric,
-  "zipcode": state.ZIPCode,
-  "create_location": state.GoogleMaps,
-  "url_logo": state.Email,
-  "company_name_en": state.Companyname,
-  "company_mobile": state.input_phone,
-  "company_alias": state.Alias,
-  "company_geolo": state.Email,
-  "address1_en": state.No,
-  "address_no": state.No,
-  "job_title": state.input_jobtitle,
-  "role": state.input_role
+  "firstname_en": state.first_name,
+  "Surname_en": state.last_name,
+  "mobile_phone": state.phone_number,
+  "country": state.country,
+  "province": state.province, 
+  "district": state.district,
+  "sub_district": state.subdistric,
+  "zipcode": state.zipcode,
+  "create_location": state.googlemaps,
+  "url_logo": "https://iconscout.com/free-icon/logo-3446031",
+  "company_name_en": state.companyname,
+  "company_mobile": state.phone_number,
+  "company_alias": state.alias,
+  "company_geolo": state.googlemaps,
+  "address1_en": state.street,
+  "address_no": state.no,
+  "job_title": state.job_title,
+  "role": state.role
 });
 
 var requestOptions = {
@@ -40,11 +40,18 @@ var requestOptions = {
   redirect: 'follow'
 };
 
-fetch("http://192.168.5.96:8888/api/registerChicCRM", requestOptions)
+fetch(`${process.env.NEXT_PUBLIC_API_ENDPOINT_GET}:${process.env.NEXT_PUBLIC_API_PORT_LOGIN}/api/registerChicCRM`, requestOptions)
   .then(response => response.text())
-  .then(result => console.log(result))
+  .then(result => {
+    console.log(result);
+    if (result.status === "OK") {
+      router.push('/Login');
+    } else {
+      console.log("Status is not OK:", result.status);
+    }
+  })
   .catch(error => console.log('error', error));
-    router.push('/Login');
+    
   }
   const Selectcompany = () => {
     router.push('/Selectcompany');
