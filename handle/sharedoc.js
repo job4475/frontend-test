@@ -270,6 +270,9 @@ const SwitchBox = ({ label, checked, onChange }) => (
 
       const formdata = new FormData();
       const orderId = uuid.v4(); 
+      const currentDate = new Date();
+      const timestampInSeconds = Math.floor(currentDate.getTime() / 1000);
+
       formdata.append("scdact_status", "Pending");
       formdata.append("scdact_reqid", orderId);
       formdata.append("scdact_name", "wwww");
@@ -297,6 +300,7 @@ const SwitchBox = ({ label, checked, onChange }) => (
       formdata.append("scdact_sender", state.email?state.email:"thananchai@tracthai.com");
       formdata.append("uuid_member", "76c99d77-b168-4f9d-a52a-a7ebf668b2da");
       formdata.append("scdact_action", "Request");
+      formdata.append("scdact_actiontime", timestampInSeconds);
 
       for (let i = 0; i < state.selectedFile.length; i++) {
         const file = state.selectedFile[i];
@@ -327,7 +331,7 @@ const SwitchBox = ({ label, checked, onChange }) => (
             // setData((prevData) => ({ ...prevData, alert: true, alert_text: result.message.finalcode_result, alert_type: "success"}));
             //^delay 3 seconds
               setState((prevData) => ({ ...prevData, loading: false}));
-              // router.push('/RequestLisU');
+              router.push('/RequestLisU');
           } else {
             // setData((prevData) => ({ ...prevData, loading: false, alert: true, alert_text: result.message.finalcode_result, alert_type: "error" }));
           }

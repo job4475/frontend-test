@@ -5,6 +5,29 @@ import Image from "next/image";
 import Logotrac from "@/assets/assets/images/logotrac.png";
 
 function index() {
+  const storedLoginTime = localStorage.getItem('loginTime');
+  const [loginTime, setLoginTime] = React.useState(storedLoginTime ? new Date(storedLoginTime) : new Date());
+
+  React.useEffect(() => {
+    localStorage.setItem('loginTime', loginTime);
+    
+    const intervalId = setInterval(() => {
+      const currentTime = new Date();
+      const elapsedTime = currentTime - loginTime;
+      const formattedTime = formatElapsedTime(elapsedTime);
+      document.getElementById('loginPeriod').innerText = `Login Period: ${formattedTime}`;
+    }, 0);
+
+    return () => clearInterval(intervalId);
+  }, [loginTime]);
+
+  const formatElapsedTime = (elapsedTime) => {
+    const seconds = Math.floor(elapsedTime / 1000) % 60;
+    const minutes = Math.floor(elapsedTime / (1000 * 60)) % 60;
+    const hours = Math.floor(elapsedTime / (1000 * 60 * 60));
+
+    return `${String(hours).padStart(2, '0')}:${String(minutes).padStart(2, '0')}:${String(seconds).padStart(2, '0')}`;
+  };
   return (
     <Box sx={{display:'flex',justifyContent:'space-between',p:2,pl:5,pr:5,pb:2}}>
         <div className=" flex flex-col lg:flex-row">
@@ -40,7 +63,7 @@ function index() {
               <span className="text-lg">CEO/Founder</span>
             </div>
             <div>
-              <span>Login Period : 00.34.52</span>
+            <span id="loginPeriod" className="text-lg">Login Period: 00:00:00</span>
             </div>
           </div>
         </div>
