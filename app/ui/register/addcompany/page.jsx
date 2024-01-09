@@ -1,8 +1,7 @@
 'use client'
-import { Box, Button, Grid, IconButton, Select, TextField, Typography } from '@mui/material'
-import React, { useContext } from 'react'
+import { Box, Button, Grid, IconButton, MenuItem, Select, TextField, Typography } from '@mui/material'
+import React, { useContext, useState } from 'react'
 import Image from 'next/image'
-import Ellipse from '@/assets/assets/images/Ellipse 19.png'
 import Subtract from '@/assets/assets/images/Subtract.png'
 import ArrowRightAltIcon from '@mui/icons-material/ArrowRightAlt';
 import { StateContext } from '@/context/Context';
@@ -12,6 +11,17 @@ import AddIcon from '@mui/icons-material/Add';
 function page() {
   const {state, setState} = useContext(StateContext);
   const Handlecompany = handlecompany();
+
+const handleFileChange = (event) => {
+  const file = event.target.files[0];
+  if (file) {
+    const reader = new FileReader();
+    reader.onload = (e) => {
+      setState({ ...state, selectedImage: e.target.result, selectedFile: file });
+    };
+    reader.readAsDataURL(file);
+  }
+};
   return (
     <Box sx={{display:'flex',flexDirection:'column',justifyContent:'space-between',alignItems:'flex-start',p:3, }}>
       <Box >
@@ -28,10 +38,18 @@ function page() {
       <Typography variant="h6">Create Company</Typography>
     </Box>
     <Box sx={{display:'flex',ml:5}}>
-    <Box sx={{mt:'2%' ,width:'100px',height:'100px',background:'#D9D9D9',display:'flex',justifyContent:'center',alignItems:'center',borderRadius:'50%'}}>
-        <input accept='image/*' style={{display:'none'}} id='raised-button-file' type='file' onChange={Handlecompany.handleFileChange}/>
-        <label htmlFor='raised-button-file'><IconButton sx={{color:'#1F2939'}} component='span'><AddIcon/></IconButton></label>
-      </Box>
+    <Box sx={{ mt: '2%', width: '100px', height: '100px', background: '#D9D9D9', display: 'flex', justifyContent: 'center', alignItems: 'center', borderRadius: '50%' }}>
+      <input accept='image/*' style={{ display: 'none' }} id='raised-button-file' type='file' onChange={handleFileChange} />
+      <label htmlFor='raised-button-file'>
+        {state.selectedImage ? (
+          <img src={state.selectedImage} alt='Selected' style={{ width: '100%', height: '100%', borderRadius: '50%' }} />
+        ) : (
+          <IconButton sx={{ color: '#1F2939' }} component='span'>
+            <AddIcon />
+          </IconButton>
+        )}
+      </label>
+    </Box>
       <Box sx={{ ml: 5,display:'flex',flexDirection:'row' }}>
       <Box sx={{ display: 'flex', flexDirection: 'column', gap:2,mr:5 }}>
         <Box sx={{ display: 'flex', alignItems: 'center' }}>
@@ -52,13 +70,36 @@ function page() {
         </Box>
         <Box sx={{ display: 'flex', alignItems: 'center' }}>
           <Box sx={{ pt: 1.5, width: '150px',color:'#1F2939',fontWeight:'500' }}>Country</Box>
-          <Select id="standard-basic" variant="standard" value={state.country} onChange={Handlecompany.Country} sx={{width:"250px"}}/>
+          <Select id="standard-basic" variant="standard" value={state.country} onChange={Handlecompany.Country} sx={{ width: "250px" }}>
+        {state.countries.map((country) => (
+          <MenuItem key={country} value={country}>
+            {country}
+          </MenuItem>
+        ))}
+      </Select>
         </Box>
       </Box>
       <Box sx={{ display: 'flex', flexDirection: 'column', gap:2 }}>
         <Box sx={{ display: 'flex', alignItems: 'center' }}>
           <Box sx={{ pt: 1.5, width: '150px',color:'#1F2939',fontWeight:'500' }}>Province</Box>
-          <Select id="standard-basic" variant="standard" value={state.province} onChange={Handlecompany.Province} sx={{width:"250px"}} />
+          <Select
+          id="province-select"
+          variant="standard"
+          value={state.province}
+          onChange={handleProvinceChange}
+          sx={{ width: "250px" }}
+        >
+          {state.locationData.provinces && state.locationData.provinces.length > 0 ? (
+            state.locationData.provinces.map(province => (
+              <MenuItem key={province.id} value={province.ProvinceThai}>
+                {province.provinceAmphoeTambonZipcode.ProvinceThai}
+              </MenuItem>
+            ))
+          ) : (
+            <MenuItem value="">No provinces available</MenuItem>
+          )}
+        </Select>
+
         </Box>
         <Box sx={{ display: 'flex', alignItems: 'center' }}>
           <Box sx={{ pt: 1.5, width: '150px',color:'#1F2939',fontWeight:'500' }}>District</Box>

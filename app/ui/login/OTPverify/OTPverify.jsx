@@ -1,18 +1,20 @@
 'use client'
-import React from 'react'
+import React, { useContext } from 'react'
 import VerificationCodeInput from './VerificationCodeInput'
 import { Box, Button } from '@mui/material';
 import handleotp from "@/handle/otpvelify"
+import { StateContext } from '@/context/Context';
 
 function OTPverify() {
   const HandleOTP = handleotp();
+  const {state, setState} = useContext(StateContext);
   return (
     <Box p={3} sx={{display: 'flex',flexDirection: 'column',background: 'width',width: '400px',height: '500px',
     borderRadius: "15px",marginLeft: 'auto',mr: 5,mt: 1,boxShadow: '0px 0px 10px rgba(0, 0, 0, 0.1)',justifyContent:'space-between'}}>
     <Box>
       <Box sx={{fontWeight:'800'}}>You are almost done!</Box> 
       <br></br>
-      <Box>Please type the code we sent you to your email kaiwut1711@gmail.com and verify that it's really you.</Box>
+      <Box>Please type the code we sent you to your email {state.email} and verify that it's really you.</Box>
     </Box>
     <Box>
     <Box>Code</Box>

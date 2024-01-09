@@ -51,7 +51,6 @@ fetch(`${process.env.NEXT_PUBLIC_API_ENDPOINT_GET}:${process.env.NEXT_PUBLIC_API
     }
   })
   .catch(error => console.log('error', error));
-    
   }
   const Selectcompany = () => {
     router.push('/Selectcompany');
@@ -62,6 +61,24 @@ fetch(`${process.env.NEXT_PUBLIC_API_ENDPOINT_GET}:${process.env.NEXT_PUBLIC_API
   const  handlechangeinput =(e, fieldName)=>{
     setState((prevData) => ({ ...prevData, [fieldName]: e.target.value }));
 }
+const handleRegister = async () => {
+  const formData = new FormData();
+  formData.append('file', state.selectedFile);
+  formData.append('organizeID', '8855878b-99d3-4d43-ba0f-285e2dd15232');
+  const requestOptions = {
+    method: 'PATCH',
+    body: formData,
+    redirect: 'follow',
+  };
+  try {
+    const response = await fetch(`${process.env.NEXT_PUBLIC_API_ENDPOINT_GET}:${process.env.NEXT_PUBLIC_API_PORT_LOGIN}/api/uploadLogoBinary`, requestOptions);
+    const result = await response.text();
+    console.log(result);
+    Handlecompany.Register();
+  } catch (error) {
+    console.log('Error:', error);
+  }
+};
   return {handlechangeTitle, handlechangeinput,Login,Selectcompany};
 }
 export default register

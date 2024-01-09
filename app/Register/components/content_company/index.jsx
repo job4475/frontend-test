@@ -1,22 +1,26 @@
 import { data_register } from '@/data/register'
 import { Box, Radio } from '@mui/material'
 import Image from 'next/image'
-import React from 'react'
+import React, { useContext } from 'react'
 import logo from '@/assets/assets/images/logotrac.png'
 import website from '@/assets/assets/images/register/website.png'
 import tel from '@/assets/assets/images/register/tel.png'
 import map from '@/assets/assets/images/register/location.png'
+import { StateContext } from '@/context/Context'
 
 function index() {
+    const {state, setState} = useContext(StateContext);
   return (
     <Box sx={{mt:3}}>
       <Box sx={{fontWeight:600,mb:3}}>{data_register[0].title_content1}</Box>
       <Box sx={{display:"flex"}}>
         <Image style={{width:"125px",height:"auto"}} alt="logo" src={logo}></Image>
         <Box sx={{display:"flex",flexDirection:"column",alignItems:"left",ml:3.5}}>
-           <Box sx={{fontWeight:600}}>{data_register[0].company_name}</Box>
+           <Box sx={{fontWeight:600}}>{state.decode_token.CompanynameOrginal}</Box>
               <Box sx={{display:"flex",mt:1}}>
-              <Box dangerouslySetInnerHTML={{ __html: data_register[0].location }}></Box>
+              <Box sx={{width:"300px"}}>
+              <div dangerouslySetInnerHTML={{ __html: `${state.datacompany.AddressNo} ${state.datacompany.Address1En}<br>${state.datacompany.District} ${state.datacompany.SubDistrict}<br>${state.datacompany.Province} ${state.datacompany.Zipcode} ${state.datacompany.Country}` }} />
+              </Box>
               <Box sx={{ml:10}}>
                 <Box sx={{display:"flex",alignItems:"center"}}>
                   <Image alt="website" src={website}/>
