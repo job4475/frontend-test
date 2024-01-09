@@ -282,16 +282,16 @@ const SwitchBox = ({ label, checked, onChange }) => (
       formdata.append("scdact_numberopen", state.opensTime?state.opensTime:0);
       formdata.append("scdact_periodday", state.periodDays?state.periodDays:0);
       formdata.append("scdact_periodhour",state.periodHours?state.periodHours:0);
-      formdata.append("scdact_nolimit", state.noLimit);
-      formdata.append("scdact_cvtoriginal", state.allowconverttooriginalfile);
-      formdata.append("scdact_edit", state.alloweditsecuredfile);
-      formdata.append("scdact_print", state.allowprint);
-      formdata.append("scdact_copy", state.allowcopypaste);
-      formdata.append("scdact_scrwatermark", true);
-      formdata.append("scdact_watermark", true);
-      formdata.append("scdact_cvthtml", state.allowconverttobrowserviewfile);
+      formdata.append("scdact_nolimit", state.noLimit?"true":"false");
+      formdata.append("scdact_cvtoriginal", state.allowconverttooriginalfile?"true":"false");
+      formdata.append("scdact_edit", state.alloweditsecuredfile?"true":"false");
+      formdata.append("scdact_print", state.allowprint?"true":"false");
+      formdata.append("scdact_copy", state.allowcopypaste?"true":"false");
+      formdata.append("scdact_scrwatermark", "true");
+      formdata.append("scdact_watermark", "true");
+      formdata.append("scdact_cvthtml", state.allowconverttobrowserviewfile?"true":"false");
       formdata.append("scdact_cvtfcl", "true");
-      formdata.append("scdact_marcro", state.allowrunamacro);
+      formdata.append("scdact_marcro", state.allowrunamacro?"true":"false");
       formdata.append("scdact_msgtext", state.message);
       formdata.append("scdact_subject", state.subject);
       formdata.append("scdact_createlocation", "สำเร็จ");
@@ -307,7 +307,7 @@ const SwitchBox = ({ label, checked, onChange }) => (
         const sanitizedFileName = file.name.replace(/\s+/g, '-');
         const emailText = state.recipient.map((recipient, index) => `${recipient}`)
 
-        formdata.append("scdact_command", `finalcode_api ${state.secure_type===true?"":"-browserview"} ${state.message?`-mes:${state.message}`:""} ${state.enableconverttooriginalfile?"-to_bv_decode":""} ${state.allowconverttobrowserviewfile?"-to_bv_file":""} ${state.allowrunamacro||state.allowconverttooriginalfile?"-nomacro_deny":"-macro_deny"} ${state.alloweditsecuredfile?"-edit":""} -encrypt ${state.secure_type===true?"":"-bv_auth:1"}  -src:../data/${orderId}/${sanitizedFileName} -dest:../data/${orderId}/${sanitizedFileName}(${emailText})${state.secure_type===true?".fcl":".html"} ${state.allowconverttooriginalfile?"-decode":""} ${state.allowcopypaste?"-copypaste":""} ${state.allowprint?"-print":""} ${state.timelimitBefore?`-startdate:${state.timelimitBefore}`:""} ${state.timelimitAfter?`-date:${state.timelimitAfter}`:""} ${state.periodDays?`-day:${state.periodDays}`:""} ${state.periodHours?`-hour:${state.periodHours}`:""} ${state.opensTime?`-cnt:${state.opensTime}`:""} -user:thananchai@tracthai.com -mail:${emailText}`);
+        formdata.append("scdact_command", `finalcode_api ${state.secure_type===true?"":"-browserview"} ${state.message?`-mes:"${state.message}"`:""} ${state.enableconverttooriginalfile?"-to_bv_decode":""} ${state.allowconverttobrowserviewfile?"-to_bv_file":""} ${state.allowrunamacro||state.allowconverttooriginalfile?"-nomacro_deny":"-macro_deny"} ${state.alloweditsecuredfile?"-edit":""} -encrypt ${state.secure_type===true?"":"-bv_auth:1"}  -src:../data/${orderId}/${sanitizedFileName} -dest:../data/${orderId}/${sanitizedFileName}(${emailText})${state.secure_type===true?".fcl":".html"} ${state.allowconverttooriginalfile?"-decode":""} ${state.allowcopypaste?"-copypaste":""} ${state.allowprint?"-print":""} ${state.timelimitBefore?`-startdate:${state.timelimitBefore}`:""} ${state.timelimitAfter?`-date:${state.timelimitAfter}`:""} ${state.periodDays?`-day:${state.periodDays}`:""} ${state.periodHours?`-hour:${state.periodHours}`:""} ${state.opensTime?`-cnt:${state.opensTime}`:""} -user:thananchai@tracthai.com -mail:${emailText}`);
         formdata.append("scdact_binary", file, `/D:/Downloads/${orderId}/${sanitizedFileName}`);
 
         formdata.append("scdact_filename", sanitizedFileName);
@@ -348,7 +348,7 @@ const SwitchBox = ({ label, checked, onChange }) => (
 
       xhr.send(formdata);
     }
-  }, [state.selectedFile, state.email, setState]);
+  }, [state, setState]);
 
 
     const IOSSwitch = styled((props) => (
