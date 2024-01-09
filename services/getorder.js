@@ -10,11 +10,10 @@ function token() {
             method: 'GET',
             redirect: 'follow'
           };
-          
-          fetch("http://10.1.1.137:8062/api/user_request/067df0da-3041-4d88-9484-e5e5496dca96", requestOptions)
+          fetch(`${process.env.NEXT_PUBLIC_API_ENDPOINT}:${process.env.NEXT_PUBLIC_API_PORT_TEST}/api/getLogSecuredocActivityByMember/76c99d77-b168-4f9d-a52a-a7ebf668b2da`, requestOptions)
             .then(response => response.json())
             .then(result => {
-                setState({...state,allorder: result.Message});
+                setState({...state,allorder: result.logSecuredocActivityMember});
             })
             .catch(error => console.log('error', error));
       }, []);

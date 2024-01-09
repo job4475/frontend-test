@@ -3,9 +3,11 @@ import { StateContext } from '@/context/Context';
 import { Box, FormControlLabel, Switch } from '@mui/material';
 import React, { useContext, useRef, useState,useCallback } from 'react'
 import { styled } from '@mui/material/styles';
+import { useRouter } from 'next/navigation';
 
 function sharedoc(textFieldRef,fileInputRef) {
   const {state, setState} = useContext(StateContext);
+  const router = useRouter();
 
   const HandleSwitchChange = (label) => {
     setSwitchStates((prevSwitchStates) => ({
@@ -293,12 +295,15 @@ const SwitchBox = ({ label, checked, onChange }) => (
       formdata.append("scdact_updatelocation", "สำเร็จ");
       formdata.append("scdact_reciepient", state.recipient);
       formdata.append("scdact_sender", state.email?state.email:"thananchai@tracthai.com");
+      formdata.append("uuid_member", "76c99d77-b168-4f9d-a52a-a7ebf668b2da");
+      formdata.append("scdact_action", "Request");
 
       for (let i = 0; i < state.selectedFile.length; i++) {
         const file = state.selectedFile[i];
         const sanitizedFileName = file.name.replace(/\s+/g, '-');
+        const emailText = state.recipient.map((recipient, index) => `${recipient}`).join('\n');
 
-        formdata.append("scdact_command", `finalcode_api ${state.secure_type===true?"":"-browserview"} ${state.message?`-mes:${state.message}`:""} ${state.enableconverttooriginalfile?"-to_bv_decode":""} ${state.allowconverttobrowserviewfile?"-to_bv_file":""} ${state.allowrunamacro||state.allowconverttooriginalfile?"-nomacro_deny":"-macro_deny"} ${state.alloweditsecuredfile?"-edit":""} -encrypt ${state.secure_type===true?"":"-bv_auth:1"}  -src:../data/${orderId}/${sanitizedFileName} -dest:../data/${orderId}/${sanitizedFileName}(${state.email})${state.secure_type===true?".fcl":".html"} ${state.allowconverttooriginalfile?"-decode":""} ${state.allowcopypaste?"-copypaste":""} ${state.allowprint?"-print":""} ${state.timelimitBefore?`-startdate:${state.timelimitBefore}`:""} ${state.timelimitAfter?`-date:${state.timelimitAfter}`:""} ${state.periodDays?`-day:${state.periodDays}`:""} ${state.periodHours?`-hour:${state.periodHours}`:""} ${state.opensTime?`-cnt:${state.opensTime}`:""} -user:thananchai@tracthai.com -mail:${state.email}`);
+        formdata.append("scdact_command", `finalcode_api ${state.secure_type===true?"":"-browserview"} ${state.message?`-mes:${state.message}`:""} ${state.enableconverttooriginalfile?"-to_bv_decode":""} ${state.allowconverttobrowserviewfile?"-to_bv_file":""} ${state.allowrunamacro||state.allowconverttooriginalfile?"-nomacro_deny":"-macro_deny"} ${state.alloweditsecuredfile?"-edit":""} -encrypt ${state.secure_type===true?"":"-bv_auth:1"}  -src:../data/${orderId}/${sanitizedFileName} -dest:../data/${orderId}/${sanitizedFileName}(${state.email})${state.secure_type===true?".fcl":".html"} ${state.allowconverttooriginalfile?"-decode":""} ${state.allowcopypaste?"-copypaste":""} ${state.allowprint?"-print":""} ${state.timelimitBefore?`-startdate:${state.timelimitBefore}`:""} ${state.timelimitAfter?`-date:${state.timelimitAfter}`:""} ${state.periodDays?`-day:${state.periodDays}`:""} ${state.periodHours?`-hour:${state.periodHours}`:""} ${state.opensTime?`-cnt:${state.opensTime}`:""} -user:thananchai@tracthai.com -mail:${emailText}`);
         formdata.append("scdact_binary", file, `/D:/Downloads/${orderId}/${sanitizedFileName}`);
 
         formdata.append("scdact_filename", sanitizedFileName);
@@ -308,63 +313,24 @@ const SwitchBox = ({ label, checked, onChange }) => (
         formdata.append("scdact_filecreated", file.lastModified);
         formdata.append("scdact_filemodified", "A");
         formdata.append("scdact_filelocation", "A");
-        // formdata.append("role", data.decode_token.role);
-        // formdata.append("from", state.email);
       }
 
-      // Record start time
-    //   const startTime = performance.now();
-
        const xhr = new XMLHttpRequest();
-    //   xhr.onreadystatechange=() => {
-    //     var rdState = xhr.readyState
-    //     if(rdState<4){
-    //       setData((prevData) => ({ ...prevData, ProgressAPI:rdState*25}));
 
-    //     }
-    //     if (xhr.readyState === 4) {
-    //       if (xhr.status === 200) {
-    //         setData((prevData) => ({ ...prevData,  APIStatus:true,ProgressAPI:rdState*25}));
-    //       } else {
-    //         setData((prevData) => ({ ...prevData,  APIStatus:false}));
-    //       }
-    //   }
-    // }
-
-      xhr.open("POST", "http://10.1.1.137:8062/api/request_doc", true);
-
-      // Track upload progress
-      xhr.upload.addEventListener("progress", (event) => {
-        if (event.lengthComputable) {
-          const percentage = (event.loaded / event.total) * 100;
-          // setData((prevData) => ({ ...prevData,  perCenUpload:percentage.toFixed(0)}));
-        }
-      });
+      xhr.open("POST", `${process.env.NEXT_PUBLIC_API_ENDPOINT}:${process.env.NEXT_PUBLIC_API_PORT}/api/request_doc`, true);
       xhr.onload = () => {
-        // Record end time
-        const endTime = performance.now();
-        // const elapsedTime = endTime - startTime;
-        // console.log(`API request completed in ${elapsedTime} milliseconds`);
-
-        // Log final progress
-        if (xhr.lengthComputable) {
-          const percentage = (xhr.loaded / xhr.total) * 100;
-          console.log(`Final Upload Progress: ${percentage.toFixed(0)}%`);
-        }
 
         if (xhr.status === 200) {
           const result = JSON.parse(xhr.responseText);
           console.log("🚀 ~ file: Upload.js:67 ~ handleUpload ~ result:", result)
-
-          // if (result.status === "success") {
-          //   setData((prevData) => ({ ...prevData, alert: true, alert_text: result.message.finalcode_result, alert_type: "success"}));
-          //   //^delay 3 seconds
-          //   setTimeout(() => {
-          //     setData((prevData) => ({ ...prevData, loading: false,activeStep: prevData.activeStep + 1 }));
-          // }, 3000);
-          // } else {
-          //   setData((prevData) => ({ ...prevData, loading: false, alert: true, alert_text: result.message.finalcode_result, alert_type: "error" }));
-          // }
+          if (result.Status === "OK") {
+            // setData((prevData) => ({ ...prevData, alert: true, alert_text: result.message.finalcode_result, alert_type: "success"}));
+            //^delay 3 seconds
+              setState((prevData) => ({ ...prevData, loading: false}));
+              // router.push('/RequestLisU');
+          } else {
+            // setData((prevData) => ({ ...prevData, loading: false, alert: true, alert_text: result.message.finalcode_result, alert_type: "error" }));
+          }
         }
       };
 

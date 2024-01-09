@@ -1,63 +1,83 @@
 'use client'
-import React, { useState } from "react";
+import { Box, Tooltip } from '@mui/material';
+import React, { useState } from 'react'
 
-function App() {
-  const [file, setFile] = useState();
+function page() {
+  const [tooltipOpen, setTooltipOpen] = useState({});
+  console.log("🚀 ~ file: page.jsx:7 ~ page ~ tooltipOpen:", tooltipOpen)
+  const [tooltipContent, setTooltipContent] = useState({});
+  console.log("🚀 ~ file: page.jsx:9 ~ page ~ tooltipContent:", tooltipContent)
 
-  const fileReader = new FileReader();
-
-  const handleOnChange = (e) => {
-    setFile(e.target.files[0]);
+  const handleOpen = (index, sender) => {
+    setTooltipOpen({ ...tooltipOpen, [index]: true });
+    setTooltipContent({ ...tooltipContent, [index]: sender });
   };
 
-  const handleOnSubmit = (e) => {
-    e.preventDefault();
-
-    if (file) {
-      // Use URL.createObjectURL to create a URL for the selected file
-      const fileURL = URL.createObjectURL(file);
-      console.log("🚀 ~ file: page.jsx:19 ~ handleOnSubmit ~ fileURL:", file)
-
-      // console.log("File details:", {
-      //   name: file.name,
-      //   type: file.type,
-      //   size: file.size,
-      //   lastModified: file.lastModified,
-      //   url: fileURL,
-      // });
-
-      // Perform further actions as needed
-    }
+  const handleClose = (index) => {
+    setTooltipOpen({ ...tooltipOpen, [index]: false });
   };
-  const getBase64 = (e) => {
-    var filesss = e.target.files[0]
-    let reader = new FileReader()
-    reader.readAsDataURL(filesss)
-    reader.onload = () => {
-      console.log("Base64 result:", reader.result);
-    };
-    reader.onerror = function (error) {
-      console.log('Error: ', error);
-    }
-  }
+  const initialData = [
+    {
+      id: "sd4g58-4555-6641",
+      date: "2023-10-30T03:00:00",
+      file: "test.pdf",
+      sender: "Thanachai@tracthai.com1",
+      recipient: "Thanachai@tracthai.com",
+      status: "Pending",
+      action: "Approve",
+    },
+    {
+      id: "sd4g58-4555-356d",
+      date: "2023-10-29T17:00:38",
+      file: "another-test.pdf",
+      sender: "Thanachai@tracthai.com2",
+      recipient: "Thanachai@tracthai.com",
+      status: "Approved",
+      action: "Approve",
+    },
+    {
+      id: "sd4g58-4555-564d",
+      date: "2023-10-25T10:02:48",
+      file: "important-document.docx",
+      sender: "Thanachal@tracthai.com3",
+      recipient: "Thanachal@tracthai.com",
+      status: "Reject",
+      action: "Reject",
+    },
+    {
+      id: "ad4958-4545-4840",
+      date: "2023-10-25T10:02:48",
+      file: "invoice.pdf",
+      sender: "Thanachai@tracthai.com4",
+      recipient: "Thanachai@tracthai.com",
+      status: "Pending",
+      action: "Reject",
+    },
+    {
+      id: "sd4g58-4555-9660",
+      date: "2023-10-25T10:02:48",
+      file: "contract.pdf",
+      sender: "Thanachai@tracthai.com5",
+      recipient: "Thanachai@tracthai.com",
+      status: "Pending",
+      action: "Approve",
+    },
+  ];
   return (
-    <div style={{ textAlign: "center" }}>
-          <input type="file" className="input-file" name="imgUpload" accept='.png' onChange={getBase64} />
-
-      <h1>REACTJS CSV IMPORT EXAMPLE </h1>
-      <form>
-        <input type={"file"} id={"csvFileInput"} onChange={handleOnChange} />
-
-        <button
-          onClick={(e) => {
-            handleOnSubmit(e);
-          }}
+    <div>
+    {initialData.map((row, index) => (
+      <Box key={index}>
+        <Tooltip
+          open={tooltipOpen[index] || false}
+          title={tooltipContent[index] || ''}
+          onClose={() => handleClose(index)}
         >
-          IMPORT CSV
-        </button>
-      </form>
-    </div>
-  );
+          <button onClick={() => handleOpen(index, row.sender)}>Test</button>
+        </Tooltip>
+      </Box>
+    ))}
+  </div>
+  )
 }
 
-export default App;
+export default page

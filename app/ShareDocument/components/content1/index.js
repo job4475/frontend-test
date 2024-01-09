@@ -69,7 +69,7 @@ function index() {
                       <Chip variant="outlined" sx={{border:"none"}} label={
                         <Box sx={{ textAlign: "center", fontSize: "12px", display: "flex", alignItems: "center",justifyContent:"center" }}>
                         <Box sx={{ position: 'relative', display: 'inline-flex' }}>
-                          <Image alt="test" src={Circle}></Image>&nbsp;
+                          <Image alt="test" src={Circle} style={{maxWidth:"100px"}}></Image>&nbsp;
                           <Box sx={{ top: 0, left: -3, bottom: 0, right: 0, position: 'absolute', display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
                             <Typography style={{ textTransform: "uppercase", fontSize: "10px", color: "#48846B", fontWeight: 700 }} variant="caption" component="div" color="text.secondary">
                             {state.selectedFileName[index].split('.')[1].length > 5 ? state.selectedFileName[index].split('.')[1].slice(0, 2) + '..': state.selectedFileName[index].split('.')[1]}

@@ -1,67 +1,30 @@
 "use client";
 import * as React from 'react';
-import { Box, Button, Paper, Table, TableBody, TableCell, TableContainer, TableHead, TableRow, Tooltip } from '@mui/material'
+import { Box, Button, ClickAwayListener, Paper, Table, TableBody, TableCell, TableContainer, TableHead, TableRow, Tooltip } from '@mui/material'
 import { StateContext } from '@/context/Context';
-import AddIcon from '@mui/icons-material/Add';
-import another from '@/assets/assets/images/marco.png'
-import pdf from '@/assets/assets/images/pdficon.png'
-import jpg from '@/assets/assets/images/jpg.png'
-import png from '@/assets/assets/images/png.png'
-import text from '@/assets/assets/images/text.png'
-import ai from '@/assets/assets/images/ai.png'
-import code from '@/assets/assets/images/code.png'
-import doc from '@/assets/assets/images/doc.png'
-import iso from '@/assets/assets/images/iso.png'
-import js from '@/assets/assets/images/js.png'
-import mp3 from '@/assets/assets/images/mp3.png'
-import mp4 from '@/assets/assets/images/mp4.png'
-import ppt from '@/assets/assets/images/ppt.png'
-import ps from '@/assets/assets/images/ps.png'
-import sql from '@/assets/assets/images/sql.png'
-import svg from '@/assets/assets/images/svg.png'
-import ttf from '@/assets/assets/images/ttf.png'
-import xls from '@/assets/assets/images/xls.png'
-import zip from '@/assets/assets/images/zip.png'
+import file from '@/assets/assets/images/file.png'
+import recipient from '@/assets/assets/images/recipient.png'
+import dropdown from '@/assets/assets/images/dropdown.png'
 import Image from 'next/image';
 import HandleUserList from '@/handle/userlist'
 
 function index() {
   const {state, setState} = React.useContext(StateContext);
   const handleUserList = HandleUserList();
+  handleUserList.groupedOrders?.sort((a, b) => b[0].scdact_timestamp - a[0].scdact_timestamp);
+  const [tooltipOpen, setTooltipOpen] = React.useState({});
+  console.log("🚀 ~ file: page.jsx:7 ~ page ~ tooltipOpen:", tooltipOpen)
+  const [tooltipContent, setTooltipContent] = React.useState({});
+  console.log("🚀 ~ file: page.jsx:9 ~ page ~ tooltipContent:", tooltipContent)
 
-  const convertTimestampToLocalTime = (timestamp) => {
-
-    const utcDate = new Date(timestamp * 1000);
-    const localDate = new Intl.DateTimeFormat('th-TH', {
-      timeZone: 'Asia/Bangkok',
-      year: 'numeric',
-      month: 'numeric',
-      day: 'numeric',
-      hour: 'numeric',
-      minute: 'numeric',
-      second: 'numeric',
-      hour12: false,
-    }).formatToParts(utcDate);
-
-    const formattedDate = `${localDate[0].value}/${localDate[2].value}/${localDate[4].value}`;
-    const formattedTime = `${localDate[6].value}.${localDate[8].value}.${localDate[10].value}`;
-  
-    return `${formattedDate} ${formattedTime}`;
+  const handleOpen = (index, sender) => {
+    setTooltipOpen({ ...tooltipOpen, [index]: true });
+    setTooltipContent({ ...tooltipContent, [index]: sender });
   };
 
-  const groupedOrders = state.allorder?.reduce((acc, item) => {
-    const existingOrder = acc.find((group) => group[0]?.scdact_reqid === item.scdact_reqid);
-  
-    if (existingOrder) {
-      existingOrder.push(item);
-    } else {
-      acc.push([item]);
-    }
-  
-    return acc;
-  }, []);
-
-  groupedOrders?.sort((a, b) => b[0].created_at - a[0].created_at);
+  const handleClose = (index) => {
+    setTooltipOpen({ ...tooltipOpen, [index]: false });
+  };
   return (
     <Box sx={{display:'flex',justifyContent:'center',mt:3}}>
       <TableContainer id="tablelist" component={Paper} sx={{ width: '90%', maxHeight: '500px' }}>
@@ -78,81 +41,87 @@ function index() {
         </TableRow>
       </TableHead>
       <TableBody>
-        {groupedOrders.map((row,index)=>(
+        {handleUserList.groupedOrders?.map((row,index)=>(
         <TableRow key={`${index}`}>
           <TableCell align="center">{row[0].scdact_reqid}</TableCell>
-          <TableCell id="cellheader" align="center">{convertTimestampToLocalTime(row[0].scdact_timestamp)}</TableCell>
-          <TableCell id="cellheader" align="center" style={{ display: "flex", justifyContent: "center", alignItems: "center"}}>
-          {row.map((item, itemIndex) => {
-                    const filenameMatch = row[itemIndex].scdact_command.match(/-src:([^ ]+)/);
-                    const fullPath = filenameMatch[1]; 
-                    const filename = fullPath.split('/').pop();
-                    const fileExtension = filename.split('.').pop().toLowerCase();
-                    let src;
-                    if (fileExtension === 'pdf') {
-                      src = pdf; 
-                    } else if (fileExtension === 'jpg' || fileExtension === 'jpeg') {
-                      src = jpg; 
-                    } else if (fileExtension === 'txt') {
-                      src = text; 
-                    } else if (fileExtension === 'png') {
-                      src = png; 
-                    } else if (fileExtension === 'ai') {
-                      src = ai; 
-                    } else if (fileExtension === 'py'||fileExtension==='jsx'||fileExtension==='go') {
-                      src = code; 
-                    } else if (fileExtension === 'doc'||fileExtension==='docx') {
-                      src = doc; 
-                    } else if (fileExtension === 'iso') {
-                      src = iso; 
-                    } else if (fileExtension === 'mp3') {
-                      src = mp3; 
-                    } else if (fileExtension === 'mp4') {
-                      src = mp4; 
-                    } else if (fileExtension === 'pptx'||fileExtension==='ppt') {
-                      src = ppt; 
-                    } else if (fileExtension === 'psd') {
-                      src = ps; 
-                    } else if (fileExtension === 'sql') {
-                      src = sql; 
-                    } else if (fileExtension === 'svg') {
-                      src = svg; 
-                    } else if (fileExtension === 'ttf') {
-                      src = ttf; 
-                    } else if (fileExtension === 'xlsx'||fileExtension==='csv'||fileExtension==='xls') {
-                      src = xls; 
-                    } else if (fileExtension === 'zip'||fileExtension==='rar') {
-                      src = zip; 
-                    } else {
-                      src = another; 
-                    }
-                    return (
-                      <Tooltip key={`item-${itemIndex}`} title={row[0].scdact_status==="Approved"?"Already approved":row[0].scdact_status==="Rejected"?"Already rejected":`Filename: ${filename}`} placement="top">
-                      <Image
-                        key={`item-${itemIndex}`}
-                        style={{
-                          cursor: row[0].scdact_status!=="Approved"&&row[0].scdact_status!=="Rejected"?"pointer":"",
-                          width: "50px",
-                          transition: row[0].scdact_status!=="Approved"&&row[0].scdact_status!=="Rejected"?"transform 0.3s ease":"",
-                          justifyContent: "center",
-                          alignItems: "center",
-                        }}
-                        onClick={() =>
-                          row[0].scdact_status!=="Approved"&&row[0].scdact_status!=="Rejected"?handleUserList.handleClicktoGetFile(item.scdact_id):""
-                          }
-                        onMouseOver={(e) => { e.currentTarget.style.transform = row[0].scdact_status!=="Approved"&&row[0].scdact_status!=="Rejected"?"scale(1.2)":""; }}
-                        onMouseOut={(e) => { e.currentTarget.style.transform = row[0].scdact_status!=="Approved"&&row[0].scdact_status!=="Rejected"?"scale(1)":""; }}
-                        src={src} // Set the source based on the file extension
-                        id={item.scdact_id}
-                        alt="file"
-                      />
-                    </Tooltip>
-                    );
-                  })}  
+          <TableCell id="cellheader" align="center">{handleUserList.convertTimestampToLocalTime(row[0].scdact_timestamp)}</TableCell>
+          <TableCell id="bodycell" align="center">
+            <div style={{ display: 'flex', justifyContent: 'center', alignItems: 'center' }}>
+            <Box key={index}>
+              {console.log("test",row[index].scdact_filename)}
+              <handleUserList.CustomTooltipRecipient
+                open={tooltipOpen[index] || false}
+                title={
+                  <>
+                  <Box component="h5" sx={{color: row[0].scdact_status === "Approved" ? "green" : row[0].scdact_status === "Rejected" ? "red" : "",display: row[0].scdact_status === "Approved"||row[0].scdact_status === "Rejected" ?"flex":"none"}}>
+                    {row[0].scdact_status === "Approved"?"Already approved":"Already rejected"}
+                  </Box>
+                  <Box sx={{ display: row[0].scdact_status === "Approved"||row[0].scdact_status === "Rejected" ?"none":"flex", flexDirection: 'column', justifyContent: 'flex-start', alignItems: 'flex-start' }}>
+                    <Box component="h3" sx={{ ml: 1, color: 'gray.main' }}>All Files</Box>
+                    {row.map((item, itemIndex) => (
+                      <Button onClick={() => row[0].scdact_status !== 'Approved' && row[0].scdact_status !== 'Rejected' ? handleUserList.handleClicktoGetFile(item.scdact_id) : ''} key={`button-${itemIndex}`} style={{ display: 'flex', justifyContent: 'space-between', width: '100%' }}>
+                        <Box sx={{ pr: 1}}>{item.scdact_filename}</Box>
+                      </Button>
+                    ))}
+                  </Box>
+                  </>
+                }                
+                onClose={() => handleClose(index)}
+              >
+                <Box sx={{ display: 'flex', alignItems: 'center' }} onClick={() => handleOpen(index, row[index].scdact_filename)}>
+                  <Button sx={{ display: 'flex', backgroundColor: 'rgba(119, 130, 150, 0.13)', borderRadius: '10px', justifyContent: 'space-around', alignItems: 'center' }}>
+                    <Image src={file} alt="file" />
+                    <Box sx={{ color: 'gray.main' }}>{row.length}</Box>
+                  </Button>
+                  <Box sx={{ ml: 0.5, cursor: 'pointer' }}>
+                    <Image alt="dropdown" style={{ transform: state.viewfile ? 'rotate(180deg)' : 'rotate(0)' }} src={dropdown}></Image>
+                  </Box>
+                </Box>
+              </handleUserList.CustomTooltipRecipient>
+            </Box>
+            </div>
           </TableCell>
           <TableCell align="center">{row[0].scdact_sender}</TableCell>
-          <TableCell align="center">{row[0].scdact_reciepient}</TableCell>
-          <TableCell align="center">{row[0].scdact_status}</TableCell>
+          <TableCell id="bodycell" align="center">
+          <div style={{ display: 'flex', justifyContent: 'center', alignItems: 'center' }}>
+              <handleUserList.CustomTooltipRecipient
+                PopperProps={{
+                  disablePortal: true,
+                }}
+                onClose={handleUserList.handleTooltipCloseRecipient}
+                open={state.viewRecipient}
+                disableFocusListener
+                disableHoverListener
+                disableTouchListener
+                title={
+                  <Box sx={{display:"flex",flexDirection:"column",justifyContent:"flex-start",alignItems:"flex-start" }}>
+                   <Box component="h3" sx={{ml:1,color:"gray.main"}}>All Recipients</Box>
+                   {
+                     row.length > 0 && (
+                       <>
+                         <Button style={{ display: "flex", justifyContent: "space-between", width: "100%" }}>
+                           <Box sx={{ pr: 1 }}>{row[0].scdact_sender}</Box>
+                         </Button>
+                       </>
+                     )
+                   }
+                 </Box>
+                }
+              >
+               <Box sx={{display:"flex",alignItems:"center"}} onClick={handleUserList.handleTooltipOpenRecipient}>
+                <Button sx={{display:'flex' ,backgroundColor:"rgba(119, 130, 150, 0.13)", borderRadius: "10px",justifyContent:'space-around',alignItems:'center'}}>
+                  <Image src={recipient} alt="recipient"/>
+                  <Box sx={{color:"gray.main"}}>{row.length}</Box>
+                </Button>
+                <Box sx={{ml:0.5,cursor:"pointer"}}>
+                  <Image alt="dropdown" style={{ transform: state.viewRecipient ? "rotate(180deg)" : "rotate(0)" }} src={dropdown}></Image>
+                </Box>
+                <Box sx={{fontWeight:500}}>{row[0].scdact_reciepient.split(',')[0]}</Box>
+                </Box>
+                </handleUserList.CustomTooltipRecipient>
+            </div>
+          </TableCell>
+          <TableCell style={{fontWeight:600,color: row[0].scdact_status === "Approved" ? "green" : row[0].scdact_status === "Rejected" ? "red" : "", textAlign: "center"}} align="center">{row[0].scdact_status}</TableCell>
         </TableRow>
         ))}
       </TableBody>
