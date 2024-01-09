@@ -5,16 +5,38 @@ import AppBar from './components/appbar'
 import Title from './components/title'
 import TableList from './components/table'
 import BtNewReq from './components/button'
+import GetLeadOrder from '@/services/getleadorder'
+import { StateContext } from '@/context/Context';
 
-function page() {
+function Page() {
+  const {state, setState} = React.useContext(StateContext);
+
+  React.useEffect(() => {
+    const handleBeforeUnload = (event) => {
+      if (state.pageloader) {
+        const message = "Leaving this page may result in data loss. Are you sure?";
+        event.returnValue = message;
+        return message;
+      }
+    };
+
+    window.addEventListener("beforeunload", handleBeforeUnload);
+
+    return () => {
+      window.removeEventListener("beforeunload", handleBeforeUnload);
+    };
+
+  }, [state.pageloader]);
+
   return (
-    <Box>
-      <AppBar/>
-      <Title/>
-      <TableList/>
+    <Box style={{ filter: state.pageloader ? 'blur(4px)' : 'none', pointerEvents: state.pageloader ? 'none' : 'auto' }}>
+      <GetLeadOrder />
+      <AppBar />
+      <Title />
+      <TableList />
       {/* <BtNewReq/> */}
     </Box>
-  )
+  );
 }
 
-export default page
+export default Page;

@@ -45,7 +45,6 @@ function index() {
           <TableCell id="cellheader" align="center">ID</TableCell>
           <TableCell id="cellheader" align="center">Date/time</TableCell>
           <TableCell id="cellheader" align="center">File</TableCell>
-          <TableCell id="cellheader" align="center">Sender</TableCell>
           <TableCell id="cellheader" align="center">Recipient</TableCell>
           <TableCell id="cellheader" align="center">Status</TableCell>
         </TableRow>
@@ -65,11 +64,13 @@ function index() {
                   <Box component="h5" sx={{color: row[0].scdact_status === "Approved" ? "green" : row[0].scdact_status === "Rejected" ? "red" : "",display: row[0].scdact_status === "Approved"||row[0].scdact_status === "Rejected" ?"flex":"none"}}>
                     {row[0].scdact_status === "Approved"?"Already approved":"Already rejected"}
                   </Box>
-                  <Box sx={{ display: row[0].scdact_status === "Approved"||row[0].scdact_status === "Rejected" ?"none":"flex", flexDirection: 'column', justifyContent: 'flex-start', alignItems: 'flex-start' }}>
+                  <Box sx={{ p:1,display: row[0].scdact_status === "Approved"||row[0].scdact_status === "Rejected" ?"none":"flex", flexDirection: 'column', justifyContent: 'flex-start', alignItems: 'flex-start' }}>
                     <Box component="h3" sx={{ ml: 1, color: 'gray.main' }}>All Files</Box>
                     {row.map((item, itemIndex) => (
-                      <Button onClick={() => row[0].scdact_status !== 'Approved' && row[0].scdact_status !== 'Rejected' ? handleUserList.handleClicktoGetFile(item.scdact_id) : ''} key={`button-${itemIndex}`} style={{ display: 'flex', justifyContent: 'space-between', width: '100%' }}>
+                      <Button onClick={() => row[0].scdact_status !== 'Approved' && row[0].scdact_status !== 'Rejected' ? handleUserList.handleClicktoGetFile(item.scdact_id) : ''} key={`button-${itemIndex}`} style={{ textTransform: 'none',display: 'flex', justifyContent: 'space-between', width: '100%' }}>
                         <Box sx={{ pr: 1}}>{item.scdact_filename}</Box>
+                        <Box >{item.scdact_filesize}</Box>
+
                       </Button>
                     ))}
                   </Box>
@@ -90,14 +91,13 @@ function index() {
             </Box>
             </div>
           </TableCell>
-          <TableCell align="center">{row[0].scdact_sender}</TableCell>
           <TableCell id="bodycell" align="center">
           <div style={{ display: 'flex', justifyContent: 'center', alignItems: 'center' }}>
             <Box key={index}>
               <handleUserList.CustomTooltipRecipient
                 open={tooltipOpenRecipient[index] || false}
                 title={
-                  <Box sx={{ display: "flex", flexDirection: 'column', justifyContent: 'flex-start', alignItems: 'flex-start' }}>
+                  <Box sx={{ p:1,display: "flex", flexDirection: 'column', justifyContent: 'flex-start', alignItems: 'flex-start' }}>
                    <Box component="h3" sx={{ ml: 1, color: 'gray.main' }}>All Recipients</Box>
                    {Array.from(new Set(row.flatMap(item => item.scdact_reciepient.split(',')))).map((recipient, index) => (
                      <Button key={`button-${index}`} style={{ display: 'flex', justifyContent: 'left', width: '100%' }}>
@@ -123,7 +123,7 @@ function index() {
             </Box>
             </div>
           </TableCell>
-          <TableCell style={{fontWeight:600,color: row[0].scdact_status === "Approved" ? "green" : row[0].scdact_status === "Rejected" ? "red" : "", textAlign: "center"}} align="center">{row[0].scdact_status}</TableCell>
+          <TableCell style={{fontWeight:600,color: row[0].scdact_status === "Approved" ? "#00E700" : row[0].scdact_status === "Rejected" ? "#FF0000" : "#0062FF", textAlign: "center"}} align="center">{row[0].scdact_status}</TableCell>
         </TableRow>
         ))}
       </TableBody>

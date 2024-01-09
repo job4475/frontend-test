@@ -22,6 +22,15 @@ const theme = createTheme({
     btncolor: {
       main: "#84BAA1",
     },
+    pending: {
+      main: "#0062FF",
+    },
+    approve: {
+      main: "#00E700",
+    },
+    reject: {
+      main: "#FF0000",
+    },
   },
   typography: {
     fontFamily: [
