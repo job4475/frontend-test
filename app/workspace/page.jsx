@@ -1,4 +1,4 @@
-"use client"
+"use client";
 import React, { useEffect, useState } from "react";
 import Image from "next/image";
 import Logotrac from "@/assets/assets/images/logotrac.png";
@@ -7,7 +7,6 @@ import MyOpportunity from "@/assets/assets/images/workspace/MyOpportunity.png";
 import RemoteSupport from "@/assets/assets/images/workspace/RemoteSupport.png";
 import ShareDocument from "@/assets/assets/images/workspace/ShareDocument.png";
 import UnderReview from "@/assets/assets/images/workspace/UnderReview.png";
-import { Box } from "@mui/material";
 import { useRouter } from "next/navigation";
 import { useContext } from "react";
 import { StateContext } from "@/context/Context";
@@ -15,16 +14,49 @@ import { StateContext } from "@/context/Context";
 const page = () => {
   const { state, setState } = useContext(StateContext);
   const router = useRouter();
-  const Register = () => {
-    router.push('/ShareDocument');
-  }
+
+  const sharedocumentRouter = () => {
+    router.push("/sharedocument");
+  };
+  const remotesupportRouter = () => {
+    router.push("/remotesupport");
+  };
+  const myopportunityRouter = () => {
+    router.push("/myopportunity");
+  };
+  const carreserveRouter = () => {
+    router.push("/carreserve");
+  };
+  const underreviewRouter = () => {
+    router.push("/underreview");
+  };
+  const orgmbatFeature = state?.memberAuthorization?.orgmbat_feature;
+
+  const [sharedocument, setSharedocument] = useState(false);
+  const [remotesupport, setRemotesupport] = useState(false);
+  const [myopportunity, setMyopportunity] = useState(false);
+  const [carreserve, setCarreserve] = useState(false);
+  const [underreview, setUnderreview] = useState(false);
+
+  useEffect(() => {
+    if (orgmbatFeature) {
+      setSharedocument(orgmbatFeature.includes("#sharedocument"));
+      setRemotesupport(orgmbatFeature.includes("#remotesupport"));
+      setMyopportunity(orgmbatFeature.includes("#myopportunity"));
+      setCarreserve(orgmbatFeature.includes("#carreserve"));
+      setUnderreview(orgmbatFeature.includes("#underreview"));
+    }
+  }, [orgmbatFeature]);
+
   return (
     <>
       <div className="max-w-screen-xl p-2 lg:p-0 container mx-auto my-2 lg:my-12 flex flex-col lg:flex-row justify-start lg:justify-between items-start lg:items-center">
         <div className="m-2 flex flex-col lg:flex-row">
           <div className="mr-3">
             <Image
-              src={"https://www.tracthai.com/_next/static/media/logonew.10e8c496.png"}
+              src={
+                "https://www.tracthai.com/_next/static/media/logonew.10e8c496.png"
+              }
               alt={state.CompanyLogoOriginal}
               width={100}
               height={100}
@@ -33,7 +65,7 @@ const page = () => {
           <div className="m-2">
             <div className="flex flex-col lg:flex-row justify-start lg:justify-between items-start lg:items-center">
               <span className="text-lg font-semibold mr-1">
-                {state.FirstnameOriginal}   {state.SurnameTokenOriginal}
+                {state.FirstnameOriginal} {state.SurnameTokenOriginal}
               </span>
               <svg
                 xmlns="http://www.w3.org/2000/svg"
@@ -72,69 +104,106 @@ const page = () => {
       <div className="max-w-screen-xl p-2 container mx-auto my-2 lg:my-12">
         <h3 className="my-2 lg:my-5">My work space</h3>
         <div className="flex flex-col lg:flex-row">
-          <Box onClick={Register} sx={{cursor: "pointer",transition: "background-color 0.3s ease","&:hover": {backgroundColor: "#your-hover-color",},}}   className="font-semibold mr-0 lg:mr-4 my-2 text-center flex flex-col align-center items-center w-[180px] h-[178px] px-[30px] py-[20px] border border-[#C2CCE1] rounded-lg">
-            <Image
-              src={ShareDocument}
-              alt="logo"
-              style={{ width: "70px", height: "75px" }}
-            />
-            <div className="my-3">
-              Share
-              <br />
-              Document
-            </div>
-          </Box>
-
-          <div className="font-semibold mr-0 lg:mr-4 my-2 text-center flex flex-col align-center items-center w-[180px] h-[178px] px-[30px] py-[20px] border border-[#C2CCE1] rounded-lg">
-            <Image
-              src={RemoteSupport}
-              alt="logo"
-              style={{ width: "70px", height: "75px" }}
-            />
-            <div className="my-3">
-              Remote
-              <br />
-              Support
-            </div>
+          <div>
+            {sharedocument ? (
+              <div
+                onClick={sharedocumentRouter}
+                className="font-semibold mr-0 lg:mr-4 my-2 text-center flex flex-col items-center justify-center w-48 h-48 px-6 py-4 border border-gray-300 rounded-lg cursor-pointer transition-colors duration-300 hover:bg-gray-200"
+              >
+                <Image
+                  src={ShareDocument}
+                  alt="logo"
+                  style={{ width: "70px", height: "75px" }}
+                />
+                <div className="my-3">
+                  Under
+                  <br />
+                  Review
+                </div>
+              </div>
+            ) : null}
           </div>
 
-          <div className="font-semibold mr-0 lg:mr-4 my-2 text-center flex flex-col align-center items-center w-[180px] h-[178px] px-[30px] py-[20px] border border-[#C2CCE1] rounded-lg">
-            <Image
-              src={MyOpportunity}
-              alt="logo"
-              style={{ width: "70px", height: "75px" }}
-            />
-            <div className="my-3">
-              My
-              <br />
-              Opportunity
-            </div>
+
+          <div>
+            {remotesupport ? (
+              <div
+                onClick={remotesupportRouter}
+                className="font-semibold mr-0 lg:mr-4 my-2 text-center flex flex-col items-center justify-center w-48 h-48 px-6 py-4 border border-gray-300 rounded-lg cursor-pointer transition-colors duration-300 hover:bg-gray-200"
+              >
+                <Image
+                  src={RemoteSupport}
+                  alt="logo"
+                  style={{ width: "70px", height: "75px" }}
+                />
+                <div className="my-3">
+                  Under
+                  <br />
+                  Review
+                </div>
+              </div>
+            ) : null}
           </div>
 
-          <div className="font-semibold mr-0 lg:mr-4 my-2 text-center flex flex-col align-center items-center w-[180px] h-[178px] px-[30px] py-[20px] border border-[#C2CCE1] rounded-lg">
-            <Image
-              src={CarReserve}
-              alt="logo"
-              style={{ width: "70px", height: "75px" }}
-            />
-            <div className="my-3">
-              Car
-              <br />
-              Reserve
-            </div>
+
+          <div>
+            {myopportunity ? (
+              <div
+                onClick={myopportunityRouter}
+                className="font-semibold mr-0 lg:mr-4 my-2 text-center flex flex-col items-center justify-center w-48 h-48 px-6 py-4 border border-gray-300 rounded-lg cursor-pointer transition-colors duration-300 hover:bg-gray-200"
+              >
+                <Image
+                  src={MyOpportunity}
+                  alt="logo"
+                  style={{ width: "70px", height: "75px" }}
+                />
+                <div className="my-3">
+                  Under
+                  <br />
+                  Review
+                </div>
+              </div>
+            ) : null}
           </div>
 
-          <div className="font-semibold mr-0 lg:mr-4 my-2 text-center flex flex-col align-center items-center w-[180px] h-[178px] px-[30px] py-[20px] border border-[#C2CCE1] rounded-lg">
-            <Image
-              src={UnderReview}
-              alt="logo"
-              style={{ width: "70px", height: "75px" }}
-            />
-            <div className="my-3">
-              Under
-              <br />
-              Review
-            </div>
+          <div>
+            {carreserve ? (
+              <div
+                onClick={carreserveRouter}
+                className="font-semibold mr-0 lg:mr-4 my-2 text-center flex flex-col items-center justify-center w-48 h-48 px-6 py-4 border border-gray-300 rounded-lg cursor-pointer transition-colors duration-300 hover:bg-gray-200"
+              >
+                <Image
+                  src={CarReserve}
+                  alt="logo"
+                  style={{ width: "70px", height: "75px" }}
+                />
+                <div className="my-3">
+                  Under
+                  <br />
+                  Review
+                </div>
+              </div>
+            ) : null}
+          </div>
+
+          <div>
+            {underreview ? (
+              <div
+                onClick={underreviewRouter}
+                className="font-semibold mr-0 lg:mr-4 my-2 text-center flex flex-col items-center justify-center w-48 h-48 px-6 py-4 border border-gray-300 rounded-lg cursor-pointer transition-colors duration-300 hover:bg-gray-200"
+              >
+                <Image
+                  src={UnderReview}
+                  alt="logo"
+                  style={{ width: "70px", height: "75px" }}
+                />
+                <div className="my-3">
+                  Under
+                  <br />
+                  Review
+                </div>
+              </div>
+            ) : null}
           </div>
         </div>
       </div>

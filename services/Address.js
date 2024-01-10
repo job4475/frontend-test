@@ -8,7 +8,6 @@ function Address() {
         .then(response => response.json())
         .then(data => {
           const provincesData = Array.from(new Set(data.provinceAmphoeTambonZipcode.map(item => item.ProvinceEng))).sort();
-          console.log("🚀 ~ useEffect ~ provincesData:", provincesData)
           setState(prev => ({ ...prev, data, provinces: provincesData }));
         })
         .catch(error => console.error('Error fetching data: ', error));

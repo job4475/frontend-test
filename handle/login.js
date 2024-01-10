@@ -52,14 +52,19 @@ function login() {
         body: JSON.stringify(otpData),
         redirect: 'follow'
       };
-  fetch(`${process.env.NEXT_PUBLIC_API_ENDPOINT_GET}:${process.env.NEXT_PUBLIC_API_PORT_LOGIN}/api/sendOTPEmail`, otpRequestOptions)
-    .then(response => response.text())
-    .then(result => {
-      console.log(result);
-      router.push('/OTPverify'); 
-    })
-    .catch(error => console.log('error', error));
-};
+      fetch(`${process.env.NEXT_PUBLIC_API_ENDPOINT_GET}:${process.env.NEXT_PUBLIC_API_PORT_LOGIN}/api/sendOTPEmail`, otpRequestOptions)
+      .then(response => response.json())  
+      .then(result => {
+        console.log(result);
+        if (result.status === "OK") {
+          setState({ ...state, referenceID: result.referenceID });
+          router.push('/OTPverify');
+        } else {
+          console.log("Status is not OK:", result.status);
+        }
+      })
+      .catch(error => console.error('Error:', error));
+    }
 
   const handleSignUpClick = () => {
     var myHeaders = new Headers();
@@ -95,23 +100,43 @@ function login() {
       });
         router.push('/Selectcompany');
       } else {
-        console.log("Status is not OK:", result.status);
-      }
-    })
-    .catch(error => console.log('error', error));
-};
-  const ForgotPassword = () => {
-    router.push('/ForgotPassword')
-  }
-  const Email= (e) => {
-    setState({...state,email: e.target.value,});
-  };
-  const Password = (e) => {
-    setState({...state,Password: e.target.value,});
-  };
+        var formdata = new FormData();
+        formdata.append("to", state.email);
+        formdata.append("subject", "Registration");
+        formdata.append("fromEmail", "worapon@tracthai.com");
+        formdata.append("body", "Please click the link provided below to proceed.");
+        formdata.append("body1", "MODULE: chiCRM");
+        formdata.append("body2", "ADMIN: TRAC-THAI");
+        formdata.append("bodylink", "http://localhost:3000/CreateCompany");
+        formdata.append("linkname", "Registration Link");
+        
+        var requestOptions = {
+          method: 'POST',
+          body: formdata,
+          redirect: 'follow'
+        };
 
-  return {handleTogglePassword,handleSignInClick,handleSignUpClick,ForgotPassword,Email,Password}
-}
+        fetch("http://192.168.3.113:8888/api/mailChicCRM", requestOptions)
+          .then(response => response.text())
+          .then(result => console.log(result))
+          .catch(error => console.log('error', error));
+                console.log("Status is not OK:", result.status);
+              }
+            })
+            .catch(error => console.log('error', error));
+        };
+          const ForgotPassword = () => {
+            router.push('/ForgotPassword')
+          }
+          const Email= (e) => {
+            setState({...state,email: e.target.value,});
+          };
+          const Password = (e) => {
+            setState({...state,Password: e.target.value,});
+          };
 
-export default login
+          return {handleTogglePassword,handleSignInClick,handleSignUpClick,ForgotPassword,Email,Password}
+        }
+
+        export default login
 

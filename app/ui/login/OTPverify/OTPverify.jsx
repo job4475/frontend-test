@@ -19,8 +19,12 @@ function OTPverify() {
     <Box>
     <Box>Code</Box>
     <VerificationCodeInput onChange={HandleOTP.handleCodeChange} />
-    <Box sx={{display:'flex',justifyContent:'center'}}>
-    <Button variant="text" sx={{textTransform:'capitalize'}}>Resend Code</Button>
+    <Box sx={{mt:'10px',display:'flex',gap:'10px'}}>
+      <p style={{fontSize:'14px'}}>Reference No :</p>
+      <p style={{fontSize:'14px',fontWeight:'600'}}>{state.referenceID}</p>
+    </Box>
+    <Box sx={{display:'flex',justifyContent:'center',mt:'px'}}>
+    <Button style={{fontSize:'14px', fontWeight:'600',color:'#4D94FB',textTransform:'capitalize',transition:'color 0.3s'}} hoverStyle={{color:'red'}}>Resend Code</Button>
     </Box>
     </Box>
     <Box sx={{display:'flex',justifyContent:'center'}}>

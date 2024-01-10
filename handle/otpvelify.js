@@ -17,8 +17,8 @@ function otpvelify() {
         myHeaders.append("Content-Type", "application/json");
         var seen = new WeakSet();
         var raw = JSON.stringify({
-            "email": state.email,
-            "otp": state.input_OTP
+            "otp": state.input_OTP,
+            "referenceID": state.referenceID,
         }, (key, value) => {
             if (typeof value === 'object' && value !== null) {
                 if (seen.has(value)) {

@@ -29,11 +29,12 @@ const page = () => {
         <div className="flex lg:flex-row flex-col items-center content-center">
           <Box onClick={Register} sx={{cursor: "pointer",transition: "background-color 0.3s ease","&:hover": {backgroundColor: "#your-hover-color",},}}   className="basis-2/6 rounded border border-[#C2CCE1] w-[300px] h-[310px] mr-3 mt-2 lg:mt-4 flex flex-col justify-between items-center content-center p-[30px] text-center" >
             <div>
-              <Image
-                src={Logotrac}
-                alt="logo"
-                style={{ width: "90px", height: "90px" }}
-              />
+            <Image
+              src={state.decode_token.CompanyLogoOriginal}
+              alt={123}
+              width={100}
+              height={100}
+            />
             </div>
             <div>
               <h4>{state.decode_token.CompanynameOrginal}</h4>

@@ -6,7 +6,7 @@ import React, { useContext } from 'react'
 function register() {
   const {state, setState} = useContext(StateContext);
   const router = useRouter();
-  const Login = () => {
+  const handleRegister = () => {
     var myHeaders = new Headers();
 myHeaders.append("Content-Type", "application/json");
 
@@ -17,9 +17,9 @@ var raw = JSON.stringify({
   "Surname_en": state.last_name,
   "mobile_phone": state.phone_number,
   "country": state.country,
-  "province": state.province, 
-  "district": state.district,
-  "sub_district": state.subdistric,
+  "province": state.selectedProvince, 
+  "district": state.selectedAmphoe,
+  "sub_district": state.selectedTambon,
   "zipcode": state.zipcode,
   "create_location": state.googlemaps,
   "url_logo": "https://iconscout.com/free-icon/logo-3446031",
@@ -41,17 +41,35 @@ var requestOptions = {
 };
 
 fetch(`${process.env.NEXT_PUBLIC_API_ENDPOINT_GET}:${process.env.NEXT_PUBLIC_API_PORT_LOGIN}/api/registerChicCRM`, requestOptions)
-  .then(response => response.text())
-  .then(result => {
-    console.log(result);
-    if (result.status === "OK") {
-      router.push('/Login');
-    } else {
-      console.log("Status is not OK:", result.status);
-    }
-  })
-  .catch(error => console.log('error', error));
-  }
+    .then(response => response.json())
+    .then(result => {
+      console.log(result);
+      if (result.status === "OK") {
+        setState((prevData) => ({ ...prevData, companyID: result.companyID }));
+          var formdata = new FormData();
+          formdata.append("file",  state.selectedFile);
+          formdata.append("organizeID", result.companyID);
+
+          var uploadRequestOptions = {
+            method: 'PATCH',
+            body: formdata,
+            redirect: 'follow'
+          };
+
+          fetch(`${process.env.NEXT_PUBLIC_API_ENDPOINT_GET}:${process.env.NEXT_PUBLIC_API_PORT_LOGIN}/api/uploadLogoBinary`, uploadRequestOptions)
+            .then(response => response.json())
+            .then(uploadResult => {
+              console.log(uploadResult);
+              router.push('/Login');
+            })
+            .catch(uploadError => console.log('Upload error', uploadError));
+        
+      } else {
+        console.log("Status is not OK:", result.status);
+      }
+    })
+    .catch(error => console.log('error', error));
+};
   const Selectcompany = () => {
     router.push('/Selectcompany');
   }
@@ -61,25 +79,8 @@ fetch(`${process.env.NEXT_PUBLIC_API_ENDPOINT_GET}:${process.env.NEXT_PUBLIC_API
   const  handlechangeinput =(e, fieldName)=>{
     setState((prevData) => ({ ...prevData, [fieldName]: e.target.value }));
 }
-const handleRegister = async () => {
-  const formData = new FormData();
-  formData.append('file', state.selectedFile);
-  formData.append('organizeID', '8855878b-99d3-4d43-ba0f-285e2dd15232');
-  const requestOptions = {
-    method: 'PATCH',
-    body: formData,
-    redirect: 'follow',
-  };
-  try {
-    const response = await fetch(`${process.env.NEXT_PUBLIC_API_ENDPOINT_GET}:${process.env.NEXT_PUBLIC_API_PORT_LOGIN}/api/uploadLogoBinary`, requestOptions);
-    const result = await response.text();
-    console.log(result);
-    Handlecompany.Register();
-  } catch (error) {
-    console.log('Error:', error);
-  }
-};
-  return {handlechangeTitle, handlechangeinput,Login,Selectcompany,handleRegister};
+
+  return {handlechangeTitle,handlechangeinput,Selectcompany,handleRegister};
 }
 export default register
 
