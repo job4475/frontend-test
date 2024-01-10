@@ -79,7 +79,7 @@ const handleRegister = async () => {
     console.log('Error:', error);
   }
 };
-  return {handlechangeTitle, handlechangeinput,Login,Selectcompany};
+  return {handlechangeTitle, handlechangeinput,Login,Selectcompany,handleRegister};
 }
 export default register
 

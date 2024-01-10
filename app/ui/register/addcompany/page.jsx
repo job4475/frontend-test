@@ -82,36 +82,37 @@ const handleFileChange = (event) => {
       <Box sx={{ display: 'flex', flexDirection: 'column', gap:2 }}>
         <Box sx={{ display: 'flex', alignItems: 'center' }}>
           <Box sx={{ pt: 1.5, width: '150px',color:'#1F2939',fontWeight:'500' }}>Province</Box>
-          <Select
-          id="province-select"
-          variant="standard"
-          value={state.province}
-          onChange={handleProvinceChange}
-          sx={{ width: "250px" }}
-        >
-          {state.locationData.provinces && state.locationData.provinces.length > 0 ? (
-            state.locationData.provinces.map(province => (
-              <MenuItem key={province.id} value={province.ProvinceThai}>
-                {province.provinceAmphoeTambonZipcode.ProvinceThai}
-              </MenuItem>
-            ))
-          ) : (
-            <MenuItem value="">No provinces available</MenuItem>
-          )}
-        </Select>
-
+          <Select labelId="province-select"variant="standard" id="province-select" value={state.selectedProvince} label="Province" onChange={Handlecompany.handleProvinceChange}
+            sx={{width:"250px"}} size='small'>
+              {state.provinces && state.provinces.map((province, index) => (
+                <MenuItem key={index} value={province}>
+                  {province}
+                </MenuItem>))}
+            </Select>
         </Box>
         <Box sx={{ display: 'flex', alignItems: 'center' }}>
           <Box sx={{ pt: 1.5, width: '150px',color:'#1F2939',fontWeight:'500' }}>District</Box>
-          <Select id="standard-basic" variant="standard"value={state.district} onChange={Handlecompany.District} sx={{width:"250px"}}/>
-        </Box>
+          <Select labelId="amphoe-select-label" variant="standard" id="amphoe-select" value={state.selectedAmphoe} label="Amphoe" onChange={Handlecompany.handleAmphoeChange}
+          sx={{width:"250px"}} size='small'>
+           {state.selectedProvince &&  state.amphures.map((amphoe, index) => (
+              <MenuItem key={index} value={amphoe}>
+                {amphoe}
+              </MenuItem>
+            ))}
+          </Select></Box>
         <Box sx={{ display: 'flex', alignItems: 'center' }}>
           <Box sx={{ pt: 1.5, width: '150px',color:'#1F2939',fontWeight:'500' }}>Sub-Distric</Box>
-          <Select id="standard-basic" variant="standard" value={state.subdistric} onChange={Handlecompany.SubDistric}   sx={{width:"250px"}}/>
-        </Box>
+          <Select labelId="tambon-select-label" variant="standard" id="tambon-select"value={state.selectedTambon} label="Tambon"
+                onChange={Handlecompany.handleTambonChange} sx={{width:"250px"}} size='small'>
+                {state.selectedAmphoe && state.tambons.map((tambon, index) => (
+                  <MenuItem key={index} value={tambon}>
+                    {tambon}
+                  </MenuItem>
+                ))}
+              </Select></Box>
         <Box sx={{ display: 'flex', alignItems: 'center' }}>
           <Box sx={{ pt: 1.5, width: '150px',color:'#1F2939',fontWeight:'500' }}>ZIP Code</Box>
-          <TextField id="standard-basic" variant="standard" value={state.ZIPCode} onChange={Handlecompany.ZIPCode}  sx={{width:"250px"}}/>
+          <TextField fullWidth   variant="standard"   size='small'   value={state.zipcode}  InputProps={{ readOnly: true, }} sx={{width:"250px"}} focused />
         </Box>
         <Box sx={{ display: 'flex', alignItems: 'center' }}>
           <Box sx={{ pt: 1.5, width: '150px',color:'#1F2939',fontWeight:'500' }}>Google Maps</Box>

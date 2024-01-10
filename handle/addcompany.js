@@ -27,15 +27,41 @@ function addcompany() {
   const Country = (e) => {
     setState({...state,country: e.target.value,});
   };
-  const Province = (e) => {
-    setState({...state,province: e.target.value,});
+  const handleProvinceChange = (event) => {
+    const selectedProvince = event.target.value;
+    setState(prev => ({ ...prev, selectedProvince }));
+    const amphoesData = state.data.provinceAmphoeTambonZipcode
+      .filter(item => item.ProvinceEng === selectedProvince)
+      .map(item => item.DistrictEng);
+    setState(prev => ({
+      ...prev,
+      amphures: Array.from(new Set(amphoesData)).sort(),
+      selectedAmphoe: '',
+      selectedTambon: '',
+      zipcode: ''
+    }));
   };
-  const District = (e) => {
-    setState({...state,district: e.target.value,});
+  const handleAmphoeChange = (event) => {
+    const selectedAmphoe = event.target.value;
+    setState(prev => ({ ...prev, selectedAmphoe }));
+    const tambonsData = state.data.provinceAmphoeTambonZipcode
+      .filter(item => item.DistrictEng === selectedAmphoe)
+      .map(item => item.TambonEng);
+    setState(prev => ({
+      ...prev,
+      tambons: Array.from(new Set(tambonsData)).sort(),
+      selectedTambon: '',
+      zipcode: ''
+    }));
   };
-  const SubDistric = (e) => {
-    setState({...state,subdistric: e.target.value,});
-  };
+  const handleTambonChange = (event) => {
+    const selectedTambon = event.target.value;
+    setState(prev => ({ ...prev, selectedTambon }));
+    const tambonData = state.data.provinceAmphoeTambonZipcode.find(item => item.TambonEng === selectedTambon);
+    if (tambonData) {
+      setState(prev => ({ ...prev, zipcode: tambonData.PostCodeMain }));
+    }
+  }
   const ZIPCode = (e) => {
     setState({...state,zipcode: e.target.value,});
   };
@@ -44,7 +70,7 @@ function addcompany() {
   };
 
 
-  return {Selectcompany,Register,Alias,Companyname,No,Street,Country,Province,District,SubDistric,ZIPCode,GoogleMaps}
+  return {Selectcompany,Register,Alias,Companyname,No,Street,Country,handleProvinceChange,handleAmphoeChange,handleTambonChange,ZIPCode,GoogleMaps}
 }
 
 export default addcompany

@@ -60,7 +60,7 @@ function Page() {
           style={{ width: '300px', height: '40px' }}
           size="small"
           value={data.districts || '- Select District -'}
-          onChange={(event) => setData({ ...data, districts: event.target.value })}  // เปลี่ยนจาก amphures เป็น districts
+          onChange={(event) => setData({ ...data, districts: event.target.value })}
           disabled={!data.provinces}
           focused
           color="primary"
@@ -72,9 +72,7 @@ function Page() {
             </MenuItem>
           ))}
         </Select>
-      </FormControl>
-
-      {/* ตำบล และ Zipcode สามารถเพิ่มเข้าไปตามต้องการ */}
+      </FormControl> 
     </div>
   );
 }
