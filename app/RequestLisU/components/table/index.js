@@ -13,7 +13,9 @@ function index() {
   const handleUserList = HandleUserList();
   handleUserList.groupedOrders?.sort((a, b) => b[0].scdact_timestamp - a[0].scdact_timestamp);
   const [tooltipOpen, setTooltipOpen] = React.useState({});
+  console.log("🚀 ~ index ~ tooltipOpen:", tooltipOpen)
   const [tooltipContent, setTooltipContent] = React.useState({});
+  console.log("🚀 ~ index ~ tooltipContent:", tooltipContent)
 
   const handleOpen = (index, sender) => {
     setTooltipOpen({ ...tooltipOpen, [index]: true });
@@ -78,7 +80,7 @@ function index() {
                 }
                 onClose={() => handleClose(index)}
               >
-                <Box sx={{ display: 'flex', alignItems: 'center' }} onClick={() => handleOpen(index, row[index].scdact_filename)}>
+                <Box sx={{ display: 'flex', alignItems: 'center' }} onClick={() => handleOpen(index)}>
                   <Button sx={{ display: 'flex', backgroundColor: 'rgba(119, 130, 150, 0.13)', borderRadius: '10px', justifyContent: 'space-around', alignItems: 'center' }}>
                     <Image src={file} alt="file" />
                     <Box sx={{ color: 'gray.main' }}>{row.length}</Box>
@@ -109,7 +111,7 @@ function index() {
                 }                
                 onClose={() => handleCloseRecipient(index)}
               >
-                <Box sx={{ display: 'flex', alignItems: 'center' }} onClick={() => handleOpenRecipient(index, row[index].scdact_filename)}>
+                <Box sx={{ display: 'flex', alignItems: 'center' }} onClick={() => handleOpenRecipient(index)}>
                   <Button sx={{ display: 'flex', backgroundColor: 'rgba(119, 130, 150, 0.13)', borderRadius: '10px', justifyContent: 'space-around', alignItems: 'center' }}>
                     <Image src={recipient} alt="recipient" />
                     <Box sx={{ color: 'gray.main', mt: 1 }}>{`${Array.from(new Set(row.flatMap(item => item.scdact_reciepient.split(',')))).length}`}</Box>
