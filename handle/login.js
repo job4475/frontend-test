@@ -8,11 +8,12 @@ function login() {
     const {state, setState} = useContext(StateContext);
 
     const fetchLogoImage = () => {
-      fetch(`${process.env.NEXT_PUBLIC_API_ENDPOINT_GET}:${process.env.NEXT_PUBLIC_API_PORT_LOGIN}/api/getLogoBinary/${state.datacompany.CompanyID}`)
+      fetch(`${process.env.NEXT_PUBLIC_API_ENDPOINT_GET}:${process.env.NEXT_PUBLIC_API_PORT_LOGIN}/api/getLogoBinary/${state.companyID}`)
           .then(response => response.blob())
           .then(blob => {
               const imageUrl = URL.createObjectURL(blob);
               setState((prevData) => ({ ...prevData, logoImage: imageUrl }));
+              router.push('/Selectcompany');
           })
           .catch(error => console.error("Error fetching binary data:", error));
   };
@@ -43,6 +44,7 @@ function login() {
             const decodedToken = JSON.parse(atob(result.token.split('.')[1]));
             localStorage.setItem("decode_token", JSON.stringify(decodedToken));
             sendOTPEmail();
+            
           } else {
             console.log(result.message);
           }
@@ -95,22 +97,22 @@ function login() {
     .then(result => {
       console.log(result);
       if (result.match === true) {
-        fetchLogoImage();
         setState({
           ...state,
           datacompany: result.data,
+          companyID: result.data.CompanyID,
           companyname: result.data.Companyname,
           alias: result.data.CompanyAlias,
           no: result.data.AddressNo,
           street: result.data.Address1En,
           googlemaps: result.data.Geolocation,
-          province: result.data.Province,
-          district: result.data.District,
-          subdistric: result.data.SubDistrict,
+          selectedProvince: result.data.Province,
+          selectedAmphoe: result.data.District,
+          selectedTambon: result.data.SubDistrict,
           zipcode: result.data.Zipcode,
           country: result.data.Country
       });
-        router.push('/Selectcompany');
+      fetchLogoImage();
       } else {
         var formdata = new FormData();
         formdata.append("to", state.email);
