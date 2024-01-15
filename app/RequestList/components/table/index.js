@@ -208,7 +208,7 @@ function index() {
                 <Box sx={{ display: 'flex', alignItems: 'center' }} onClick={() => handleOpenRecipient(index)}>
                   <Button sx={{ display: 'flex', backgroundColor: 'rgba(119, 130, 150, 0.13)', borderRadius: '10px', justifyContent: 'space-around', alignItems: 'center' }}>
                       <Image src={recipient} alt="recipient" />
-                      <Box sx={{ color: 'gray.main' }}>{row.length}</Box>
+                      <Box sx={{ color: 'gray.main' }}>{row[0]?.scdact_reciepient?.split(',').length || 0}</Box>
                   </Button>
                   <Box sx={{ml: 0.5, cursor: 'pointer' }}>
                     <Image alt="dropdown" style={{ width:"15px",height:"auto",transform: tooltipOpenRecipient[0] ? 'rotate(180deg)' : 'rotate(0)' }} src={dropdown}></Image>

@@ -181,7 +181,7 @@ function leadlist() {
               })
               .catch(error => console.log('error', error));
           } else {
-            setData((prevData) => ({ ...prevData, loading: false, alert: true, alert_text: logResult.message.Finalcode_result, alert_type: "error" }));
+            setState((prevData) => ({ ...prevData, loading: false, alert: true, alert_text: logResult.message.Finalcode_result, alert_type: "error" }));
             setTimeout(() => {
               window.location.reload();
             }, 3000);

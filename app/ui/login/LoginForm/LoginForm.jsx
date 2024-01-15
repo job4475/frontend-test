@@ -5,6 +5,7 @@ import VisibilityIcon from '@mui/icons-material/Visibility';
 import VisibilityOffIcon from '@mui/icons-material/VisibilityOff';
 import { StateContext } from '@/context/Context';
 import handlelogin from "@/handle/login"
+import Loading from '@/components/loading'
 
 function Index() {
   const {state, setState} = useContext(StateContext);
@@ -46,9 +47,8 @@ function Index() {
           )}
         </Box>
         <Box sx={{display:'flex',justifyContent:'center'}}>
-        <Button variant="contained" onClick={state.info === 0 ? HandleLogin.handleSignInClick : HandleLogin.handleSignUpClick}style={{ background: '#84BAA1', width: '90%', textTransform: 'capitalize', marginTop: 10,boxShadow:'0px 0px 0px'
- }}>
-         {state.info === 0 ? 'Sign In' : 'Next'}
+        <Button variant="contained" onClick={state.info === 0 ? HandleLogin.handleSignInClick : HandleLogin.handleSignUpClick}style={{ background: '#84BAA1', width: '90%', textTransform: 'capitalize', marginTop: 10,boxShadow:'0px 0px 0px'}}>
+         {state.loading?<Loading/>:state.info === 0 ? 'Sign In' : 'Next'}
         </Button>
         </Box>
       </Box>

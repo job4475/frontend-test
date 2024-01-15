@@ -6,17 +6,19 @@ function token() {
     const {state, setState} = useContext(StateContext);
 
     useEffect(() => {
+      if (state.decode_token && state.decode_token.TeamleadID) {
         var requestOptions = {
             method: 'GET',
             redirect: 'follow'
           };
-          fetch(`${process.env.NEXT_PUBLIC_API_ENDPOINT}:${process.env.NEXT_PUBLIC_API_PORT_TEST}/api/getlogSecuredocActivityByTeamlead/bb69dcbe-4139-41ce-b549-1a4d4a8757fd`, requestOptions)
+          fetch(`${process.env.NEXT_PUBLIC_API_ENDPOINT_LOGIN}:${process.env.NEXT_PUBLIC_API_PORT_TEST}/api/getlogSecuredocActivityByTeamlead/${state.decode_token.TeamleadID}`, requestOptions)
             .then(response => response.json())
             .then(result => {
                 setState({...state,allleadorder: result.logSecuredogActivityTeamlead});
             })
             .catch(error => console.log('error', error));
-      }, []);
+          }
+      }, [state.decode_token]);
   return null
 }
 

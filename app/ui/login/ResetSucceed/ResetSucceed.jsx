@@ -1,11 +1,14 @@
 'use client'
 
 import { Box, Button, TextField } from '@mui/material';
-import React, { useState } from 'react';
+import React, { useContext, useState } from 'react';
 import done from '@/assets/assets/images/done.png'
 import Image from 'next/image';
+import { StateContext } from '@/context/Context';
 
 function Index() {
+  const { state, setState } = useContext(StateContext);
+
   const [info, setInfo] = React.useState(0);
   const [showPassword, setShowPassword] = useState(false);
 
@@ -25,7 +28,7 @@ function Index() {
         <br></br>
          <Box sx={{ color: '#1F2939', fontSize: 18, mt:1,fontWeight:"400" }}>We have sent a verification link to your email address</Box>
          <br></br>
-         <Box sx={{fontWeight:"600",fontSize:17}}>youremail@mail.com</Box>
+         <Box sx={{fontWeight:"600",fontSize:17}}>{state.email}</Box>
          <br></br>
          <Box sx={{ color: '#778296', fontSize: 15}}>Just click on the link in your email and you are done.</Box>
         </Box>

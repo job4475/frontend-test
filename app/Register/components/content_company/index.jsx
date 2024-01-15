@@ -14,12 +14,12 @@ function index() {
     <Box sx={{mt:3}}>
       <Box sx={{fontWeight:600,mb:3}}>{data_register[0].title_content1}</Box>
       <Box sx={{display:"flex"}}>
-        <Image width={100} height={100} alt="logo" src={state.logoImage}></Image>
+        <Image width={100} height={100} alt="logo" src={state.datacompany?.CompanyLogo}></Image>
         <Box sx={{display:"flex",flexDirection:"column",alignItems:"left",ml:3.5}}>
-           <Box sx={{fontWeight:600}}>{state.decode_token.CompanynameOrginal}</Box>
+           <Box sx={{fontWeight:600}}>{state.companyname}</Box>
               <Box sx={{display:"flex",mt:1}}>
               <Box sx={{width:"300px"}}>
-              <div dangerouslySetInnerHTML={{ __html: `${state.datacompany.AddressNo} ${state.datacompany.Address1En}<br>${state.datacompany.District} ${state.datacompany.SubDistrict}<br>${state.datacompany.Province} ${state.datacompany.Zipcode} ${state.datacompany.Country}` }} />
+              <div dangerouslySetInnerHTML={{ __html: `${state.datacompany.AddressNo||state.no} ${state.datacompany.Address1En||state.street}<br>${state.datacompany.District||state.selectedAmphoe } ${state.datacompany.SubDistrict||state.selectedTambon}<br>${state.datacompany.Province||state.selectedProvince} ${state.datacompany.Zipcode||state.zipcode} ${state.datacompany.Country||state.country}` }} />
               </Box>
               <Box sx={{ml:10}}>
                 <Box sx={{display:"flex",alignItems:"center"}}>

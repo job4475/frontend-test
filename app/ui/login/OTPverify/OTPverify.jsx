@@ -4,7 +4,7 @@ import VerificationCodeInput from './VerificationCodeInput'
 import { Box, Button } from '@mui/material';
 import handleotp from "@/handle/otpvelify"
 import { StateContext } from '@/context/Context';
-
+import Loading from '@/components/loading'
 function OTPverify() {
   const HandleOTP = handleotp();
   const {state, setState} = useContext(StateContext);
@@ -28,7 +28,7 @@ function OTPverify() {
     </Box>
     </Box>
     <Box sx={{display:'flex',justifyContent:'center'}}>
-    <Button variant="contained" onClick={HandleOTP.workspace} style={{background:'#84BAA1',width:'90%',textTransform:'capitalize'}}>Next</Button>
+    <Button variant="contained" onClick={HandleOTP.verifycode} style={{background:'#84BAA1',width:'90%',textTransform:'capitalize'}}>{state.loading?<Loading/>:"Next"}</Button>
     </Box>
   </Box>
   )

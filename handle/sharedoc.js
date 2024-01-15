@@ -290,16 +290,17 @@ const SwitchBox = ({ label, checked, onChange }) => (
       formdata.append("scdact_scrwatermark", "true");
       formdata.append("scdact_watermark", "true");
       formdata.append("scdact_cvthtml", state.allowconverttobrowserviewfile?"true":"false");
-      formdata.append("scdact_cvtfcl", "true");
+      formdata.append("scdact_cvtfcl", state.allowconverttofcl?"true":"false"); 
       formdata.append("scdact_marcro", state.allowrunamacro?"true":"false");
       formdata.append("scdact_msgtext", state.message);
       formdata.append("scdact_subject", state.subject);
       formdata.append("scdact_createlocation", "สำเร็จ");
       formdata.append("scdact_updatelocation", "สำเร็จ");
       formdata.append("scdact_reciepient", state.recipient);
-      formdata.append("scdact_sender", state.email?state.email:"thananchai@tracthai.com");
-      formdata.append("uuid_member", "76c99d77-b168-4f9d-a52a-a7ebf668b2da");
+      formdata.append("scdact_sender", state.decode_token?state.decode_token.UsernameOriginal:"thananchai@tracthai.com");
+      formdata.append("uuid_member", state.decode_token?state.decode_token.ID:"No value");
       formdata.append("scdact_action", "Request");
+      formdata.append("scdact_enableconvertoriginal", state.enableconverttooriginalfile?"true":"false");
       formdata.append("scdact_actiontime", timestampInSeconds);
 
       for (let i = 0; i < state.selectedFile.length; i++) {
@@ -307,7 +308,7 @@ const SwitchBox = ({ label, checked, onChange }) => (
         const sanitizedFileName = file.name.replace(/\s+/g, '-');
         const emailText = state.recipient.map((recipient, index) => `${recipient}`)
 
-        formdata.append("scdact_command", `finalcode_api ${state.secure_type===true?"":"-browserview"} ${state.message?`-mes:"${state.message}"`:""} ${state.enableconverttooriginalfile?"-to_bv_decode":""} ${state.allowconverttobrowserviewfile?"-to_bv_file":""} ${state.allowrunamacro||state.allowconverttooriginalfile?"-nomacro_deny":"-macro_deny"} ${state.alloweditsecuredfile?"-edit":""} -encrypt ${state.secure_type===true?"":"-bv_auth:1"}  -src:../data/${orderId}/${sanitizedFileName} -dest:../data/${orderId}/${sanitizedFileName}(${emailText})${state.secure_type===true?".fcl":".html"} ${state.allowconverttooriginalfile?"-decode":""} ${state.allowcopypaste?"-copypaste":""} ${state.allowprint?"-print":""} ${state.timelimitBefore?`-startdate:${state.timelimitBefore}`:""} ${state.timelimitAfter?`-date:${state.timelimitAfter}`:""} ${state.periodDays?`-day:${state.periodDays}`:""} ${state.periodHours?`-hour:${state.periodHours}`:""} ${state.opensTime?`-cnt:${state.opensTime}`:""} -user:thananchai@tracthai.com -mail:${emailText}`);
+        formdata.append("scdact_command", `./finalcode_api ${state.secure_type===true?"":"-browserview"} ${state.message?`-mes:"${state.message}"`:""} ${state.enableconverttooriginalfile?"-to_bv_decode":""} ${state.allowconverttobrowserviewfile?"-to_bv_file":""} ${state.allowrunamacro||state.allowconverttooriginalfile?"-nomacro_deny":"-macro_deny"} ${state.alloweditsecuredfile?"-edit":""} -encrypt ${state.secure_type===true?"":"-bv_auth:1"}  -src:../data/${orderId}/${sanitizedFileName} -dest:../data/${orderId}/${sanitizedFileName}(${emailText})${state.secure_type===true?".fcl":".html"} ${state.allowconverttooriginalfile?"-decode":""} ${state.allowcopypaste?"-copypaste":""} ${state.allowprint?"-print":""} ${state.timelimitBefore?`-startdate:${state.timelimitBefore}`:""} ${state.timelimitAfter?`-date:${state.timelimitAfter}`:""} ${state.periodDays?`-day:${state.periodDays}`:""} ${state.periodHours?`-hour:${state.periodHours}`:""} ${state.opensTime?`-cnt:${state.opensTime}`:""} -user:thananchai@tracthai.com -mail:${emailText}`);
         formdata.append("scdact_binary", file, `/D:/Downloads/${orderId}/${sanitizedFileName}`);
 
         formdata.append("scdact_filename", sanitizedFileName);

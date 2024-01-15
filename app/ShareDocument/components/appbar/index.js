@@ -1,11 +1,14 @@
 'use client'
 import { Box } from '@mui/material'
-import React, { useEffect, useState } from 'react'
+import React, { useContext, useEffect, useState } from 'react'
 import Image from "next/image";
 import Logotrac from "@/assets/assets/images/logotrac.png";
+import { StateContext } from '@/context/Context';
 
 
 function index() {
+  const {state, setState} = useContext(StateContext);
+
   const storedLoginTime = localStorage.getItem('loginTime');
   const [loginTime, setLoginTime] = useState(storedLoginTime ? new Date(storedLoginTime) : new Date());
 
@@ -37,8 +40,8 @@ function index() {
           </div>
           <div className="">
             <div className="flex flex-col lg:flex-row justify-start lg:justify-between items-start lg:items-center">
-              <span className="text-lg font-semibold mr-1">
-                Sarayuth Kosiyarug
+              <span style={{textTransform:"capitalize"}} className="text-lg font-semibold mr-1">
+                {state.decode_token?.FirstnameOriginal} {state.decode_token?.SurnameTokenOriginal}
               </span>
               <svg
                 xmlns="http://www.w3.org/2000/svg"
@@ -56,7 +59,7 @@ function index() {
               </svg>
             </div>
             <div>
-              <span className="text-lg">CEO/Founder</span>
+              <span className="text-lg">{state.decode_token?.JobTitleOriginal}</span>
             </div>
             <div>
             <span id="loginPeriod" className="text-lg">Login Period: 00:00:00</span>

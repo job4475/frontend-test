@@ -29,7 +29,7 @@ const page = () => {
           <Box onClick={Register} sx={{cursor: "pointer",transition: "background-color 0.3s ease","&:hover": {backgroundColor: "#your-hover-color",},}}   className="basis-2/6 rounded border border-[#C2CCE1] w-[300px] h-[310px] mr-3 mt-2 lg:mt-4 flex flex-col justify-between items-center content-center p-[30px] text-center" >
             <div>
             <Image
-              src={state.logoImage}
+              src={state.datacompany?.CompanyLogo}
               alt="logo"
               width={100}
               height={100}

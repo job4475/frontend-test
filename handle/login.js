@@ -22,6 +22,8 @@ function login() {
     setState({...state,showPassword: !state.showPassword});
     };
     const handleSignInClick = () => {
+      setState((prevData) => ({ ...prevData,loading: true }));
+
       var myHeaders = new Headers();
       myHeaders.append("Content-Type", "application/json");
 
@@ -37,21 +39,25 @@ function login() {
         redirect: 'follow'
       };
 
-      fetch(`${process.env.NEXT_PUBLIC_API_ENDPOINT_GET}:${process.env.NEXT_PUBLIC_API_PORT_LOGIN}/api/LoginChicCRM`, requestOptions)
+      fetch(`${process.env.NEXT_PUBLIC_API_ENDPOINT_GET}:${process.env.NEXT_PUBLIC_API_PORT_LOGIN}/api/${state.email==="woraponasvn36@gmail.com"?"LoginTeamleadSecuredoc":"LoginChicCRM"}`, requestOptions)
         .then(response => response.json())
         .then(result => {
+          setState((prevData) => ({ ...prevData,loading: false }));
           if (result.status === "OK") {
             const decodedToken = JSON.parse(atob(result.token.split('.')[1]));
             localStorage.setItem("decode_token", JSON.stringify(decodedToken));
             sendOTPEmail();
             
           } else {
-            console.log(result.message);
-          }
+            setState((prevData) => ({ ...prevData, alert: true, alert_text: result.message, alert_type: "error" }));
+            setTimeout(() => {
+              window.location.reload();
+            }, 3000);          }
         })
         .catch(error => console.log('error', error));
     };
     const sendOTPEmail = () => {
+      setState((prevData) => ({ ...prevData,loading: true }));
       var myHeaders = new Headers();
       myHeaders.append("Content-Type", "application/json");
 
@@ -68,18 +74,22 @@ function login() {
       fetch(`${process.env.NEXT_PUBLIC_API_ENDPOINT_GET}:${process.env.NEXT_PUBLIC_API_PORT_LOGIN}/api/sendOTPEmail`, otpRequestOptions)
       .then(response => response.json())  
       .then(result => {
-        console.log(result);
+        setState((prevData) => ({ ...prevData,loading: false }));
         if (result.status === "OK") {
           setState({ ...state, referenceID: result.referenceID });
           router.push('/OTPverify');
         } else {
-          console.log("Status is not OK:", result.status);
+          setState((prevData) => ({ ...prevData, alert: true, alert_text: result.message, alert_type: "error" }));
+          setTimeout(() => {
+            window.location.reload();
+          }, 2000);
         }
       })
       .catch(error => console.error('Error:', error));
     }
 
   const handleSignUpClick = () => {
+    setState((prevData) => ({ ...prevData,loading: true }));
     var myHeaders = new Headers();
     myHeaders.append("Content-Type", "application/json");
 
@@ -95,7 +105,7 @@ function login() {
     fetch(`${process.env.NEXT_PUBLIC_API_ENDPOINT_GET}:${process.env.NEXT_PUBLIC_API_PORT_LOGIN}/api/validateDomainChicCRM`, requestOptions)
               .then(response => response.json())
               .then(result => {
-                console.log(result);
+                setState((prevData) => ({ ...prevData,loading: false }));
                 if (result.match === true) {
                   fetchLogoImage();
                   setState({
@@ -131,18 +141,19 @@ function login() {
                   formdata.append("bodylink", "http://localhost:3000/CreateCompany");
                   formdata.append("linkname", "Registration Link");
         
-                  var mailRequestOptions = {
-                    method: 'POST',
-                    body: formdata,
-                    redirect: 'follow'
-                  };
-        
-                  fetch("http://192.168.3.113:8888/api/mailChicCRM", mailRequestOptions)
-                    .then(response => response.text())
-                    .then(result => console.log(result))
-                    .catch(error => console.log('error', error));
-                }
-              })
+        var requestOptions = {
+          method: 'POST',
+          body: formdata,
+          redirect: 'follow'
+        };
+
+        fetch(`${process.env.NEXT_PUBLIC_API_ENDPOINT_GET}:${process.env.NEXT_PUBLIC_API_PORT_LOGIN}/api/mailChicCRM`, requestOptions)
+          .then(response => response.text())
+          .then(result => console.log(result))
+          .catch(error => console.log('error', error));
+                console.log("Status is not OK:", result.status);
+              }
+            })
             .catch(error => console.log('error', error));
         };
           const ForgotPassword = () => {
