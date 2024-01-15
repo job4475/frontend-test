@@ -93,50 +93,56 @@ function login() {
       redirect: 'follow'
     };
     fetch(`${process.env.NEXT_PUBLIC_API_ENDPOINT_GET}:${process.env.NEXT_PUBLIC_API_PORT_LOGIN}/api/validateDomainChicCRM`, requestOptions)
-    .then(response => response.json()) 
-    .then(result => {
-      console.log(result);
-      if (result.match === true) {
-        setState({
-          ...state,
-          datacompany: result.data,
-          companyID: result.data.CompanyID,
-          companyname: result.data.Companyname,
-          alias: result.data.CompanyAlias,
-          no: result.data.AddressNo,
-          street: result.data.Address1En,
-          googlemaps: result.data.Geolocation,
-          selectedProvince: result.data.Province,
-          selectedAmphoe: result.data.District,
-          selectedTambon: result.data.SubDistrict,
-          zipcode: result.data.Zipcode,
-          country: result.data.Country
-      });
-      fetchLogoImage();
-      } else {
-        var formdata = new FormData();
-        formdata.append("to", state.email);
-        formdata.append("subject", "Registration");
-        formdata.append("fromEmail", "worapon@tracthai.com");
-        formdata.append("body", "Please click the link provided below to proceed.");
-        formdata.append("body1", "MODULE: chiCRM");
-        formdata.append("body2", "ADMIN: TRAC-THAI");
-        formdata.append("bodylink", "http://localhost:3000/CreateCompany");
-        formdata.append("linkname", "Registration Link");
+              .then(response => response.json())
+              .then(result => {
+                console.log(result);
+                if (result.match === true) {
+                  fetchLogoImage();
+                  setState({
+                    ...state,
+                    datacompany: result.data,
+                    companyID: result.data.CompanyID,
+                    companyname: result.data.Companyname,
+                    alias: result.data.CompanyAlias,
+                    no: result.data.AddressNo,
+                    street: result.data.Address1En,
+                    googlemaps: result.data.Geolocation,
+                    province: result.data.Province,
+                    district: result.data.District,
+                    subdistric: result.data.SubDistrict,
+                    zipcode: result.data.Zipcode,
+                    country: result.data.Country
+                  });
+                  router.push('/Selectcompany');
+                } else if (result.message === "username already exists"){
+                  setState((prevData) => ({ ...prevData, alert: true, alert_text: result.message, alert_type: "error" }));
+                  setTimeout(() => {
+                    window.location.reload();
+                  }, 2000);
+                }
+                else {
+                  var formdata = new FormData();
+                  formdata.append("to", state.email);
+                  formdata.append("subject", "Registration");
+                  formdata.append("fromEmail", "worapon@tracthai.com");
+                  formdata.append("body", "Please click the link provided below to proceed.");
+                  formdata.append("body1", "MODULE: chiCRM");
+                  formdata.append("body2", "ADMIN: TRAC-THAI");
+                  formdata.append("bodylink", "http://localhost:3000/CreateCompany");
+                  formdata.append("linkname", "Registration Link");
         
-        var requestOptions = {
-          method: 'POST',
-          body: formdata,
-          redirect: 'follow'
-        };
-
-        fetch("http://192.168.3.113:8888/api/mailChicCRM", requestOptions)
-          .then(response => response.text())
-          .then(result => console.log(result))
-          .catch(error => console.log('error', error));
-                console.log("Status is not OK:", result.status);
-              }
-            })
+                  var mailRequestOptions = {
+                    method: 'POST',
+                    body: formdata,
+                    redirect: 'follow'
+                  };
+        
+                  fetch("http://192.168.3.113:8888/api/mailChicCRM", mailRequestOptions)
+                    .then(response => response.text())
+                    .then(result => console.log(result))
+                    .catch(error => console.log('error', error));
+                }
+              })
             .catch(error => console.log('error', error));
         };
           const ForgotPassword = () => {
