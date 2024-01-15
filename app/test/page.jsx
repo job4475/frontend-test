@@ -1,78 +1,24 @@
 'use client'
-import { FormControl, InputLabel, MenuItem, Select } from '@mui/material';
-import React, { useContext, useEffect, useState } from 'react';
 import { StateContext } from '@/context/Context';
+import React, { useState, useEffect, useContext } from 'react';
 
 function Page() {
-  const { state, setState } = useContext(StateContext);
-  const [districts, setDistricts] = useState([]); 
-  const [tambons, setTambons] = useState([]);
-  const [zipcodes, setZipcodes] = useState([]);
-  const [data, setData] = useState({ provinces: '', districts: '', tambons: '', zipcodes: '' });  
+  const {state, setState} = useContext(StateContext);
 
   useEffect(() => {
-    fetch(`${process.env.NEXT_PUBLIC_API_ENDPOINT_GET}:${process.env.NEXT_PUBLIC_API_PORT_LOGIN}/api/getProvinceAmphoeTambonZipcode`)
-      .then(response => response.json())
-      .then(result => {
-        setState(prevData => ({
-          ...prevData,
-          locationData: { ...prevData.locationData, provinces: result.provinceAmphoeTambonZipcode }
-        }));
+    fetch("http://192.168.3.113:8888/api/getLogoBinary/06329704-a710-46ae-9cfc-ce53fd473e69")
+      .then(response => response.blob())
+      .then(blob => {
+        const imageUrl = URL.createObjectURL(blob);
+        setState((prevData) => ({ ...prevData,logoImage:imageUrl}));
+        setImageSrc(imageUrl); 
       })
-      .catch(error => console.log('error', error));
-  }, [setState]);
+      .catch(error => console.error("Error fetching binary data:", error));
+  }, []);
 
-  const handleProvinceChange = (e) => {
-    const selectedProvince = e.target.value;
-    setData(prevState => ({ ...prevState, provinces: selectedProvince }));
-
-    fetch(`${process.env.NEXT_PUBLIC_API_ENDPOINT_GET}:${process.env.NEXT_PUBLIC_API_PORT_LOGIN}/api/getProvinceAmphoeTambonZipcode/${selectedProvince}`)
-      .then(response => response.json())
-      .then(result => setAmphures(result))
-      .catch(error => console.log('error', error));
-  };
   return (
     <div>
-      <FormControl>
-        <InputLabel>State / Province</InputLabel>
-        <Select
-          label="provinces"
-          style={{ width: '300px', height: '40px' }}
-          size="small"
-          value={data.provinces || '- Select State/Province -'}
-          onChange={handleProvinceChange}
-          focused
-          color="primary"
-        >
-          <MenuItem value="- Select State/Province -">- Select State/Province -</MenuItem>
-          {state.locationData && state.locationData.provinces && [...new Set(state.locationData.provinces.map(item => item.ProvinceEng))].map((item, index) => (
-            <MenuItem key={`${index}`} value={item}>
-              {item}
-            </MenuItem>
-          ))}
-        </Select>
-      </FormControl>
-
-      <FormControl>
-        <InputLabel>District</InputLabel>
-        <Select
-          label="districts"
-          style={{ width: '300px', height: '40px' }}
-          size="small"
-          value={data.districts || '- Select District -'}
-          onChange={(event) => setData({ ...data, districts: event.target.value })}
-          disabled={!data.provinces}
-          focused
-          color="primary"
-        >
-          <MenuItem value="- Select District -">- Select District -</MenuItem>
-          {districts.map((district, index) => (
-            <MenuItem key={`${index}`} value={district}>
-              {district}
-            </MenuItem>
-          ))}
-        </Select>
-      </FormControl> 
+       <img src={state.logoImage} alt="Logo" />
     </div>
   );
 }

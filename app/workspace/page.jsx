@@ -14,7 +14,6 @@ import { StateContext } from "@/context/Context";
 const page = () => {
   const { state, setState } = useContext(StateContext);
   const router = useRouter();
-
   const sharedocumentRouter = () => {
     router.push("/sharedocument");
   };
@@ -54,9 +53,7 @@ const page = () => {
         <div className="m-2 flex flex-col lg:flex-row">
           <div className="mr-3">
             <Image
-              src={
-                "https://www.tracthai.com/_next/static/media/logonew.10e8c496.png"
-              }
+              src={state.logoImage}
               alt={state.CompanyLogoOriginal}
               width={100}
               height={100}
@@ -65,7 +62,7 @@ const page = () => {
           <div className="m-2">
             <div className="flex flex-col lg:flex-row justify-start lg:justify-between items-start lg:items-center">
               <span className="text-lg font-semibold mr-1">
-                {state.FirstnameOriginal} {state.SurnameTokenOriginal}
+                {state.decode_token.FirstnameOriginal} {state.decode_token.SurnameTokenOriginal}
               </span>
               <svg
                 xmlns="http://www.w3.org/2000/svg"
@@ -93,9 +90,10 @@ const page = () => {
         <div className="m-2">
           <div>
             <Image
-              src={Logotrac}
+              src={state.logoImage}
               alt="logo"
-              style={{ width: "90px", height: "90px" }}
+              width={100}
+              height={100}
             />
           </div>
         </div>

@@ -6,15 +6,12 @@ function Feature() {
   const { setState } = useContext(StateContext);
 
   useEffect(() => {
-    const requestOptions = {
-      method: 'GET',
-      redirect: 'follow'
-    };
+    
 
-    fetch("http://127.0.0.1:8888/api/checkMemberFeature/7644fb44-c077-4cde-ad1e-88a05f7eeaa3", requestOptions)
+    fetch(`${process.env.NEXT_PUBLIC_API_ENDPOINT_GET}:${process.env.NEXT_PUBLIC_API_PORT_LOGIN}/api/checkMemberFeature/${state.decode_token.ID}`)
       .then(response => response.json())
       .then(result => {
-        setState(result); // บันทึกค่าจาก API ลงใน State ใน Context
+        setState(result); 
       })
       .catch(error => console.log('error', error));
   }, [setState]);

@@ -6,6 +6,17 @@ import React, { useContext } from 'react'
 function login() {
     const router = useRouter();
     const {state, setState} = useContext(StateContext);
+
+    const fetchLogoImage = () => {
+      fetch(`${process.env.NEXT_PUBLIC_API_ENDPOINT_GET}:${process.env.NEXT_PUBLIC_API_PORT_LOGIN}/api/getLogoBinary/${state.datacompany.CompanyID}`)
+          .then(response => response.blob())
+          .then(blob => {
+              const imageUrl = URL.createObjectURL(blob);
+              setState((prevData) => ({ ...prevData, logoImage: imageUrl }));
+          })
+          .catch(error => console.error("Error fetching binary data:", error));
+  };
+
     const handleTogglePassword = () => {
     setState({...state,showPassword: !state.showPassword});
     };
@@ -84,6 +95,7 @@ function login() {
     .then(result => {
       console.log(result);
       if (result.match === true) {
+        fetchLogoImage();
         setState({
           ...state,
           datacompany: result.data,

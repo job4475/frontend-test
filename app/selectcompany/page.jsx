@@ -1,7 +1,6 @@
 "use client"
 import React, { useContext } from "react";
 import Image from "next/image";
-import Logotrac from "@/assets/assets/images/logotrac.png";
 import { Box } from "@mui/material";
 import { useRouter } from "next/navigation";
 import { StateContext } from "@/context/Context";
@@ -30,14 +29,14 @@ const page = () => {
           <Box onClick={Register} sx={{cursor: "pointer",transition: "background-color 0.3s ease","&:hover": {backgroundColor: "#your-hover-color",},}}   className="basis-2/6 rounded border border-[#C2CCE1] w-[300px] h-[310px] mr-3 mt-2 lg:mt-4 flex flex-col justify-between items-center content-center p-[30px] text-center" >
             <div>
             <Image
-              src={state.decode_token.CompanyLogoOriginal}
-              alt={123}
+              src={state.logoImage}
+              alt="logo"
               width={100}
               height={100}
             />
             </div>
             <div>
-              <h4>{state.decode_token.CompanynameOrginal}</h4>
+              <h4>{state.datacompany.CompanyAlias}</h4>
             </div>
             <div className="my-2">
               <svg
@@ -57,7 +56,7 @@ const page = () => {
             </div>
             <div>
               <p>
-                The Recovery Advisor Company Limited Bangkok, 10210 Thailand.
+              {state.companyname} {state.datacompany.Province}, {state.datacompany.Zipcode} {state.datacompany.Country}.
               </p>
             </div>
           </Box>
