@@ -1,61 +1,58 @@
 import { Box, Button, TextField, Typography } from '@mui/material';
-import React, { useState } from 'react';
+import React, { useContext, useEffect, useState } from 'react';
 import IconButton from '@mui/material/IconButton';
 import VisibilityIcon from '@mui/icons-material/Visibility';
 import VisibilityOffIcon from '@mui/icons-material/VisibilityOff';
+import { StateContext } from '@/context/Context';
+import handleresetpassword from '@/handle/ResetPassword'
+import { useRouter } from 'next/navigation';
 
 function Index() {
-  const [password, setPassword] = useState('');
+  const {state, setState} = useContext(StateContext);
   const [showPassword, setShowPassword] = useState(false);
+  const HandleResetPassword = handleresetpassword();
+  const tokenParam = new URLSearchParams(window.location.search).get('token');
+  const decodedToken = tokenParam ? JSON.parse(atob(tokenParam.split('.')[1])) : null;
 
+useEffect(() => {
+  if (tokenParam) {
+    setState((prevData) => ({...prevData,
+      confirmlink: tokenParam,  
+      confirmlink_decode: decodedToken,
+      email : decodedToken.username
+    }));
+  }
+}, [tokenParam]);
+  const resetpassword = (e) => {
+    setState({...state,password: e.target.value,});
+  };
+  const confirmPassword = (e) => {
+    setState({...state,confirmPassword: e.target.value,});
+  };
   const handleTogglePassword = () => {
     setShowPassword(!showPassword);
   };
-
+  const Confirm = () => {
+    setShowPassword(!showPassword);
+  };
   const isPasswordValid = () => {
-    const hasMinLength = password.length >= 8;
-    const hasUpperCase = /[A-Z]/.test(password);
-    const hasLowerCase = /[a-z]/.test(password);
-    const hasNumber = /\d/.test(password);
-
+    const hasMinLength = state.password.length >= 8;
+    const hasUpperCase = /[A-Z]/.test(state.password);
+    const hasLowerCase = /[a-z]/.test(state.password);
+    const hasNumber = /\d/.test(state.password);
     return hasMinLength && hasUpperCase && hasLowerCase && hasNumber;
   };
-
   return (
     <Box>
       <Box p={3} sx={{ display: 'flex', flexDirection: 'column', width: '400px', height: '500px', borderRadius: "15px", marginLeft: 'auto', marginRight: 5, marginTop: 1, boxShadow: '0px 0px 10px rgba(0, 0, 0, 0.1)', justifyContent: 'space-between' }}>
         <Box>
           <Box style={{ color: '#1F2939', fontSize: 20, fontWeight: '600' }}>Reset your password here</Box>
           <Box sx={{ display: 'flex', flexDirection: 'column', justifyContent: 'center', alignItems: 'center', marginTop: 2 }}>
-            <TextField
-              label="New Password"
-              variant="standard"
-              type={showPassword ? 'text' : 'password'}
-              value={password}
-              onChange={(e) => setPassword(e.target.value)}
-              sx={{ width: '100%' }}
-              InputProps={{
-                endAdornment: (
-                  <IconButton onClick={handleTogglePassword} edge="end">
-                    {showPassword ? <VisibilityIcon /> : <VisibilityOffIcon />}
-                  </IconButton>
-                ),
-              }}
-            />
-            <TextField
-              label="Confirm Password"
-              variant="standard"
-              type={showPassword ? 'text' : 'password'}
-              sx={{ width: '100%' }}
-              InputProps={{
-                endAdornment: (
-                  <IconButton onClick={handleTogglePassword} edge="end">
-                    {showPassword ? <VisibilityIcon /> : <VisibilityOffIcon />}
-                  </IconButton>
-                ),
-              }}
-            />
-        </Box>
+            <TextField  label="New Password"variant="standard"type={showPassword ? 'text' : 'password'}value={state.password}onChange={resetpassword}sx={{ width: '100%' }}
+              InputProps={{endAdornment: (<IconButton onClick={handleTogglePassword}  edge="end">{showPassword ? <VisibilityIcon /> : <VisibilityOffIcon />}</IconButton>),}}/>
+            <TextField label="Confirm Password" value={state.confirmPassword}variant="standard"type={showPassword ? 'text' : 'password'}onChange={confirmPassword}sx={{ width: '100%' }}InputProps={{endAdornment: (<IconButton onClick={Confirm} edge="end">
+              {showPassword ? <VisibilityIcon /> : <VisibilityOffIcon />}</IconButton>),}}/>
+          </Box>
                 <Box sx={{display:'flex',justifyContent:'center',mt:"18px"}}>
                 <Box sx={{bgcolor:'#E8E8E8',width:'20%',height:'5px',mr:"2px"}}></Box>
                 <Box sx={{bgcolor:'#E8E8E8',width:'20%',height:'5px',mr:"2px"}}></Box>
@@ -67,33 +64,33 @@ function Index() {
                 <Box>
         <Box direction="column"justifyContent="flex-start" alignItems="flex-start" sx={{ width: "100%", mt:4}} >
       <Box sx={{ display: "flex",justifyContent: "flex-start",alignItems: "center", gap: 1, width: 300, height: 26,}}>
-        <Box sx={{width: 15,height: 15,borderRadius: 9999, border: "1px #E4E7EB solid",}}/>
+        <Box sx={{width: 15,height: 15,borderRadius: 9999, border: "1px #E4E7EB solid",background: state.password.length >= 8 ? '#2AB930' : '#ffffff' }}/>
         <Typography variant="body2" color="#828895" >
           Contain at least 8 characters.
         </Typography>
       </Box>
       <Box
         sx={{display: "flex",justifyContent: "flex-start", alignItems: "center", gap: 1, width: 300, height: 26, }}>
-        <Box sx={{ width: 15, height: 15, borderRadius: 9999, border: "1px #E4E7EB solid",}}/>
+        <Box sx={{ width: 15, height: 15, borderRadius: 9999, border: "1px #E4E7EB solid",background: /[A-Z]/.test(state.password) ? '#2AB930' : '#ffffff'}}/>
         <Typography variant="body2" color="#828895">
           Contains at least one <span style={{ textTransform: "uppercase" }}>uppercase</span> letter.
         </Typography>
       </Box>
       <Box
         sx={{ display: "flex", justifyContent: "flex-start",alignItems: "center",gap: 1, width: 321,height: 26,}} >
-        <Box sx={{width: 15,height: 15,borderRadius: 9999,border: "1px #E4E7EB solid",}}/>
+        <Box sx={{width: 15,height: 15,borderRadius: 9999,border: "1px #E4E7EB solid",background: /[a-z]/.test(state.password) ? '#2AB930' : '#ffffff'}}/>
         <Typography variant="body2" color="#828895">
           Contains at least one lowercase letter.
         </Typography>
       </Box>
       <Box sx={{display: "flex",justifyContent: "flex-start",alignItems: "center",gap: 1,width: 300,height: 26,}}>
-        <Box sx={{width: 15,height: 15,borderRadius: 9999,border: "1px #E4E7EB solid",}}/>
+        <Box sx={{width: 15,height: 15,borderRadius: 9999,border: "1px #E4E7EB solid",background: state.password.length >= 8 && /\d/.test(state.password) ? '#2AB930' : '#ffffff'}}/>
         <Typography variant="body2" color="#828895">
           Contain at one number.
         </Typography>
       </Box>
       <Box sx={{display: "flex",justifyContent: "flex-start",alignItems: "center",gap: 1,width: 300,height: 26,}}>
-        <Box sx={{width: 15,height: 15,borderRadius: 9999,border: "1px #E4E7EB solid"}}/>
+        <Box sx={{width: 15,height: 15,borderRadius: 9999,border: "1px #E4E7EB solid", background: (state.password === state.confirmPassword) ? '#2AB930' : '#ffffff' }}/>
         <Typography variant="body2" color="#828895">
           Password must contain an.
         </Typography>
@@ -102,14 +99,7 @@ function Index() {
         </Box>
         </Box>
         <Box sx={{ display: 'flex', justifyContent: 'center', alignItems: 'center' }}>
-        <Button
-          variant="contained"
-          style={{ background: '#84BAA1', width: '90%', textTransform: 'capitalize', mt: 10 }}
-          disabled={!isPasswordValid()}
-        >
-          Sign In
-        </Button>
-
+        <Button variant="contained" onClick={HandleResetPassword.Confirm} style={{ background: '#84BAA1', width: '90%', textTransform: 'capitalize', mt: 10 }}disabled={!isPasswordValid() || state.password !== state.confirmPassword}>Resetpassword</Button>
     </Box>
       </Box>
     </Box>

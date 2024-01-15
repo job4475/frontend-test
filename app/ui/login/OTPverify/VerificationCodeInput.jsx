@@ -1,6 +1,7 @@
 'use client'
 import React, { useEffect, useState } from 'react';
 import TextField from '@mui/material/TextField';
+import { Box } from '@mui/material';
 
   const VerificationCodeInput = ({ length = 6, onChange }) => {
   const [codes, setCodes] = useState([]);
@@ -31,17 +32,18 @@ import TextField from '@mui/material/TextField';
     }
   };
   return (
-    <div className="flex space-x-2">
+    <Box className="flex space-x-2">
       {codes.map((code, index) => (
-        <TextField key={index} id={`code-input-${index}`}type="text"variant="outlined"size="small"margin="dense"
+        <TextField key={index} id={`code-input-${index}`}type="text"variant="filled"size="small"margin="dense"
           value={code}onChange={(e) => handleChange(index, e.target.value)}onKeyDown={(e) => handleKeyDown(e, index)}
-          inputProps={{style: { textAlign: 'center', width: '2em', letterSpacing: '1em', textTransform: 'uppercase' },
+          inputProps={{style: { textAlign: 'center',height:'45px', width: '2em', letterSpacing: '1em', textTransform: 'uppercase',backgroundColor:'#F7FAFB'},
           maxLength: 1,
         }}
+        InputProps={{style:{borderBottom:'1px solid #BBC0CA',borderRadius:'0px'}}}
       />
       ))}
-      
-    </div>
+
+    </Box>
   );
 };
 

@@ -13,38 +13,64 @@ function addcompany() {
     router.push('/Register');
   }
   const Alias = (e) => {
-    setState({...state,Alias: e.target.value,});
+    setState({...state,alias: e.target.value,});
   };
   const Companyname = (e) => {
-    setState({...state,Companyname: e.target.value,});
+    setState({...state,companyname: e.target.value,});
   };
   const No = (e) => {
-    setState({...state,No: e.target.value,});
+    setState({...state,no: e.target.value,});
   };
   const Street = (e) => {
-    setState({...state,Street: e.target.value,});
+    setState({...state,street: e.target.value,});
   };
   const Country = (e) => {
-    setState({...state,Country: e.target.value,});
+    setState({...state,country: e.target.value,});
   };
-  const Province = (e) => {
-    setState({...state,Province: e.target.value,});
+  const handleProvinceChange = (event) => {
+    const selectedProvince = event.target.value;
+    setState(prev => ({ ...prev, selectedProvince }));
+    const amphoesData = state.data.provinceAmphoeTambonZipcode
+      .filter(item => item.ProvinceEng === selectedProvince)
+      .map(item => item.DistrictEng);
+    setState(prev => ({
+      ...prev,
+      amphures: Array.from(new Set(amphoesData)).sort(),
+      selectedAmphoe: '',
+      selectedTambon: '',
+      zipcode: ''
+    }));
   };
-  const District = (e) => {
-    setState({...state,District: e.target.value,});
+  const handleAmphoeChange = (event) => {
+    const selectedAmphoe = event.target.value;
+    setState(prev => ({ ...prev, selectedAmphoe }));
+    const tambonsData = state.data.provinceAmphoeTambonZipcode
+      .filter(item => item.DistrictEng === selectedAmphoe)
+      .map(item => item.TambonEng);
+    setState(prev => ({
+      ...prev,
+      tambons: Array.from(new Set(tambonsData)).sort(),
+      selectedTambon: '',
+      zipcode: ''
+    }));
   };
-  const SubDistric = (e) => {
-    setState({...state,SubDistric: e.target.value,});
-  };
+  const handleTambonChange = (event) => {
+    const selectedTambon = event.target.value;
+    setState(prev => ({ ...prev, selectedTambon }));
+    const tambonData = state.data.provinceAmphoeTambonZipcode.find(item => item.TambonEng === selectedTambon);
+    if (tambonData) {
+      setState(prev => ({ ...prev, zipcode: tambonData.PostCodeMain }));
+    }
+  }
   const ZIPCode = (e) => {
-    setState({...state,ZIPCode: e.target.value,});
+    setState({...state,zipcode: e.target.value,});
   };
   const GoogleMaps = (e) => {
-    setState({...state,GoogleMaps: e.target.value,});
+    setState({...state,googlemaps: e.target.value,});
   };
 
 
-  return {Selectcompany,Register,Alias,Companyname,No,Street,Country,Province,District,SubDistric,ZIPCode,GoogleMaps}
+  return {Selectcompany,Register,Alias,Companyname,No,Street,Country,handleProvinceChange,handleAmphoeChange,handleTambonChange,ZIPCode,GoogleMaps}
 }
 
 export default addcompany
