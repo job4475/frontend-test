@@ -17,11 +17,11 @@ function Index() {
          <Box sx={{textAlign: 'left', color: '#778296', fontSize: 15,  lineHeight: 3,}}>We need your email to reset your password</Box>
         </Box>
         <Box>
-        <TextField id="standard-basic" label="Email"  variant="standard" value={state.Email} onChange={HandleForget.Email} sx={{ width: '90%' }} />
+        <TextField id="standard-basic" label="Email"  variant="standard" value={state.email} onChange={HandleForget.Email} sx={{ width: '90%' }} />
         </Box>
         <Box sx={{display: 'flex',flexDirection: 'column',justifyContent: 'center',alignItems: 'center', fontSize: 11}}>
           <Button variant="text" onClick={HandleForget.Back}  sx={{color:'#828895',textTransform: 'capitalize', fontSize: 14}} >Back to sign in</Button>
-          <Button variant="contained" onClick={HandleForget.getlink} style={{ background: '#84BAA1', width: '90%',textTransform: 'capitalize', fontSize: 14 }}>Get recovery link</Button>
+          <Button variant="contained" onClick={HandleForget.workspace} style={{ background: '#84BAA1', width: '90%',textTransform: 'capitalize', fontSize: 14 }}>Get recovery link</Button>
         </Box>
       </Box>
     </Box>

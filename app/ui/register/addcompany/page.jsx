@@ -58,7 +58,7 @@ const handleFileChange = (event) => {
         </Box>
         <Box sx={{ display: 'flex', alignItems: 'center' }}>
           <Box sx={{ pt: 1.5, width: '150px',color:'#1F2939',fontWeight:'500' }}>Company name</Box>
-          <TextField id="standard-basic" variant="standard" value={state.Companyname} onChange={Handlecompany.Companyname} sx={{width:"250px"}}/>
+          <TextField id="standard-basic" variant="standard" value={state.companyname} onChange={Handlecompany.Companyname} sx={{width:"250px"}}/>
         </Box>
         <Box sx={{ display: 'flex', alignItems: 'center' }}>
           <Box sx={{ pt: 1.5, width: '150px',color:'#1F2939',fontWeight:'500' }}>No</Box>

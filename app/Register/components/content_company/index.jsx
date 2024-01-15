@@ -16,10 +16,10 @@ function index() {
       <Box sx={{display:"flex"}}>
         <Image width={100} height={100} alt="logo" src={state.logoImage}></Image>
         <Box sx={{display:"flex",flexDirection:"column",alignItems:"left",ml:3.5}}>
-           <Box sx={{fontWeight:600}}>{state.decode_token.CompanynameOrginal}</Box>
+           <Box sx={{fontWeight:600}}>{state.companyname}</Box>
               <Box sx={{display:"flex",mt:1}}>
               <Box sx={{width:"300px"}}>
-              <div dangerouslySetInnerHTML={{ __html: `${state.datacompany.AddressNo} ${state.datacompany.Address1En}<br>${state.datacompany.District} ${state.datacompany.SubDistrict}<br>${state.datacompany.Province} ${state.datacompany.Zipcode} ${state.datacompany.Country}` }} />
+              <div dangerouslySetInnerHTML={{ __html: `${state.datacompany.AddressNo||state.Companyname} ${state.datacompany.Address1En||state.country}<br>${state.datacompany.District } ${state.datacompany.SubDistrict}<br>${state.datacompany.Province} ${state.datacompany.Zipcode} ${state.datacompany.Country}` }} />
               </Box>
               <Box sx={{ml:10}}>
                 <Box sx={{display:"flex",alignItems:"center"}}>

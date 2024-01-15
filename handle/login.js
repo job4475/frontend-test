@@ -130,7 +130,7 @@ function login() {
           redirect: 'follow'
         };
 
-        fetch("http://192.168.3.113:8888/api/mailChicCRM", requestOptions)
+        fetch(`${process.env.NEXT_PUBLIC_API_ENDPOINT_GET}:${process.env.NEXT_PUBLIC_API_PORT_LOGIN}/api/mailChicCRM`, requestOptions)
           .then(response => response.text())
           .then(result => console.log(result))
           .catch(error => console.log('error', error));
