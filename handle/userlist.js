@@ -82,7 +82,7 @@ function userlist() {
         }).formatToParts(utcDate);
     
         const formattedDate = `${localDate[0].value}/${localDate[2].value}/${localDate[4].value}`;
-        const formattedTime = `${localDate[6].value}.${localDate[8].value}.${localDate[10].value}`;
+        const formattedTime = `${localDate[6].value}:${localDate[8].value}:${localDate[10].value}`;
       
         return `${formattedDate} ${formattedTime}`;
       };

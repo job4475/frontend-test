@@ -9,12 +9,14 @@ import Image from 'next/image';
 import HandleLeadList from '@/handle/leadlist'
 import CheckIcon from '@mui/icons-material/Check';
 import CloseIcon from '@mui/icons-material/Close';
+import SecurityIcon from '@mui/icons-material/Security';
 
 function index() {
   const {state, setState} = React.useContext(StateContext);
   const handleLeadList = HandleLeadList();
   handleLeadList.groupedOrders?.sort((a, b) => b[0].scdact_timestamp - a[0].scdact_timestamp);
   const [tooltipOpen, setTooltipOpen] = React.useState({});
+  console.log("🚀 ~ index ~ tooltipOpen:", tooltipOpen)
   const [tooltipContent, setTooltipContent] = React.useState({});
 
   const handleOpen = (index, sender) => {
@@ -99,7 +101,7 @@ function index() {
                     <Box sx={{ color: 'gray.main' }}>{row.length}</Box>
                   </Button>
                   <Box sx={{ ml: 0.5, cursor: 'pointer' }}>
-                    <Image alt="dropdown" style={{ transform: state.viewfile ? 'rotate(180deg)' : 'rotate(0)' }} src={dropdown}></Image>
+                    <Image alt="dropdown" style={{ width:"15px",height:"auto",transform: tooltipOpen[0] ? 'rotate(180deg)' : 'rotate(0)' }} src={dropdown}></Image>
                   </Box>
                 </Box>
               </handleLeadList.CustomTooltipRecipient>
@@ -119,54 +121,51 @@ function index() {
                   </Box>
                   <Box sx={{ p:1,display: row[0].scdact_status === "Approved"||row[0].scdact_status === "Rejected" ?"none":"flex", flexDirection: 'column', justifyContent: 'flex-start', alignItems: 'flex-start' }}>
                     <Box component="h3" sx={{ ml: 1, color: 'gray.main' }}>All Permission</Box>
-                    {row.map((item, itemIndex) => (
-                      <div key={itemIndex}>
-                        <Box sx={{display:item.scdact_type==="HTML"?"flex":"none",flexDirection:"column"}}>
+                    <Box sx={{display:row[0].scdact_type==="HTML"?"flex":"none",flexDirection:"column"}}>
                           <Button style={{ textTransform: 'none',display: 'flex', justifyContent: 'space-between', width: '100%' }}>
                             <Box sx={{ pr: 1}}>Allow convert to original file</Box>
-                            <Box sx={{display:"flex",alignItems:"center"}}>{item.scdact_cvtoriginal===true?<CheckIcon sx={{fontSize:"20px"}} color="approve"/>:<CloseIcon sx={{fontSize:"20px"}} color="reject"/>}</Box>
+                            <Box sx={{display:"flex",alignItems:"center"}}>{row[0].scdact_cvtoriginal===true?<CheckIcon sx={{fontSize:"20px"}} color="approve"/>:<CloseIcon sx={{fontSize:"20px"}} color="reject"/>}</Box>
                           </Button>
                           <Button style={{ textTransform: 'none',display: 'flex', justifyContent: 'space-between', width: '100%' }}>
                             <Box sx={{ pr: 1}}>Allow copy paste</Box>
-                            <Box sx={{display:"flex",alignItems:"center"}}>{item.scdact_copy===true?<CheckIcon sx={{fontSize:"20px"}} color="approve"/>:<CloseIcon sx={{fontSize:"20px"}} color="reject"/>}</Box>
+                            <Box sx={{display:"flex",alignItems:"center"}}>{row[0].scdact_copy===true?<CheckIcon sx={{fontSize:"20px"}} color="approve"/>:<CloseIcon sx={{fontSize:"20px"}} color="reject"/>}</Box>
                           </Button>
                           <Button style={{ textTransform: 'none',display: 'flex', justifyContent: 'space-between', width: '100%' }}>
                             <Box sx={{ pr: 1}}>Allow print</Box>
-                            <Box sx={{display:"flex",alignItems:"center"}}>{item.scdact_print===true?<CheckIcon sx={{fontSize:"20px"}} color="approve"/>:<CloseIcon sx={{fontSize:"20px"}} color="reject"/>}</Box>
+                            <Box sx={{display:"flex",alignItems:"center"}}>{row[0].scdact_print===true?<CheckIcon sx={{fontSize:"20px"}} color="approve"/>:<CloseIcon sx={{fontSize:"20px"}} color="reject"/>}</Box>
                           </Button>
-                        </Box>
-                        <Box sx={{display:item.scdact_type==="FCL"?"flex":"none",flexDirection:"column"}}>
+                     </Box>
+
+                     <Box sx={{display:row[0].scdact_type==="FCL"?"flex":"none",flexDirection:"column"}}>
                           <Button style={{ textTransform: 'none',display: 'flex', justifyContent: 'space-between', width: '100%' }}>
                             <Box sx={{ pr: 1}}>Allow convert to original file</Box>
-                            <Box sx={{display:"flex",alignItems:"center"}}>{item.scdact_cvtoriginal===true?<CheckIcon sx={{fontSize:"20px"}} color="approve"/>:<CloseIcon sx={{fontSize:"20px"}} color="reject"/>}</Box>
+                            <Box sx={{display:"flex",alignItems:"center"}}>{row[0].scdact_cvtoriginal===true?<CheckIcon sx={{fontSize:"20px"}} color="approve"/>:<CloseIcon sx={{fontSize:"20px"}} color="reject"/>}</Box>
                           </Button>
                           <Button style={{ textTransform: 'none',display: 'flex', justifyContent: 'space-between', width: '100%' }}>
                             <Box sx={{ pr: 1}}>Allow copy paste</Box>
-                            <Box sx={{display:"flex",alignItems:"center"}}>{item.scdact_copy===true?<CheckIcon sx={{fontSize:"20px"}} color="approve"/>:<CloseIcon sx={{fontSize:"20px"}} color="reject"/>}</Box>
+                            <Box sx={{display:"flex",alignItems:"center"}}>{row[0].scdact_copy===true?<CheckIcon sx={{fontSize:"20px"}} color="approve"/>:<CloseIcon sx={{fontSize:"20px"}} color="reject"/>}</Box>
                           </Button>
                           <Button style={{ textTransform: 'none',display: 'flex', justifyContent: 'space-between', width: '100%' }}>
                             <Box sx={{ pr: 1}}>Allow print</Box>
-                            <Box sx={{display:"flex",alignItems:"center"}}>{item.scdact_print===true?<CheckIcon sx={{fontSize:"20px"}} color="approve"/>:<CloseIcon sx={{fontSize:"20px"}} color="reject"/>}</Box>
+                            <Box sx={{display:"flex",alignItems:"center"}}>{row[0].scdact_print===true?<CheckIcon sx={{fontSize:"20px"}} color="approve"/>:<CloseIcon sx={{fontSize:"20px"}} color="reject"/>}</Box>
                           </Button>
                           <Button style={{ textTransform: 'none',display: 'flex', justifyContent: 'space-between', width: '100%' }}>
                             <Box sx={{ pr: 1}}>Allow edit secured file</Box>
-                            <Box sx={{display:"flex",alignItems:"center"}}>{item.scdact_edit===true?<CheckIcon sx={{fontSize:"20px"}} color="approve"/>:<CloseIcon sx={{fontSize:"20px"}} color="reject"/>}</Box>
+                            <Box sx={{display:"flex",alignItems:"center"}}>{row[0].scdact_edit===true?<CheckIcon sx={{fontSize:"20px"}} color="approve"/>:<CloseIcon sx={{fontSize:"20px"}} color="reject"/>}</Box>
                           </Button>
                           <Button style={{ textTransform: 'none',display: 'flex', justifyContent: 'space-between', width: '100%' }}>
                             <Box sx={{ pr: 1}}>Allow run a macro</Box>
-                            <Box sx={{display:"flex",alignItems:"center"}}>{item.scdact_marcro===true?<CheckIcon sx={{fontSize:"20px"}} color="approve"/>:<CloseIcon sx={{fontSize:"20px"}} color="reject"/>}</Box>
+                            <Box sx={{display:"flex",alignItems:"center"}}>{row[0].scdact_marcro===true?<CheckIcon sx={{fontSize:"20px"}} color="approve"/>:<CloseIcon sx={{fontSize:"20px"}} color="reject"/>}</Box>
                           </Button>
                           <Button style={{ textTransform: 'none',display: 'flex', justifyContent: 'space-between', width: '100%' }}>
                             <Box sx={{ pr: 1}}>Allow convert to browser view file</Box>
-                            <Box sx={{display:"flex",alignItems:"center"}}>{item.scdact_cvtoriginal===true?<CheckIcon sx={{fontSize:"20px"}} color="approve"/>:<CloseIcon sx={{fontSize:"20px"}} color="reject"/>}</Box>
+                            <Box sx={{display:"flex",alignItems:"center"}}>{row[0].scdact_cvtoriginal===true?<CheckIcon sx={{fontSize:"20px"}} color="approve"/>:<CloseIcon sx={{fontSize:"20px"}} color="reject"/>}</Box>
                           </Button>
                           <Button style={{ textTransform: 'none',display: 'flex', justifyContent: 'space-between', width: '100%' }}>
                             <Box sx={{ pr: 1}}>Enable convert to original file</Box>
-                            <Box sx={{display:"flex",alignItems:"center"}}>{item.scdact_cvtoriginal===true?<CheckIcon sx={{fontSize:"20px"}} color="approve"/>:<CloseIcon sx={{fontSize:"20px"}} color="reject"/>}</Box>
+                            <Box sx={{display:"flex",alignItems:"center"}}>{row[0].scdact_cvtoriginal===true?<CheckIcon sx={{fontSize:"20px"}} color="approve"/>:<CloseIcon sx={{fontSize:"20px"}} color="reject"/>}</Box>
                           </Button>
                         </Box>
-                      </div>
-                    ))}
                   </Box>
                   </>
                 }
@@ -174,11 +173,12 @@ function index() {
               >
                 <Box sx={{ display: 'flex', alignItems: 'center' }} onClick={() => handleOpenPermission(index)}>
                   <Button sx={{ display: 'flex', backgroundColor: 'rgba(119, 130, 150, 0.13)', borderRadius: '10px', justifyContent: 'space-around', alignItems: 'center' }}>
-                      <Image src={recipient} alt="recipient" />
-                    <Box sx={{ color: 'gray.main' }}>{row.length}</Box>
+                      <Box sx={{pt:0,pb:0}}>
+                       <SecurityIcon color="gray" style={{fontSize:"20px"}}/>
+                      </Box>
                   </Button>
                   <Box sx={{ ml: 0.5, cursor: 'pointer' }}>
-                    <Image alt="dropdown" style={{ transform: state.viewfile ? 'rotate(180deg)' : 'rotate(0)' }} src={dropdown}></Image>
+                    <Image alt="dropdown" style={{ width:"15px",height:"auto",transform: tooltipOpenPermission[0] ? 'rotate(180deg)' : 'rotate(0)' }} src={dropdown}></Image>
                   </Box>
                 </Box>
               </handleLeadList.CustomTooltipRecipient>
@@ -207,11 +207,11 @@ function index() {
               >
                 <Box sx={{ display: 'flex', alignItems: 'center' }} onClick={() => handleOpenRecipient(index)}>
                   <Button sx={{ display: 'flex', backgroundColor: 'rgba(119, 130, 150, 0.13)', borderRadius: '10px', justifyContent: 'space-around', alignItems: 'center' }}>
-                    <Image src={recipient} alt="recipient" />
-                    <Box sx={{ color: 'gray.main', mt: 1 }}>{`${Array.from(new Set(row.flatMap(item => item.scdact_reciepient.split(',')))).length}`}</Box>
+                      <Image src={recipient} alt="recipient" />
+                      <Box sx={{ color: 'gray.main' }}>{row.length}</Box>
                   </Button>
-                  <Box sx={{ ml: 0.5, cursor: 'pointer' }}>
-                    <Image alt="dropdown" style={{ transform: state.viewfile ? 'rotate(180deg)' : 'rotate(0)' }} src={dropdown}></Image>
+                  <Box sx={{ml: 0.5, cursor: 'pointer' }}>
+                    <Image alt="dropdown" style={{ width:"15px",height:"auto",transform: tooltipOpenRecipient[0] ? 'rotate(180deg)' : 'rotate(0)' }} src={dropdown}></Image>
                   </Box>
                   <Box sx={{fontWeight:500}}>{row[0].scdact_reciepient.split(',')[0]}</Box>
                 </Box>

@@ -13,9 +13,7 @@ function index() {
   const handleUserList = HandleUserList();
   handleUserList.groupedOrders?.sort((a, b) => b[0].scdact_timestamp - a[0].scdact_timestamp);
   const [tooltipOpen, setTooltipOpen] = React.useState({});
-  console.log("🚀 ~ index ~ tooltipOpen:", tooltipOpen)
   const [tooltipContent, setTooltipContent] = React.useState({});
-  console.log("🚀 ~ index ~ tooltipContent:", tooltipContent)
 
   const handleOpen = (index, sender) => {
     setTooltipOpen({ ...tooltipOpen, [index]: true });
@@ -86,7 +84,7 @@ function index() {
                     <Box sx={{ color: 'gray.main' }}>{row.length}</Box>
                   </Button>
                   <Box sx={{ ml: 0.5, cursor: 'pointer' }}>
-                    <Image alt="dropdown" style={{ transform: state.viewfile ? 'rotate(180deg)' : 'rotate(0)' }} src={dropdown}></Image>
+                    <Image alt="dropdown" style={{ width:"15px",height:"auto",transform: tooltipOpen[0] ? 'rotate(180deg)' : 'rotate(0)' }} src={dropdown}></Image>
                   </Box>
                 </Box>
               </handleUserList.CustomTooltipRecipient>
@@ -96,7 +94,7 @@ function index() {
           <TableCell id="bodycell" align="center">
           <div style={{ display: 'flex', justifyContent: 'center', alignItems: 'center' }}>
             <Box key={index}>
-              <handleUserList.CustomTooltipRecipient
+            <handleUserList.CustomTooltipRecipient
                 open={tooltipOpenRecipient[index] || false}
                 title={
                   <Box sx={{ p:1,display: "flex", flexDirection: 'column', justifyContent: 'flex-start', alignItems: 'flex-start' }}>
@@ -113,11 +111,11 @@ function index() {
               >
                 <Box sx={{ display: 'flex', alignItems: 'center' }} onClick={() => handleOpenRecipient(index)}>
                   <Button sx={{ display: 'flex', backgroundColor: 'rgba(119, 130, 150, 0.13)', borderRadius: '10px', justifyContent: 'space-around', alignItems: 'center' }}>
-                    <Image src={recipient} alt="recipient" />
-                    <Box sx={{ color: 'gray.main', mt: 1 }}>{`${Array.from(new Set(row.flatMap(item => item.scdact_reciepient.split(',')))).length}`}</Box>
+                      <Image src={recipient} alt="recipient" />
+                      <Box sx={{ color: 'gray.main' }}>{row.length}</Box>
                   </Button>
                   <Box sx={{ ml: 0.5, cursor: 'pointer' }}>
-                    <Image alt="dropdown" style={{ transform: state.viewfile ? 'rotate(180deg)' : 'rotate(0)' }} src={dropdown}></Image>
+                    <Image alt="dropdown" style={{ width:"15px",height:"auto",transform: tooltipOpenRecipient[0] ? 'rotate(180deg)' : 'rotate(0)' }} src={dropdown}></Image>
                   </Box>
                   <Box sx={{fontWeight:500}}>{row[0].scdact_reciepient.split(',')[0]}</Box>
                 </Box>

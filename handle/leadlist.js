@@ -82,7 +82,7 @@ function leadlist() {
         }).formatToParts(utcDate);
     
         const formattedDate = `${localDate[0].value}/${localDate[2].value}/${localDate[4].value}`;
-        const formattedTime = `${localDate[6].value}.${localDate[8].value}.${localDate[10].value}`;
+        const formattedTime = `${localDate[6].value}:${localDate[8].value}:${localDate[10].value}`;
       
         return `${formattedDate} ${formattedTime}`;
       };
@@ -181,10 +181,10 @@ function leadlist() {
               })
               .catch(error => console.log('error', error));
           } else {
-            // setData((prevData) => ({ ...prevData, loading: false, alert: true, alert_text: logResult.message.Finalcode_result, alert_type: "error" }));
-            // setTimeout(() => {
-            //   window.location.reload();
-            // }, 3000);
+            setData((prevData) => ({ ...prevData, loading: false, alert: true, alert_text: logResult.message.Finalcode_result, alert_type: "error" }));
+            setTimeout(() => {
+              window.location.reload();
+            }, 3000);
           }
         } catch (logError) {
           console.log('Error sending log request:', logError);
@@ -223,12 +223,12 @@ function leadlist() {
             setState((prevData) => ({ ...prevData, alert: true, pageloader: false, alert_text: "Operation successfully", alert_type: "success" }));
             setTimeout(() => {
               window.location.reload();
-            }, 3000);
+            }, 2000);
           }else{
             setState((prevData) => ({ ...prevData, alert: true, loading: false, alert_text: "Operation failed", alert_type: "error" }));
             setTimeout(() => {
               window.location.reload();
-            }, 3000);
+            }, 2000);
           }
         })
           .catch(error => console.log('error', error));
