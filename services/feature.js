@@ -12,11 +12,13 @@ function Feature() {
           const response = await fetch(`${process.env.NEXT_PUBLIC_API_ENDPOINT_GET}:${process.env.NEXT_PUBLIC_API_PORT_LOGIN}/api/checkMemberFeature/${state.decode_token.ID}`);
           const result = await response.json();
 
-          setState((prevData) => ({ ...prevData, memberfeature: result }));
+          setState((prevData) => ({ ...prevData, 
+            memberfeature: result,
+            securedoc:result.memberAuthorization.orgmbat_feature
+          
+          }));
 
-          if (result && result.memberAuthorization && result.memberAuthorization.orgmbat_feature) {
-            setState((prevData) => ({ ...prevData, securedoc: true }));
-          }
+          
         }
       } catch (error) {
         console.error('Error fetching data:', error);

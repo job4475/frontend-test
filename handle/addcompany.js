@@ -68,8 +68,6 @@ function addcompany() {
   const GoogleMaps = (e) => {
     setState({...state,googlemaps: e.target.value,});
   };
-
-
   return {Selectcompany,Register,Alias,Companyname,No,Street,Country,handleProvinceChange,handleAmphoeChange,handleTambonChange,ZIPCode,GoogleMaps}
 }
 

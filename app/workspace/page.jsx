@@ -29,10 +29,6 @@ const page = () => {
   const underreviewRouter = () => {
     router.push("/underreview");
   };
-  if(state.memberfeature && state.memberfeature.memberAuthorization && state.memberfeature.memberAuthorization.orgmbat_feature ){
-
-    setState((prevData) => ({ ...prevData, securedoc: true }));
-  }
  
   return (
     <>
@@ -90,7 +86,7 @@ const page = () => {
         <h3 className="my-2 lg:my-5">My work space</h3>
         <div className="flex flex-col lg:flex-row">
           <div>
-            {state.securedoc === true ? (
+            {state.securedoc === "#securedoc" ? (
               <div
                 onClick={sharedocumentRouter}
                 className="font-semibold mr-0 lg:mr-4 my-2 text-center flex flex-col items-center justify-center w-48 h-48 px-6 py-4 border border-gray-300 rounded-lg cursor-pointer transition-colors duration-300 hover:bg-gray-200"

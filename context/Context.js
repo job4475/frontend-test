@@ -5,6 +5,8 @@ import Token from '@/services/token'
 import Countries from '@/services/Countries'
 import Address from '@/services/Address'
 import Feature from '@/services/feature'
+import Alert   from '@/handle/dialog'
+import Loading from  '@/handle/loading'
 export const StateContext = createContext();
 
 export const StateProvider = ({children}) => {
@@ -14,12 +16,15 @@ export const StateProvider = ({children}) => {
     info:0,input_OTP:'',datacompany:[],decode_token:[],input_recip:"",subject:"",message:"",secure_type:false,selectedFileName:[],
     selectedFile:{},allowconverttooriginalfile: false,allowcopypaste: false,allowprint: false,alloweditsecuredfile: false,allowrunamacro: false,allowconverttobrowserviewfile: false,enableconverttooriginalfile:false,
     timelimitBeforeOri:"",timelimitBefore:"",timeBefore:"",timelimitAfterOri:"",timelimitAfter:"",timeAfter:"",limitDateTime:false,limitViewablePeriod:false,limitNumberFileOpen:false,noLimit:false,
-    periodDays:"",periodHours:"",opensTime:"",loading:false,confirmlink:'',latitude:'',longitude:'',selectedImage:null,countries:[],data:[],companyID:'',referenceID:'',logoImage:'',memberfeature:[],securedoc:false
+    periodDays:"",periodHours:"",opensTime:"",loading:false,confirmlink:'',latitude:'',longitude:'',selectedImage:null,countries:[],data:[],companyID:'',referenceID:'',logoImage:'',memberfeature:[],securedoc:false,
+    open:false,resetpassword:false,loading:false,qrcodeurl:''
     });
     console.log("🚀 ~ StateProvider ~ state:", state)
     return (
         <StateContext.Provider value={{state,setState}}>
             <Countries/>
+            <Loading/>
+            <Alert/>
             <Feature/>
             <Address/>
             <Token/>

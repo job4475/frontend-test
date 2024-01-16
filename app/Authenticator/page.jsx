@@ -1,6 +1,6 @@
 "use client"
 import React from "react";
-import LoginForm from "../ui/login/LoginForm/LoginForm";
+import Googleauthen from "../ui/googleauthen/page";
 import Image from "next/image";
 import Chiclogo from "@/assets/assets/images/sigin/chiclogo.png";
 
@@ -11,7 +11,7 @@ const page = () => {
         <Image src={Chiclogo} alt="logo" className="absolute w-[80px] h-[auto] top-5 left-5"/>
       </div>
       <div className="my-[auto] xl:mt-[auto] basis-1/1 xl:basis-1/3 flex flex-col content-center justify-center items-center">
-        <LoginForm />
+        <Googleauthen />
       </div>
     </div>
   );

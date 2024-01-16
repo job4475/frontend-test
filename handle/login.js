@@ -21,6 +21,7 @@ function login() {
     setState({...state,showPassword: !state.showPassword});
     };
     const handleSignInClick = () => {
+      setState({...state,loading: true})
       var myHeaders = new Headers();
       myHeaders.append("Content-Type", "application/json");
       var raw = JSON.stringify({
@@ -66,8 +67,8 @@ function login() {
       .then(result => {
         console.log(result);
         if (result.status === "OK") {
-          setState({ ...state, referenceID: result.referenceID });
-          router.push('/OTPverify');
+          setState({ ...state, referenceID: result.referenceID,loading: false});
+          router.push('/OTPverify'); 
         } else {
           console.log("Status is not OK:", result.status);
         }
@@ -76,6 +77,7 @@ function login() {
     }
 
   const handleSignUpClick = () => {
+    
     var myHeaders = new Headers();
     myHeaders.append("Content-Type", "application/json");
 
@@ -107,13 +109,12 @@ function login() {
                 selectedTambon: result.data.SubDistrict,
                 zipcode: result.data.Zipcode,
                 country: result.data.Country,
-                
             });
             if(state.companyID){
               fetchLogoImage();
             }
         } else {
-          
+          setState({...state,open: true})
             var formdata = new FormData();
             formdata.append("to", state.email);
             formdata.append("subject", "Registration");
