@@ -50,10 +50,11 @@ function sharedoc(textFieldRef,fileInputRef) {
 };
 
 const handleFileChange = (e) => {
-  const files = e.target.files;
-  setState((prevData) => ({ ...prevData, selectedFile: files, selectedFileName: files ? Array.from(files).map(f => f.name) : null}));
+  const files = Array.from(e.target.files);
+  setState((prevData) => ({ ...prevData, selectedFile: [...prevData.selectedFile, ...files],selectedFileName: files ? files.map(f => f.name) : null }));
   document.getElementById('upload').style.backgroundColor = `#F7F8F9`;
 };
+
 const handleSecureType = (e) => {
   setState((prevData) => ({ ...prevData, secure_type: !state.secure_type,allowconverttooriginalfile: false,allowcopypaste: false,allowprint: false,alloweditsecuredfile: false,allowrunamacro: false,allowconverttobrowserviewfile: false,enableconverttooriginalfile:false}));
 };
@@ -70,8 +71,8 @@ const handleDragLeave = (e) => {
 const handleDrop = (e) => {
   e.preventDefault();
   e.stopPropagation();
-  const droppedFile = e.dataTransfer.files;
-  setState((prevData) => ({ ...prevData, selectedFile: droppedFile,selectedFileName:droppedFile ? Array.from(droppedFile).map(f => f.name) : null}));
+  const droppedFile = Array.from(e.dataTransfer.files);
+  setState((prevData) => ({ ...prevData, selectedFile: [...prevData.selectedFile, ...droppedFile],selectedFileName:droppedFile ? droppedFile.map(f => f.name) : null}));
 };
 
 const handleDragOver = (e) => {

@@ -81,7 +81,7 @@ const page = () => {
           <div className="">
             <div className="flex flex-col lg:flex-row justify-start lg:justify-between items-start lg:items-center">
               <span style={{textTransform:"capitalize"}} className="text-lg font-semibold mr-1">
-                {state.decode_token?.FirstnameOriginal} {state.decode_token?.SurnameTokenOriginal}
+              {state.decode_token.FirstnameOriginal?state.decode_token?.FirstnameOriginal:state.decode_token?.Firstname} {state.decode_token.SurnameTokenOriginal?state.decode_token?.SurnameTokenOriginal:state.decode_token?.Surname}
               </span>
               <svg
                 xmlns="http://www.w3.org/2000/svg"
@@ -99,7 +99,7 @@ const page = () => {
               </svg>
             </div>
             <div>
-              <span className="text-lg">{state.decode_token?.JobTitleOriginal}</span>
+            <span className="text-lg">{state.decode_token.JobTitleOriginal?state.decode_token?.JobTitleOriginal:state.decode_token?.Role}</span>
             </div>
             <div>
             <span id="loginPeriod" className="text-lg">Login Period: 00:00:00</span>
@@ -109,7 +109,7 @@ const page = () => {
         <div className="m-2">
           <div>
             <Image
-              src={state.decode_token?.CompanyLogoOriginal}
+              src={state.decode_token.CompanyLogoOriginal?state.decode_token?.CompanyLogoOriginal:Logotrac}
               alt="logo"
               width={100}
               height={100}
@@ -133,14 +133,13 @@ const page = () => {
                   style={{ width: "70px", height: "75px" }}
                 />
                 <div className="my-3">
-                  Under
+                  Secure
                   <br />
-                  Review
+                  Doc
                 </div>
               </div>
             ) : null}
           </div>
-
 
           <div>
             {remotesupport ? (

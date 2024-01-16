@@ -34,7 +34,7 @@ function Index() {
               InputProps={{
                 endAdornment: (
                      <IconButton onClick={HandleLogin.handleTogglePassword} edge="end">
-                      {state.showPassword ? <VisibilityIcon /> : <VisibilityOffIcon />}
+                      {state.showPassword ? <VisibilityIcon/>:<VisibilityOffIcon />}
                     </IconButton> 
                 ),
               }}

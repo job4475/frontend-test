@@ -30,7 +30,7 @@ function Page() {
 
   return (
     <Box style={{ filter: state.pageloader ? 'blur(4px)' : 'none', pointerEvents: state.pageloader ? 'none' : 'auto' }}>
-      <GetLeadOrder />
+      <GetLeadOrder/>
       <AppBar />
       <Title />
       <TableList />

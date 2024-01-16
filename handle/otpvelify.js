@@ -76,8 +76,9 @@ function otpvelify() {
                 console.log(result);
                 setState((prevData) => ({ ...prevData,loading: false }));
                 if (result.status === "OK") {
-                    if(state.decode_token?.Username==="woraponasvn36@gmail.com"){
-                    window.location.href = "/RequestList";
+                    if(state.decode_token?.Username==="thananchai.sskru@gmail.com"){
+                    // window.location.href = "/RequestList";
+                    window.location.href = "/Workspace";
                     }else{
                     window.location.href = "/Workspace";
                     }

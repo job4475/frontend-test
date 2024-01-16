@@ -56,7 +56,8 @@ function index() {
             {!state.selectedFileName.length > 0?(
               <>
                <Image src={Upfile} alt="logo"style={{ width: "90px", height: "auto", borderRadius: "99px" }}/>
-               <Box sx={{mt:4,color:"textgreen.main",fontWeight:500}}>Drag & Drop your file here</Box>
+               <Box sx={{mt:4,color:"gray.main",fontWeight:400}}>**The max file size is 25 MB.**</Box>
+               <Box sx={{color:"textgreen.main",fontWeight:500}}>Drag & Drop your file here</Box>
                <Button sx={{color:"white.main",pl:3,pr:3}} variant="contained"size="small" style={{background:'#48846B',textTransform:'capitalize'}} onClick={handleShareDoc.handleFileClick}>Upload</Button>
                <input type="file" ref={fileInputRef} style={{ display: 'none' }} onChange={handleShareDoc.handleFileChange} multiple/>
               </>
@@ -67,12 +68,14 @@ function index() {
                       Array.from(state.selectedFile).slice(0, 9).map((file, index) => (
                      <Grid sx={{display: "flex", alignItems: "center",justifyContent:"center" }} item xs={2} sm={4} md={4} key={index}>
                       <Chip variant="outlined" sx={{border:"none"}} label={
+
                         <Box sx={{ textAlign: "center", fontSize: "12px", display: "flex", alignItems: "center",justifyContent:"center" }}>
                         <Box sx={{ position: 'relative', display: 'inline-flex' }}>
                           <Image alt="test" src={Circle} style={{maxWidth:"100px"}}></Image>&nbsp;
                           <Box sx={{ top: 0, left: -3, bottom: 0, right: 0, position: 'absolute', display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
                             <Typography style={{ textTransform: "uppercase", fontSize: "10px", color: "#48846B", fontWeight: 700 }} variant="caption" component="div" color="text.secondary">
-                            {state.selectedFileName[index].split('.')[1].length > 5 ? state.selectedFileName[index].split('.')[1].slice(0, 2) + '..': state.selectedFileName[index].split('.')[1]}
+                            {/* {state.selectedFileName[index].split('.')[1].length > 5 ? state.selectedFileName[index].split('.')[1].slice(0, 2) + '..': state.selectedFileName[index].split('.')[1]} */}
+                            {state.selectedFileName}
                             </Typography>
                           </Box>
                         </Box>

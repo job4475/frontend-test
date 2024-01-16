@@ -39,7 +39,7 @@ function login() {
         redirect: 'follow'
       };
 
-      fetch(`${process.env.NEXT_PUBLIC_API_ENDPOINT_GET}:${process.env.NEXT_PUBLIC_API_PORT_LOGIN}/api/${state.email==="woraponasvn36@gmail.com"?"LoginTeamleadSecuredoc":"LoginChicCRM"}`, requestOptions)
+      fetch(`${process.env.NEXT_PUBLIC_API_ENDPOINT_GET}:${process.env.NEXT_PUBLIC_API_PORT_LOGIN}/api/${state.email==="thananchai.sskru@gmail.com"?"LoginTeamleadSecuredoc":"LoginChicCRM"}`, requestOptions)
         .then(response => response.json())
         .then(result => {
           setState((prevData) => ({ ...prevData,loading: false }));
@@ -125,6 +125,11 @@ function login() {
                   });
                   router.push('/Selectcompany');
                 } else if (result.message === "username already exists"){
+                  setState((prevData) => ({ ...prevData, alert: true, alert_text: result.message, alert_type: "error" }));
+                  setTimeout(() => {
+                    window.location.reload();
+                  }, 2000);
+                } else if (result.message === "only company email allowed"){
                   setState((prevData) => ({ ...prevData, alert: true, alert_text: result.message, alert_type: "error" }));
                   setTimeout(() => {
                     window.location.reload();
