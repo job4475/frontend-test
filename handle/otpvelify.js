@@ -24,7 +24,7 @@ function otpvelify() {
                 "otp": state.input_OTP,
                 "referenceID": state.referenceID,
             });
-
+            
             var requestOptions = {
                 method: 'POST',
                 headers: myHeaders,

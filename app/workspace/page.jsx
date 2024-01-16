@@ -29,24 +29,11 @@ const page = () => {
   const underreviewRouter = () => {
     router.push("/underreview");
   };
-  const orgmbatFeature = state?.memberAuthorization?.orgmbat_feature;
+  if(state.memberfeature && state.memberfeature.memberAuthorization && state.memberfeature.memberAuthorization.orgmbat_feature ){
 
-  const [sharedocument, setSharedocument] = useState(false);
-  const [remotesupport, setRemotesupport] = useState(false);
-  const [myopportunity, setMyopportunity] = useState(false);
-  const [carreserve, setCarreserve] = useState(false);
-  const [underreview, setUnderreview] = useState(false);
-
-  useEffect(() => {
-    if (orgmbatFeature) {
-      setSharedocument(orgmbatFeature.includes("#sharedocument"));
-      setRemotesupport(orgmbatFeature.includes("#remotesupport"));
-      setMyopportunity(orgmbatFeature.includes("#myopportunity"));
-      setCarreserve(orgmbatFeature.includes("#carreserve"));
-      setUnderreview(orgmbatFeature.includes("#underreview"));
-    }
-  }, [orgmbatFeature]);
-
+    setState((prevData) => ({ ...prevData, securedoc: true }));
+  }
+ 
   return (
     <>
       <div className="max-w-screen-xl p-2 lg:p-0 container mx-auto my-2 lg:my-12 flex flex-col lg:flex-row justify-start lg:justify-between items-start lg:items-center">
@@ -54,7 +41,7 @@ const page = () => {
           <div className="mr-3">
             <Image
               src={state.logoImage}
-              alt={state.CompanyLogoOriginal}
+              alt="logo"
               width={100}
               height={100}
             />
@@ -103,7 +90,7 @@ const page = () => {
         <h3 className="my-2 lg:my-5">My work space</h3>
         <div className="flex flex-col lg:flex-row">
           <div>
-            {sharedocument ? (
+            {state.securedoc === true ? (
               <div
                 onClick={sharedocumentRouter}
                 className="font-semibold mr-0 lg:mr-4 my-2 text-center flex flex-col items-center justify-center w-48 h-48 px-6 py-4 border border-gray-300 rounded-lg cursor-pointer transition-colors duration-300 hover:bg-gray-200"
@@ -114,16 +101,14 @@ const page = () => {
                   style={{ width: "70px", height: "75px" }}
                 />
                 <div className="my-3">
-                  Under
-                  <br />
-                  Review
+                securedoc
                 </div>
               </div>
             ) : null}
           </div>
 
 
-          <div>
+          {/* <div>
             {remotesupport ? (
               <div
                 onClick={remotesupportRouter}
@@ -202,7 +187,7 @@ const page = () => {
                 </div>
               </div>
             ) : null}
-          </div>
+          </div> */}
         </div>
       </div>
     </>
