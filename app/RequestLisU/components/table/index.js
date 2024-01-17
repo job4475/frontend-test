@@ -84,7 +84,7 @@ function index() {
                     <Box sx={{ color: 'gray.main' }}>{row.length}</Box>
                   </Button>
                   <Box sx={{ ml: 0.5, cursor: 'pointer' }}>
-                    <Image alt="dropdown" style={{ width:"15px",height:"auto",transform: tooltipOpen[0] ? 'rotate(180deg)' : 'rotate(0)' }} src={dropdown}></Image>
+                    <Image alt="dropdown" style={{ width:"15px",height:"auto",transform: tooltipOpen[index] ? 'rotate(180deg)' : 'rotate(0)' }} src={dropdown}></Image>
                   </Box>
                 </Box>
               </handleUserList.CustomTooltipRecipient>
@@ -115,7 +115,7 @@ function index() {
                       <Box sx={{ color: 'gray.main' }}>{row[0]?.scdact_reciepient?.split(',').length || 0}</Box>
                   </Button>
                   <Box sx={{ ml: 0.5, cursor: 'pointer' }}>
-                    <Image alt="dropdown" style={{ width:"15px",height:"auto",transform: tooltipOpenRecipient[0] ? 'rotate(180deg)' : 'rotate(0)' }} src={dropdown}></Image>
+                    <Image alt="dropdown" style={{ width:"15px",height:"auto",transform: tooltipOpenRecipient[index] ? 'rotate(180deg)' : 'rotate(0)' }} src={dropdown}></Image>
                   </Box>
                   <Box sx={{fontWeight:500}}>{row[0].scdact_reciepient.split(',')[0]}</Box>
                 </Box>

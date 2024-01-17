@@ -14,8 +14,10 @@ function index() {
   const {state, setState} = useContext(StateContext);
   const fileInputRef = useRef(null);
   const textFieldRef = useRef(null);
-  const handleShareDoc = HandleShareDoc(textFieldRef,fileInputRef);
-
+  const handleShareDoc = HandleShareDoc(textFieldRef);
+  const handleFileClick = () => {
+    fileInputRef.current.click();
+  };
   return (
     <>
     {/* //*!Hook Useeffect */}
@@ -44,14 +46,14 @@ function index() {
               InputProps={{startAdornment: (<></>),}}/>
 
             {/* //*&Upload File */}
-            <Box id="upload" onClick={handleShareDoc.handleFileClick} onDragOver={handleShareDoc.handleDragOver} onDrop={handleShareDoc.handleDrop}     onDragLeave={handleShareDoc.handleDragLeave} sx={{width: "100%",height: "250px",borderRadius: "10px",backgroundColor: !state.selectedFileName.length > 0?"#fff": "#F7F8F9",borderStyle: "dashed",borderWidth: "1px",borderColor: "#ccc",display:'flex',justifyContent:"center",alignItems:'center',flexDirection:!state.selectedFileName.length > 0?'column':"row"}}>
-              <input type="file" ref={fileInputRef} style={{ display: 'none' }} onChange={handleShareDoc.handleFileChange} multiple/>
+            <Box id="upload" onClick={handleFileClick} onDragOver={handleShareDoc.handleDragOver} onDrop={handleShareDoc.handleDrop}     onDragLeave={handleShareDoc.handleDragLeave} sx={{width: "100%",height: "250px",borderRadius: "10px",backgroundColor: !state.selectedFileName.length > 0?"#fff": "#F7F8F9",borderStyle: "dashed",borderWidth: "1px",borderColor: "#ccc",display:'flex',justifyContent:"center",alignItems:'center',flexDirection:!state.selectedFileName.length > 0?'column':"row"}}>
             {!state.selectedFileName.length > 0?(
               <>
                <Image src={Upfile} alt="logo"style={{ width: "90px", height: "auto", borderRadius: "99px" }}/>
-               <Box sx={{display:state.selectedFileName.length === 0&&state.dragover?"none":"flex",mt:4,color:"gray.main",fontWeight:400}}>**The max file size is 25 MB.**</Box>
+               <Box sx={{mt:4,color:"gray.main",fontWeight:400}}>**The max file size is 25 MB.**</Box>
                <Box sx={{color:"textgreen.main",fontWeight:500}}>Drag & Drop your file here</Box>
-               <Button sx={{display:state.selectedFileName.length === 0&&state.dragover?"none":"flex",color:"white.main",pl:3,pr:3}} variant="contained"size="small" style={{background:'#48846B',textTransform:'capitalize'}}>Upload</Button>
+               <Button sx={{color:"white.main",pl:3,pr:3}} variant="contained"size="small" style={{background:'#48846B',textTransform:'capitalize'}}>Upload</Button>
+               <input type="file" ref={fileInputRef} style={{ display: 'none' }} onChange={handleShareDoc.handleFileChange} multiple/>
               </>
               ):(
                 <Box sx={{ flexGrow: 1,m:2 }}>

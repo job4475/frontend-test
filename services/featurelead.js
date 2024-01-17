@@ -10,6 +10,7 @@ function Feature() {
       fetch(`${process.env.NEXT_PUBLIC_API_ENDPOINT_GET}:${process.env.NEXT_PUBLIC_API_PORT_LOGIN}/api/checkMemberFeature/${state.decode_token.TeamleadID}`)
         .then(response => response.json())
         .then(result => {
+          console.log("🚀 ~ useEffect ~ result:", result)
           setState((prevData) => ({ ...prevData, leadAuthorization: result.memberAuthorization }));
         })
         .catch(error => console.log('error', error));

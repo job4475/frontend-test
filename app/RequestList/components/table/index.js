@@ -51,7 +51,7 @@ function index() {
     setTooltipOpenPermission({ ...tooltipOpenPermission, [index]: false });
   };
   return (
-    <Box sx={{display:'flex',justifyContent:'center',mt:3}}>
+    <Box sx={{display:'flex',justifyContent:'center',mt:3,pb:3}}>
       <TableContainer id="tablelist" component={Paper} sx={{ width: '90%', maxHeight: '90%' }}>
         <Box sx={{p:2,fontWeight:600}}>Request list</Box>
       <Table>
@@ -101,7 +101,7 @@ function index() {
                     <Box sx={{ color: 'gray.main' }}>{row.length}</Box>
                   </Button>
                   <Box sx={{ ml: 0.5, cursor: 'pointer' }}>
-                    <Image alt="dropdown" style={{ width:"15px",height:"auto",transform: tooltipOpen[0] ? 'rotate(180deg)' : 'rotate(0)' }} src={dropdown}></Image>
+                    <Image alt="dropdown" style={{ width:"15px",height:"auto",transform: tooltipOpen[index] ? 'rotate(180deg)' : 'rotate(0)' }} src={dropdown}></Image>
                   </Box>
                 </Box>
               </handleLeadList.CustomTooltipRecipient>
@@ -178,7 +178,7 @@ function index() {
                       </Box>
                   </Button>
                   <Box sx={{ ml: 0.5, cursor: 'pointer' }}>
-                    <Image alt="dropdown" style={{ width:"15px",height:"auto",transform: tooltipOpenPermission[0] ? 'rotate(180deg)' : 'rotate(0)' }} src={dropdown}></Image>
+                    <Image alt="dropdown" style={{ width:"15px",height:"auto",transform: tooltipOpenPermission[index] ? 'rotate(180deg)' : 'rotate(0)' }} src={dropdown}></Image>
                   </Box>
                 </Box>
               </handleLeadList.CustomTooltipRecipient>
@@ -211,7 +211,7 @@ function index() {
                       <Box sx={{ color: 'gray.main' }}>{row[0]?.scdact_reciepient?.split(',').length || 0}</Box>
                   </Button>
                   <Box sx={{ml: 0.5, cursor: 'pointer' }}>
-                    <Image alt="dropdown" style={{ width:"15px",height:"auto",transform: tooltipOpenRecipient[0] ? 'rotate(180deg)' : 'rotate(0)' }} src={dropdown}></Image>
+                    <Image alt="dropdown" style={{ width:"15px",height:"auto",transform: tooltipOpenRecipient[index] ? 'rotate(180deg)' : 'rotate(0)' }} src={dropdown}></Image>
                   </Box>
                   <Box sx={{fontWeight:500}}>{row[0].scdact_reciepient.split(',')[0]}</Box>
                 </Box>

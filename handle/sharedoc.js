@@ -51,7 +51,10 @@ function sharedoc(textFieldRef,fileInputRef) {
 
 const handleFileChange = (e) => {
   const files = Array.from(e.target.files);
-  setState((prevData) => ({ ...prevData, selectedFile: [...prevData.selectedFile, ...files],selectedFileName: files ? files.map(f => f.name) : null }));
+  setState((prevData) => ({ ...prevData, selectedFile: [...prevData.selectedFile, ...files],selectedFileName: [
+    ...prevData.selectedFileName,
+    ...files.map((file) => file.name),
+  ] }));
   document.getElementById('upload').style.backgroundColor = `#F7F8F9`;
 };
 
@@ -63,8 +66,10 @@ const handleDragLeave = (e) => {
   e.preventDefault();
   e.stopPropagation();
   if (!e.relatedTarget || !e.currentTarget.contains(e.relatedTarget)) {
-    setState((prevData) => ({ ...prevData,selectedFileName: []}));
     e.currentTarget.style.backgroundColor = `#fff`;
+    if(state.selectedFile.length === 0){
+    setState((prevData) => ({ ...prevData,dragover: false}));
+    }
   }
 };
 
@@ -72,14 +77,20 @@ const handleDrop = (e) => {
   e.preventDefault();
   e.stopPropagation();
   const droppedFile = Array.from(e.dataTransfer.files);
-  setState((prevData) => ({ ...prevData, selectedFile: [...prevData.selectedFile, ...droppedFile],selectedFileName:droppedFile ? droppedFile.map(f => f.name) : null}));
+  console.log("🚀 ~ handleDrop ~ droppedFile:", droppedFile)
+  setState((prevData) => ({ ...prevData, selectedFile: [...prevData.selectedFile, ...droppedFile],selectedFileName: [
+    ...prevData.selectedFileName,
+    ...droppedFile.map((file) => file.name),
+  ]}));
 };
 
 const handleDragOver = (e) => {
   e.preventDefault();
   e.stopPropagation();
   e.currentTarget.style.backgroundColor = `#F7F8F9`;
-  setState((prevData) => ({ ...prevData, selectedFileName:"Drag and Drop"}));
+  if(state.selectedFile.length === 0){
+  setState((prevData) => ({ ...prevData,dragover: true}));
+  }
 };
 
 const handleFileClick = () => {
@@ -309,7 +320,7 @@ const SwitchBox = ({ label, checked, onChange }) => (
         const sanitizedFileName = file.name.replace(/\s+/g, '-');
         const emailText = state.recipient.map((recipient, index) => `${recipient}`)
 
-        formdata.append("scdact_command", `./finalcode_api ${state.secure_type===true?"":"-browserview"} ${state.message?`-mes:"${state.message}"`:""} ${state.enableconverttooriginalfile?"-to_bv_decode":""} ${state.allowconverttobrowserviewfile?"-to_bv_file":""} ${state.allowrunamacro||state.allowconverttooriginalfile?"-nomacro_deny":"-macro_deny"} ${state.alloweditsecuredfile?"-edit":""} -encrypt ${state.secure_type===true?"":"-bv_auth:1"}  -src:../data/${orderId}/${sanitizedFileName} -dest:../data/${orderId}/${sanitizedFileName}(${emailText})${state.secure_type===true?".fcl":".html"} ${state.allowconverttooriginalfile?"-decode":""} ${state.allowcopypaste?"-copypaste":""} ${state.allowprint?"-print":""} ${state.timelimitBefore?`-startdate:${state.timelimitBefore}`:""} ${state.timelimitAfter?`-date:${state.timelimitAfter}`:""} ${state.periodDays?`-day:${state.periodDays}`:""} ${state.periodHours?`-hour:${state.periodHours}`:""} ${state.opensTime?`-cnt:${state.opensTime}`:""} -user:thananchai@tracthai.com -mail:${emailText}`);
+        formdata.append("scdact_command", `./finalcode_api ${state.secure_type===true?"":"-browserview"} ${state.message?`-mes:"${state.message}"`:""} ${state.enableconverttooriginalfile?"-to_bv_decode":""} ${state.allowconverttobrowserviewfile?"-to_bv_file":""} ${state.allowrunamacro||state.allowconverttooriginalfile?"-nomacro_deny":"-macro_deny"} ${state.alloweditsecuredfile?"-edit":""} -encrypt ${state.secure_type===true?"":"-bv_auth:1"}  -src:../data/${orderId}/${sanitizedFileName} -dest:../data/${orderId}/${sanitizedFileName}{${emailText}}${state.secure_type===true?".fcl":".html"} ${state.allowconverttooriginalfile?"-decode":""} ${state.allowcopypaste?"-copypaste":""} ${state.allowprint?"-print":""} ${state.timelimitBefore?`-startdate:${state.timelimitBefore}`:""} ${state.timelimitAfter?`-date:${state.timelimitAfter}`:""} ${state.periodDays?`-day:${state.periodDays}`:""} ${state.periodHours?`-hour:${state.periodHours}`:""} ${state.opensTime?`-cnt:${state.opensTime}`:""} -user:thananchai@tracthai.com -mail:${emailText}`);
         formdata.append("scdact_binary", file, `/D:/Downloads/${orderId}/${sanitizedFileName}`);
 
         formdata.append("scdact_filename", sanitizedFileName);
