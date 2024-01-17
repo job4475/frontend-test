@@ -11,18 +11,19 @@ function Index() {
   const {state, setState} = useContext(StateContext);
   const [showPassword, setShowPassword] = useState(false);
   const HandleResetPassword = handleresetpassword();
-  const tokenParam = new URLSearchParams(window.location.search).get('token');
+  const tokenParam = typeof window !== 'undefined' ? new URLSearchParams(window.location.search).get('token') : null;
   const decodedToken = tokenParam ? JSON.parse(atob(tokenParam.split('.')[1])) : null;
 
-useEffect(() => {
-  if (tokenParam) {
-    setState((prevData) => ({...prevData,
-      confirmlink: tokenParam,  
-      confirmlink_decode: decodedToken,
-      email : decodedToken.username
-    }));
-  }
-}, [tokenParam]);
+  useEffect(() => {
+    if (tokenParam) {
+      setState((prevData) => ({
+        ...prevData,
+        confirmlink: tokenParam,
+        confirmlink_decode: decodedToken,
+        email: decodedToken.username,
+      }));
+    }
+  }, [tokenParam]);
   const resetpassword = (e) => {
     setState({...state,password: e.target.value,});
   };
