@@ -15,8 +15,12 @@ const page = () => {
   const { state, setState } = useContext(StateContext);
   const router = useRouter();
   const sharedocumentRouter = () => {
-    router.push("/ShareDocument");
-  };
+    if(state.decode_token.Role==="admin"){
+      router.push("/RequestList");
+    }else{
+      router.push("/ShareDocument");
+    }
+    };
   const remotesupportRouter = () => {
     router.push("/remotesupport");
   };
@@ -122,7 +126,7 @@ const page = () => {
         <h3 className="my-2 lg:my-5">My work space</h3>
         <div className="flex flex-col lg:flex-row">
           <div>
-            {state.memberAuthorization?.orgmbat_feature==="#securedoc" ? (
+            {state.memberAuthorization?.orgmbat_feature||state.leadAuthorization?.orgmbat_feature==="#securedoc" ? (
               <div
                 onClick={sharedocumentRouter}
                 className="font-semibold mr-0 lg:mr-4 my-2 text-center flex flex-col items-center justify-center w-48 h-48 px-6 py-4 border border-gray-300 rounded-lg cursor-pointer transition-colors duration-300 hover:bg-gray-200"
