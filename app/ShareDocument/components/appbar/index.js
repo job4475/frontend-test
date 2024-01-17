@@ -9,11 +9,18 @@ import { StateContext } from '@/context/Context';
 function index() {
   const {state, setState} = useContext(StateContext);
 
-  const storedLoginTime = localStorage.getItem('loginTime');
-  const [loginTime, setLoginTime] = useState(storedLoginTime ? new Date(storedLoginTime) : new Date());
+  const isLocalStorageAvailable = typeof window !== 'undefined' && window.localStorage;
 
-  useEffect(() => {
-    localStorage.setItem('loginTime', loginTime);
+  // Use local storage only if it's available
+  const storedLoginTime = isLocalStorageAvailable ? localStorage.getItem('loginTime') : null;
+  const [loginTime, setLoginTime] = React.useState(
+    storedLoginTime ? new Date(storedLoginTime) : new Date()
+  );
+
+  React.useEffect(() => {
+    if (isLocalStorageAvailable) {
+      localStorage.setItem('loginTime', loginTime);
+    }
     
     const intervalId = setInterval(() => {
       const currentTime = new Date();

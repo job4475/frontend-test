@@ -21,7 +21,7 @@ export const StateProvider = ({children}) => {
     confirmlink:'',latitude:'',longitude:'',selectedImage:null,countries:[],data:[],companyID:'',referenceID:'',logoImage:'',memberAuthorization:[],dragover:false,sumsize:0,size_progress:0,
     sumsize_original:0,leadAuthorization:[]
     });
-    console.log("🚀 ~ StateProvider ~ state:", state)
+    // console.log("🚀 ~ StateProvider ~ state:", state)
     return (
         <StateContext.Provider value={{state,setState}}>
             <Countries/>
