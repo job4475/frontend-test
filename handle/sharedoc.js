@@ -51,12 +51,25 @@ function sharedoc(textFieldRef,fileInputRef) {
 
 const handleFileChange = (e) => {
   const files = Array.from(e.target.files);
+  const maxSize = 25 * 1024 * 1024; // 25 MB
+  const currentTotalSize = state.selectedFile.reduce((acc, file) => acc + file.size, 0);
+  const incomingTotalSize = files.reduce((acc, file) => acc + file.size, 0);
+  const newTotalSize = currentTotalSize + incomingTotalSize;
+
+  if (newTotalSize > maxSize) {
+    setState((prevData) => ({ ...prevData,alert: true, loading: false, alert_text: "File size exceeds 25 MB limit. Please select a smaller file.", alert_type: "error"}));
+    setTimeout(() => {
+      setState((prevData) => ({ ...prevData,alert: false}));
+    }, 3000);
+    return;
+  }
   setState((prevData) => ({ ...prevData, selectedFile: [...prevData.selectedFile, ...files],selectedFileName: [
     ...prevData.selectedFileName,
     ...files.map((file) => file.name),
   ] }));
   document.getElementById('upload').style.backgroundColor = `#F7F8F9`;
 };
+
 
 const handleSecureType = (e) => {
   setState((prevData) => ({ ...prevData, secure_type: !state.secure_type,allowconverttooriginalfile: false,allowcopypaste: false,allowprint: false,alloweditsecuredfile: false,allowrunamacro: false,allowconverttobrowserviewfile: false,enableconverttooriginalfile:false}));
@@ -77,11 +90,22 @@ const handleDrop = (e) => {
   e.preventDefault();
   e.stopPropagation();
   const droppedFile = Array.from(e.dataTransfer.files);
-  console.log("🚀 ~ handleDrop ~ droppedFile:", droppedFile)
+  const maxSize = 25 * 1024 * 1024; // 25 MB
+  const currentTotalSize = state.selectedFile.reduce((acc, file) => acc + file.size, 0);
+  const incomingTotalSize = droppedFile.reduce((acc, file) => acc + file.size, 0);
+  const newTotalSize = currentTotalSize + incomingTotalSize;
+
+  if (newTotalSize > maxSize) {
+    setState((prevData) => ({ ...prevData,alert: true, loading: false, alert_text: "File size exceeds 25 MB limit. Please select a smaller file.", alert_type: "error"}));
+    setTimeout(() => {
+      setState((prevData) => ({ ...prevData,alert: false}));
+    }, 3000);
+    return;
+  }
   setState((prevData) => ({ ...prevData, selectedFile: [...prevData.selectedFile, ...droppedFile],selectedFileName: [
     ...prevData.selectedFileName,
-    ...droppedFile.map((file) => file.name),
-  ]}));
+    ...droppedFile.map((file) => file.name)
+  ],dragover:false}));
 };
 
 const handleDragOver = (e) => {
@@ -100,7 +124,7 @@ const handleExit = () => {
   setState((prevData) => ({ ...prevData, titleselect:"",input_last_name:"",input_email:"",input_role:"",
   input_firstName:"",input_phone:"",input_jobtitle:"",email:'',Password:'',Alias:'',Province:'',Companyname:'',District:''
   ,No:'',SubDistric:'',Street:'',ZIPCode:'',Country:'',GoogleMaps:'',Newpassword:'',recipient:[],input_recip:"",subject:"",message:"",secure_type:false,selectedFileName:[],
-  selectedFile:{},allowconverttooriginalfile: false,allowcopypaste: false,allowprint: false,alloweditsecuredfile: false,allowrunamacro: false,allowconverttobrowserviewfile: false,enableconverttooriginalfile:false,
+  selectedFile:[],allowconverttooriginalfile: false,allowcopypaste: false,allowprint: false,alloweditsecuredfile: false,allowrunamacro: false,allowconverttobrowserviewfile: false,enableconverttooriginalfile:false,
   timelimitBeforeOri:"",timelimitBefore:"",timeBefore:"",timelimitAfterOri:"",timelimitAfter:"",timeAfter:"",limitDateTime:false,limitViewablePeriod:false,limitNumberFileOpen:false,noLimit:false,
   periodDays:"",periodHours:"",opensTime:"",loading:false}));
 };
@@ -343,7 +367,12 @@ const SwitchBox = ({ label, checked, onChange }) => (
           if (result.Status === "OK") {
             // setData((prevData) => ({ ...prevData, alert: true, alert_text: result.message.finalcode_result, alert_type: "success"}));
             //^delay 3 seconds
-              setState((prevData) => ({ ...prevData, loading: false}));
+              setState((prevData) => ({ ...prevData, loading: false,titleselect:"",input_last_name:"",input_email:"",input_role:"",
+              input_firstName:"",input_phone:"",input_jobtitle:"",email:'',Password:'',Alias:'',Province:'',Companyname:'',District:''
+              ,No:'',SubDistric:'',Street:'',ZIPCode:'',Country:'',GoogleMaps:'',Newpassword:'',recipient:[],input_recip:"",subject:"",message:"",secure_type:false,selectedFileName:[],
+              selectedFile:[],allowconverttooriginalfile: false,allowcopypaste: false,allowprint: false,alloweditsecuredfile: false,allowrunamacro: false,allowconverttobrowserviewfile: false,enableconverttooriginalfile:false,
+              timelimitBeforeOri:"",timelimitBefore:"",timeBefore:"",timelimitAfterOri:"",timelimitAfter:"",timeAfter:"",limitDateTime:false,limitViewablePeriod:false,limitNumberFileOpen:false,noLimit:false,
+              periodDays:"",periodHours:"",opensTime:"",loading:false}));
               router.push('/RequestLisU');
           } else {
             // setData((prevData) => ({ ...prevData, loading: false, alert: true, alert_text: result.message.finalcode_result, alert_type: "error" }));

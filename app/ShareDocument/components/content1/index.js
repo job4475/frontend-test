@@ -1,5 +1,5 @@
 "use client";
-import React, { useContext, useRef, useState } from "react";
+import React, { useContext, useEffect, useRef, useState } from "react";
 import Image from "next/image";
 import Upfile from '@/assets/assets/images/upfile.png';
 import { Box, Button, Checkbox, Chip, FormControlLabel, FormGroup, Grid, Paper, Switch, TextField, Typography } from "@mui/material";
@@ -15,6 +15,22 @@ function index() {
   const fileInputRef = useRef(null);
   const textFieldRef = useRef(null);
   const handleShareDoc = HandleShareDoc(textFieldRef,fileInputRef);
+
+  useEffect(() => {
+    let totalSizeInBytes = 0;
+  state.selectedFile.forEach((file, index) => {
+    totalSizeInBytes += file.size;
+  });
+  
+  const totalSizeInMB = totalSizeInBytes / (1024 * 1024);
+  const maxSizeInMB = 25;
+  
+  // คำนวณความคืบหน้าในเลขเปอร์เซ็นต์
+  const progressPercentage = (totalSizeInMB / maxSizeInMB) * 100;
+  setState((prevData) => ({ ...prevData,size_progress: progressPercentage,sumsize:totalSizeInMB.toFixed(2),sumsize_original:totalSizeInBytes}));
+
+  }, [state.selectedFile,setState]);
+ 
 
   return (
     <>
