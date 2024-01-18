@@ -8,13 +8,15 @@ function login() {
     const {state, setState} = useContext(StateContext);
 
     const fetchLogoImage = () => {
+      setState({...state,loading: true})
       fetch(`${process.env.NEXT_PUBLIC_API_ENDPOINT_GET}:${process.env.NEXT_PUBLIC_API_PORT_LOGIN}/api/getLogoBinary/${state.companyID}`)
           .then(response => response.blob())
           .then(blob => {
               const imageUrl = URL.createObjectURL(blob);
-              setState((prevData) => ({ ...prevData, logoImage: imageUrl }));
+              setState((prevData) => ({ ...prevData, logoImage: imageUrl,loading: false }));
           })
           .catch(error => console.error("Error fetching binary data:", error));
+
           router.push('/Selectcompany');
   };
     const handleTogglePassword = () => {
@@ -41,7 +43,7 @@ function login() {
             const decodedToken = JSON.parse(atob(result.token.split('.')[1]));
             localStorage.setItem("decode_token", JSON.stringify(decodedToken));
             sendOTPEmail();
-            
+
           } else {
             console.log(result.message);
           }
@@ -51,11 +53,9 @@ function login() {
     const sendOTPEmail = () => {
       var myHeaders = new Headers();
       myHeaders.append("Content-Type", "application/json");
-
       var otpData = {
         "email": state.email
       };
-
       var otpRequestOptions = {
         method: 'POST',
         headers: myHeaders,
@@ -75,7 +75,6 @@ function login() {
       })
       .catch(error => console.error('Error:', error));
     }
-
   const handleSignUpClick = () => {
     
     var myHeaders = new Headers();
@@ -113,7 +112,7 @@ function login() {
             if(state.companyID){
               fetchLogoImage();
             }
-        } else {
+        } else if(result.message === "domain does not match. To proceed, please check your email") {
           setState({...state,open: true})
             var formdata = new FormData();
             formdata.append("to", state.email);
@@ -136,6 +135,8 @@ function login() {
                 .then(result => console.log(result))
                 .catch(error => console.log('error', error));
             console.log("Status is not OK:", result.status);
+        }else if(result.message === "username already exists") {
+          setState({...state,status: result.status,message: result.message,error:true});
         }
     })
     .catch(error => console.error("Error fetching data:", error));

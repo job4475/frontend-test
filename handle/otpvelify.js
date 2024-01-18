@@ -5,7 +5,7 @@ import { useRouter } from 'next/navigation';
 function otpvelify() {
     const { state, setState } = useContext(StateContext);
     const router = useRouter();
-    useEffect(() => {
+ 
         const fetchLogoImage = () => {
             fetch(`${process.env.NEXT_PUBLIC_API_ENDPOINT_GET}:${process.env.NEXT_PUBLIC_API_PORT_LOGIN}/api/getLogoBinary/${state.decode_token.CompanyID}`)
                 .then(response => response.blob())
@@ -41,8 +41,7 @@ function otpvelify() {
                 })
                 .catch(error => console.log('error', error));
         };
-        workspace();
-    }, [state.input_OTP, state.referenceID, setState, router]);
+    
     const handleCodeChange = (code) => {
         console.log('Verification Code:', code);
         if (code.length === 6) {

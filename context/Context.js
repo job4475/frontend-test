@@ -17,7 +17,7 @@ export const StateProvider = ({children}) => {
     selectedFile:{},allowconverttooriginalfile: false,allowcopypaste: false,allowprint: false,alloweditsecuredfile: false,allowrunamacro: false,allowconverttobrowserviewfile: false,enableconverttooriginalfile:false,
     timelimitBeforeOri:"",timelimitBefore:"",timeBefore:"",timelimitAfterOri:"",timelimitAfter:"",timeAfter:"",limitDateTime:false,limitViewablePeriod:false,limitNumberFileOpen:false,noLimit:false,
     periodDays:"",periodHours:"",opensTime:"",loading:false,confirmlink:'',latitude:'',longitude:'',selectedImage:null,countries:[],data:[],companyID:'',referenceID:'',logoImage:'',memberfeature:[],securedoc:false,
-    open:false,resetpassword:false,loading:false,qrcodeurl:''
+    open:false,resetpassword:false,loading:false,registerSuccess:false,qrcodeurl:'',phonecompany:'',Website:'',status:'',message:'',error:false
     });
     console.log("🚀 ~ StateProvider ~ state:", state)
     return (

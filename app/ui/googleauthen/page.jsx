@@ -1,13 +1,13 @@
 "use client"
 import { StateContext } from '@/context/Context';
 import React, { useContext } from 'react'
-import handlelogin from "@/handle/login"
+import handlegovelify from "@/handle/Authenticator"
 import { Box, Button } from '@mui/material';
 import QRCode from 'qrcode.react';
 
 function page() {
  const {state, setState} = useContext(StateContext);
- const HandleLogin = handlelogin();
+ const HandleLogin = handlegovelify();
   return (
     <Box>
       <Box p={5} sx={{display: 'flex',flexDirection: 'column',background: 'width',width: '100%',height: 'auto',
@@ -21,7 +21,7 @@ function page() {
         <QRCode value={state.qrcodeurl} size={250} level={"H"} />
         </Box>
        <Box>
-        <Button variant="contained"  style={{background:'#84BAA1',width:'100%',textTransform:'capitalize'}}>Next</Button>
+        <Button variant="contained" onClick={HandleLogin.gotovelify} style={{background:'#84BAA1',width:'100%',textTransform:'capitalize'}}>Next</Button>
        </Box>
       </Box>
     </Box>
