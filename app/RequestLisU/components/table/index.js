@@ -61,10 +61,10 @@ function index() {
                 open={tooltipOpen[index] || false}
                 title={
                   <>
-                  <Box component="h5" sx={{color: row[0].scdact_status === "Approved" ? "green" : row[0].scdact_status === "Rejected" ? "red" : "",display: row[0].scdact_status === "Approved"||row[0].scdact_status === "Rejected" ?"flex":"none"}}>
+                  {/* <Box component="h5" sx={{color: row[0].scdact_status === "Approved" ? "green" : row[0].scdact_status === "Rejected" ? "red" : "",display: row[0].scdact_status === "Approved"||row[0].scdact_status === "Rejected" ?"flex":"none"}}>
                     {row[0].scdact_status === "Approved"?"Already approved":"Already rejected"}
-                  </Box>
-                  <Box sx={{ p:1,display: row[0].scdact_status === "Approved"||row[0].scdact_status === "Rejected" ?"none":"flex", flexDirection: 'column', justifyContent: 'flex-start', alignItems: 'flex-start' }}>
+                  </Box> */}
+                  <Box sx={{ p:1,display: "flex", flexDirection: 'column', justifyContent: 'flex-start', alignItems: 'flex-start' }}>
                     <Box component="h3" sx={{ ml: 1, color: 'gray.main' }}>All Files</Box>
                     {row.map((item, itemIndex) => (
                       <Button onClick={() => row[0].scdact_status !== 'Approved' && row[0].scdact_status !== 'Rejected' ? handleUserList.handleClicktoGetFile(item.scdact_id) : ''} key={`button-${itemIndex}`} style={{ textTransform: 'none',display: 'flex', justifyContent: 'space-between', width: '100%' }}>

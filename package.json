@@ -6,7 +6,8 @@
     "dev": "next dev",
     "build": "next build",
     "start": "next start",
-    "lint": "next lint"
+    "lint": "next lint",
+    "build-ubuntu": "next build -o ./chiccrm"
   },
   "dependencies": {
     "@emotion/cache": "^11.11.0",
