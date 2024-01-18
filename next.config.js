@@ -11,3 +11,5 @@ const nextConfig = {
     },
     trailingSlash: true,
   }
+
+  

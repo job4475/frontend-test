@@ -1,5 +1,5 @@
 "use client";
-import React, { useContext, useRef, useState } from "react";
+import React, { useContext, useEffect, useRef, useState } from "react";
 import Image from "next/image";
 import Upfile from '@/assets/assets/images/upfile.png';
 import { Box, Button, Checkbox, Chip, FormControlLabel, FormGroup, Grid, Paper, Switch, TextField, Typography } from "@mui/material";
@@ -9,28 +9,36 @@ import HandleShareDoc from '@/handle/sharedoc'
 import SubjectIcon from '@mui/icons-material/Subject';
 import Circle from "@/assets/assets/images/workspace/circle.png";
 import UseefOutsideClick from '@/hook/securedoc'
-import { experimentalStyled as styled } from '@mui/material/styles';
-
-const Item = styled(Paper)(({ theme }) => ({
-  backgroundColor: theme.palette.mode === 'dark' ? '#1A2027' : '#fff',
-  ...theme.typography.body2,
-  padding: theme.spacing(2),
-  textAlign: 'center',
-  color: theme.palette.text.secondary,
-}));
 
 function index() {
   const {state, setState} = useContext(StateContext);
   const fileInputRef = useRef(null);
   const textFieldRef = useRef(null);
   const handleShareDoc = HandleShareDoc(textFieldRef,fileInputRef);
+
+  useEffect(() => {
+    let totalSizeInBytes = 0;
+  state.selectedFile.forEach((file, index) => {
+    totalSizeInBytes += file.size;
+  });
+  
+  const totalSizeInMB = totalSizeInBytes / (1024 * 1024);
+  const maxSizeInMB = 25;
+  
+  // คำนวณความคืบหน้าในเลขเปอร์เซ็นต์
+  const progressPercentage = (totalSizeInMB / maxSizeInMB) * 100;
+  setState((prevData) => ({ ...prevData,size_progress: progressPercentage,sumsize:totalSizeInMB.toFixed(2),sumsize_original:totalSizeInBytes}));
+
+  }, [state.selectedFile,setState]);
+ 
+
   return (
     <>
     {/* //*!Hook Useeffect */}
     <UseefOutsideClick handleOutsideClick={handleShareDoc.handleOutsideClick}/>
       {/* //*!Hook Useeffect */}
     <Box sx={{display:'flex',flexDirection:'column'}}>
-            <TextField label="Recipient" size="small" variant="outlined" style={{ width: '100%' }} value={state.input_recip} onChange={handleShareDoc.handleInputChange} onKeyPress={handleShareDoc.handleKeyPress}
+            <TextField label={<Box sx={{color:"gray.main",fontWeight:500}}>Recipient</Box>} size="small" variant="outlined" style={{ width: '100%'}} value={state.input_recip} onChange={handleShareDoc.handleInputChange} onKeyPress={handleShareDoc.handleKeyPress}
               onKeyDown={handleShareDoc.handleKeyDown} inputRef={textFieldRef} InputProps={{startAdornment: (
                   <>
                     <Box sx={{pr:1}}>
@@ -45,34 +53,43 @@ function index() {
                 ),
               }}
             />
-            <TextField value={state.subject} onChange={handleShareDoc.handlesubjectChange} id="outlined-basic" label="Subject"size="small" variant="outlined" sx={{mt:1.3}} style={{width:"100%",paddingBottom:10}}
+            <TextField value={state.subject} onChange={handleShareDoc.handlesubjectChange} id="outlined-basic" label={<Box sx={{color:"gray.main",fontWeight:500}}>Subject</Box>}size="small" variant="outlined" sx={{mt:1.3}} style={{width:"100%",paddingBottom:10}}
               InputProps={{startAdornment: (<><Box sx={{pr:1}}><SubjectIcon style={{ color: 'gray' }} /></Box></>),}}/>
               
-            <TextField value={state.message} multiline rows={4} onChange={handleShareDoc.handlemessageChange} id="outlined-basic" label="Message"size="small" variant="outlined"inputProps={{ style: { height: "70px" } }} style={{width:"100%",paddingBottom:10}}
+            <TextField value={state.message} multiline rows={4} onChange={handleShareDoc.handlemessageChange} id="outlined-basic" label={<Box sx={{color:"gray.main",fontWeight:500}}>Message</Box>}size="small" variant="outlined"inputProps={{ style: { height: "70px" } }} style={{width:"100%",paddingBottom:10}}
               InputProps={{startAdornment: (<></>),}}/>
 
             {/* //*&Upload File */}
-            <Box id="upload" onDragOver={handleShareDoc.handleDragOver} onDrop={handleShareDoc.handleDrop}     onDragLeave={handleShareDoc.handleDragLeave} sx={{width: "100%",height: "250px",borderRadius: "10px",backgroundColor: !state.selectedFileName.length > 0?"#fff": "#F7F8F9",borderStyle: "dashed",borderWidth: "1px",borderColor: "#ccc",display:'flex',justifyContent:"center",alignItems:'center',flexDirection:!state.selectedFileName.length > 0?'column':"row"}}>
+            <Box id="upload" onClick={handleShareDoc.handleFileClick} onDragOver={handleShareDoc.handleDragOver} onDrop={handleShareDoc.handleDrop}     onDragLeave={handleShareDoc.handleDragLeave} sx={{width: "100%",height: "250px",borderRadius: "10px",backgroundColor: !state.selectedFileName.length > 0?"#fff": "#F7F8F9",borderStyle: "dashed",borderWidth: "1px",borderColor: "#ccc",display:'flex',justifyContent:"center",alignItems:'center',flexDirection:!state.selectedFileName.length > 0?'column':"row"}}>
+              <input type="file" ref={fileInputRef} style={{ display: 'none' }} onChange={handleShareDoc.handleFileChange} multiple/>
             {!state.selectedFileName.length > 0?(
               <>
                <Image src={Upfile} alt="logo"style={{ width: "90px", height: "auto", borderRadius: "99px" }}/>
-               <Box sx={{mt:4}}>Drag & Drop your file here</Box>
-               <Button sx={{color:"white.main"}} variant="contained"size="small" style={{background:'#48846B',textTransform:'capitalize'}} onClick={handleShareDoc.handleFileClick}>Upload</Button>
-               <input type="file" ref={fileInputRef} style={{ display: 'none' }} onChange={handleShareDoc.handleFileChange} multiple/>
+               <Box sx={{display:state.selectedFileName.length === 0&&state.dragover?"none":"flex",mt:4,color:"gray.main",fontWeight:400}}>**The max file size is 25 MB.**</Box>
+               <Box sx={{color:"textgreen.main",fontWeight:500}}>Drag & Drop your file here</Box>
+               <Button sx={{display:state.selectedFileName.length === 0&&state.dragover?"none":"flex",color:"white.main",pl:3,pr:3}} variant="contained"size="small" style={{background:'#48846B',textTransform:'capitalize'}}>Upload</Button>
               </>
               ):(
                 <Box sx={{ flexGrow: 1,m:2 }}>
                  <Grid container spacing={{ xs: 2, md: 3 }} columns={{ xs: 4, sm: 8, md: 12 }} justifyContent="center"alignItems="center">
                  {state.selectedFile.length > 0 ? (
                       Array.from(state.selectedFile).slice(0, 9).map((file, index) => (
-                     <Grid item xs={2} sm={4} md={4} key={index}>
+                     <Grid sx={{display: "flex", alignItems: "center",justifyContent:"center" }} item xs={2} sm={4} md={4} key={index}>
                       <Chip variant="outlined" sx={{border:"none"}} label={
+
                         <Box sx={{ textAlign: "center", fontSize: "12px", display: "flex", alignItems: "center",justifyContent:"center" }}>
                         <Box sx={{ position: 'relative', display: 'inline-flex' }}>
-                          <Image alt="test" src={Circle}></Image>&nbsp;
+                          <Image alt="test" src={Circle} style={{maxWidth:"100px"}}></Image>&nbsp;
                           <Box sx={{ top: 0, left: -3, bottom: 0, right: 0, position: 'absolute', display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
                             <Typography style={{ textTransform: "uppercase", fontSize: "10px", color: "#48846B", fontWeight: 700 }} variant="caption" component="div" color="text.secondary">
-                            {state.selectedFileName[index].split('.')[1].length > 5 ? state.selectedFileName[index].split('.')[1].slice(0, 2) + '..': state.selectedFileName[index].split('.')[1]}
+                            {
+                               state.selectedFileName[index] && state.selectedFileName[index].split('.')[1]
+                                 ? (state.selectedFileName[index].split('.')[1].length > 5
+                                     ? state.selectedFileName[index].split('.')[1].slice(0, 2) + '..'
+                                     : state.selectedFileName[index].split('.')[1])
+                                 : ''
+                             }
+
                             </Typography>
                           </Box>
                         </Box>

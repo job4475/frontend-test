@@ -4,6 +4,7 @@ import React, { useContext, useState } from 'react';
 import { StateContext } from '@/context/Context';
 import { useRouter } from 'next/router';
 import handleforget from '@/handle/forgetpassword'
+import Loading from '@/components/loading'
 function Index() {
   const {state, setState} = useContext(StateContext);
   const HandleForget = handleforget();
@@ -20,8 +21,8 @@ function Index() {
         <TextField id="standard-basic" label="Email"  variant="standard" value={state.email} onChange={HandleForget.Email} sx={{ width: '90%' }} />
         </Box>
         <Box sx={{display: 'flex',flexDirection: 'column',justifyContent: 'center',alignItems: 'center', fontSize: 11}}>
-          <Button variant="text" onClick={HandleForget.Back}  sx={{color:'#828895',textTransform: 'capitalize', fontSize: 14}} >Back to sign in</Button>
-          <Button variant="contained" onClick={HandleForget.workspace} style={{ background: '#84BAA1', width: '90%',textTransform: 'capitalize', fontSize: 14 }}>Get recovery link</Button>
+          <Button variant="text" onClick={HandleForget.back}  sx={{color:'#828895',textTransform: 'capitalize', fontSize: 14}} >Back to sign in</Button>
+          <Button variant="contained" onClick={HandleForget.workspace} style={{ background: '#84BAA1', width: '90%',textTransform: 'capitalize', fontSize: 14 }}>{state.loading?<Loading/>:"Get recovery link"}</Button>
         </Box>
       </Box>
     </Box>

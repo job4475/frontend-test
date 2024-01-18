@@ -3,9 +3,11 @@ import { StateContext } from '@/context/Context';
 import { Box, FormControlLabel, Switch } from '@mui/material';
 import React, { useContext, useRef, useState,useCallback } from 'react'
 import { styled } from '@mui/material/styles';
+import { useRouter } from 'next/navigation';
 
 function sharedoc(textFieldRef,fileInputRef) {
   const {state, setState} = useContext(StateContext);
+  const router = useRouter();
 
   const HandleSwitchChange = (label) => {
     setSwitchStates((prevSwitchStates) => ({
@@ -48,10 +50,27 @@ function sharedoc(textFieldRef,fileInputRef) {
 };
 
 const handleFileChange = (e) => {
-  const files = e.target.files;
-  setState((prevData) => ({ ...prevData, selectedFile: files, selectedFileName: files ? Array.from(files).map(f => f.name) : null}));
+  const files = Array.from(e.target.files);
+  const maxSize = 25 * 1024 * 1024; // 25 MB
+  const currentTotalSize = state.selectedFile.reduce((acc, file) => acc + file.size, 0);
+  const incomingTotalSize = files.reduce((acc, file) => acc + file.size, 0);
+  const newTotalSize = currentTotalSize + incomingTotalSize;
+
+  if (newTotalSize > maxSize) {
+    setState((prevData) => ({ ...prevData,alert: true, loading: false, alert_text: "File size exceeds 25 MB limit. Please select a smaller file.", alert_type: "error"}));
+    setTimeout(() => {
+      setState((prevData) => ({ ...prevData,alert: false}));
+    }, 3000);
+    return;
+  }
+  setState((prevData) => ({ ...prevData, selectedFile: [...prevData.selectedFile, ...files],selectedFileName: [
+    ...prevData.selectedFileName,
+    ...files.map((file) => file.name),
+  ] }));
   document.getElementById('upload').style.backgroundColor = `#F7F8F9`;
 };
+
+
 const handleSecureType = (e) => {
   setState((prevData) => ({ ...prevData, secure_type: !state.secure_type,allowconverttooriginalfile: false,allowcopypaste: false,allowprint: false,alloweditsecuredfile: false,allowrunamacro: false,allowconverttobrowserviewfile: false,enableconverttooriginalfile:false}));
 };
@@ -60,23 +79,42 @@ const handleDragLeave = (e) => {
   e.preventDefault();
   e.stopPropagation();
   if (!e.relatedTarget || !e.currentTarget.contains(e.relatedTarget)) {
-    setState((prevData) => ({ ...prevData,selectedFileName: []}));
     e.currentTarget.style.backgroundColor = `#fff`;
+    if(state.selectedFile.length === 0){
+    setState((prevData) => ({ ...prevData,dragover: false}));
+    }
   }
 };
 
 const handleDrop = (e) => {
   e.preventDefault();
   e.stopPropagation();
-  const droppedFile = e.dataTransfer.files;
-  setState((prevData) => ({ ...prevData, selectedFile: droppedFile,selectedFileName:droppedFile ? Array.from(droppedFile).map(f => f.name) : null}));
+  const droppedFile = Array.from(e.dataTransfer.files);
+  const maxSize = 25 * 1024 * 1024; // 25 MB
+  const currentTotalSize = state.selectedFile.reduce((acc, file) => acc + file.size, 0);
+  const incomingTotalSize = droppedFile.reduce((acc, file) => acc + file.size, 0);
+  const newTotalSize = currentTotalSize + incomingTotalSize;
+
+  if (newTotalSize > maxSize) {
+    setState((prevData) => ({ ...prevData,alert: true, loading: false, alert_text: "File size exceeds 25 MB limit. Please select a smaller file.", alert_type: "error"}));
+    setTimeout(() => {
+      setState((prevData) => ({ ...prevData,alert: false}));
+    }, 3000);
+    return;
+  }
+  setState((prevData) => ({ ...prevData, selectedFile: [...prevData.selectedFile, ...droppedFile],selectedFileName: [
+    ...prevData.selectedFileName,
+    ...droppedFile.map((file) => file.name)
+  ],dragover:false}));
 };
 
 const handleDragOver = (e) => {
   e.preventDefault();
   e.stopPropagation();
   e.currentTarget.style.backgroundColor = `#F7F8F9`;
-  setState((prevData) => ({ ...prevData, selectedFileName:"Drag and Drop"}));
+  if(state.selectedFile.length === 0){
+  setState((prevData) => ({ ...prevData,dragover: true}));
+  }
 };
 
 const handleFileClick = () => {
@@ -86,7 +124,7 @@ const handleExit = () => {
   setState((prevData) => ({ ...prevData, titleselect:"",input_last_name:"",input_email:"",input_role:"",
   input_firstName:"",input_phone:"",input_jobtitle:"",email:'',Password:'',Alias:'',Province:'',Companyname:'',District:''
   ,No:'',SubDistric:'',Street:'',ZIPCode:'',Country:'',GoogleMaps:'',Newpassword:'',recipient:[],input_recip:"",subject:"",message:"",secure_type:false,selectedFileName:[],
-  selectedFile:{},allowconverttooriginalfile: false,allowcopypaste: false,allowprint: false,alloweditsecuredfile: false,allowrunamacro: false,allowconverttobrowserviewfile: false,enableconverttooriginalfile:false,
+  selectedFile:[],allowconverttooriginalfile: false,allowcopypaste: false,allowprint: false,alloweditsecuredfile: false,allowrunamacro: false,allowconverttobrowserviewfile: false,enableconverttooriginalfile:false,
   timelimitBeforeOri:"",timelimitBefore:"",timeBefore:"",timelimitAfterOri:"",timelimitAfter:"",timeAfter:"",limitDateTime:false,limitViewablePeriod:false,limitNumberFileOpen:false,noLimit:false,
   periodDays:"",periodHours:"",opensTime:"",loading:false}));
 };
@@ -267,87 +305,92 @@ const SwitchBox = ({ label, checked, onChange }) => (
       setState((prevData) => ({ ...prevData, loading: true }));
 
       const formdata = new FormData();
+      const orderId = uuid.v4(); 
+      const currentDate = new Date();
+      const timestampInSeconds = Math.floor(currentDate.getTime() / 1000);
+
+      formdata.append("scdact_status", "Pending");
+      formdata.append("scdact_reqid", orderId);
+      formdata.append("scdact_name", "wwww");
+      formdata.append("scdact_type", state.secure_type?"FCL":"HTML");
+      formdata.append("scdact_starttime", state.timelimitBefore&&state.timeBefore?state.timelimitBefore + state.timeBefore:0);
+      formdata.append("scdact_endtime", state.timelimitAfter&&state.timeAfter?state.timelimitAfter + state.timeAfter:0);
+      formdata.append("scdact_numberopen", state.opensTime?state.opensTime:0);
+      formdata.append("scdact_periodday", state.periodDays?state.periodDays:0);
+      formdata.append("scdact_periodhour",state.periodHours?state.periodHours:0);
+      formdata.append("scdact_nolimit", state.noLimit?"true":"false");
+      formdata.append("scdact_cvtoriginal", state.allowconverttooriginalfile?"true":"false");
+      formdata.append("scdact_edit", state.alloweditsecuredfile?"true":"false");
+      formdata.append("scdact_print", state.allowprint?"true":"false");
+      formdata.append("scdact_copy", state.allowcopypaste?"true":"false");
+      formdata.append("scdact_scrwatermark", "true");
+      formdata.append("scdact_watermark", "true");
+      formdata.append("scdact_cvthtml", state.allowconverttobrowserviewfile?"true":"false");
+      formdata.append("scdact_cvtfcl", state.allowconverttofcl?"true":"false"); 
+      formdata.append("scdact_marcro", state.allowrunamacro?"true":"false");
+      formdata.append("scdact_msgtext", state.message);
+      formdata.append("scdact_subject", state.subject);
+      formdata.append("scdact_createlocation", "สำเร็จ");
+      formdata.append("scdact_updatelocation", "สำเร็จ");
+      formdata.append("scdact_reciepient", state.recipient);
+      formdata.append("scdact_sender", state.decode_token?state.decode_token.UsernameOriginal:"thananchai@tracthai.com");
+      formdata.append("uuid_member", state.decode_token?state.decode_token.ID:"No value");
+      formdata.append("scdact_action", "Request");
+      formdata.append("scdact_enableconvertoriginal", state.enableconverttooriginalfile?"true":"false");
+      formdata.append("scdact_actiontime", timestampInSeconds);
 
       for (let i = 0; i < state.selectedFile.length; i++) {
         const file = state.selectedFile[i];
         const sanitizedFileName = file.name.replace(/\s+/g, '-');
-        const orderId = uuid.v4(); 
+        const emailText = state.recipient.map((recipient, index) => `${recipient}`)
 
-        formdata.append("cmd", `finalcode_api ${state.secure_type===true?"":"-browserview"} ${state.message?`-mes:${state.message}`:""} ${state.enableconverttooriginalfile?"-to_bv_decode":""} ${state.allowconverttobrowserviewfile?"-to_bv_file":""} ${state.allowrunamacro||state.allowconverttooriginalfile?"-nomacro_deny":"-macro_deny"} ${state.alloweditsecuredfile?"-edit":""} -encrypt ${state.secure_type===true?"":"-bv_auth:1"}  -src:../data/${orderId}/${sanitizedFileName} -dest:../data/${orderId}/${sanitizedFileName}(${state.email})${state.secure_type===true?".fcl":".html"} ${state.allowconverttooriginalfile?"-decode":""} ${state.allowcopypaste?"-copypaste":""} ${state.allowprint?"-print":""} ${state.timelimitBefore?`-startdate:${state.timelimitBefore}`:""} ${state.timelimitAfter?`-date:${state.timelimitAfter}`:""} ${state.periodDays?`-day:${state.periodDays}`:""} ${state.periodHours?`-hour:${state.periodHours}`:""} ${state.opensTime?`-cnt:${state.opensTime}`:""} -user:thananchai@tracthai.com -mail:${state.email}`);
-        formdata.append("file", file, `/D:/Downloads/${orderId}/${sanitizedFileName}`);
-        formdata.append("email", state.recipient);
-        formdata.append("order_id", orderId);
-        // formdata.append("role", data.decode_token.role);
-        // formdata.append("from", state.email);
+        formdata.append("scdact_command", `./finalcode_api ${state.secure_type===true?"":"-browserview"} ${state.message?`-mes:"${state.message}"`:""} ${state.enableconverttooriginalfile?"-to_bv_decode":""} ${state.allowconverttobrowserviewfile?"-to_bv_file":""} ${state.allowrunamacro||state.allowconverttooriginalfile?"-nomacro_deny":"-macro_deny"} ${state.alloweditsecuredfile?"-edit":""} -encrypt ${state.secure_type===true?"":"-bv_auth:1"}  -src:../data/${orderId}/${sanitizedFileName} -dest:../data/${orderId}/${sanitizedFileName}"(${emailText})"${state.secure_type===true?".fcl":".html"} ${state.allowconverttooriginalfile?"-decode":""} ${state.allowcopypaste?"-copypaste":""} ${state.allowprint?"-print":""} ${state.timelimitBefore?`-startdate:${state.timelimitBefore}`:""} ${state.timelimitAfter?`-date:${state.timelimitAfter}`:""} ${state.periodDays?`-day:${state.periodDays}`:""} ${state.periodHours?`-hour:${state.periodHours}`:""} ${state.opensTime?`-cnt:${state.opensTime}`:""} -user:thananchai@tracthai.com -mail:${emailText}`);
+        formdata.append("scdact_binary", file, `/D:/Downloads/${orderId}/${sanitizedFileName}`);
+
+        formdata.append("scdact_filename", sanitizedFileName);
+        formdata.append("scdact_filetype", state.selectedFileName[i].split('.')[1]);
+        formdata.append("scdact_filehash", "A");
+        formdata.append("scdact_filesize", formatBytes(file.size));
+        formdata.append("scdact_filecreated", file.lastModified);
+        formdata.append("scdact_filemodified", "A");
+        formdata.append("scdact_filelocation", "A");
       }
 
-      // Record start time
-    //   const startTime = performance.now();
+       const xhr = new XMLHttpRequest();
 
-    //   const xhr = new XMLHttpRequest();
-    //   xhr.onreadystatechange=() => {
-    //     var rdState = xhr.readyState
-    //     if(rdState<4){
-    //       setData((prevData) => ({ ...prevData, ProgressAPI:rdState*25}));
-
-    //     }
-    //     if (xhr.readyState === 4) {
-    //       if (xhr.status === 200) {
-    //         setData((prevData) => ({ ...prevData,  APIStatus:true,ProgressAPI:rdState*25}));
-    //       } else {
-    //         setData((prevData) => ({ ...prevData,  APIStatus:false}));
-    //       }
-    //   }
-    // }
-
-      xhr.open("POST", "http://192.168.5.82:8062/api/file-encrypt", true);
-
-      // Track upload progress
-      xhr.upload.addEventListener("progress", (event) => {
-        if (event.lengthComputable) {
-          const percentage = (event.loaded / event.total) * 100;
-          setData((prevData) => ({ ...prevData,  perCenUpload:percentage.toFixed(0)}));
-        }
-      });
+      xhr.open("POST", `${process.env.NEXT_PUBLIC_API_ENDPOINT}:${process.env.NEXT_PUBLIC_API_PORT}/api/requestDoc`, true);
       xhr.onload = () => {
-        // Record end time
-        const endTime = performance.now();
-        const elapsedTime = endTime - startTime;
-        console.log(`API request completed in ${elapsedTime} milliseconds`);
-
-        // Log final progress
-        if (xhr.lengthComputable) {
-          const percentage = (xhr.loaded / xhr.total) * 100;
-          console.log(`Final Upload Progress: ${percentage.toFixed(0)}%`);
-        }
 
         if (xhr.status === 200) {
           const result = JSON.parse(xhr.responseText);
           console.log("🚀 ~ file: Upload.js:67 ~ handleUpload ~ result:", result)
-
-          // if (result.status === "success") {
-          //   setData((prevData) => ({ ...prevData, alert: true, alert_text: result.message.finalcode_result, alert_type: "success"}));
-          //   //^delay 3 seconds
-          //   setTimeout(() => {
-          //     setData((prevData) => ({ ...prevData, loading: false,activeStep: prevData.activeStep + 1 }));
-          // }, 3000);
-          // } else {
-          //   setData((prevData) => ({ ...prevData, loading: false, alert: true, alert_text: result.message.finalcode_result, alert_type: "error" }));
-          // }
+          if (result.Status === "OK") {
+            // setData((prevData) => ({ ...prevData, alert: true, alert_text: result.message.finalcode_result, alert_type: "success"}));
+            //^delay 3 seconds
+              setState((prevData) => ({ ...prevData, loading: false,titleselect:"",input_last_name:"",input_email:"",input_role:"",
+              input_firstName:"",input_phone:"",input_jobtitle:"",email:'',Password:'',Alias:'',Province:'',Companyname:'',District:''
+              ,No:'',SubDistric:'',Street:'',ZIPCode:'',Country:'',GoogleMaps:'',Newpassword:'',recipient:[],input_recip:"",subject:"",message:"",secure_type:false,selectedFileName:[],
+              selectedFile:[],allowconverttooriginalfile: false,allowcopypaste: false,allowprint: false,alloweditsecuredfile: false,allowrunamacro: false,allowconverttobrowserviewfile: false,enableconverttooriginalfile:false,
+              timelimitBeforeOri:"",timelimitBefore:"",timeBefore:"",timelimitAfterOri:"",timelimitAfter:"",timeAfter:"",limitDateTime:false,limitViewablePeriod:false,limitNumberFileOpen:false,noLimit:false,
+              periodDays:"",periodHours:"",opensTime:"",loading:false}));
+              router.push('/RequestLisU');
+          } else {
+            // setData((prevData) => ({ ...prevData, loading: false, alert: true, alert_text: result.message.finalcode_result, alert_type: "error" }));
+          }
         }
       };
 
       xhr.onerror = () => {
         // Record end time in case of an error
         const endTime = performance.now();
-        const elapsedTime = endTime - startTime;
-        console.error(`API request failed in ${elapsedTime} milliseconds`);
+        // const elapsedTime = endTime - startTime;
+        // console.error(`API request failed in ${elapsedTime} milliseconds`);
         // setData((prevData) => ({ ...prevData, alert: true, alert_text: 'An error occurred during the upload', alert_type: "error" }));
       };
 
       xhr.send(formdata);
     }
-  }, [state.selectedFile, state.email, setState]);
+  }, [state, setState]);
 
 
     const IOSSwitch = styled((props) => (
@@ -410,4 +453,3 @@ const SwitchBox = ({ label, checked, onChange }) => (
   };}
 
 export default sharedoc
-

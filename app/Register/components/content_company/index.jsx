@@ -14,7 +14,7 @@ function index() {
     <Box sx={{mt:3}}>
       <Box sx={{fontWeight:600,mb:3}}>{data_register[0].title_content1}</Box>
       <Box sx={{display:"flex"}}>
-        <Image width={100} height={100} alt="logo" src={state.logoImage||state.selectedImage}></Image>
+        <Image width={100} height={100} alt="logo" src={state.datacompany?.CompanyLogo}></Image>
         <Box sx={{display:"flex",flexDirection:"column",alignItems:"left",ml:3.5}}>
            <Box sx={{fontWeight:600}}>{state.companyname}</Box>
               <Box sx={{display:"flex",mt:1}}>

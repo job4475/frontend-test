@@ -6,7 +6,8 @@
     "dev": "next dev",
     "build": "next build",
     "start": "next start",
-    "lint": "next lint"
+    "lint": "next lint",
+    "build-ubuntu": "next build -o ./chiccrm"
   },
   "dependencies": {
     "@emotion/cache": "^11.11.0",
@@ -16,6 +17,7 @@
     "@material-ui/core": "^4.12.4",
     "@mui/icons-material": "^5.14.19",
     "@mui/material": "^5.15.3",
+    "@vercel/speed-insights": "^1.0.4",
     "context": "^3.0.19",
     "i": "^0.3.7",
     "next": "^14.0.4",
@@ -24,6 +26,7 @@
     "react-dom": "^18.2.0",
     "react-icons": "^4.12.0",
     "react-multi-email": "^1.0.19",
+    "react-toastify": "^9.1.3",
     "react-verification-code-input": "^1.2.9",
     "typeface-montserrat": "^1.1.13",
     "typeface-prompt": "^1.1.13",

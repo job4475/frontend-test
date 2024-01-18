@@ -3,8 +3,40 @@ import * as React from 'react';
 import { Box } from '@mui/material'
 import Image from "next/image";
 import Logotrac from "@/assets/assets/images/logotrac.png";
+import { StateContext } from '@/context/Context';
 
 function index() {
+  const {state, setState} = React.useContext(StateContext);
+  const isLocalStorageAvailable = typeof window !== 'undefined' && window.localStorage;
+
+  // Use local storage only if it's available
+  const storedLoginTime = isLocalStorageAvailable ? localStorage.getItem('loginTime') : null;
+  const [loginTime, setLoginTime] = React.useState(
+    storedLoginTime ? new Date(storedLoginTime) : new Date()
+  );
+
+  React.useEffect(() => {
+    if (isLocalStorageAvailable) {
+      localStorage.setItem('loginTime', loginTime);
+    }
+    
+    const intervalId = setInterval(() => {
+      const currentTime = new Date();
+      const elapsedTime = currentTime - loginTime;
+      const formattedTime = formatElapsedTime(elapsedTime);
+      document.getElementById('loginPeriod').innerText = `Login Period: ${formattedTime}`;
+    }, 0);
+
+    return () => clearInterval(intervalId);
+  }, [loginTime]);
+
+  const formatElapsedTime = (elapsedTime) => {
+    const seconds = Math.floor(elapsedTime / 1000) % 60;
+    const minutes = Math.floor(elapsedTime / (1000 * 60)) % 60;
+    const hours = Math.floor(elapsedTime / (1000 * 60 * 60));
+
+    return `${String(hours).padStart(2, '0')}:${String(minutes).padStart(2, '0')}:${String(seconds).padStart(2, '0')}`;
+  };
   return (
     <Box sx={{display:'flex',justifyContent:'space-between',p:2,pl:5,pr:5,pb:2}}>
         <div className=" flex flex-col lg:flex-row">
@@ -18,8 +50,8 @@ function index() {
           </div>
           <div className="">
             <div className="flex flex-col lg:flex-row justify-start lg:justify-between items-start lg:items-center">
-              <span className="text-lg font-semibold mr-1">
-                Sarayuth Kosiyarug
+              <span style={{textTransform:"capitalize"}} className="text-lg font-semibold mr-1">
+                {state.decode_token?.Firstname} {state.decode_token?.Surname}
               </span>
               <svg
                 xmlns="http://www.w3.org/2000/svg"
@@ -37,10 +69,10 @@ function index() {
               </svg>
             </div>
             <div>
-              <span className="text-lg">CEO/Founder</span>
+              <span className="text-lg">{state.decode_token?.Role}</span>
             </div>
             <div>
-              <span>Login Period : 00.34.52</span>
+            <span id="loginPeriod" className="text-lg">Login Period: 00:00:00</span>
             </div>
           </div>
         </div>

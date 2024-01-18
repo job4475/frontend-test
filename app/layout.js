@@ -2,6 +2,7 @@
 import "./globals.css";
 import { StateProvider } from '@/context/Context'
 import ThemeRegistry from "@/utils/ThemeRegistry";
+import { SpeedInsights } from '@vercel/speed-insights/next';
 
 export const metadata = {
   title: "Create Next App",
@@ -16,6 +17,7 @@ export default function RootLayout({ children }) {
           <header></header>
           <StateProvider>
             {children}
+            <SpeedInsights/>
           </StateProvider>          
           <footer></footer>
       </body>

@@ -7,6 +7,7 @@ function ForgetPassword() {
     const { state, setState } = useContext(StateContext);
     const router = useRouter();
     const sendMail = () => {
+        setState((prevData) => ({ ...prevData,loading: true }));
         var formdata = new FormData();
         formdata.append("to", state.email);
         formdata.append("subject", "resetpassword");
@@ -25,6 +26,7 @@ function ForgetPassword() {
         fetch(`${process.env.NEXT_PUBLIC_API_ENDPOINT_GET}:${process.env.NEXT_PUBLIC_API_PORT_LOGIN}/api/mailChicCRM`, requestOptions)
             .then(response => response.text())
             .then(result => {
+                setState((prevData) => ({ ...prevData,loading: false }));
                 console.log(result);
                 router.push('/ResetSuccess');
             })
@@ -34,6 +36,9 @@ function ForgetPassword() {
     };
     const workspace = (code) => {
         sendMail();
+    };
+    const back = (code) => {
+        router.push('/');
     };
     const Email = (e) => {
         setState({...state,email: e.target.value,});

@@ -15,8 +15,12 @@ const page = () => {
   const { state, setState } = useContext(StateContext);
   const router = useRouter();
   const sharedocumentRouter = () => {
-    router.push("/sharedocument");
-  };
+    if(state.decode_token.Role==="admin"){
+      router.push("/RequestList");
+    }else{
+      router.push("/ShareDocument");
+    }
+    };
   const remotesupportRouter = () => {
     router.push("/remotesupport");
   };
@@ -29,23 +33,66 @@ const page = () => {
   const underreviewRouter = () => {
     router.push("/underreview");
   };
- 
+  const orgmbatFeature = state?.memberAuthorization?.orgmbat_feature;
+
+  const [sharedocument, setSharedocument] = useState(false);
+  const [remotesupport, setRemotesupport] = useState(false);
+  const [myopportunity, setMyopportunity] = useState(false);
+  const [carreserve, setCarreserve] = useState(false);
+  const [underreview, setUnderreview] = useState(false);
+
+  useEffect(() => {
+    if (orgmbatFeature) {
+      setSharedocument(orgmbatFeature.includes("#sharedocument"));
+      setRemotesupport(orgmbatFeature.includes("#remotesupport"));
+      setMyopportunity(orgmbatFeature.includes("#myopportunity"));
+      setCarreserve(orgmbatFeature.includes("#carreserve"));
+      setUnderreview(orgmbatFeature.includes("#underreview"));
+    }
+  }, [orgmbatFeature]);
+
+  const isLocalStorageAvailable = typeof window !== 'undefined' && window.localStorage;
+
+  // Use local storage only if it's available
+  const storedLoginTime = isLocalStorageAvailable ? localStorage.getItem('loginTime') : null;
+  const [loginTime, setLoginTime] = React.useState(
+    storedLoginTime ? new Date(storedLoginTime) : new Date()
+  );
+
+  React.useEffect(() => {
+    if (isLocalStorageAvailable) {
+      localStorage.setItem('loginTime', loginTime);
+    }
+    
+    const intervalId = setInterval(() => {
+      const currentTime = new Date();
+      const elapsedTime = currentTime - loginTime;
+      const formattedTime = formatElapsedTime(elapsedTime);
+      document.getElementById('loginPeriod').innerText = `Login Period: ${formattedTime}`;
+    }, 0);
+
+    return () => clearInterval(intervalId);
+  }, [loginTime]);
+
+  const formatElapsedTime = (elapsedTime) => {
+    const seconds = Math.floor(elapsedTime / 1000) % 60;
+    const minutes = Math.floor(elapsedTime / (1000 * 60)) % 60;
+    const hours = Math.floor(elapsedTime / (1000 * 60 * 60));
+
+    return `${String(hours).padStart(2, '0')}:${String(minutes).padStart(2, '0')}:${String(seconds).padStart(2, '0')}`;
+  };
+
   return (
     <>
       <div className="max-w-screen-xl p-2 lg:p-0 container mx-auto my-2 lg:my-12 flex flex-col lg:flex-row justify-start lg:justify-between items-start lg:items-center">
-        <div className="m-2 flex flex-col lg:flex-row">
-          <div className="mr-3">
-            <Image
-              src={state.logoImage}
-              alt="logo"
-              width={100}
-              height={100}
-            />
+      <div className=" flex flex-col lg:flex-row">
+          <div className="mr-3" style={{cursor:"pointer",}}>
+            <Image src={Logotrac} alt="logo" priority={true} style={{ width: "90px", height: "90px", borderRadius: "99px" }} />
           </div>
-          <div className="m-2">
+          <div className="">
             <div className="flex flex-col lg:flex-row justify-start lg:justify-between items-start lg:items-center">
-              <span className="text-lg font-semibold mr-1">
-                {state.decode_token.FirstnameOriginal} {state.decode_token.SurnameTokenOriginal}
+              <span style={{textTransform:"capitalize"}} className="text-lg font-semibold mr-1">
+              {state.decode_token.FirstnameOriginal?state.decode_token?.FirstnameOriginal:state.decode_token?.Firstname} {state.decode_token.SurnameTokenOriginal?state.decode_token?.SurnameTokenOriginal:state.decode_token?.Surname}
               </span>
               <svg
                 xmlns="http://www.w3.org/2000/svg"
@@ -63,17 +110,17 @@ const page = () => {
               </svg>
             </div>
             <div>
-              <span className="text-lg">CEO/Founder</span>
+            <span className="text-lg">{state.decode_token.JobTitleOriginal?state.decode_token?.JobTitleOriginal:state.decode_token?.Role}</span>
             </div>
             <div>
-              <span>Login Period : 00.34.52</span>
+            <span id="loginPeriod" className="text-lg">Login Period: 00:00:00</span>
             </div>
           </div>
         </div>
         <div className="m-2">
           <div>
             <Image
-              src={state.logoImage}
+              src={state.decode_token.CompanyLogoOriginal?state.decode_token?.CompanyLogoOriginal:Logotrac}
               alt="logo"
               width={100}
               height={100}
@@ -86,7 +133,7 @@ const page = () => {
         <h3 className="my-2 lg:my-5">My work space</h3>
         <div className="flex flex-col lg:flex-row">
           <div>
-            {state.securedoc === "#securedoc" ? (
+            {state.memberAuthorization?.orgmbat_feature||state.leadAuthorization?.orgmbat_feature==="#securedoc" ? (
               <div
                 onClick={sharedocumentRouter}
                 className="font-semibold mr-0 lg:mr-4 my-2 text-center flex flex-col items-center justify-center w-48 h-48 px-6 py-4 border border-gray-300 rounded-lg cursor-pointer transition-colors duration-300 hover:bg-gray-200"
@@ -97,14 +144,15 @@ const page = () => {
                   style={{ width: "70px", height: "75px" }}
                 />
                 <div className="my-3">
-                securedoc
+                  Secure
+                  <br />
+                  Doc
                 </div>
               </div>
             ) : null}
           </div>
 
-
-          {/* <div>
+          <div>
             {remotesupport ? (
               <div
                 onClick={remotesupportRouter}
@@ -183,7 +231,7 @@ const page = () => {
                 </div>
               </div>
             ) : null}
-          </div> */}
+          </div> 
         </div>
       </div>
     </>

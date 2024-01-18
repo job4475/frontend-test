@@ -5,7 +5,7 @@ import { Box, Button } from '@mui/material';
 import handleotp from "@/handle/otpvelify"
 import handleqrcode from "@/handle/Authenticator"
 import { StateContext } from '@/context/Context';
-
+import Loading from '@/components/loading'
 function OTPverify() {
   const HandleOTP = handleotp();
   const HandleQRCode = handleqrcode();
@@ -16,7 +16,7 @@ function OTPverify() {
     <Box>
       <Box sx={{fontWeight:'800'}}>You are almost done!</Box> 
       <br></br>
-      <Box>Please type the code we sent you to your email {state.email} and verify that it's really you.</Box>
+      <Box>Please type the code we sent you to your email <strong>{state.email}</strong> and verify that it's really you.</Box>
     </Box>
     <Box>
     <Box>Code</Box>
