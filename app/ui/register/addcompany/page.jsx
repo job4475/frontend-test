@@ -111,7 +111,7 @@ function page() {
               </Select></Box>
         <Box sx={{ display: 'flex', alignItems: 'center' }}>
           <Box sx={{ pt: 1.5, width: '150px',color:'#1F2939',fontWeight:'500' }}>ZIP Code</Box>
-          <TextField fullWidth   variant="standard"   size='small'   value={state.zipcode}  InputProps={{ readOnly: true, }} sx={{width:"250px"}} focused />
+          <TextField    variant="standard"   size='small'   value={state.zipcode}  InputProps={{ readOnly: true, }} sx={{width:"250px"}}  />
         </Box>
         <Box sx={{ display: 'flex', alignItems: 'center' }}>
           <Box sx={{ pt: 1.5, width: '150px',color:'#1F2939',fontWeight:'500' }}>Google Maps</Box>
