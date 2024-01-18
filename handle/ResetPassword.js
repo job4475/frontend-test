@@ -32,7 +32,8 @@ function addcompany() {
           .then(result => {
             console.log(result);
             if (result.status === "OK") {
-              router.push('/Login');
+              setState({...state,resetpassword: true})
+              
             } else {
               console.log('Unexpected result status:', result.status);
             }

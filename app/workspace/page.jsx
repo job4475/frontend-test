@@ -231,7 +231,7 @@ const page = () => {
                 </div>
               </div>
             ) : null}
-          </div>
+          </div> 
         </div>
       </div>
     </>

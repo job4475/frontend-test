@@ -3,10 +3,12 @@ import React, { useContext } from 'react'
 import VerificationCodeInput from './VerificationCodeInput'
 import { Box, Button } from '@mui/material';
 import handleotp from "@/handle/otpvelify"
+import handleqrcode from "@/handle/Authenticator"
 import { StateContext } from '@/context/Context';
 import Loading from '@/components/loading'
 function OTPverify() {
   const HandleOTP = handleotp();
+  const HandleQRCode = handleqrcode();
   const {state, setState} = useContext(StateContext);
   return (
     <Box p={3} sx={{display: 'flex',flexDirection: 'column',background: 'width',width: '400px',height: '500px',
@@ -28,7 +30,8 @@ function OTPverify() {
     </Box>
     </Box>
     <Box sx={{display:'flex',justifyContent:'center'}}>
-    <Button variant="contained" onClick={HandleOTP.verifycode} style={{background:'#84BAA1',width:'90%',textTransform:'capitalize'}}>{state.loading?<Loading/>:"Next"}</Button>
+    <Button variant="contained" onClick={HandleOTP.workspace} style={{background:'#84BAA1',width:'90%',textTransform:'capitalize'}}>Next</Button>
+    <Button variant="text" onClick={HandleQRCode.getQR}>Try Another</Button>
     </Box>
   </Box>
   )

@@ -1,5 +1,4 @@
-'use client'; // I assume you meant 'use strict'
-
+'use client';
 import { StateContext } from '@/context/Context';
 import { useRouter } from 'next/navigation';
 import React, { useContext } from 'react';
@@ -7,7 +6,6 @@ import React, { useContext } from 'react';
 function ForgetPassword() {
     const { state, setState } = useContext(StateContext);
     const router = useRouter();
-
     const sendMail = () => {
         setState((prevData) => ({ ...prevData,loading: true }));
         var formdata = new FormData();
@@ -25,7 +23,6 @@ function ForgetPassword() {
             body: formdata,
             redirect: 'follow',
         };
-
         fetch(`${process.env.NEXT_PUBLIC_API_ENDPOINT_GET}:${process.env.NEXT_PUBLIC_API_PORT_LOGIN}/api/mailChicCRM`, requestOptions)
             .then(response => response.text())
             .then(result => {
@@ -37,7 +34,6 @@ function ForgetPassword() {
                 console.log('error', error);
             });
     };
-
     const workspace = (code) => {
         sendMail();
     };
@@ -47,8 +43,7 @@ function ForgetPassword() {
     const Email = (e) => {
         setState({...state,email: e.target.value,});
       };
-
-    return { Email, workspace,back };
+    return { Email, workspace };
 }
 
 export default ForgetPassword;

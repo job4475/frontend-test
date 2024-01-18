@@ -11,8 +11,7 @@ import AddIcon from '@mui/icons-material/Add';
 function page() {
   const {state, setState} = useContext(StateContext);
   const Handlecompany = handlecompany();
-
-const handleFileChange = (event) => {
+  const handleFileChange = (event) => {
   const file = event.target.files[0];
   if (file) {
     const reader = new FileReader();

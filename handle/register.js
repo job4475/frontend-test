@@ -60,11 +60,12 @@ fetch(`${process.env.NEXT_PUBLIC_API_ENDPOINT_GET}:${process.env.NEXT_PUBLIC_API
             .then(response => response.json())
             .then(uploadResult => {
               console.log(uploadResult);
-              router.push('/Login');
+              setState({ ...state, registerSuccess: true })
             })
             .catch(uploadError => console.log('Upload error', uploadError));
         
       } else {
+        setState({...state,error:true,status: result.status,message: result.message});
         console.log("Status is not OK:", result.status);
       }
     })
