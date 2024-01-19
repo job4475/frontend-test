@@ -36,13 +36,18 @@ function Authenticator() {
         .then(result => {
           console.log(result);
           if (result.status === "OK") {
+            console.log("🚀 ~ getQR ~ result:", result)
+            localStorage.setItem("qrcode", JSON.stringify(result.qrCodeURL));
             setState({ ...state, qrcodeurl: result.qrCodeURL });
             fetchLogoImage();
             router.push('/Authenticator');
 
-          } else if(result.message === "AccountName already exists") {
+          } else if(!result.statusqr) {
             fetchLogoImage();
             router.push('/Authenverify');
+          } else {
+            fetchLogoImage();
+            router.push('/Authenticator');
           }
         })
         .catch(error => console.error('Error:', error));

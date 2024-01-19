@@ -48,6 +48,6 @@ function otpvelify() {
             setState({ ...state, input_OTP: code });
         }
     };
-    return { handleCodeChange };
+    return { handleCodeChange,workspace };
 }
 export default otpvelify;

@@ -31,8 +31,8 @@ function OTPverify() {
     </Box>
     <Box sx={{display:'flex',justifyContent:'center'}}>
     <Button variant="contained" onClick={HandleOTP.workspace} style={{background:'#84BAA1',width:'90%',textTransform:'capitalize'}}>Next</Button>
-    <Button variant="text" onClick={HandleQRCode.getQR}>Try Another</Button>
     </Box>
+    <Button variant="text" style={{textTransform:"capitalize",color:"gray"}} onClick={HandleQRCode.getQR}>Try Another method</Button>
   </Box>
   )
 }

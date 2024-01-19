@@ -9,7 +9,8 @@ import Address from '@/services/Address'
 import Feature from '@/services/feature'
 import FeatureLead from '@/services/featurelead'
 import AlertDialog   from '@/handle/dialog'
-import Loading from  '@/handle/loading'
+import Loading from  '@/components/loading'
+import Qrcode from '@/services/qrcode'
 export const StateContext = createContext();
 
 export const StateProvider = ({children}) => {
@@ -22,9 +23,9 @@ export const StateProvider = ({children}) => {
     periodDays:"",periodHours:"",opensTime:"",loading:false,allorder:[],viewfile:false,viewRecipient:false,allleadorder:[],pageloader:false,alert:false,alert_text:"",alert_type:"",
     confirmlink:'',latitude:'',longitude:'',selectedImage:null,countries:[],data:[],companyID:'',referenceID:'',logoImage:'',memberAuthorization:[],dragover:false,sumsize:0,size_progress:0,
     sumsize_original:0,leadAuthorization:[],periodDays:"",periodHours:"",opensTime:"",loading:false,confirmlink:'',latitude:'',longitude:'',selectedImage:null,countries:[],data:[],companyID:'',referenceID:'',logoImage:'',memberfeature:[],securedoc:false,
-    open:false,resetpassword:false,loading:false,registerSuccess:false,qrcodeurl:'',phonecompany:'',Website:'',status:'',message:'',error:false
+    open:false,resetpassword:false,loading:false,registerSuccess:false,qrcodeurl:'',phonecompany:'',Website:'',status:'',message:'',error:false,qrcode:""
     });
-    // console.log("🚀 ~ StateProvider ~ state:", state)
+    console.log("🚀 ~ StateProvider ~ state:", state)
     return (
         <StateContext.Provider value={{state,setState}}>
             <Countries/>
@@ -37,6 +38,7 @@ export const StateProvider = ({children}) => {
             <Alert/>
             <Feature/>
             <FeatureLead/>
+            <Qrcode/>
             <div>{children}</div>
         </StateContext.Provider>
     )

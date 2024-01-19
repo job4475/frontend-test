@@ -23,9 +23,13 @@ function autenvelify() {
         .then(result => {
           console.log(result);
           if (result.status === "OK") {
-              router.push('/Workspace');
+              localStorage.removeItem("qrcode");
+              window.location.href = "/Workspace"
           } else {
-              console.log("Validation failed:", result.message);
+             setState((prevData) => ({ ...prevData, loading: false, alert: true, alert_text: result.message, alert_type: "error" }));
+            setTimeout(() => {
+             setState((prevData) => ({ ...prevData, alert: false }));
+            }, 3000);
           }
       })
       .catch(error => console.log('error', error));
