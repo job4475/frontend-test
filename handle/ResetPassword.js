@@ -57,7 +57,7 @@ function addcompany() {
           redirect: 'follow'
         };
 
-        fetch("http://localhost:8888/api/ResetPasswordChicCRM", requestOptions)
+        fetch(`${process.env.NEXT_PUBLIC_API_ENDPOINT_GET}:${process.env.NEXT_PUBLIC_API_PORT_LOGIN}/api/ResetPasswordChicCRM`, requestOptions)
           .then(response => response.text())
           .then(result => console.log(result))
           .catch(error => console.log('error', error));

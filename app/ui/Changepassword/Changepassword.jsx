@@ -5,23 +5,20 @@ import VisibilityIcon from '@mui/icons-material/Visibility';
 import VisibilityOffIcon from '@mui/icons-material/VisibilityOff';
 import { StateContext } from '@/context/Context';
 import handleresetpassword from '@/handle/ResetPassword'
-import { useRouter } from 'next/navigation';
+import updatePassword from '@/handle/validatepassword'
+
 
 function Index() {
   const {state, setState} = useContext(StateContext);
   const [showPassword, setShowPassword] = useState(false);
   const HandleResetPassword = handleresetpassword();
+  const updatePasswordFunc = updatePassword();
   const tokenParam = typeof window !== 'undefined' ? new URLSearchParams(window.location.search).get('token') : null;
   const decodedToken = tokenParam ? JSON.parse(atob(tokenParam.split('.')[1])) : null;
 
   useEffect(() => {
     if (tokenParam) {
-      setState((prevData) => ({
-        ...prevData,
-        confirmlink: tokenParam,
-        confirmlink_decode: decodedToken,
-        email: decodedToken.username,
-      }));
+      setState((prevData) => ({...prevData,confirmlink: tokenParam,confirmlink_decode: decodedToken,email: decodedToken.username,}));
     }
   }, [tokenParam]);
   const resetpassword = (e) => {
@@ -43,25 +40,31 @@ function Index() {
     const hasNumber = /\d/.test(state.password);
     return hasMinLength && hasUpperCase && hasLowerCase && hasNumber;
   };
+  const handlePasswordChange = (e) => {
+    state.password = e.target.value;
+     updatePasswordFunc(state.password);
+   };
   return (
     <Box>
       <Box p={3} sx={{ display: 'flex', flexDirection: 'column', width: '400px', height: '500px', borderRadius: "15px", marginLeft: 'auto', marginRight: 5, marginTop: 1, boxShadow: '0px 0px 10px rgba(0, 0, 0, 0.1)', justifyContent: 'space-between' }}>
         <Box>
           <Box style={{ color: '#1F2939', fontSize: 20, fontWeight: '600' }}>Reset your password here</Box>
           <Box sx={{ display: 'flex', flexDirection: 'column', justifyContent: 'center', alignItems: 'center', marginTop: 2 }}>
-            <TextField  label="New Password"variant="standard"type={showPassword ? 'text' : 'password'}value={state.password}onChange={resetpassword}sx={{ width: '100%' }}
+            <TextField  label="New Password"variant="standard"type={showPassword ? 'text' : 'password'}value={state.password} onChange={handlePasswordChange} sx={{ width: '100%' }}
               InputProps={{endAdornment: (<IconButton onClick={handleTogglePassword}  edge="end">{showPassword ? <VisibilityIcon /> : <VisibilityOffIcon />}</IconButton>),}}/>
             <TextField label="Confirm Password" value={state.confirmPassword}variant="standard"type={showPassword ? 'text' : 'password'}onChange={confirmPassword}sx={{ width: '100%' }}InputProps={{endAdornment: (<IconButton onClick={Confirm} edge="end">
               {showPassword ? <VisibilityIcon /> : <VisibilityOffIcon />}</IconButton>),}}/>
           </Box>
-                <Box sx={{display:'flex',justifyContent:'center',mt:"18px"}}>
-                <Box sx={{bgcolor:'#E8E8E8',width:'20%',height:'5px',mr:"2px"}}></Box>
-                <Box sx={{bgcolor:'#E8E8E8',width:'20%',height:'5px',mr:"2px"}}></Box>
-                <Box sx={{bgcolor:'#E8E8E8',width:'20%',height:'5px',mr:"2px"}}></Box>
-                <Box sx={{bgcolor:'#E8E8E8',width:'20%',height:'5px',mr:"2px"}}></Box>
-                <Box sx={{bgcolor:'#E8E8E8',width:'20%',height:'5px'}}></Box>
+          <Box sx={{display:'flex',justifyContent:'center',mt:"18px"}}>
+                <Box sx={{bgcolor: (state.passwordStrength === "Very Weak" || state.passwordStrength === "Weak" || state.passwordStrength === "Medium"
+                || state.passwordStrength === "Strong"|| state.passwordStrength === "Very Strong") ? '#2AB930' : '#E8E8E8',width:'20%',height:'5px',mr:"2px"}}></Box>
+                <Box sx={{bgcolor: ( state.passwordStrength === "Weak" || state.passwordStrength === "Medium"
+                || state.passwordStrength === "Strong"|| state.passwordStrength === "Very Strong") ? '#2AB930' : '#E8E8E8',width:'20%',height:'5px',mr:"2px"}}></Box>
+                <Box sx={{bgcolor: ( state.passwordStrength === "Medium" || state.passwordStrength === "Strong"|| state.passwordStrength === "Very Strong") ? '#2AB930' : '#E8E8E8',width:'20%',height:'5px',mr:"2px"}}></Box>
+                <Box sx={{bgcolor: ( state.passwordStrength === "Strong"|| state.passwordStrength === "Very Strong") ? '#2AB930' : '#E8E8E8',width:'20%',height:'5px',mr:"2px"}}></Box>
+                <Box sx={{bgcolor: ( state.passwordStrength === "Very Strong") ? '#2AB930' : '#E8E8E8',width:'20%',height:'5px',mr:"2px"}}></Box>
                 </Box>
-                <Box sx={{textAlign:'right' ,fontSize:10,justifyContent:'center',mr:2}}>Password Strength</Box>
+                <Box sx={{textAlign:'right' ,fontSize:13,justifyContent:'center',mr:2}}>{state.passwordStrength}</Box>
                 <Box>
         <Box direction="column"justifyContent="flex-start" alignItems="flex-start" sx={{ width: "100%", mt:4}} >
       <Box sx={{ display: "flex",justifyContent: "flex-start",alignItems: "center", gap: 1, width: 300, height: 26,}}>
