@@ -7,32 +7,30 @@ function ForgetPassword() {
     const { state, setState } = useContext(StateContext);
     const router = useRouter();
     const sendMail = () => {
-        setState((prevData) => ({ ...prevData,loading: true }));
-        var formdata = new FormData();
-        formdata.append("to", state.email);
-        formdata.append("subject", "resetpassword");
-        formdata.append("fromEmail", "worapon@tracthai.com");
-        formdata.append("body", "Please click the link provided below to proceed.");
-        formdata.append("body1", "MODULE: chiCRM");
-        formdata.append("body2", "ADMIN: TRAC-THAI");
-        formdata.append("bodylink", "http://localhost:3000/ResetPassword");
-        formdata.append("linkname", "resetpassword Link");
+        var myHeaders = new Headers();
+        myHeaders.append("Content-Type", "application/json");
+
+        var raw = JSON.stringify({
+        "username": state.email
+        });
 
         var requestOptions = {
-            method: 'POST',
-            body: formdata,
-            redirect: 'follow',
+        method: 'POST',
+        headers: myHeaders,
+        body: raw,
+        redirect: 'follow'
         };
-        fetch(`${process.env.NEXT_PUBLIC_API_ENDPOINT_GET}:${process.env.NEXT_PUBLIC_API_PORT_LOGIN}/api/mailChicCRM`, requestOptions)
-            .then(response => response.text())
-            .then(result => {
-                setState((prevData) => ({ ...prevData,loading: false }));
-                console.log(result);
-                router.push('/ResetSuccess');
-            })
-            .catch(error => {
-                console.log('error', error);
-            });
+
+        fetch(`${process.env.NEXT_PUBLIC_API_ENDPOINT_GET}:${process.env.NEXT_PUBLIC_API_PORT_LOGIN}/api/RequestResetPasswordChicCRM`, requestOptions)
+        .then(response => response.text())
+        .then(result => {
+            setState((prevData) => ({ ...prevData,loading: false }));
+            console.log(result);
+            router.push('/ResetSuccess');
+        })
+        .catch(error => {
+            console.log('error', error);
+        });
     };
     const workspace = (code) => {
         sendMail();
