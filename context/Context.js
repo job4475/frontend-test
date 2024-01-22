@@ -9,7 +9,7 @@ import Address from '@/services/Address'
 import Feature from '@/services/feature'
 import FeatureLead from '@/services/featurelead'
 import AlertDialog   from '@/handle/dialog'
-import Loading from  '@/components/loading'
+import Loading from  '@/components/loading/index'
 import Qrcode from '@/services/qrcode'
 export const StateContext = createContext();
 
@@ -22,15 +22,15 @@ export const StateProvider = ({children}) => {
     timelimitBeforeOri:"",timelimitBefore:"",timeBefore:"",timelimitAfterOri:"",timelimitAfter:"",timeAfter:"",limitDateTime:false,limitViewablePeriod:false,limitNumberFileOpen:false,noLimit:false,
     periodDays:"",periodHours:"",opensTime:"",loading:false,allorder:[],viewfile:false,viewRecipient:false,allleadorder:[],pageloader:false,alert:false,alert_text:"",alert_type:"",
     confirmlink:'',latitude:'',longitude:'',selectedImage:null,countries:[],data:[],companyID:'',referenceID:'',logoImage:'',memberAuthorization:[],dragover:false,sumsize:0,size_progress:0,
-    sumsize_original:0,leadAuthorization:[],periodDays:"",periodHours:"",opensTime:"",loading:false,confirmlink:'',latitude:'',longitude:'',selectedImage:null,countries:[],data:[],companyID:'',referenceID:'',logoImage:'',memberfeature:[],securedoc:false,
-    open:false,resetpassword:false,loading:false,registerSuccess:false,qrcodeurl:'',phonecompany:'',Website:'',status:'',message:'',error:false,qrcode:"",
+    sumsize_original:0,leadAuthorization:[],periodDays:"",periodHours:"",opensTime:"",confirmlink:'',memberfeature:[],securedoc:false,
+    open:false,resetpassword:false,registerSuccess:false,qrcodeurl:'',phonecompany:'',Website:'',status:'',message:'',error:false,qrcode:"",
     passwordStrength:'',confirmpassword:"",passwordsMatch:''
     });
     console.log("🚀 ~ StateProvider ~ state:", state)
     return (
         <StateContext.Provider value={{state,setState}}>
             <Countries/>
-            <Loading/>
+            {/* <Loading/> */}
             <AlertDialog/>
             <Feature/>
             <Address/>

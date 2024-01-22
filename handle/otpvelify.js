@@ -16,6 +16,7 @@ function otpvelify() {
                 .catch(error => console.error("Error fetching binary data:", error));
         };
         const workspace = () => {
+            setState({ ...state, loading: true });
             var myHeaders = new Headers();
             myHeaders.append("Content-Type", "application/json");
             var raw = JSON.stringify({
@@ -33,6 +34,7 @@ function otpvelify() {
                 .then(result => {
                     console.log(result);
                     if (result.status === "OK") {
+                        setState({ ...state, loading: false });
                         fetchLogoImage();
                         router.push('/Workspace');
                     } else {

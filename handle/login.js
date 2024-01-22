@@ -48,9 +48,9 @@ function login() {
 
           } else {
             setState((prevData) => ({ ...prevData, alert: true, alert_text: result.message, alert_type: "error" }));
-            // setTimeout(() => {
-            //   window.location.reload();
-            // }, 3000);          
+            setTimeout(() => {
+              window.location.reload();
+            }, 3000);          
           }
         })
         .catch(error => console.log('error', error));

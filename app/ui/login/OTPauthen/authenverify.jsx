@@ -5,6 +5,7 @@ import { Box, Button } from '@mui/material';
 import handleotp from "@/handle/otpvelify"
 import handleqrcode from "@/handle/autenvelify"
 import { StateContext } from '@/context/Context';
+import Loading from  '@/components/loading/index'
 
 function authenverify() {
   const HandleOTP = handleotp();
@@ -23,7 +24,7 @@ function authenverify() {
     <VerificationCodeInput onChange={HandleOTP.handleCodeChange} />
     </Box>
     <Box sx={{display:'flex',justifyContent:'center'}}>
-    <Button variant="contained" onClick={HandleQRCode.verifyauthen} style={{background:'#84BAA1',width:'90%',textTransform:'capitalize'}}>Next</Button>
+    <Button variant="contained" onClick={HandleQRCode.verifyauthen} style={{background:'#84BAA1',width:'90%',textTransform:'capitalize'}}>{state.loading?(<Loading/>):"Next"}</Button>
     </Box>
   </Box>
   )
