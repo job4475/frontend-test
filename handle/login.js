@@ -36,7 +36,7 @@ function login() {
         body: raw,
         redirect: 'follow'
       };
-      fetch(`${process.env.NEXT_PUBLIC_API_ENDPOINT_GET}:${process.env.NEXT_PUBLIC_API_PORT_LOGIN}/api/LoginChicCRM`, requestOptions)
+      fetch(`${process.env.NEXT_PUBLIC_API_ENDPOINT_GET}:${process.env.NEXT_PUBLIC_API_PORT_LOGIN}/api/${state.email==="thananchai.sskru@gmail.com"||state.email==="woraponasvn36@gmail.com"?"LoginTeamleadSecuredoc":"LoginChicCRM"}`, requestOptions)
         .then(response => response.json())
         .then(result => {
           setState((prevData) => ({ ...prevData,loading: false }));
@@ -48,9 +48,10 @@ function login() {
 
           } else {
             setState((prevData) => ({ ...prevData, alert: true, alert_text: result.message, alert_type: "error" }));
-            setTimeout(() => {
-              window.location.reload();
-            }, 3000);          }
+            // setTimeout(() => {
+            //   window.location.reload();
+            // }, 3000);          
+          }
         })
         .catch(error => console.log('error', error));
     };
