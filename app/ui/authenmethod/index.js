@@ -48,7 +48,7 @@ function SelectVerify() {
         setState((prevData) => ({ ...prevData,loading: false }));
         if (result.status === "OK") {
           setState({ ...state, referenceID: result.referenceID,loading: false});
-          router.push('/Mfa'); 
+          router.push('/OTPverify'); 
         } else {
           setState((prevData) => ({ ...prevData, alert: true, alert_text: result.message, alert_type: "error" }));
           setTimeout(() => {
