@@ -29,43 +29,80 @@ function SelectVerify() {
     console.log('Image clicked!');
   }
 
+  const sendOTPEmail = () => {
+      setState((prevData) => ({ ...prevData,loading: true }));
+      var myHeaders = new Headers();
+      myHeaders.append("Content-Type", "application/json");
+      var otpData = {
+        "email": state.email
+      };
+      var otpRequestOptions = {
+        method: 'POST',
+        headers: myHeaders,
+        body: JSON.stringify(otpData),
+        redirect: 'follow'
+      };
+      fetch(`${process.env.NEXT_PUBLIC_API_ENDPOINT_GET}:${process.env.NEXT_PUBLIC_API_PORT_LOGIN}/api/sendOTPEmail`, otpRequestOptions)
+      .then(response => response.json())  
+      .then(result => {
+        setState((prevData) => ({ ...prevData,loading: false }));
+        if (result.status === "OK") {
+          setState({ ...state, referenceID: result.referenceID,loading: false});
+          router.push('/Mfa'); 
+        } else {
+          setState((prevData) => ({ ...prevData, alert: true, alert_text: result.message, alert_type: "error" }));
+          setTimeout(() => {
+            window.location.reload();
+          }, 2000);
+        }
+      })
+      .catch(error => console.error('Error:', error));
+    }
+
+    const getQR = () =>{
+      var myHeaders = new Headers();
+      myHeaders.append("Content-Type", "application/json");
+      
+      var raw = JSON.stringify({
+        "value": 1,
+        "accountName": state.email
+      });
+      var requestOptions = {
+        method: 'POST',
+        headers: myHeaders,
+        body: raw,
+        redirect: 'follow'
+      };
+      fetch(`${process.env.NEXT_PUBLIC_API_ENDPOINT_GET}:${process.env.NEXT_PUBLIC_API_PORT_LOGIN}/api/qrTOTP`, requestOptions)
+      .then(response => response.json()) 
+      .then(result => {
+        console.log(result);
+        if (result.status === "OK") {
+          console.log("🚀 ~ getQR ~ result:", result)
+          localStorage.setItem("qrcode", JSON.stringify(result.qrCodeURL));
+          setState({ ...state, qrcodeurl: result.qrCodeURL });
+          fetchLogoImage();
+          router.push('/Authenticator');
+
+        } else if(result.statusqr) {
+          fetchLogoImage();
+          router.push('/Authenverify');
+        } else {
+          fetchLogoImage();
+          router.push('/Authenticator');
+        }
+      })
+      .catch(error => console.error('Error:', error));
+  }
   const handlenext = ()=>{
     if (isClickedMail){
         router.push('/OTPverify'); 
         sendOTPEmail();
     }else if(isClickedAut){
         router.push('/Authenticator');
+        getQR();
     }
 
-    const sendOTPEmail = () => {
-        setState((prevData) => ({ ...prevData,loading: true }));
-        var myHeaders = new Headers();
-        myHeaders.append("Content-Type", "application/json");
-        var otpData = {
-          "email": state.email
-        };
-        var otpRequestOptions = {
-          method: 'POST',
-          headers: myHeaders,
-          body: JSON.stringify(otpData),
-          redirect: 'follow'
-        };
-        fetch(`${process.env.NEXT_PUBLIC_API_ENDPOINT_GET}:${process.env.NEXT_PUBLIC_API_PORT_LOGIN}/api/sendOTPEmail`, otpRequestOptions)
-        .then(response => response.json())  
-        .then(result => {
-          setState((prevData) => ({ ...prevData,loading: false }));
-          if (result.status === "OK") {
-            setState({ ...state, referenceID: result.referenceID,loading: false});
-            router.push('/Mfa'); 
-          } else {
-            setState((prevData) => ({ ...prevData, alert: true, alert_text: result.message, alert_type: "error" }));
-            setTimeout(() => {
-              window.location.reload();
-            }, 2000);
-          }
-        })
-        .catch(error => console.error('Error:', error));
-      }
 
   }
 
