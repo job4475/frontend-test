@@ -20,7 +20,12 @@ function page() {
     };
     reader.readAsDataURL(file);
   }
+  const Handlecompany = (e) =>{
+    setState(e.target.value);
+  };
 };
+
+
   return (
     <Box sx={{display:'flex',flexDirection:'column',justifyContent:'space-between',alignItems:'flex-start',p:3, }}>
       <Box >
@@ -37,18 +42,22 @@ function page() {
       <Typography variant="h6">Create Company</Typography>
     </Box>
     <Box sx={{display:'flex',ml:5}}>
-    <Box sx={{ mt: '2%', width: '100px', height: '100px', background: '#D9D9D9', display: 'flex', justifyContent: 'center', alignItems: 'center', borderRadius: '50%' }}>
-      <input accept='image/*' style={{ display: 'none' }} id='raised-button-file' type='file' onChange={handleFileChange} />
-      <label htmlFor='raised-button-file'>
-        {state.selectedImage ? (
-          <img src={state.selectedImage} alt='Selected' style={{ width: '100%', height: '100%', borderRadius: '50%' }} />
-        ) : (
-          <IconButton sx={{ color: '#1F2939' }} component='span'>
-            <AddIcon />
-          </IconButton>
-        )}
-      </label>
-    </Box>
+      <Box sx={{mt:'2%',flexDirection:'column',justifyContent:'center'}}>
+        <Box sx={{ mt: '2%', width: '100px', height: '100px', background: '#D9D9D9', display: 'flex', justifyContent: 'center', alignItems: 'center', borderRadius: '50%', marginLeft:'auto',marginRight:'auto'}}>
+          <input accept='image/*' style={{ display: 'none' }} id='raised-button-file' type='file' onChange={handleFileChange} />
+          <label htmlFor='raised-button-file'>
+            {state.selectedImage ? (
+              <img src={state.selectedImage} alt='Selected' style={{ width: '100%', height: '100%', borderRadius: '50%' }} />
+            ) : (
+              <IconButton sx={{ color: '#1F2939' }} component='span'>
+                <AddIcon />
+              </IconButton>
+            )}
+          </label>
+        </Box>
+        <Button sx={{background:'#84BAA1',color:'#ffffff',mt:'15px',textTransform:'capitalize',':hover':{background:'#629f84'}}}>Upload Imag</Button>
+      </Box>
+
       <Box sx={{ ml: 5,display:'flex',flexDirection:'row' }}>
       <Box sx={{ display: 'flex', flexDirection: 'column', gap:2,mr:5 }}>
         <Box sx={{ display: 'flex', alignItems: 'center' }}>
@@ -77,6 +86,10 @@ function page() {
         ))}
       </Select>
         </Box>
+      <Box sx={{ display: 'flex', alignItems: 'center' }}>
+          <Box sx={{ pt: 1.5, width: '150px',color:'#1F2939',fontWeight:'500' }}>Phone Number</Box>
+          <TextField id="standard-basic" variant="standard" value={state.phoneNumber} onChange={Handlecompany.phoneNumber}  sx={{width:"250px"}}/>
+      </Box>
       </Box>
       <Box sx={{ display: 'flex', flexDirection: 'column', gap:2 }}>
         <Box sx={{ display: 'flex', alignItems: 'center' }}>
@@ -111,11 +124,15 @@ function page() {
               </Select></Box>
         <Box sx={{ display: 'flex', alignItems: 'center' }}>
           <Box sx={{ pt: 1.5, width: '150px',color:'#1F2939',fontWeight:'500' }}>ZIP Code</Box>
-          <TextField variant="standard"   size='small'   value={state.zipcode}  InputProps={{ readOnly: true, }} sx={{width:"250px"}}  />
+          <TextField fullWidth   variant="standard"   size='small'   value={state.zipcode}  InputProps={{ readOnly: true, }} sx={{width:"250px"}} focused />
         </Box>
         <Box sx={{ display: 'flex', alignItems: 'center' }}>
           <Box sx={{ pt: 1.5, width: '150px',color:'#1F2939',fontWeight:'500' }}>Google Maps</Box>
           <TextField id="standard-basic" variant="standard" value={state.googlemaps} onChange={Handlecompany.GoogleMaps}  sx={{width:"250px"}}/>
+        </Box>
+        <Box sx={{ display: 'flex', alignItems: 'center' }}>
+          <Box sx={{ pt: 1.5, width: '150px',color:'#1F2939',fontWeight:'500' }}>Website</Box>
+          <TextField id="standard-basic" variant="standard" value={state.webSite} onChange={Handlecompany.webSite}  sx={{width:"250px"}}/>
         </Box>
       </Box>
     </Box>
@@ -124,7 +141,7 @@ function page() {
   <Box sx={{pt:13,ml:3,display:'flex'}}>
   <Button  variant="outlined" color="success" onClick={Handlecompany.Selectcompany}  style={{textTransform:'capitalize',width:'80px',height:'auto',color:'#84BAA1'}}>Back</Button>
   <Box sx={{marginLeft:3}}>  
-  <Button variant="contained" disabled={!state.Alias  && !state.googlemaps }  onClick={Handlecompany.Register}  style={{backgroundColor:'#84BAA1',textTransform:'capitalize', width:'120px',height:'auto'}}>Next  <ArrowRightAltIcon/></Button>
+  <Button variant="contained" onClick={Handlecompany.Register} disabled={!state.alias || !state.googlemaps || !state.webSite || !state.phoneNumber || !state.companyname || !state.street || !state.no || !state.country || !state.selectedProvince || !state.selectedAmphoe || !state.selectedTambon || !state.selectedImage} sx={{backgroundColor:'#84BAA1',textTransform:'capitalize', width:'120px',height:'auto'}}>Next<ArrowRightAltIcon/></Button>
   </Box>
   </Box>
     </Box>

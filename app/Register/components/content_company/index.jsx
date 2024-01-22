@@ -2,10 +2,10 @@ import { data_register } from '@/data/register'
 import { Box, Radio } from '@mui/material'
 import Image from 'next/image'
 import React, { useContext } from 'react'
-import logo from '@/assets/assets/images/logotrac.png'
 import website from '@/assets/assets/images/register/website.png'
 import tel from '@/assets/assets/images/register/tel.png'
 import map from '@/assets/assets/images/register/location.png'
+import accountimg from '@/assets/assets/images/register/account.png'
 import { StateContext } from '@/context/Context'
 
 function index() {
@@ -14,7 +14,13 @@ function index() {
     <Box sx={{mt:3}}>
       <Box sx={{fontWeight:600,mb:3}}>{data_register[0].title_content1}</Box>
       <Box sx={{display:"flex"}}>
-        <Image width={100} height={100} alt="logo" src={state.datacompany?.CompanyLogo}></Image>
+      <Box>
+        {state.logoImage || state.selectedImage ? (
+          <Image width={100} height={100} alt="logo" src={state.logoImage || state.selectedImage}></Image>
+        ) : (
+          <p></p>
+        )}
+      </Box>
         <Box sx={{display:"flex",flexDirection:"column",alignItems:"left",ml:3.5}}>
            <Box sx={{fontWeight:600}}>{state.companyname}</Box>
               <Box sx={{display:"flex",mt:1}}>
@@ -24,15 +30,15 @@ function index() {
               <Box sx={{ml:10}}>
                 <Box sx={{display:"flex",alignItems:"center"}}>
                   <Image alt="website" src={website}/>
-                  <Box sx={{ml:2}}>{data_register[0].website}</Box>
+                  <Box sx={{ml:2}}>{state.webSite}</Box>
                 </Box>
                 <Box sx={{mt:1,display:"flex",alignItems:"center"}}>
                   <Image alt="tel" src={tel}/>
-                  <Box sx={{ml:2}}>{data_register[0].tel}</Box>
+                  <Box sx={{ml:2}}>{state.phoneNumber}</Box>
                 </Box>
                 <Box sx={{mt:1,display:"flex",alignItems:"center"}}>
                   <Image alt="map" src={map}/>
-                  <Box sx={{ml:2}}>{data_register[0].map}</Box>
+                  <Box sx={{ml:2}}>{state.googlemaps}</Box>
                 </Box>
               </Box>
            </Box>

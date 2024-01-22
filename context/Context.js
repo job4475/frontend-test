@@ -23,7 +23,7 @@ export const StateProvider = ({children}) => {
     periodDays:"",periodHours:"",opensTime:"",loading:false,allorder:[],viewfile:false,viewRecipient:false,allleadorder:[],pageloader:false,alert:false,alert_text:"",alert_type:"",
     confirmlink:'',latitude:'',longitude:'',selectedImage:null,countries:[],data:[],companyID:'',referenceID:'',logoImage:'',memberAuthorization:[],dragover:false,sumsize:0,size_progress:0,
     sumsize_original:0,leadAuthorization:[],periodDays:"",periodHours:"",opensTime:"",loading:false,confirmlink:'',latitude:'',longitude:'',selectedImage:null,countries:[],data:[],companyID:'',referenceID:'',logoImage:'',memberfeature:[],securedoc:false,
-    open:false,resetpassword:false,loading:false,registerSuccess:false,qrcodeurl:'',phonecompany:'',Website:'',status:'',message:'',error:false,qrcode:"",
+    open:false,resetpassword:false,loading:false,registerSuccess:false,qrcodeurl:'',status:'',message:'',error:false,qrcode:"",phoneNumber:'',webSite:'',
     passwordStrength:'',confirmpassword:"",passwordsMatch:''
     });
     console.log("🚀 ~ StateProvider ~ state:", state)

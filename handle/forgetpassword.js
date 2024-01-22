@@ -22,7 +22,7 @@ function ForgetPassword() {
         };
 
         fetch(`${process.env.NEXT_PUBLIC_API_ENDPOINT_GET}:${process.env.NEXT_PUBLIC_API_PORT_LOGIN}/api/RequestResetPasswordChicCRM`, requestOptions)
-        .then(response => response.text())
+        .then(response => response.json())
         .then(result => {
             setState((prevData) => ({ ...prevData,loading: false }));
             console.log(result);
