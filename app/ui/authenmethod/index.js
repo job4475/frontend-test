@@ -28,7 +28,35 @@ function SelectVerify() {
 
     console.log('Image clicked!');
   }
-
+  const sendOTPEmail = () => {
+    setState((prevData) => ({ ...prevData,loading: true }));
+    var myHeaders = new Headers();
+    myHeaders.append("Content-Type", "application/json");
+    var otpData = {
+      "email": state.email
+    };
+    var otpRequestOptions = {
+      method: 'POST',
+      headers: myHeaders,
+      body: JSON.stringify(otpData),
+      redirect: 'follow'
+    };
+    fetch(`${process.env.NEXT_PUBLIC_API_ENDPOINT_GET}:${process.env.NEXT_PUBLIC_API_PORT_LOGIN}/api/sendOTPEmail`, otpRequestOptions)
+    .then(response => response.json())  
+    .then(result => {
+      setState((prevData) => ({ ...prevData,loading: false }));
+      if (result.status === "OK") {
+        setState({ ...state, referenceID: result.referenceID,loading: false});
+        router.push('/OTPverify'); 
+      } else {
+        setState((prevData) => ({ ...prevData, alert: true, alert_text: result.message, alert_type: "error" }));
+        setTimeout(() => {
+          window.location.reload();
+        }, 2000);
+      }
+    })
+    .catch(error => console.error('Error:', error));
+  }
   const handlenext = ()=>{
     if (isClickedMail){
         router.push('/OTPverify'); 
@@ -36,39 +64,7 @@ function SelectVerify() {
     }else if(isClickedAut){
         router.push('/Authenticator');
     }
-
-    const sendOTPEmail = () => {
-        setState((prevData) => ({ ...prevData,loading: true }));
-        var myHeaders = new Headers();
-        myHeaders.append("Content-Type", "application/json");
-        var otpData = {
-          "email": state.email
-        };
-        var otpRequestOptions = {
-          method: 'POST',
-          headers: myHeaders,
-          body: JSON.stringify(otpData),
-          redirect: 'follow'
-        };
-        fetch(`${process.env.NEXT_PUBLIC_API_ENDPOINT_GET}:${process.env.NEXT_PUBLIC_API_PORT_LOGIN}/api/sendOTPEmail`, otpRequestOptions)
-        .then(response => response.json())  
-        .then(result => {
-          setState((prevData) => ({ ...prevData,loading: false }));
-          if (result.status === "OK") {
-            setState({ ...state, referenceID: result.referenceID,loading: false});
-            router.push('/Mfa'); 
-          } else {
-            setState((prevData) => ({ ...prevData, alert: true, alert_text: result.message, alert_type: "error" }));
-            setTimeout(() => {
-              window.location.reload();
-            }, 2000);
-          }
-        })
-        .catch(error => console.error('Error:', error));
-      }
-
   }
-
   return (
     <Box p={3} sx={{display: 'flex',flexDirection: 'column',background: '#ffffff',width: '400px',height: '500px',borderRadius: "15px",marginLeft: 'auto',mr: 5,mt: 1,boxShadow: '0px 0px 10px rgba(0, 0, 0, 0.1)',justifyContent:'space-between'}}>
       <Box>
