@@ -17,7 +17,8 @@ function sharedoc(textFieldRef,fileInputRef) {
   };
 
   const handleKeyPress = (event) => {
-    if (event.key === 'Enter' && state.input_recip.trim() !== '') {
+    console.log("🚀 ~ handleKeyPress ~ event:", event)
+    if ((event.key === 'Enter' || event.key === 'Tab') && state.input_recip.trim() !== '') {
       setState((prevData) => ({ ...prevData, recipient: [...state.recipient, state.input_recip.trim()],input_recip:""}));
     }
   };

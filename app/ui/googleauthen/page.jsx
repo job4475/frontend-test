@@ -23,6 +23,7 @@ function page() {
        <Box>
         <Button variant="contained" onClick={HandleLogin.gotovelify} style={{background:'#84BAA1',width:'100%',textTransform:'capitalize'}}>Next</Button>
        </Box>
+       <Button variant="text" style={{textTransform:"capitalize",color:"gray"}} onClick={HandleLogin.tryanother}>Try Another method</Button>
       </Box>
     </Box>
   );

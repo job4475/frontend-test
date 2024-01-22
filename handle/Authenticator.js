@@ -17,6 +17,11 @@ function Authenticator() {
           .catch(error => console.error("Error fetching binary data:", error));
   };
 
+  const tryanother=()=>{
+    router.push('/Mfa'); 
+
+  }
+
     const getQR = () =>{
         var myHeaders = new Headers();
         myHeaders.append("Content-Type", "application/json");
@@ -42,7 +47,7 @@ function Authenticator() {
             fetchLogoImage();
             router.push('/Authenticator');
 
-          } else if(!result.statusqr) {
+          } else if(result.statusqr) {
             fetchLogoImage();
             router.push('/Authenverify');
           } else {
@@ -55,7 +60,7 @@ function Authenticator() {
     const gotovelify = () => {
       router.push('/Authenverify');
     }
-  return {getQR,gotovelify}
+  return {getQR,gotovelify,tryanother}
 }
 
 export default Authenticator

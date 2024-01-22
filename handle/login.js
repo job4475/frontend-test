@@ -43,7 +43,8 @@ function login() {
           if (result.status === "OK") {
             const decodedToken = JSON.parse(atob(result.token.split('.')[1]));
             localStorage.setItem("decode_token", JSON.stringify(decodedToken));
-            sendOTPEmail();
+            router.push('/Mfa'); 
+            // sendOTPEmail();
 
           } else {
             setState((prevData) => ({ ...prevData, alert: true, alert_text: result.message, alert_type: "error" }));
@@ -72,7 +73,7 @@ function login() {
         setState((prevData) => ({ ...prevData,loading: false }));
         if (result.status === "OK") {
           setState({ ...state, referenceID: result.referenceID,loading: false});
-          router.push('/OTPverify'); 
+          router.push('/Mfa'); 
         } else {
           setState((prevData) => ({ ...prevData, alert: true, alert_text: result.message, alert_type: "error" }));
           setTimeout(() => {
