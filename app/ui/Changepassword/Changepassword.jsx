@@ -7,7 +7,6 @@ import { StateContext } from '@/context/Context';
 import handleresetpassword from '@/handle/ResetPassword'
 import updatePassword from '@/handle/validatepassword'
 
-
 function Index() {
   const {state, setState} = useContext(StateContext);
   const [showPassword, setShowPassword] = useState(false);
@@ -103,7 +102,7 @@ function Index() {
         </Box>
         </Box>
         <Box sx={{ display: 'flex', justifyContent: 'center', alignItems: 'center' }}>
-        <Button variant="contained" onClick={HandleResetPassword.Confirm} style={{ background: '#84BAA1', width: '90%', textTransform: 'capitalize', mt: 10 }}disabled={!isPasswordValid() || state.password !== state.confirmPassword}>Resetpassword</Button>
+        <Button variant="contained" onClick={HandleResetPassword.Changepassword} style={{ background: '#84BAA1', width: '90%', textTransform: 'capitalize', mt: 10 }}disabled={!isPasswordValid() || state.password !== state.confirmPassword}>Resetpassword</Button>
     </Box>
       </Box>
     </Box>

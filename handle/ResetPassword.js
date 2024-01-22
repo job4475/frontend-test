@@ -40,9 +40,30 @@ function addcompany() {
           })
           .catch(error => console.error('Error:', error));
       };
-      
-      
-      const handleTogglePassword = () => {
+      const Changepassword = () => {
+        var myHeaders = new Headers();
+        myHeaders.append("Content-Type", "application/json");
+        myHeaders.append("Authorization", state.confirmlink);
+
+        var raw = JSON.stringify({
+          "username": state.email,
+          "newpassword": state.password
+        });
+
+        var requestOptions = {
+          method: 'PATCH',
+          headers: myHeaders,
+          body: raw,
+          redirect: 'follow'
+        };
+
+        fetch(`${process.env.NEXT_PUBLIC_API_ENDPOINT_GET}:${process.env.NEXT_PUBLIC_API_PORT_LOGIN}/api/ResetPasswordChicCRM`, requestOptions)
+          .then(response => response.text())
+          .then(result => console.log(result))
+          .catch(error => console.log('error', error));
+        }
+
+        const handleTogglePassword = () => {
         setShowPassword(!showPassword);
       };
     const isPasswordValid = () => {
@@ -52,7 +73,7 @@ function addcompany() {
       const hasNumber = /\d/.test(password);
       return hasMinLength && hasUpperCase && hasLowerCase && hasNumber;
     };
-  return {handleTogglePassword,isPasswordValid,Confirm}
+  return {handleTogglePassword,isPasswordValid,Confirm,Changepassword}
 }
 
 export default addcompany

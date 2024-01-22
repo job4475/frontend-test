@@ -111,11 +111,11 @@ function page() {
               </Select></Box>
         <Box sx={{ display: 'flex', alignItems: 'center' }}>
           <Box sx={{ pt: 1.5, width: '150px',color:'#1F2939',fontWeight:'500' }}>ZIP Code</Box>
-          <TextField fullWidth   variant="standard"   size='small'   value={state.zipcode}  InputProps={{ readOnly: true, }} sx={{width:"250px"}} focused />
+          <TextField variant="standard"   size='small'   value={state.zipcode}  InputProps={{ readOnly: true, }} sx={{width:"250px"}}  />
         </Box>
         <Box sx={{ display: 'flex', alignItems: 'center' }}>
           <Box sx={{ pt: 1.5, width: '150px',color:'#1F2939',fontWeight:'500' }}>Google Maps</Box>
-          <TextField id="standard-basic" variant="standard" value={state.GoogleMaps} onChange={Handlecompany.GoogleMaps}  sx={{width:"250px"}}/>
+          <TextField id="standard-basic" variant="standard" value={state.googlemaps} onChange={Handlecompany.GoogleMaps}  sx={{width:"250px"}}/>
         </Box>
       </Box>
     </Box>
@@ -124,7 +124,7 @@ function page() {
   <Box sx={{pt:13,ml:3,display:'flex'}}>
   <Button  variant="outlined" color="success" onClick={Handlecompany.Selectcompany}  style={{textTransform:'capitalize',width:'80px',height:'auto',color:'#84BAA1'}}>Back</Button>
   <Box sx={{marginLeft:3}}>  
-  <Button variant="contained" onClick={Handlecompany.Register}  style={{backgroundColor:'#84BAA1',textTransform:'capitalize', width:'120px',height:'auto'}}>Next  <ArrowRightAltIcon/></Button>
+  <Button variant="contained" disabled={!state.Alias  && !state.googlemaps }  onClick={Handlecompany.Register}  style={{backgroundColor:'#84BAA1',textTransform:'capitalize', width:'120px',height:'auto'}}>Next  <ArrowRightAltIcon/></Button>
   </Box>
   </Box>
     </Box>
