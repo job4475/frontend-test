@@ -81,14 +81,11 @@ function SelectVerify() {
           console.log("🚀 ~ getQR ~ result:", result)
           localStorage.setItem("qrcode", JSON.stringify(result.qrCodeURL));
           setState({ ...state, qrcodeurl: result.qrCodeURL });
-          fetchLogoImage();
           router.push('/Authenticator');
 
-        } else if(result.statusqr) {
-          fetchLogoImage();
+        } else if(result.statusqr===false&&state.qrcode==="") {
           router.push('/Authenverify');
         } else {
-          fetchLogoImage();
           router.push('/Authenticator');
         }
       })
