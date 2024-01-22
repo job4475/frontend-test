@@ -7,7 +7,6 @@ import { StateContext } from '@/context/Context';
 import handleresetpassword from '@/handle/ResetPassword'
 import updatePassword from '@/handle/validatepassword'
 
-
 function Index() {
   const {state, setState} = useContext(StateContext);
   const [showPassword, setShowPassword] = useState(false);
