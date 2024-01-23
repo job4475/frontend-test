@@ -11,6 +11,7 @@ import FeatureLead from '@/services/featurelead'
 import AlertDialog   from '@/handle/dialog'
 import Loading from  '@/components/loading'
 import Qrcode from '@/services/qrcode'
+import GetLogoBinary from '@/services/getLogoBinary'
 export const StateContext = createContext();
 
 export const StateProvider = ({children}) => {
@@ -31,6 +32,7 @@ export const StateProvider = ({children}) => {
         <StateContext.Provider value={{state,setState}}>
             <Countries/>
             <Loading/>
+            <GetLogoBinary/>
             <AlertDialog/>
             <Feature/>
             <Address/>

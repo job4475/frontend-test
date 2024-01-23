@@ -25,12 +25,16 @@ function index() {
            <Box sx={{fontWeight:600}}>{state.companyname}</Box>
               <Box sx={{display:"flex",mt:1}}>
               <Box sx={{width:"300px"}}>
-              <div dangerouslySetInnerHTML={{ __html: `${state.datacompany.AddressNo||state.no} ${state.datacompany.Address1En||state.street}<br>${state.datacompany.District||state.selectedAmphoe } ${state.datacompany.SubDistrict||state.selectedTambon}<br>${state.datacompany.Province||state.selectedProvince} ${state.datacompany.Zipcode||state.zipcode} ${state.datacompany.Country||state.country}` }} />
+              <div dangerouslySetInnerHTML={{ __html: `${state.datacompany.AddressNo||state.no} ${state.datacompany.Address1En||state.street}<br>
+              ${state.datacompany.District||state.selectedAmphoe } ${state.datacompany.SubDistrict||state.selectedTambon}<br>
+              ${state.datacompany.Province||state.selectedProvince} ${state.datacompany.Zipcode||state.zipcode} ${state.datacompany.Country||state.country}` }} />
               </Box>
               <Box sx={{ml:10}}>
                 <Box sx={{display:"flex",alignItems:"center"}}>
                   <Image alt="website" src={website}/>
-                  <Box sx={{ml:2}}>{state.webSite}</Box>
+                  <Box sx={{ml:2}}><a href={state.webSite} target="_blank" rel="noopener noreferrer">
+                    {state.webSite}
+                  </a></Box>
                 </Box>
                 <Box sx={{mt:1,display:"flex",alignItems:"center"}}>
                   <Image alt="tel" src={tel}/>
@@ -38,7 +42,11 @@ function index() {
                 </Box>
                 <Box sx={{mt:1,display:"flex",alignItems:"center"}}>
                   <Image alt="map" src={map}/>
-                  <Box sx={{ml:2}}>{state.googlemaps}</Box>
+                  <Box sx={{ml:2}}>
+                    <a href={state.googlemaps} target="_blank" rel="noopener noreferrer">
+                    {state.googlemaps}
+                  </a>
+                  </Box>
                 </Box>
               </Box>
            </Box>

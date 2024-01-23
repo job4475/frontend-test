@@ -6,19 +6,6 @@ import React, { useContext } from 'react'
 function login() {
     const router = useRouter();
     const {state, setState} = useContext(StateContext);
-
-    const fetchLogoImage = () => {
-      setState({...state,loading: true})
-      fetch(`${process.env.NEXT_PUBLIC_API_ENDPOINT_GET}:${process.env.NEXT_PUBLIC_API_PORT_LOGIN}/api/getLogoBinary/${state.companyID}`)
-          .then(response => response.blob())
-          .then(blob => {
-              const imageUrl = URL.createObjectURL(blob);
-              setState((prevData) => ({ ...prevData, logoImage: imageUrl,loading: false }));
-          })
-          .catch(error => console.error("Error fetching binary data:", error));
-
-          router.push('/Selectcompany');
-  };
     const handleTogglePassword = () => {
     setState({...state,showPassword: !state.showPassword});
     };
@@ -117,10 +104,9 @@ function login() {
                 selectedTambon: result.data.SubDistrict,
                 zipcode: result.data.Zipcode,
                 country: result.data.Country,
+                
             });
-            if(state.companyID){
-              fetchLogoImage();
-            }
+            router.push('/Selectcompany');
         } else if(result.message === "domain does not match. To proceed, please check your email") {
           setState({...state,open: true})
             var formdata = new FormData();
