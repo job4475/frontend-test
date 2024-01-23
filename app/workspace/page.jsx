@@ -10,6 +10,7 @@ import UnderReview from "@/assets/assets/images/workspace/UnderReview.png";
 import { useRouter } from "next/navigation";
 import { useContext } from "react";
 import { StateContext } from "@/context/Context";
+import { Button, Box } from "@mui/material";
 
 const page = () => {
   const { state, setState } = useContext(StateContext);
@@ -82,6 +83,13 @@ const page = () => {
     return `${String(hours).padStart(2, '0')}:${String(minutes).padStart(2, '0')}:${String(seconds).padStart(2, '0')}`;
   };
 
+  const handleclicklogout = () => {
+    localStorage.removeItem("ally-supports-cache")
+    localStorage.removeItem("decode_token")
+    localStorage.removeItem("loginTime")
+    window.location.href="/"
+  }
+
   return (
     <>
       <div className="max-w-screen-xl p-2 lg:p-0 container mx-auto my-2 lg:my-12 flex flex-col lg:flex-row justify-start lg:justify-between items-start lg:items-center">
@@ -94,20 +102,10 @@ const page = () => {
               <span style={{textTransform:"capitalize"}} className="text-lg font-semibold mr-1">
               {state.decode_token.FirstnameOriginal?state.decode_token?.FirstnameOriginal:state.decode_token?.Firstname} {state.decode_token.SurnameTokenOriginal?state.decode_token?.SurnameTokenOriginal:state.decode_token?.Surname}
               </span>
-              <svg
-                xmlns="http://www.w3.org/2000/svg"
-                width="14"
-                height="14"
-                viewBox="0 0 18 18"
-                fill="none"
-              >
-                <path
-                  fillRule="evenodd"
-                  clipRule="evenodd"
-                  d="M14.1208 6.96758L15.9168 5.17157C16.462 4.62632 16.7346 4.3537 16.8804 4.0596C17.1577 3.50005 17.1577 2.8431 16.8804 2.28354C16.7346 1.98945 16.462 1.71682 15.9168 1.17157C15.3715 0.626323 15.0989 0.353698 14.8048 0.207962C14.2452 -0.0693207 13.5883 -0.0693207 13.0287 0.207962C12.7346 0.353698 12.462 0.626323 11.9168 1.17157L10.0981 2.99023C11.062 4.64083 12.4481 6.01639 14.1208 6.96758ZM8.64365 4.44469L1.77314 11.3152C1.34808 11.7403 1.13555 11.9528 0.995818 12.2139C0.856084 12.475 0.797138 12.7697 0.679248 13.3592L0.0638519 16.4361C-0.00267025 16.7687 -0.0359313 16.9351 0.0586767 17.0297C0.153285 17.1243 0.31959 17.091 0.6522 17.0245L3.72918 16.4091C4.31863 16.2912 4.61336 16.2323 4.87446 16.0925C5.13555 15.9528 5.34808 15.7403 5.77315 15.3152L12.6625 8.42579C11.0409 7.41014 9.66919 6.04785 8.64365 4.44469Z"
-                  fill="#222222"
-                />
-              </svg>
+              <Box sx={{display:'flex',gap:'7px',ml:'10px'}}>
+                <Button disabled style={{background:'#E4E4E4',textTransform:'capitalize'}}>Edit Profile</Button>
+                <Button onClick={handleclicklogout} style={{background:'#F95353',color:'#fff',borderRadius:'4px',textTransform:'capitalize'}}>Logout</Button>
+              </Box>
             </div>
             <div>
             <span className="text-lg">{state.decode_token.JobTitleOriginal?state.decode_token?.JobTitleOriginal:state.decode_token?.Role}</span>
