@@ -36,7 +36,7 @@ function login() {
         body: raw,
         redirect: 'follow'
       };
-      fetch(`${process.env.NEXT_PUBLIC_API_ENDPOINT_GET}:${process.env.NEXT_PUBLIC_API_PORT_LOGIN}/api/${state.email==="thananchai.sskru@gmail.com"||state.email==="woraponasvn36@gmail.com"?"LoginTeamleadSecuredoc":"LoginChicCRM"}`, requestOptions)
+      fetch(`${process.env.NEXT_PUBLIC_API_ENDPOINT_GET}:${process.env.NEXT_PUBLIC_API_PORT_LOGIN}/api/LoginChicCRM`, requestOptions)
         .then(response => response.json())
         .then(result => {
           setState((prevData) => ({ ...prevData,loading: false }));
@@ -55,35 +55,6 @@ function login() {
         })
         .catch(error => console.log('error', error));
     };
-    const sendOTPEmail = () => {
-      setState((prevData) => ({ ...prevData,loading: true }));
-      var myHeaders = new Headers();
-      myHeaders.append("Content-Type", "application/json");
-      var otpData = {
-        "email": state.email
-      };
-      var otpRequestOptions = {
-        method: 'POST',
-        headers: myHeaders,
-        body: JSON.stringify(otpData),
-        redirect: 'follow'
-      };
-      fetch(`${process.env.NEXT_PUBLIC_API_ENDPOINT_GET}:${process.env.NEXT_PUBLIC_API_PORT_LOGIN}/api/sendOTPEmail`, otpRequestOptions)
-      .then(response => response.json())  
-      .then(result => {
-        setState((prevData) => ({ ...prevData,loading: false }));
-        if (result.status === "OK") {
-          setState({ ...state, referenceID: result.referenceID,loading: false});
-          router.push('/Mfa'); 
-        } else {
-          setState((prevData) => ({ ...prevData, alert: true, alert_text: result.message, alert_type: "error" }));
-          setTimeout(() => {
-            window.location.reload();
-          }, 2000);
-        }
-      })
-      .catch(error => console.error('Error:', error));
-    }
   const handleSignUpClick = () => {
     
     var myHeaders = new Headers();

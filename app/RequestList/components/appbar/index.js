@@ -51,7 +51,7 @@ function index() {
           <div className="">
             <div className="flex flex-col lg:flex-row justify-start lg:justify-between items-start lg:items-center">
               <span style={{textTransform:"capitalize"}} className="text-lg font-semibold mr-1">
-              {state.decode_token?.Firstname}{state.decode_token?.Surname}
+              {state.decode_token?.FirstnameOriginal} {state.decode_token?.SurnameTokenOriginal}
               </span>
               <svg
                 xmlns="http://www.w3.org/2000/svg"

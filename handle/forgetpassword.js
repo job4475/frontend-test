@@ -7,6 +7,7 @@ function ForgetPassword() {
     const { state, setState } = useContext(StateContext);
     const router = useRouter();
     const sendMail = () => {
+        setState((prevData) => ({ ...prevData, loading: true}));
         var myHeaders = new Headers();
         myHeaders.append("Content-Type", "application/json");
 
@@ -25,7 +26,6 @@ function ForgetPassword() {
         .then(response => response.text())
         .then(result => {
             setState((prevData) => ({ ...prevData,loading: false }));
-            console.log(result);
             router.push('/ResetSuccess');
         })
         .catch(error => {
@@ -41,7 +41,7 @@ function ForgetPassword() {
     const Email = (e) => {
         setState({...state,email: e.target.value,});
       };
-    return { Email, workspace };
+    return { Email, workspace,back };
 }
 
 export default ForgetPassword;

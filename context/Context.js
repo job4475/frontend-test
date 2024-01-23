@@ -34,12 +34,12 @@ export const StateProvider = ({children}) => {
             <AlertDialog/>
             <Feature/>
             <Address/>
-            <Token/>
             <PageLoader/>
             <Alert/>
             <Feature/>
             <FeatureLead/>
             <Qrcode/>
+            <Token/>
             <div>{children}</div>
         </StateContext.Provider>
     )

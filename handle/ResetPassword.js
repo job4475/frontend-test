@@ -58,8 +58,12 @@ function addcompany() {
         };
 
         fetch(`${process.env.NEXT_PUBLIC_API_ENDPOINT_GET}:${process.env.NEXT_PUBLIC_API_PORT_LOGIN}/api/ResetPasswordChicCRM`, requestOptions)
-          .then(response => response.text())
-          .then(result => console.log(result))
+          .then(response => response.json())
+          .then(result => 
+            {
+
+            }
+            )
           .catch(error => console.log('error', error));
         }
 

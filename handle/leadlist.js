@@ -149,14 +149,15 @@ function leadlist() {
           const logResponse = await fetch(`${process.env.NEXT_PUBLIC_API_ENDPOINT}:${process.env.NEXT_PUBLIC_API_PORT}/api/fileEncrypt`, logRequestOptions);
           const logResult = await logResponse.json();
       
-          if (logResult.status === 'OK') {
+          if (logResult.Status === 'OK') {
             console.log("🚀 ~ handleBatchApprove ~ logResult:", logResult)
             var formdataSendmail = new FormData();
             formdataSendmail.append("order_id", orderIds[0]);
-            formdataSendmail.append("action", "Approve");
+            formdataSendmail.append("action", "Approved");
             formdataSendmail.append("email", emails[0]);
             formdataSendmail.append("sender", senders[0]);
             formdataSendmail.append("subject", subjects[0]);
+            formdataSendmail.append("teamleadID", state.decode_token?state.decode_token.ID:"");
             
             var requestOptionsSendmail = {
               method: 'POST',
@@ -164,10 +165,10 @@ function leadlist() {
               redirect: 'follow'
             };
             
-            fetch(`${process.env.NEXT_PUBLIC_API_ENDPOINT}:${process.env.NEXT_PUBLIC_API_PORT}/api/reustDoc`, requestOptionsSendmail)
+            fetch(`${process.env.NEXT_PUBLIC_API_ENDPOINT}:${process.env.NEXT_PUBLIC_API_PORT}/api/sendMailFinalcode`, requestOptionsSendmail)
               .then(response => response.json())
               .then(result => {
-                if(result.status === "OK"){
+                if(result.Status === "OK"){
                   setState((prevData) => ({ ...prevData, alert: true, pageloader: false, alert_text: "Operation successfully", alert_type: "success" }));
                   setTimeout(() => {
                     window.location.reload();
@@ -208,7 +209,8 @@ function leadlist() {
 
         var formdata = new FormData();
         formdata.append("order_id", orderIds[0]);
-        formdata.append("action", "Reject");
+        formdata.append("action", "Rejected");
+        formdata.append("teamleadID", state.decode_token?state.decode_token.ID:"");
         
         var requestOptions = {
           method: 'POST',
@@ -216,10 +218,10 @@ function leadlist() {
           redirect: 'follow'
         };
         
-        fetch(`${process.env.NEXT_PUBLIC_API_ENDPOINT}:${process.env.NEXT_PUBLIC_API_PORT}/api/reustDoc`, requestOptions)
+        fetch(`${process.env.NEXT_PUBLIC_API_ENDPOINT}:${process.env.NEXT_PUBLIC_API_PORT}/api/sendMailFinalcode`, requestOptions)
           .then(response => response.json())
         .then(result => {
-          if(result.status === "OK"){
+          if(result.Status === "OK"){
             setState((prevData) => ({ ...prevData, alert: true, pageloader: false, alert_text: "Operation successfully", alert_type: "success" }));
             setTimeout(() => {
               window.location.reload();
@@ -234,7 +236,6 @@ function leadlist() {
           .catch(error => console.log('error', error));
         
       }
-    
 
 
   return {handleNewRequest,handleClicktoGetFile,handleTooltipOpen,handleTooltipClose,handleTooltipCloseRecipient,handleTooltipOpenRecipient,CustomTooltip,CustomTooltipRecipient,

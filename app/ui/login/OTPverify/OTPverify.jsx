@@ -26,7 +26,7 @@ function OTPverify() {
       <p style={{fontSize:'14px',fontWeight:'600'}}>{state.referenceID}</p>
     </Box>
     <Box sx={{display:'flex',justifyContent:'center',mt:'px'}}>
-    <Button style={{fontSize:'14px', fontWeight:'600',color:'#4D94FB',textTransform:'capitalize',transition:'color 0.3s'}} hoverStyle={{color:'red'}}>Resend Code</Button>
+    <Button style={{fontSize:'14px', fontWeight:'600',color:'#4D94FB',textTransform:'capitalize',transition:'color 0.3s'}} onClick={HandleOTP.sendOTPEmail} hoverStyle={{color:'red'}}>Resend Code</Button>
     </Box>
     </Box>
     <Box sx={{display:'flex',justifyContent:'center'}}>

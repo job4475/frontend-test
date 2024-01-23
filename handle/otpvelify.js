@@ -36,13 +36,43 @@ function otpvelify() {
                     if (result.status === "OK") {
                         setState({ ...state, loading: false });
                         fetchLogoImage();
-                        router.push('/Workspace');
+                        window.location.href = "/Workspace"
                     } else {
-                        console.log("Validation failed:", result.message);
-                    }
+                        setState((prevData) => ({ ...prevData, alert: true, alert_text: result.message, alert_type: "error" }));
+                        setTimeout(() => {
+                         setState((prevData) => ({ ...prevData, alert: false,loading:false }));
+                        }, 3000);                    }
                 })
                 .catch(error => console.log('error', error));
         };
+        const sendOTPEmail = () => {
+            setState((prevData) => ({ ...prevData,loading: true }));
+            var myHeaders = new Headers();
+            myHeaders.append("Content-Type", "application/json");
+            var otpData = {
+              "email": state.email
+            };
+            var otpRequestOptions = {
+              method: 'POST',
+              headers: myHeaders,
+              body: JSON.stringify(otpData),
+              redirect: 'follow'
+            };
+            fetch(`${process.env.NEXT_PUBLIC_API_ENDPOINT_GET}:${process.env.NEXT_PUBLIC_API_PORT_LOGIN}/api/sendOTPEmail`, otpRequestOptions)
+            .then(response => response.json())  
+            .then(result => {
+              setState((prevData) => ({ ...prevData,loading: false }));
+              if (result.status === "OK") {
+                setState({ ...state, referenceID: result.referenceID,loading: false});
+              } else {
+                setState((prevData) => ({ ...prevData, alert: true, alert_text: result.message, alert_type: "error" }));
+                setTimeout(() => {
+                  window.location.reload();
+                }, 2000);
+              }
+            })
+            .catch(error => console.error('Error:', error));
+          }
     
     const handleCodeChange = (code) => {
         console.log('Verification Code:', code);
@@ -50,6 +80,6 @@ function otpvelify() {
             setState({ ...state, input_OTP: code });
         }
     };
-    return { handleCodeChange,workspace };
+    return { handleCodeChange,workspace,sendOTPEmail };
 }
 export default otpvelify;
