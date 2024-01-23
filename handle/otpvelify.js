@@ -16,6 +16,7 @@ function otpvelify() {
                 .catch(error => console.error("Error fetching binary data:", error));
         };
         const workspace = () => {
+            setState((prevData) => ({ ...prevData,loading: true }));
             var myHeaders = new Headers();
             myHeaders.append("Content-Type", "application/json");
             var raw = JSON.stringify({
@@ -36,7 +37,10 @@ function otpvelify() {
                         fetchLogoImage();
                         router.push('/Workspace');
                     } else {
-                        console.log("Validation failed:", result.message);
+                        setState((prevData) => ({ ...prevData, alert: true, alert_text: result.message, alert_type: "error" }));
+                        setTimeout(() => {
+                            setState((prevData) => ({ ...prevData, alert: false}));
+                          }, 2000);
                     }
                 })
                 .catch(error => console.log('error', error));

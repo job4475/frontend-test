@@ -24,13 +24,15 @@ function ForgetPassword() {
         fetch(`${process.env.NEXT_PUBLIC_API_ENDPOINT_GET}:${process.env.NEXT_PUBLIC_API_PORT_LOGIN}/api/RequestResetPasswordChicCRM`, requestOptions)
         .then(response => response.json())
         .then(result => {
-            setState((prevData) => ({ ...prevData,loading: false }));
-            console.log(result);
-            router.push('/ResetSuccess');
-        })
-        .catch(error => {
-            console.log('error', error);
-        });
+            if (result.status === "OK") {
+                setState((prevData) => ({ ...prevData,loading: false }));
+                router.push('/ResetSuccess');
+            } else {
+                setState((prevData) => ({ ...prevData, alert: true, alert_text: result.message, alert_type: "error" }));
+              console.log('Unexpected result status:', result.status);
+            }
+          })
+          .catch(error => console.error('Error:', error));
     };
     const workspace = (code) => {
         sendMail();
@@ -41,7 +43,7 @@ function ForgetPassword() {
     const Email = (e) => {
         setState({...state,email: e.target.value,});
       };
-    return { Email, workspace };
+    return { Email, workspace,back };
 }
 
 export default ForgetPassword;

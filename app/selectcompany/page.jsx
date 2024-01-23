@@ -10,6 +10,7 @@ const page = () => {
   const router = useRouter();
   const { state, setState } = useContext(StateContext);
   const Register = () => {
+     setState({...state,backdrop: true});
     router.push('/Register');
   }
   const CreateCompany = () => {

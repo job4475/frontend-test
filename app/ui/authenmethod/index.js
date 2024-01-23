@@ -5,6 +5,7 @@ import mail from '@/assets/assets/images/email.png'
 import aut from '@/assets/assets/images/totp.png'
 import { useRouter } from 'next/navigation';
 import { StateContext } from '@/context/Context';
+import Loading from '@/components/loading'
 
 
 function SelectVerify() {
@@ -30,7 +31,7 @@ function SelectVerify() {
   }
 
   const sendOTPEmail = () => {
-      setState((prevData) => ({ ...prevData,loading: true }));
+      
       var myHeaders = new Headers();
       myHeaders.append("Content-Type", "application/json");
       var otpData = {
@@ -45,7 +46,6 @@ function SelectVerify() {
       fetch(`${process.env.NEXT_PUBLIC_API_ENDPOINT_GET}:${process.env.NEXT_PUBLIC_API_PORT_LOGIN}/api/sendOTPEmail`, otpRequestOptions)
       .then(response => response.json())  
       .then(result => {
-        setState((prevData) => ({ ...prevData,loading: false }));
         if (result.status === "OK") {
           setState({ ...state, referenceID: result.referenceID,loading: false});
           router.push('/OTPverify'); 
@@ -93,6 +93,7 @@ function SelectVerify() {
   }
   const handlenext = ()=>{
     if (isClickedMail){
+      setState((prevData) => ({ ...prevData,loading: true }));
         router.push('/OTPverify'); 
         sendOTPEmail();
     }else if(isClickedAut){
@@ -125,7 +126,7 @@ function SelectVerify() {
           </Box>
         </Box>
       </Box>
-      <Button onClick={handlenext} variant="contained" style={{background:'#84BAA1',width:'100%',textTransform:'capitalize',boxShadow:'0 0 0 0px'}}>Next</Button>
+      <Button onClick={handlenext} variant="contained" style={{background:'#84BAA1',width:'100%',textTransform:'capitalize',boxShadow:'0 0 0 0px'}} > {state.loading?<Loading/>:"Next"}</Button>
     </Box>
   )
 }

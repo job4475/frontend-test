@@ -24,7 +24,6 @@ function dialod() {
   };
   const error = () => {
     setState({...state,error: false})
-    
   };
   return (
     <Box>

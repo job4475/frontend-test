@@ -7,6 +7,7 @@ function register() {
   const {state, setState} = useContext(StateContext);
   const router = useRouter();
   const handleRegister = () => {
+    setState((prevData) => ({ ...prevData,loading: true }));
     var myHeaders = new Headers();
 myHeaders.append("Content-Type", "application/json");
 
@@ -55,7 +56,6 @@ fetch(`${process.env.NEXT_PUBLIC_API_ENDPOINT_GET}:${process.env.NEXT_PUBLIC_API
             body: formdata,
             redirect: 'follow'
           };
-
           fetch(`${process.env.NEXT_PUBLIC_API_ENDPOINT_GET}:${process.env.NEXT_PUBLIC_API_PORT_LOGIN}/api/uploadLogoBinary`, uploadRequestOptions)
             .then(response => response.json())
             .then(uploadResult => {

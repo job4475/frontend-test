@@ -12,7 +12,7 @@ function Index() {
  const HandleLogin = handlelogin();
   return (
     <Box>
-      <Box p={3} sx={{display: 'flex',flexDirection: 'column',background: 'width',width: '120%',height: '500px',
+      <Box p={3} sx={{display: 'flex',flexDirection: 'column',background: 'width',width: '115%',height: '500px',
         borderRadius: "15px",marginLeft: 'auto',mr: 6,mt: 1,boxShadow: '0px 0px 10px rgba(0, 0, 0, 0.1)',justifyContent:'space-between'}}>
         <Box ml={2} sx={{display: 'flex',flexDirection: 'row',width: '190px',height: '45px',borderRadius: '50px',
           background: '#DAEBE3',alignItems: 'center',justifyContent: 'center',}}>
@@ -36,9 +36,7 @@ function Index() {
                      <IconButton onClick={HandleLogin.handleTogglePassword} edge="end">
                       {state.showPassword ? <VisibilityIcon/>:<VisibilityOffIcon />}
                     </IconButton> 
-                ),
-              }}
-            />
+                ),}}/>
           )}
           {state.info === 0 && (
             <Box sx={{ marginLeft: 'auto' }}>
