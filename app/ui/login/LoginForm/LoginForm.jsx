@@ -12,10 +12,10 @@ function Index() {
  const HandleLogin = handlelogin();
   return (
     <Box>
-      <Box p={3} sx={{display: 'flex',flexDirection: 'column',background: 'width',width: '440px',height: '550px',
-        borderRadius: "15px",marginLeft: 'auto',mr: 6,mt: 1,boxShadow: '0px 0px 10px rgba(0, 0, 0, 0.1)',justifyContent:'space-between'}}>
+      <Box sx={{display: 'flex',flexDirection: 'column',background: '#fff',width: '440px',height: '550px',
+        borderRadius: "15px",marginLeft: 'auto',mr: 7,mt: 1,boxShadow: '0px 0px 10px rgba(0, 0, 0, 0.1)',justifyContent:'space-between',py:'35px',px:'25px'}}>
         <Box ml={2} sx={{display: 'flex',flexDirection: 'row',width: '190px',height: '43px',borderRadius: '50px',
-          background: '#DAEBE3',alignItems: 'center',justifyContent: 'space-between',padding:'3px'}}>
+          background: '#DAEBE3',alignItems: 'center',justifyContent: 'space-between',py:'3px',px:'4px'}}>
           <Box onClick={() => { setState({...state,info: 0});(0); }} sx={{cursor: "pointer",width: "90px",height: "100%",flexShrink: 0,
             background: state.info === 0 ? "#84BAA1" : "",color: state.info === 0 ? "#fff" : "#3d4d69",borderRadius: "40px",display: "flex",
             justifyContent: "center",alignItems: "center",fontSize:'15px',fontWeight:'500'}}>
@@ -30,11 +30,11 @@ function Index() {
         <Box sx={{display: 'flex',flexDirection: 'column',justifyContent: 'center',alignItems: 'center'}}>
           <TextField id="standard-basic" label="Email" variant="standard" value={state.Email} onChange={HandleLogin.Email} sx={{ width: '90%','& label':{color:'#828895',fontWeight:'500'}}} />
           {state.info === 0 && (
-            <TextField label="Password"variant="standard" value={state.Password} onChange={HandleLogin.Password} type={state.showPassword ? 'text' : 'password'}sx={{ width: '90%',mt:'15px','& label':{color:'#828895',fontWeight:'500'}}}
+            <TextField label="Password"variant="standard" value={state.Password} onChange={HandleLogin.Password} type={state.showPassword ? 'text' : 'password'}sx={{ width: '90%',mt:'18px','& label':{color:'#828895',fontWeight:'500'}}}
               InputProps={{
                 endAdornment: (
                      <IconButton onClick={HandleLogin.handleTogglePassword} edge="end">
-                      {state.showPassword ? <VisibilityIcon/>:<VisibilityOffIcon />}
+                      {state.showPassword ? <VisibilityIcon sx={{color:'#c1c7cd',mr:'5px'}}/>:<VisibilityOffIcon sx={{color:'#c1c7cd',mr:'5px'}}/>}
                     </IconButton> 
                 ),
               }}
@@ -47,7 +47,7 @@ function Index() {
           )}
         </Box>
         <Box sx={{display:'flex',justifyContent:'center'}}>
-        <Button variant="contained" onClick={state.info === 0 ? HandleLogin.handleSignInClick : HandleLogin.handleSignUpClick} sx={{transition:'transform 0.3s ease','&:hover': {transform: 'scale(1.03)',},}} style={{background: '#84BAA1',width: '90%',height:'42px', textTransform: 'capitalize', marginTop: 10,boxShadow:'0px 0px 0px',borderRadius:'8px',fontWeight:'600'}}>
+        <Button variant="contained" onClick={state.info === 0 ? HandleLogin.handleSignInClick : HandleLogin.handleSignUpClick} sx={{transition:'transform 0.3s ease','&:hover': {transform: 'scale(1.03)',},}} style={{background: '#84BAA1',width: '90%',height:'44px', textTransform: 'capitalize', marginTop: 10,boxShadow:'0px 0px 0px',borderRadius:'8px',fontWeight:'600'}}>
          {state.loading?<Loading/>:state.info === 0 ? 'Sign In' : 'Next'}
         </Button>
         </Box>
