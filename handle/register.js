@@ -72,7 +72,7 @@ fetch(`${process.env.NEXT_PUBLIC_API_ENDPOINT_GET}:${process.env.NEXT_PUBLIC_API
     .catch(error => console.log('error', error));
 };
   const Selectcompany = () => {
-    router.push('/Selectcompany');
+    router.back()
   }
   const  handlechangeTitle =(e)=>{
     setState((prevData) => ({ ...prevData, titleselect: e.target.value }))

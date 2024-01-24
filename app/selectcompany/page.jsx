@@ -4,6 +4,7 @@ import Image from "next/image";
 import { Box } from "@mui/material";
 import { useRouter } from "next/navigation";
 import { StateContext } from "@/context/Context";
+import Backdrop from '@/components/backdrop/backdrop' 
 
 const page = () => {
   
@@ -11,6 +12,9 @@ const page = () => {
   const { state, setState } = useContext(StateContext);
   const Register = () => {
      setState({...state,backdrop: true});
+     setTimeout(() => {
+      setState((prevData) => ({ ...prevData, backdrop: false}));
+    }, 2000);
     router.push('/Register');
   }
   const CreateCompany = () => {
@@ -23,6 +27,7 @@ const page = () => {
         background: `linear-gradient(108deg, #84BAA1 0%, #FFFBE2 100%), #F7FAFB`,
       }}
     >
+      {state.backdrop?<Backdrop/>:""}
       <div className="bg-white h-screen w-4/5 p-16">
         <h2>Hi, Is this the company you work ?</h2>
         <p>Please select your company.</p>

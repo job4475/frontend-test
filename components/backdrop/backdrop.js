@@ -4,7 +4,7 @@ import { Backdrop, Box } from '@mui/material'
 import CircularProgress from '@mui/material/CircularProgress'
 import React, { useContext } from 'react'
 
-function loading() {
+function backdrop() {
   
   const { state, setState } = useContext(StateContext);
   const handleClose = () => {
@@ -20,4 +20,4 @@ function loading() {
   )
 }
 
-export default loading
+export default backdrop

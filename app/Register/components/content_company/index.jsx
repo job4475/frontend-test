@@ -33,12 +33,12 @@ function index() {
                 <Box sx={{display:"flex",alignItems:"center"}}>
                   <Image alt="website" src={website}/>
                   <Box sx={{ml:2}}><a href={state.webSite} target="_blank" rel="noopener noreferrer">
-                    {state.webSite}
+                    {state.webSite || "https://www.tracthai.com"}
                   </a></Box>
                 </Box>
                 <Box sx={{mt:1,display:"flex",alignItems:"center"}}>
                   <Image alt="tel" src={tel}/>
-                  <Box sx={{ml:2}}>{state.phoneNumber}</Box>
+                  <Box sx={{ml:2}}>{state.phoneNumber ||"021019884 "}</Box>
                 </Box>
                 <Box sx={{mt:1,display:"flex",alignItems:"center"}}>
                   <Image alt="map" src={map}/>

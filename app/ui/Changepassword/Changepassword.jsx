@@ -6,6 +6,7 @@ import VisibilityOffIcon from '@mui/icons-material/VisibilityOff';
 import { StateContext } from '@/context/Context';
 import handleresetpassword from '@/handle/ResetPassword'
 import updatePassword from '@/handle/validatepassword'
+import Loading from '@/components/loading'
 
 function Index() {
   const {state, setState} = useContext(StateContext);
@@ -73,10 +74,10 @@ function Index() {
         </Typography>
       </Box>
       <Box
-        sx={{display: "flex",justifyContent: "flex-start", alignItems: "center", gap: 1, width: 300, height: 26, }}>
+        sx={{display: "flex",justifyContent: "flex-start", alignItems: "center", gap: 1, width: 350, height: 26, }}>
         <Box sx={{ width: 15, height: 15, borderRadius: 9999, border: "1px #E4E7EB solid",background: /[A-Z]/.test(state.password) ? '#2AB930' : '#ffffff'}}/>
         <Typography variant="body2" color="#828895">
-          Contains at least one <span style={{ textTransform: "uppercase" }}>uppercase</span> letter.
+          Contains at least one UPPERCASE letter.
         </Typography>
       </Box>
       <Box
@@ -102,7 +103,7 @@ function Index() {
         </Box>
         </Box>
         <Box sx={{ display: 'flex', justifyContent: 'center', alignItems: 'center' }}>
-        <Button variant="contained" onClick={HandleResetPassword.Changepassword} style={{ background: '#84BAA1', width: '90%', textTransform: 'capitalize', mt: 10 }}disabled={!isPasswordValid() || state.password !== state.confirmPassword}>Resetpassword</Button>
+        <Button variant="contained" onClick={HandleResetPassword.Changepassword} style={{ background: '#84BAA1', width: '90%', textTransform: 'capitalize', mt: 10 }}disabled={!isPasswordValid() || state.password !== state.confirmPassword}> {state.loading?<Loading/>:"Resetpassword"}</Button>
     </Box>
       </Box>
     </Box>

@@ -1,7 +1,7 @@
 'use client'
 import { StateContext } from '@/context/Context';
 import { useRouter } from 'next/navigation';
-import React, { useContext } from 'react'
+import React, { useContext } from 'react';
 
 function login() {
     const router = useRouter();
@@ -31,13 +31,11 @@ function login() {
             const decodedToken = JSON.parse(atob(result.token.split('.')[1]));
             localStorage.setItem("decode_token", JSON.stringify(decodedToken));
             router.push('/Mfa'); 
-            // sendOTPEmail();
-
           } else {
             setState((prevData) => ({ ...prevData, alert: true, alert_text: result.message, alert_type: "error" }));
-            // setTimeout(() => {
-            //   window.location.reload();
-            // }, 3000);          
+            setTimeout(() => {
+              window.location.reload();
+            }, 3000);          
           }
           console.log("🚀 ~ handleSignInClick ~ result:", result)
         })
@@ -96,7 +94,6 @@ function login() {
                 body: formdata,
                 redirect: 'follow',
             };
-
             fetch(`${process.env.NEXT_PUBLIC_API_ENDPOINT_GET}:${process.env.NEXT_PUBLIC_API_PORT_LOGIN}/api/mailChicCRM`, requestOptions)
                 .then(response => response.text())
                 .then(result => console.log(result))
@@ -119,6 +116,10 @@ function login() {
     .catch(error => console.error("Error fetching data:", error));
         };
           const ForgotPassword = () => {
+            setState({...state,backdrop: true});
+            setTimeout(() => {
+              setState((prevData) => ({ ...prevData, backdrop: false}));
+            }, 1000);
             router.push('/ForgotPassword')
           }
           const Email= (e) => {

@@ -6,6 +6,7 @@ import VisibilityOffIcon from '@mui/icons-material/VisibilityOff';
 import { StateContext } from '@/context/Context';
 import handlelogin from "@/handle/login"
 import Loading from '@/components/loading'
+import Backdrop from '@/components/backdrop/backdrop'
 
 function Index() {
   const {state, setState} = useContext(StateContext);
@@ -40,7 +41,7 @@ function Index() {
           )}
           {state.info === 0 && (
             <Box sx={{ marginLeft: 'auto' }}>
-              <Button variant="text" onClick={HandleLogin.ForgotPassword} sx={{ color: '#828895',textTransform:'capitalize' }}>Forgot Password?</Button>
+              <Button variant="text" onClick={HandleLogin.ForgotPassword} sx={{ color: '#828895',textTransform:'capitalize' }}>{state.backdrop?<Backdrop/>:"Forgot Password?"}</Button>
             </Box>
           )}
         </Box>

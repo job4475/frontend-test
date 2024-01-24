@@ -7,6 +7,7 @@ function ForgetPassword() {
     const { state, setState } = useContext(StateContext);
     const router = useRouter();
     const sendMail = () => {
+        setState((prevData) => ({ ...prevData,loading: true }));
         var myHeaders = new Headers();
         myHeaders.append("Content-Type", "application/json");
 

@@ -6,6 +6,7 @@ function autenvelify() {
         const { state, setState } = useContext(StateContext);
         const router = useRouter();
         const verifyauthen = () => {
+          setState((prevData) => ({ ...prevData,loading: true }));
         var myHeaders = new Headers();
         myHeaders.append("Content-Type", "application/json");
         var raw = JSON.stringify({
