@@ -4,6 +4,7 @@ import arrow from '@/assets/assets/images/register/arrow.png'
 import Image from 'next/image'
 import handleregis from "@/handle/register"
 import { StateContext } from '@/context/Context'
+import Loading from '@/components/loading/index'
 
 function index() {
   const {state, setState} = useContext(StateContext);
@@ -14,7 +15,7 @@ function index() {
          ,color:"#84BAA1",cursor:"pointer",fontWeight:500}}>Back</Box>
         <Box onClick={Handleregis.handleRegister} sx={{ml:2,width: "auto",height: "50px",padding: "5px 50px",border:"1px solid #84BAA1",background:"#84BAA1",display:"flex",justifyContent:"center",alignItems:"center",borderRadius:"6px"
          ,color:"#fff",cursor:"pointer",fontWeight:500}}disabled={state.first_name === ""}>
-            <Box>Next</Box>  
+            <Box>{state.loading?<Loading/>:"Next"}</Box>  
             <Box sx={{ml:1}}>
                 <Image style={{width:"75%",height:"auto"}} alt="logo" src={arrow}></Image>
             </Box>

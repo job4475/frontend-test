@@ -5,6 +5,7 @@ import { StateContext } from '@/context/Context';
 import { useRouter } from 'next/router';
 import handleforget from '@/handle/forgetpassword'
 import Loading from '@/components/loading'
+
 function Index() {
   const {state, setState} = useContext(StateContext);
   const HandleForget = handleforget();

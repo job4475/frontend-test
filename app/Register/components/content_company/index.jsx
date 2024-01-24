@@ -14,31 +14,31 @@ function index() {
     <Box sx={{mt:3}}>
       <Box sx={{fontWeight:600,mb:3}}>{data_register[0].title_content1}</Box>
       <Box sx={{display:"flex"}}>
-      <Box>
+      <Box sx={{mr:1,width:'100px'}} >
         {state.logoImage || state.selectedImage ? (
           <Image width={100} height={100} alt="logo" src={state.logoImage || state.selectedImage}></Image>
         ) : (
           <p></p>
         )}
       </Box>
-        <Box sx={{display:"flex",flexDirection:"column",alignItems:"left",ml:3.5}}>
+        <Box sx={{display:"flex",flexDirection:"column",alignItems:"left",ml:2}}>
            <Box sx={{fontWeight:600}}>{state.companyname}</Box>
               <Box sx={{display:"flex",mt:1}}>
               <Box sx={{width:"300px"}}>
               <div dangerouslySetInnerHTML={{ __html: `${state.datacompany.AddressNo||state.no} ${state.datacompany.Address1En||state.street}<br>
               ${state.datacompany.District||state.selectedAmphoe } ${state.datacompany.SubDistrict||state.selectedTambon}<br>
-              ${state.datacompany.Province||state.selectedProvince} ${state.datacompany.Zipcode||state.zipcode} ${state.datacompany.Country||state.country}` }} />
+              ${state.datacompany.Province||state.selectedProvince} ${state.datacompany.Zipcode||state.zipcode}<br> ${state.datacompany.Country||state.country}` }} />
               </Box>
-              <Box sx={{ml:10}}>
+              <Box sx={{ml:1}}>
                 <Box sx={{display:"flex",alignItems:"center"}}>
                   <Image alt="website" src={website}/>
                   <Box sx={{ml:2}}><a href={state.webSite} target="_blank" rel="noopener noreferrer">
-                    {state.webSite}
+                    {state.webSite || "https://www.tracthai.com"}
                   </a></Box>
                 </Box>
                 <Box sx={{mt:1,display:"flex",alignItems:"center"}}>
                   <Image alt="tel" src={tel}/>
-                  <Box sx={{ml:2}}>{state.phoneNumber}</Box>
+                  <Box sx={{ml:2}}>{state.phoneNumber ||"021019884 "}</Box>
                 </Box>
                 <Box sx={{mt:1,display:"flex",alignItems:"center"}}>
                   <Image alt="map" src={map}/>

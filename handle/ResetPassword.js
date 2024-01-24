@@ -40,6 +40,7 @@ function addcompany() {
           .catch(error => console.error('Error:', error));
       };
       const Changepassword = () => {
+        setState((prevData) => ({ ...prevData,loading: true }));
         var myHeaders = new Headers();
         myHeaders.append("Content-Type", "application/json");
         myHeaders.append("Authorization", state.confirmlink);
@@ -60,7 +61,7 @@ function addcompany() {
           .then(response => response.json())
           .then(result => {
             if (result.status === "OK") {
-              setState({...state,resetpassword: true})
+              setState({...state,resetpassword: true,loading:false})
             } else {
               console.log('Unexpected result status:', result.status);
             }

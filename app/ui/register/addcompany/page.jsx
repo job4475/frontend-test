@@ -20,11 +20,10 @@ function page() {
       };
       reader.readAsDataURL(file);
     }
-    const Handlecompany = (e) => {
-      setState(e.target.value);
-    };
   };
-
+  const handleButtonClick = () => {
+    document.getElementById('raised-button-file').click();
+  };
 
   return (
     <Box sx={{ display: 'flex', flexDirection: 'column', justifyContent: 'space-between', alignItems: 'flex-start', p: 3, }}>
@@ -55,7 +54,7 @@ function page() {
                 )}
               </label>
             </Box>
-            <Button sx={{ background: '#84BAA1', color: '#ffffff', mt: '15px', textTransform: 'capitalize', ':hover': { background: '#629f84' } }}>Upload Imag</Button>
+            <Button sx={{ background: '#84BAA1', color: '#ffffff', mt: '15px', textTransform: 'capitalize', ':hover': { background: '#629f84' } }} onClick={handleButtonClick}>Upload Imag</Button>
           </Box>
 
           <Box sx={{ ml: 5, display: 'flex' }}>
@@ -63,7 +62,7 @@ function page() {
               <Box sx={{ display: 'flex', flexDirection: 'column', gap: 2, mr: 5 }}>
                 <Box sx={{ display: 'flex', alignItems: 'center' }}>
                   <Box sx={{ pt: 1.5, width: '150px', color: '#1F2939', fontWeight: '500' }}>Alias</Box>
-                  <TextField id="standard-basic" variant="standard" value={state.Alias} onChange={Handlecompany.Alias} sx={{ width: "250px" }} />
+                  <TextField id="standard-basic" variant="standard" value={state.alias} onChange={Handlecompany.Alias} sx={{ width: "250px" }} />
                 </Box>
                 <Box sx={{ display: 'flex', alignItems: 'center' }}>
                   <Box sx={{ pt: 1.5, width: '150px', color: '#1F2939', fontWeight: '500' }}>Company name</Box>
@@ -71,11 +70,11 @@ function page() {
                 </Box>
                 <Box sx={{ display: 'flex', alignItems: 'center' }}>
                   <Box sx={{ pt: 1.5, width: '150px', color: '#1F2939', fontWeight: '500' }}>No</Box>
-                  <TextField id="standard-basic" variant="standard" value={state.No} onChange={Handlecompany.No} sx={{ width: "250px" }} />
+                  <TextField id="standard-basic" variant="standard" value={state.no} onChange={Handlecompany.No} sx={{ width: "250px" }} />
                 </Box>
                 <Box sx={{ display: 'flex', alignItems: 'center' }}>
                   <Box sx={{ pt: 1.5, width: '150px', color: '#1F2939', fontWeight: '500' }}>Street</Box>
-                  <TextField id="standard-basic" variant="standard" value={state.Street} onChange={Handlecompany.Street} sx={{ width: "250px" }} />
+                  <TextField id="standard-basic" variant="standard" value={state.street} onChange={Handlecompany.Street} sx={{ width: "250px" }} />
                 </Box>
                 <Box sx={{ display: 'flex', alignItems: 'center' }}>
                   <Box sx={{ pt: 1.5, width: '150px', color: '#1F2939', fontWeight: '500' }}>Country</Box>

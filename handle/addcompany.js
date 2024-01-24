@@ -7,7 +7,7 @@ function addcompany() {
     const {state, setState} = useContext(StateContext);
     const router = useRouter();
   const Selectcompany = () => {
-    router.push('/Selectcompany');
+    router.back()
   }
   const Register = () => {
     router.push('/Register');
@@ -27,9 +27,7 @@ function addcompany() {
   const Country = (e) => {
     setState({...state,country: e.target.value,});
   };
-  const Website = (e) => {
-    setState({...state,Website: e.target.value,});
-  };
+  
   
   const handleProvinceChange = (event) => {
     const selectedProvince = event.target.value;
