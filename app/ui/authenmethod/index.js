@@ -8,7 +8,7 @@ import { StateContext } from '@/context/Context';
 
 
 function SelectVerify() {
-    const {state, setState} = useContext(StateContext);
+  const {state, setState} = useContext(StateContext);
 
   const router = useRouter();
 
@@ -102,7 +102,6 @@ function SelectVerify() {
 
 
   }
-
   return (
     <Box p={3} sx={{display: 'flex',flexDirection: 'column',background: '#ffffff',width: '400px',height: '500px',borderRadius: "15px",marginLeft: 'auto',mr: 5,mt: 1,boxShadow: '0px 0px 10px rgba(0, 0, 0, 0.1)',justifyContent:'space-between'}}>
       <Box>

@@ -29,7 +29,7 @@ function autenvelify() {
           } else {
              setState((prevData) => ({ ...prevData, alert: true, alert_text: result.message, alert_type: "error" }));
             setTimeout(() => {
-             setState((prevData) => ({ ...prevData, alert: false,loading:false }));
+             setState((prevData) => ({ ...prevData, alert: false }));
             }, 3000);
           }
       })

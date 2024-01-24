@@ -30,9 +30,7 @@ function addcompany() {
   const Website = (e) => {
     setState({...state,Website: e.target.value,});
   };
-  const Phonecompany = (e) => {
-    setState({...state,Phonecompany: e.target.value,});
-  };
+  
   const handleProvinceChange = (event) => {
     const selectedProvince = event.target.value;
     setState(prev => ({ ...prev, selectedProvince }));
@@ -74,8 +72,14 @@ function addcompany() {
   const GoogleMaps = (e) => {
     setState({...state,googlemaps: e.target.value,});
   };
+  const phoneNumber = (e) => {
+    setState({...state,phoneNumber: e.target.value,});
+  };
+  const webSite = (e) => {
+    setState({...state,webSite: e.target.value,});
+  };
   return {Selectcompany,Register,Alias,Companyname,No,Street,Country,handleProvinceChange,handleAmphoeChange,handleTambonChange,ZIPCode,GoogleMaps,
-    Phonecompany,Website}
+    phoneNumber,webSite}
 }
 
 export default addcompany

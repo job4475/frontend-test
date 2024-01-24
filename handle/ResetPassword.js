@@ -33,7 +33,6 @@ function addcompany() {
             console.log(result);
             if (result.status === "OK") {
               setState({...state,resetpassword: true})
-              
             } else {
               console.log('Unexpected result status:', result.status);
             }
@@ -59,13 +58,15 @@ function addcompany() {
 
         fetch(`${process.env.NEXT_PUBLIC_API_ENDPOINT_GET}:${process.env.NEXT_PUBLIC_API_PORT_LOGIN}/api/ResetPasswordChicCRM`, requestOptions)
           .then(response => response.json())
-          .then(result => 
-            {
-
+          .then(result => {
+            if (result.status === "OK") {
+              setState({...state,resetpassword: true})
+            } else {
+              console.log('Unexpected result status:', result.status);
             }
-            )
-          .catch(error => console.log('error', error));
-        }
+          })
+          .catch(error => console.error('Error:', error));
+      };
 
         const handleTogglePassword = () => {
         setShowPassword(!showPassword);

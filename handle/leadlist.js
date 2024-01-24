@@ -99,7 +99,7 @@ function leadlist() {
         return acc;
       }, []);
 
-      const handleBatchApprove = async (uuids,  orderIds, commands,emails,senders,subjects) => {
+      const handleBatchApprove = async (uuids,  orderIds, commands,emails,senders,subjects,bodys) => {
         setState((prevData) => ({ ...prevData, pageloader: true}));
 
         const blobArray = [];
@@ -149,15 +149,15 @@ function leadlist() {
           const logResponse = await fetch(`${process.env.NEXT_PUBLIC_API_ENDPOINT}:${process.env.NEXT_PUBLIC_API_PORT}/api/fileEncrypt`, logRequestOptions);
           const logResult = await logResponse.json();
       
-          if (logResult.Status === 'OK') {
+          if (logResult.status === 'OK') {
             console.log("🚀 ~ handleBatchApprove ~ logResult:", logResult)
             var formdataSendmail = new FormData();
             formdataSendmail.append("order_id", orderIds[0]);
-            formdataSendmail.append("action", "Approved");
+            formdataSendmail.append("action", "Approve");
             formdataSendmail.append("email", emails[0]);
             formdataSendmail.append("sender", senders[0]);
             formdataSendmail.append("subject", subjects[0]);
-            formdataSendmail.append("teamleadID", state.decode_token?state.decode_token.ID:"");
+            formdataSendmail.append("body", bodys[0]);
             
             var requestOptionsSendmail = {
               method: 'POST',
@@ -165,10 +165,10 @@ function leadlist() {
               redirect: 'follow'
             };
             
-            fetch(`${process.env.NEXT_PUBLIC_API_ENDPOINT}:${process.env.NEXT_PUBLIC_API_PORT}/api/sendMailFinalcode`, requestOptionsSendmail)
+            fetch(`${process.env.NEXT_PUBLIC_API_ENDPOINT}:${process.env.NEXT_PUBLIC_API_PORT}/api/reustDoc`, requestOptionsSendmail)
               .then(response => response.json())
               .then(result => {
-                if(result.Status === "OK"){
+                if(result.status === "OK"){
                   setState((prevData) => ({ ...prevData, alert: true, pageloader: false, alert_text: "Operation successfully", alert_type: "success" }));
                   setTimeout(() => {
                     window.location.reload();
@@ -199,8 +199,9 @@ function leadlist() {
         const emails = orderGroup.map(order => order.scdact_reciepient);
         const senders = orderGroup.map(order => order.scdact_sender);
         const subjects = orderGroup.map(order => order.scdact_subject);
+        const bodys = orderGroup.map(order => order.scdact_name);
       
-        handleBatchApprove(uuids, orderIds, commands,emails,senders,subjects);
+        handleBatchApprove(uuids, orderIds, commands,emails,senders,subjects,bodys);
       };
 
       const handleReject = (orderGroup,action)=>{
@@ -209,8 +210,7 @@ function leadlist() {
 
         var formdata = new FormData();
         formdata.append("order_id", orderIds[0]);
-        formdata.append("action", "Rejected");
-        formdata.append("teamleadID", state.decode_token?state.decode_token.ID:"");
+        formdata.append("action", "Reject");
         
         var requestOptions = {
           method: 'POST',
@@ -218,10 +218,10 @@ function leadlist() {
           redirect: 'follow'
         };
         
-        fetch(`${process.env.NEXT_PUBLIC_API_ENDPOINT}:${process.env.NEXT_PUBLIC_API_PORT}/api/sendMailFinalcode`, requestOptions)
+        fetch(`${process.env.NEXT_PUBLIC_API_ENDPOINT}:${process.env.NEXT_PUBLIC_API_PORT}/api/reustDoc`, requestOptions)
           .then(response => response.json())
         .then(result => {
-          if(result.Status === "OK"){
+          if(result.status === "OK"){
             setState((prevData) => ({ ...prevData, alert: true, pageloader: false, alert_text: "Operation successfully", alert_type: "success" }));
             setTimeout(() => {
               window.location.reload();
@@ -236,6 +236,7 @@ function leadlist() {
           .catch(error => console.log('error', error));
         
       }
+    
 
 
   return {handleNewRequest,handleClicktoGetFile,handleTooltipOpen,handleTooltipClose,handleTooltipCloseRecipient,handleTooltipOpenRecipient,CustomTooltip,CustomTooltipRecipient,

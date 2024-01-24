@@ -8,8 +8,7 @@ import Content2 from './components/content2'
 import Content3 from './components/content3'
 import Progress from '@/components/progress'
 import { StateContext } from "@/context/Context";
-import HandleShareDoc from '@/handle/sharedoc'
-
+import SizeProgress from '@/services/sizeprogress'
 const page = () => {
   const {state, setState} = React.useContext(StateContext);
   return (
@@ -21,6 +20,7 @@ const page = () => {
           <Grid item xs={2} sm={4} md={5}>
             <Box>
               <Content1/>
+              <SizeProgress/>
               <Progress/>
               <Box sx={{display:"flex",justifyContent:"center"}}>
                 <Box sx={{alignSelf:"flex-end",color:"gray.main"}}>{state.sumsize} MB / 25 MB</Box>
