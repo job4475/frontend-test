@@ -129,6 +129,21 @@ a {
   }
 }
 
+.forgot{
+  animation: 1s ease 0s 1 normal none running shrink;
+  -webkit-animation: 1s ease 0s 1 normal none running shrink;
+}
+
+@keyframes shrink {
+0% {
+  min-height: 80vh;
+}
+
+100% {
+  min-height: 45vh;
+}
+}
+
 #headtable{
   background-color: #F7F8F9;
   border-bottom: 1px solid #C2CCE1;

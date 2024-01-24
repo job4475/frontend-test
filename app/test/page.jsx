@@ -1,19 +1,40 @@
-import { Box } from '@mui/material'
-import React from 'react'
+'use client'
+import React, { useState } from 'react';
+import OtpInput from 'react-otp-input';
 
-function page() {
+
+export default function App() {
+  const [otp, setOtp] = useState('');
+
+  const handleChange = (value) => {
+    if (/^\d*$/.test(value)) {
+      setOtp(value);
+    }
+  };
+
+  const handleFocus = () => {
+    setIsFocused(true);
+  };
+
+  const handleBlur = () => {
+    setIsFocused(false);
+  };
+
   return (
-    <Box
-    sx={{
-      background: `linear-gradient(108deg, #84BAA1 0%, #FFFBE2 20%)`,
-      height: '100vh',
-      width: '100%',
-      overflow: 'hidden',
-    }}
->
-  {/* ข้อมูลอื่น ๆ */}
-</Box>
-  )
+    <OtpInput
+      value={otp}
+      onChange={handleChange}
+      numInputs={6}
+      isInputNum={true}
+      separator={<span>-</span>}
+      renderInput={(props) => <input {...props} />}
+      inputStyle={{
+        width: '2rem',
+        height: '2rem',
+        margin: '0 0.5rem',
+        fontSize: '1.5rem',
+        borderBottom: '1px solid #BBC0CA ',
+      }}
+    />
+  );
 }
-
-export default page

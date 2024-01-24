@@ -12,7 +12,7 @@ function Index() {
  const HandleLogin = handlelogin();
   return (
     <Box>
-      <Box p={3} sx={{display: 'flex',flexDirection: 'column',background: 'width',width: '120%',height: '500px',
+      <Box p={3} sx={{display: 'flex',flexDirection: 'column',background: 'width',width: '440px',height: '550px',
         borderRadius: "15px",marginLeft: 'auto',mr: 6,mt: 1,boxShadow: '0px 0px 10px rgba(0, 0, 0, 0.1)',justifyContent:'space-between'}}>
         <Box ml={2} sx={{display: 'flex',flexDirection: 'row',width: '190px',height: '43px',borderRadius: '50px',
           background: '#DAEBE3',alignItems: 'center',justifyContent: 'space-between',padding:'3px'}}>
@@ -41,8 +41,8 @@ function Index() {
             />
           )}
           {state.info === 0 && (
-            <Box sx={{ marginLeft: 'auto' }}>
-              <Button variant="text" onClick={HandleLogin.ForgotPassword} sx={{ color: '#828895',textTransform:'capitalize' }}>Forgot Password?</Button>
+            <Box sx={{ background:'', width:'95%',display:'flex',justifyContent:'end',mt:'5px'}}>
+              <Button variant="text" onClick={HandleLogin.ForgotPassword} sx={{ color: '#828895',textTransform:'capitalize', '&:hover':{background:'none',color:'#1F2939'}, '&:active':{background:'none'}}}>Forgot Password?</Button>
             </Box>
           )}
         </Box>
