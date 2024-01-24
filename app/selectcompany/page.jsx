@@ -14,11 +14,15 @@ const page = () => {
      setState({...state,backdrop: true});
      setTimeout(() => {
       setState((prevData) => ({ ...prevData, backdrop: false}));
-    }, 2000);
+    }, 1000);
     router.push('/Register');
   }
   const CreateCompany = () => {
-    router.push('/CreateCompany');
+    setState({...state,backdrop: true});
+    setTimeout(() => {
+      setState((prevData) => ({ ...prevData, backdrop: false}));
+    }, 1000);
+    window.location.href="/CreateCompany"
   }
   return (
     <div

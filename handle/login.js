@@ -39,14 +39,12 @@ function login() {
           }
           console.log("🚀 ~ handleSignInClick ~ result:", result)
         })
-        
         .catch(error => console.log('error', error));
     };
   const handleSignUpClick = () => {
-    
+    setState((prevData) => ({ ...prevData,loading: true }));
     var myHeaders = new Headers();
     myHeaders.append("Content-Type", "application/json");
-
     var raw = JSON.stringify({
       "username": state.email
     });
@@ -76,6 +74,7 @@ function login() {
                 zipcode: result.data.Zipcode,
                 country: result.data.Country,  
             });
+            setState((prevData) => ({ ...prevData,loading: false }));
             router.push('/Selectcompany');
         } else if(result.message === "domain does not match. To proceed, please check your email") {
           setState({...state,open: true})

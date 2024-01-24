@@ -16,11 +16,13 @@ function dialod() {
   };
   const resetpassword = () => {
     setState({...state,resetpassword: false})
-    router.push('/Login');
+    window.location.href="/"
+    // router.push('/Login');
   };
   const registerSuccess = () => {
     setState({...state,registerSuccess: false})
-    router.push('/Login');
+    window.location.href="/"
+    
   };
   const error = () => {
     setState({...state,error: false})

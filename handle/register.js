@@ -80,7 +80,6 @@ fetch(`${process.env.NEXT_PUBLIC_API_ENDPOINT_GET}:${process.env.NEXT_PUBLIC_API
   const  handlechangeinput =(e, fieldName)=>{
     setState((prevData) => ({ ...prevData, [fieldName]: e.target.value }));
 }
-
   return {handlechangeTitle,handlechangeinput,Selectcompany,handleRegister};
 }
 export default register
