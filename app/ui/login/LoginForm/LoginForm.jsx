@@ -31,7 +31,7 @@ function Index() {
         <Box sx={{display: 'flex',flexDirection: 'column',justifyContent: 'center',alignItems: 'center',}}>
           <TextField id="standard-basic" label="Email" variant="standard" value={state.Email} onChange={HandleLogin.Email} sx={{ width: '90%' }} />
           {state.info === 0 && (
-            <TextField label="Password"variant="standard" value={state.Password} onChange={HandleLogin.Password} type={state.showPassword ? 'text' : 'password'}sx={{ width: '90%' }}
+            <TextField id="standard-basic" label="Password"variant="standard" value={state.Password || ''} onChange={HandleLogin.Password} type={state.showPassword ? 'text' : 'password'}sx={{ width: '90%' }}
               InputProps={{
                 endAdornment: (
                      <IconButton onClick={HandleLogin.handleTogglePassword} edge="end">

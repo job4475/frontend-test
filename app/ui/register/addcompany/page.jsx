@@ -20,9 +20,9 @@ function page() {
       };
       reader.readAsDataURL(file);
     }
-    const Handlecompany = (e) => {
-      setState(e.target.value);
-    };
+  };
+  const handleButtonClick = () => {
+    document.getElementById('raised-button-file').click();
   };
 
   return (
@@ -54,7 +54,7 @@ function page() {
                 )}
               </label>
             </Box>
-            <Button sx={{ background: '#84BAA1', color: '#ffffff', mt: '15px', textTransform: 'capitalize', ':hover': { background: '#629f84' } }}>Upload Imag</Button>
+            <Button sx={{ background: '#84BAA1', color: '#ffffff', mt: '15px', textTransform: 'capitalize', ':hover': { background: '#629f84' } }} onClick={handleButtonClick}>Upload Imag</Button>
           </Box>
 
           <Box sx={{ ml: 5, display: 'flex' }}>
