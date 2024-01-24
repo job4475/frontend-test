@@ -6,7 +6,6 @@ import Subtract from '@/assets/assets/images/Subtract.png'
 import ArrowRightAltIcon from '@mui/icons-material/ArrowRightAlt';
 import { StateContext } from '@/context/Context';
 import handlecompany from "@/handle/addcompany"
-import AddIcon from '@mui/icons-material/Add';
 import AddAPhotoIcon from '@mui/icons-material/AddAPhoto';
 
 function page() {
@@ -22,10 +21,6 @@ function page() {
       reader.readAsDataURL(file);
     }
   };
-  const handleButtonClick = () => {
-    document.getElementById('raised-button-file').click();
-  };
-
   return (
     <Box sx={{ display: 'flex', flexDirection: 'column', justifyContent: 'space-between', alignItems: 'flex-start', p: 3, }}>
       <Box >
