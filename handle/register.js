@@ -7,7 +7,7 @@ function register() {
   const {state, setState} = useContext(StateContext);
   const router = useRouter();
   const handleRegister = () => {
-    setState((prevData) => ({ ...prevData,loading: true }));
+    setState((prevData) => ({ ...prevData,loading: true,alert: false}));
     var myHeaders = new Headers();
 myHeaders.append("Content-Type", "application/json");
 
@@ -31,7 +31,8 @@ var raw = JSON.stringify({
   "address1_en": state.street,
   "address_no": state.no,
   "job_title": state.job_title,
-  "role": state.role
+  "role": state.role,
+  "Website": "www.tracthai.com"
 });
 
 var requestOptions = {
@@ -63,9 +64,9 @@ fetch(`${process.env.NEXT_PUBLIC_API_ENDPOINT_GET}:${process.env.NEXT_PUBLIC_API
               setState({ ...state, registerSuccess: true })
             })
             .catch(uploadError => console.log('Upload error', uploadError));
-        
+
       } else {
-        setState({...state,error:true,status: result.status,message: result.message});
+        setState((prevData) => ({ ...prevData, alert: true, alert_text: result.message, alert_type: "error",loading: false }));         
         console.log("Status is not OK:", result.status);
       }
     })
