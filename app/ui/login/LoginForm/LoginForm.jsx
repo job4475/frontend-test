@@ -6,10 +6,17 @@ import VisibilityOffIcon from '@mui/icons-material/VisibilityOff';
 import { StateContext } from '@/context/Context';
 import handlelogin from "@/handle/login"
 import Loading from '@/components/loading'
+import Backdrop from '@/components/backdrop/backdrop' 
 
 function Index() {
   const {state, setState} = useContext(StateContext);
  const HandleLogin = handlelogin();
+ const handleEnterKeyPress = (e) => {
+  if (e.key === 'Enter') {
+    e.preventDefault();
+    state.info === 0 ? HandleLogin.handleSignInClick() : HandleLogin.handleSignUpClick();
+  }
+};
   return (
     <Box>
       <Box sx={{display: 'flex',flexDirection: 'column',background: '#fff',width: '440px',height: '550px',
@@ -28,9 +35,9 @@ function Index() {
           </Box>
         </Box>
         <Box sx={{display: 'flex',flexDirection: 'column',justifyContent: 'center',alignItems: 'center'}}>
-          <TextField id="standard-basic" label="Email" variant="standard" value={state.Email} onChange={HandleLogin.Email} sx={{ width: '90%','& label':{color:'#828895',fontWeight:'500'}}} />
+          <TextField id="standard-basic" label="Email" variant="standard" value={state.email} onChange={HandleLogin.Email}onKeyDown={handleEnterKeyPress} sx={{ width: '90%','& label':{color:'#828895',fontWeight:'500'}}} />
           {state.info === 0 && (
-            <TextField label="Password"variant="standard" value={state.Password} onChange={HandleLogin.Password} type={state.showPassword ? 'text' : 'password'}sx={{ width: '90%',mt:'18px','& label':{color:'#828895',fontWeight:'500'}}}
+            <TextField label="Password"variant="standard" value={state.password} onChange={HandleLogin.Password}onKeyDown={handleEnterKeyPress} type={state.showPassword ? 'text' : 'password'}sx={{ width: '90%',mt:'15px','& label':{color:'#828895',fontWeight:'500'}}}
               InputProps={{
                 endAdornment: (
                      <IconButton onClick={HandleLogin.handleTogglePassword} edge="end">
@@ -43,6 +50,7 @@ function Index() {
           {state.info === 0 && (
             <Box sx={{ background:'', width:'95%',display:'flex',justifyContent:'end',mt:'5px'}}>
               <Button variant="text" onClick={HandleLogin.ForgotPassword} sx={{ color: '#828895',textTransform:'capitalize', '&:hover':{background:'none',color:'#1F2939'}, '&:active':{background:'none'}}}>Forgot Password?</Button>
+              {state.backdrop?<Backdrop/>:""}
             </Box>
           )}
         </Box>

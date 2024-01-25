@@ -91,14 +91,15 @@ function SelectVerify() {
       })
       .catch(error => console.error('Error:', error));
   }
-  const handlenext = () => {
-    if (isClickedMail) {
-      setState((prevData) => ({ ...prevData, loading: true }));
-      router.push('/OTPverify');
-      sendOTPEmail();
-    } else if (isClickedAut) {
-      router.push('/Authenticator');
-      getQR();
+  const handlenext = ()=>{
+    if (isClickedMail){
+      setState((prevData) => ({ ...prevData,loading: true }));
+        router.push('/OTPverify'); 
+        sendOTPEmail();
+    }else if(isClickedAut){
+      setState((prevData) => ({ ...prevData,loading: true }))
+        router.push('/Authenticator');
+        getQR();
     }
 
 

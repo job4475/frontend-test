@@ -22,7 +22,7 @@ const page = () => {
     setTimeout(() => {
       setState((prevData) => ({ ...prevData, backdrop: false}));
     }, 1000);
-    window.location.href="/CreateCompany"
+    router.push('/CreateCompany');
   }
   return (
     <div
@@ -39,14 +39,14 @@ const page = () => {
           <Box onClick={Register} sx={{cursor: "pointer",transition: "background-color 0.3s ease","&:hover": {backgroundColor: "#your-hover-color",},}}   className="basis-2/6 rounded border border-[#C2CCE1] w-[300px] h-[310px] mr-3 mt-2 lg:mt-4 flex flex-col justify-between items-center content-center p-[30px] text-center" >
             <div>
             <Image
-              src={state.datacompany?.CompanyLogo}
+              src={state.datacompanylc?.CompanyLogo}
               alt="logo"
               width={100}
               height={100}
             />
             </div>
             <div>
-              <h4>{state.datacompany.CompanyAlias}</h4>
+              <h4>{state.datacompanylc.Companyname}</h4>
             </div>
             <div className="my-2">
               <svg
@@ -66,7 +66,7 @@ const page = () => {
             </div>
             <div>
               <p>
-              {state.companyname} {state.datacompany.Province}, {state.datacompany.Zipcode} {state.datacompany.Country}.
+              {state.datacompanylc.Companyname} {state.datacompanylc.Province}, {state.datacompanylc.Zipcode} {state.datacompanylc.Country}.
               </p>
             </div>
           </Box>

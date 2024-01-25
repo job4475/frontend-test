@@ -27,7 +27,7 @@ function page() {
         <Box sx={{ display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
           <Image src={Subtract} alt="logo" style={{ width: "80px" }} />
           <Box sx={{ pl: 3 }}>
-            <Box sx={{ fontWeight: '800', fontSize: '18px' }}>Hello good morning {state.Email} <br></br>Welcome to ChicCRM registration process now you are in</Box>
+            <Box sx={{ fontWeight: '800', fontSize: '18px' }}>Hello good morning {state.email} <br></br>Welcome to ChicCRM registration process now you are in</Box>
             <Box sx={{ fontSize: '13px' }}>After complete all infomation you will received email your password</Box>
           </Box>
         </Box>
@@ -52,7 +52,6 @@ function page() {
             </Box>
 
           </Box>
-
           <Box sx={{ ml: 5, display: 'flex' }}>
             <Grid container rowGap={2}>
               <Box sx={{ display: 'flex', flexDirection: 'column', gap: 2, mr: 5 }}>

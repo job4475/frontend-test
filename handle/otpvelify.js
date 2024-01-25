@@ -16,7 +16,8 @@ function otpvelify() {
                 .catch(error => console.error("Error fetching binary data:", error));
         };
         const workspace = () => {
-            setState((prevData) => ({ ...prevData,loading: true }));
+            setState((prevData) => ({ ...prevData,loading: true, alert: false }));
+            
             var myHeaders = new Headers();
             myHeaders.append("Content-Type", "application/json");
             var raw = JSON.stringify({
@@ -37,7 +38,7 @@ function otpvelify() {
                         fetchLogoImage();
                         router.push('/Workspace');
                     } else {
-                        setState((prevData) => ({ ...prevData, alert: true, alert_text: result.message, alert_type: "error" }));
+                        setState((prevData) => ({ ...prevData, alert: true, alert_text: result.message, alert_type: "error",loading: false }));
                         setTimeout(() => {
                             setState((prevData) => ({ ...prevData, alert: false}));
                           }, 2000);
@@ -45,7 +46,6 @@ function otpvelify() {
                 })
                 .catch(error => console.log('error', error));
         };
-    
     const handleCodeChange = (code) => {
         console.log('Verification Code:', code);
         if (code.length === 6) {
