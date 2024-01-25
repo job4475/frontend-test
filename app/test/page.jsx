@@ -1,31 +1,12 @@
-'use client'
-import React, { useState } from 'react';
-import OtpInput from 'react-otp-input';
+import { Box } from '@mui/material'
+import React from 'react'
 
-
-export default function App() {
-  const [otp, setOtp] = useState('');
-
-  const handleChange = (value) => {
-    if (/^\d*$/.test(value)) {
-      setOtp(value);
-    }
-  };
+function page() {
   return (
-    <OtpInput
-      value={otp}
-      onChange={handleChange}
-      numInputs={6}
-      isInputNum={true}
-      separator={<span>-</span>}
-      renderInput={(props) => <input {...props} />}
-      inputStyle={{
-        width: '2rem',
-        height: '2rem',
-        margin: '0 0.5rem',
-        fontSize: '1.5rem',
-        borderBottom: `1px solid #BBC0CA`,
-      }}
-    />
-  );
+    <Box sx={{width:'100%', height:'100vh',display:'flex',flexDirection:'column',alignItems:'center'}}>
+      <Box sx={{background:'red',height:'150px',width:'150px'}}></Box>
+    </Box>
+  )
 }
+
+export default page

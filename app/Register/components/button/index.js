@@ -1,4 +1,5 @@
 import { Box, Button } from '@mui/material'
+import { Box, Button } from '@mui/material'
 import React, { useContext } from 'react'
 import arrow from '@/assets/assets/images/register/arrow.png'
 import Image from 'next/image'

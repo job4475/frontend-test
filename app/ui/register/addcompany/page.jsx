@@ -3,7 +3,7 @@ import { Box, Button, Grid, IconButton, MenuItem, Select, TextField, Typography 
 import React, { useContext, useState } from 'react'
 import Image from 'next/image'
 import Subtract from '@/assets/assets/images/Subtract.png'
-import ArrowRightAltIcon from '@mui/icons-material/ArrowRightAlt';
+import Arrow from '@mui/icons-material/NorthRounded';
 import { StateContext } from '@/context/Context';
 import handlecompany from "@/handle/addcompany"
 import AddAPhotoIcon from '@mui/icons-material/AddAPhoto';
@@ -50,6 +50,7 @@ function page() {
                 )}
               </label>
             </Box>
+
           </Box>
           <Box sx={{ ml: 5, display: 'flex' }}>
             <Grid container rowGap={2}>
@@ -81,12 +82,6 @@ function page() {
                   </Select>
                 </Box>
                 <Box sx={{ display: 'flex', alignItems: 'center' }}>
-                  <Box sx={{ pt: 1.5, width: '150px', color: '#1F2939', fontWeight: '500' }}>Phone Number</Box>
-                  <TextField id="standard-basic" variant="standard" value={state.phoneNumber} onChange={Handlecompany.phoneNumber} sx={{ width: "250px" }} />
-                </Box>
-              </Box>
-              <Box sx={{ display: 'flex', flexDirection: 'column', gap: 2}}>
-                <Box sx={{ display: 'flex', alignItems: 'center' }}>
                   <Box sx={{ pt: 1.5, width: '150px', color: '#1F2939', fontWeight: '500' }}>Province</Box>
                   <Select labelId="province-select" variant="standard" id="province-select" value={state.selectedProvince} label="Province" onChange={Handlecompany.handleProvinceChange}
                     sx={{ width: "250px" }} size='small'>
@@ -96,6 +91,8 @@ function page() {
                       </MenuItem>))}
                   </Select>
                 </Box>
+              </Box>
+              <Box sx={{ display: 'flex', flexDirection: 'column', gap: 2 }}>
                 <Box sx={{ display: 'flex', alignItems: 'center' }}>
                   <Box sx={{ pt: 1.5, width: '150px', color: '#1F2939', fontWeight: '500' }}>District</Box>
                   <Select labelId="amphoe-select-label" variant="standard" id="amphoe-select" value={state.selectedAmphoe} label="Amphoe" onChange={Handlecompany.handleAmphoeChange}
@@ -121,6 +118,10 @@ function page() {
                   <TextField variant="standard" size='small' value={state.zipcode} InputProps={{ readOnly: true, }} sx={{ width: "250px" }} />
                 </Box>
                 <Box sx={{ display: 'flex', alignItems: 'center' }}>
+                  <Box sx={{ pt: 1.5, width: '150px', color: '#1F2939', fontWeight: '500' }}>Phone Number</Box>
+                  <TextField id="standard-basic" variant="standard" value={state.phoneNumber} onChange={Handlecompany.phoneNumber} sx={{ width: "250px" }} />
+                </Box>
+                <Box sx={{ display: 'flex', alignItems: 'center' }}>
                   <Box sx={{ pt: 1.5, width: '150px', color: '#1F2939', fontWeight: '500' }}>Google Maps</Box>
                   <TextField id="standard-basic" variant="standard" value={state.googlemaps} onChange={Handlecompany.GoogleMaps} sx={{ width: "250px" }} />
                 </Box>
@@ -133,11 +134,11 @@ function page() {
           </Box>
         </Box>
       </Box>
-      <Box sx={{ pt: 13, ml: 3, display: 'flex' }}>
-        <Button variant="outlined" color="success" onClick={Handlecompany.Selectcompany} style={{ textTransform: 'capitalize', width: '80px', height: 'auto', color: '#84BAA1' }}>Back</Button>
-        <Box sx={{ marginLeft: 3 }}>
-          <Button variant="contained" onClick={Handlecompany.Register} disabled={!state.alias || !state.googlemaps || !state.webSite || !state.phoneNumber || !state.companyname || !state.street || !state.no || !state.country || !state.selectedProvince || !state.selectedAmphoe || !state.selectedTambon || !state.selectedImage} sx={{ backgroundColor: '#84BAA1', textTransform: 'capitalize', width: '120px', height: 'auto' }}>Next<ArrowRightAltIcon /></Button>
-        </Box>
+      <Box sx={{ ml: '45px', mt: '100px', display:'flex',gap:'12px' }}>
+        <Button variant="outlined" color="success" onClick={Handlecompany.Selectcompany} style={{ textTransform: 'capitalize', width: '100px', height: '50px', color: '#84BAA1', borderRadius: '8px' }}>Back</Button>
+        <Button variant='contained' onClick={Handlecompany.Register} disabled={!state.alias || !state.googlemaps || !state.webSite || !state.phoneNumber || !state.companyname || !state.street || !state.no || !state.country || !state.selectedProvince || !state.selectedAmphoe || !state.selectedTambon || !state.selectedImage} sx={{ transition: 'transform 0.3s ease', '&:hover': { transform: 'scale(1.03)', background: '#84BAA1', boxShadow: '0px 0px 0px' }, gap: '8px', background: '#84BAA1', color: 'white', width: '150px', height: '50px', textTransform: 'capitalize', boxShadow: '0px 0px 0px', borderRadius: '8px', fontWeight: '600' }}>Next
+          <Arrow style={{ transform: 'rotate(90deg)' }} />
+        </Button>
       </Box>
     </Box>
   )
