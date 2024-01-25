@@ -6,7 +6,6 @@ import aut from '@/assets/assets/images/totp.png'
 import { useRouter } from 'next/navigation';
 import { StateContext } from '@/context/Context';
 import Loading from '@/components/loading'
-import Button01 from '@/data/Button/Button01'
 
 
 function SelectVerify() {
@@ -110,19 +109,20 @@ function SelectVerify() {
       borderRadius: "15px", marginLeft: 'auto', mr: 7, mt: 1, boxShadow: '0px 0px 10px rgba(0, 0, 0, 0.1)', justifyContent: 'space-between', py: '40px', px: '25px'
     }}>
       <Box>
-        <Box sx={{ fontWeight: '800' }}>Choose Authentication Method</Box>
-        <br></br>
-        <Box>Please select the authentication method you'd like to use to verify your identity.</Box>
-        <Box sx={{ display: 'flex', justifyContent: 'center', mt: '30px', flexDirection: 'column', gap: '15px' }}>
-          <Box onClick={handleImageClickMail} sx={{ background: '#F6F6F6', width: '100%', height: '105px', borderRadius: '12px', pl: '35px', display: 'flex', flexDirection: 'row', alignItems: 'center', gap: '25px', boxShadow: isClickedMail ? 'inset 0 0 0 2px #84BAA1' : 'none', cursor: 'pointer' }}>
-            <Image src={mail} alt="Maill Icon" width={50} />
+        <Box sx={{ background: '', width: '90%', mx: 'auto' }}>
+          <Box sx={{ textAlign: 'left', color: '#1F2939', fontSize: 20, fontWeight: '700', mt: 1 }}>Choose Authentication Method</Box>
+          <Box sx={{ textAlign: 'left', color: '#778296', fontSize: 15, mt: '8px' }}>Please select the authentication method <br/> you'd like to use to verify your identity.</Box>
+        </Box>
+        <Box sx={{ mt: '30px', flexDirection: 'column', gap: '10px',display:'flex',alignItems:'center' }}>
+          <Box onClick={handleImageClickMail} sx={{ background: '#F6F6F6', width: '90%', height: '100px', borderRadius: '12px', pl: '35px', display: 'flex', flexDirection: 'row', alignItems: 'center', gap: '25px', boxShadow: isClickedMail ? 'inset 0 0 0 3px #84BAA1' : 'none', cursor: 'pointer' }}>
+            <Image src={mail} alt="Maill Icon" width={45} />
             <Box sx={{ display: 'flex', flexDirection: 'column', gap: '4px' }}>
               <Box sx={{ fontSize: '16px', fontWeight: '600' }}>via Email:</Box>
               <Box sx={{ fontSize: '12px', fontWeight: '500', color: '#778296' }}>An OTP code will be sent to your <br /> email address.</Box>
             </Box>
           </Box>
-          <Box onClick={handleImageClickAut} sx={{ background: '#F6F6F6', width: '100%', height: '105px', borderRadius: '12px', pl: '35px', display: 'flex', flexDirection: 'row', alignItems: 'center', gap: '25px', boxShadow: isClickedAut ? 'inset 0 0 0 2px #84BAA1' : 'none', cursor: 'pointer' }}>
-            <Image src={aut} alt="Maill Icon" width={50} />
+          <Box onClick={handleImageClickAut} sx={{ background: '#F6F6F6', width: '90%', height: '100px', borderRadius: '12px', pl: '35px', display: 'flex', flexDirection: 'row', alignItems: 'center', gap: '25px', boxShadow: isClickedAut ? 'inset 0 0 0 3px #84BAA1' : 'none', cursor: 'pointer' }}>
+            <Image src={aut} alt="Maill Icon" width={45} />
             <Box sx={{ display: 'flex', flexDirection: 'column', gap: '4px' }}>
               <Box sx={{ fontSize: '16px', fontWeight: '600' }}>via Authenticator apps:</Box>
               <Box sx={{ fontSize: '12px', fontWeight: '500', color: '#778296' }}>Authenticator requires code <br /> confirmation for verification.</Box>
@@ -130,7 +130,9 @@ function SelectVerify() {
           </Box>
         </Box>
       </Box>
-      <Button onClick={handlenext} variant="contained" style={{ background: '#84BAA1', width: '100%', textTransform: 'capitalize', boxShadow: '0 0 0 0px' }} > {state.loading ? <Loading /> : "Next"}</Button>
+      <Box sx={{ display: 'flex', justifyContent: 'center' }}>
+        <Button onClick={handlenext} variant="contained" sx={{ transition: 'transform 0.3s ease', '&:hover': { transform: 'scale(1.03)', }, }} style={{ background: '#84BAA1', width: '90%', height: '44px', textTransform: 'capitalize', marginTop: 10, boxShadow: '0px 0px 0px', borderRadius: '8px', fontWeight: '600' }}> {state.loading ? <Loading /> : "Next"}</Button>
+      </Box>
     </Box>
   )
 }
