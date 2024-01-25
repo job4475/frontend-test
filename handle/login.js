@@ -15,7 +15,7 @@ function login() {
       myHeaders.append("Content-Type", "application/json");
       var raw = JSON.stringify({
         "username": state.email,
-        "password": state.Password
+        "password": state.password
       });
       var requestOptions = {
         method: 'POST',
@@ -30,6 +30,7 @@ function login() {
           if (result.status === "OK") {
             const decodedToken = JSON.parse(atob(result.token.split('.')[1]));
             localStorage.setItem("decode_token", JSON.stringify(decodedToken));
+            setState({ ...state, decode_token: decodedToken });
             router.push('/Mfa'); 
           } else {
             setState((prevData) => ({ ...prevData, alert: true, alert_text: result.message, alert_type: "error" }));
@@ -74,8 +75,8 @@ function login() {
                 selectedTambon: result.data.SubDistrict,
                 zipcode: result.data.Zipcode,
                 country: result.data.Country,  
-                
             });
+            
             setState((prevData) => ({ ...prevData,loading: false }));
             router.push('/Selectcompany');
         } else if(result.message === "domain does not match. To proceed, please check your email") {
@@ -101,13 +102,13 @@ function login() {
                 .catch(error => console.log('error', error));
             console.log("Status is not OK:", result.status);
         }else if(result.message === "username already exists") {
-          setState((prevData) => ({ ...prevData, alert: true, alert_text: result.message, alert_type: "error" }));
+          setState((prevData) => ({ ...prevData, alert: true, alert_text: result.message, alert_type: "error",loading:false }));
           setTimeout(() => {
             setState((prevData) => ({ ...prevData, alert: false}));
           }, 2000);
         }
         else {
-          setState((prevData) => ({ ...prevData, alert: true, alert_text: result.message, alert_type: "error" }));
+          setState((prevData) => ({ ...prevData, alert: true, alert_text: result.message, alert_type: "error",loading:false }));
           setTimeout(() => {
             setState((prevData) => ({ ...prevData, alert: false}));
           }, 2000);
@@ -127,7 +128,7 @@ function login() {
             setState({...state,email: e.target.value,});
           };
           const Password = (e) => {
-            setState({...state,Password: e.target.value,});
+            setState({...state,password: e.target.value,});
           };
 
           return {handleTogglePassword,handleSignInClick,handleSignUpClick,ForgotPassword,Email,Password}
