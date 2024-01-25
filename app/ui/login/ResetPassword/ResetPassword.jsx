@@ -6,6 +6,9 @@ import VisibilityOffIcon from '@mui/icons-material/VisibilityOff';
 import { StateContext } from '@/context/Context';
 import handleresetpassword from '@/handle/ResetPassword'
 import updatePassword from '@/handle/validatepassword'
+import Backdrop from '@/components/backdrop/backdrop' 
+import Dialog from '@/components/dialog/dialog'
+import Loading from '@/components/loading'
 
 
 function Index() {
@@ -48,14 +51,14 @@ function Index() {
     <Box>
       <Box p={3} sx={{ display: 'flex', flexDirection: 'column', width: '400px', height: '500px', borderRadius: "15px", marginLeft: 'auto', marginRight: 5, marginTop: 1, boxShadow: '0px 0px 10px rgba(0, 0, 0, 0.1)', justifyContent: 'space-between' }}>
         <Box>
-          <Box style={{ color: '#1F2939', fontSize: 20, fontWeight: '600' }}>Reset your password here</Box>
+          <Box style={{color: '#1F2939', fontSize: 20, fontWeight: '600',ml:'auto',mr:'auto'}}>Reset your password here</Box>
           <Box sx={{ display: 'flex', flexDirection: 'column', justifyContent: 'center', alignItems: 'center', marginTop: 2 }}>
-            <TextField  label="New Password"variant="standard"type={showPassword ? 'text' : 'password'}value={state.password} onChange={handlePasswordChange} sx={{ width: '100%' }}
+            <TextField  label="New Password"variant="standard"type={showPassword ? 'text' : 'password'}value={state.password} onChange={handlePasswordChange} sx={{ width: '90%' }}
               InputProps={{endAdornment: (<IconButton onClick={handleTogglePassword}  edge="end">{showPassword ? <VisibilityIcon /> : <VisibilityOffIcon />}</IconButton>),}}/>
-            <TextField label="Confirm Password" value={state.confirmPassword}variant="standard"type={showPassword ? 'text' : 'password'}onChange={confirmPassword}sx={{ width: '100%' }}InputProps={{endAdornment: (<IconButton onClick={Confirm} edge="end">
+            <TextField label="Confirm Password" value={state.confirmPassword}variant="standard"type={showPassword ? 'text' : 'password'}onChange={confirmPassword}sx={{ width: '90%' }}InputProps={{endAdornment: (<IconButton onClick={Confirm} edge="end">
               {showPassword ? <VisibilityIcon /> : <VisibilityOffIcon />}</IconButton>),}}/>
           </Box>
-          <Box sx={{display:'flex',justifyContent:'center',mt:"18px"}}>
+          <Box sx={{display:'flex',mt:"18px",width:'90%',ml:'auto',mr:'auto'}}>
                 <Box sx={{bgcolor: (state.passwordStrength === "Very Weak" || state.passwordStrength === "Weak" || state.passwordStrength === "Medium"
                 || state.passwordStrength === "Strong"|| state.passwordStrength === "Very Strong") ? '#2AB930' : '#E8E8E8',width:'20%',height:'5px',mr:"2px"}}></Box>
                 <Box sx={{bgcolor: ( state.passwordStrength === "Weak" || state.passwordStrength === "Medium"
@@ -66,7 +69,7 @@ function Index() {
                 </Box>
                 <Box sx={{textAlign:'right' ,fontSize:13,justifyContent:'center',mr:2}}>{state.passwordStrength}</Box>
                 <Box>
-        <Box direction="column"justifyContent="flex-start" alignItems="flex-start" sx={{ width: "100%", mt:4}} >
+        <Box direction="column"justifyContent="flex-start" alignItems="flex-start" sx={{ width: "90%", mt:4,ml:'auto',mr:'auto'}} >
       <Box sx={{ display: "flex",justifyContent: "flex-start",alignItems: "center", gap: 1, width: 300, height: 26,}}>
         <Box sx={{width: 15,height: 15,borderRadius: 9999, border: "1px #E4E7EB solid",background: state.password.length >= 8 ? '#2AB930' : '#ffffff' }}/>
         <Typography variant="body2" color="#828895" >
@@ -74,10 +77,10 @@ function Index() {
         </Typography>
       </Box>
       <Box
-        sx={{display: "flex",justifyContent: "flex-start", alignItems: "center", gap: 1, width: 300, height: 26, }}>
+        sx={{display: "flex",justifyContent: "flex-start", alignItems: "center", gap: 1, width: 320, height: 26, }}>
         <Box sx={{ width: 15, height: 15, borderRadius: 9999, border: "1px #E4E7EB solid",background: /[A-Z]/.test(state.password) ? '#2AB930' : '#ffffff'}}/>
         <Typography variant="body2" color="#828895">
-          Contains at least one <span style={{ textTransform: "uppercase" }}>uppercase</span> letter.
+          Contains at least one <span style={{textTransform:'uppercase'}}> uppercase </span> letter.
         </Typography>
       </Box>
       <Box
@@ -103,7 +106,8 @@ function Index() {
         </Box>
         </Box>
         <Box sx={{ display: 'flex', justifyContent: 'center', alignItems: 'center' }}>
-        <Button variant="contained" onClick={HandleResetPassword.Confirm} style={{ background: '#84BAA1', width: '90%', textTransform: 'capitalize', mt: 10 }}disabled={!isPasswordValid() || state.password !== state.confirmPassword}>Resetpassword</Button>
+        <Button variant="contained" onClick={HandleResetPassword.Confirm} style={{ background: '#84BAA1', width:'90%',height:'42px', textTransform: 'capitalize', mt: 10 }}disabled={!isPasswordValid() || state.password !== state.confirmPassword}>{state.loading?<Loading/>:"Resetpassword"}</Button>
+        {state.resetpassword?<Dialog/>:""}
     </Box>
       </Box>
     </Box>

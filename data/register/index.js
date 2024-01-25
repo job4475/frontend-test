@@ -2,7 +2,7 @@
 
 export const data_register = [
     {
-        title_msg:"Hello good morning  <br/> Welcome to ChicCRM registration process now you are in",
+        title_msg:"Hello good morning ${state.email} <br/> Welcome to ChicCRM registration process now you are in",
         detail_msg:"After complete all infomation you will received email your password",
         title_content1:"Company Information",
         title_content2:"Personal Information",

@@ -6,7 +6,7 @@ import Subtract from '@/assets/assets/images/Subtract.png'
 import ArrowRightAltIcon from '@mui/icons-material/ArrowRightAlt';
 import { StateContext } from '@/context/Context';
 import handlecompany from "@/handle/addcompany"
-import AddIcon from '@mui/icons-material/Add';
+import AddAPhotoIcon from '@mui/icons-material/AddAPhoto';
 
 function page() {
   const { state, setState } = useContext(StateContext);
@@ -21,17 +21,13 @@ function page() {
       reader.readAsDataURL(file);
     }
   };
-  const handleButtonClick = () => {
-    document.getElementById('raised-button-file').click();
-  };
-
   return (
     <Box sx={{ display: 'flex', flexDirection: 'column', justifyContent: 'space-between', alignItems: 'flex-start', p: 3, }}>
       <Box >
         <Box sx={{ display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
           <Image src={Subtract} alt="logo" style={{ width: "80px" }} />
           <Box sx={{ pl: 3 }}>
-            <Box sx={{ fontWeight: '800', fontSize: '18px' }}>Hello good morning {state.Email} <br></br>Welcome to ChicCRM registration process now you are in</Box>
+            <Box sx={{ fontWeight: '800', fontSize: '18px' }}>Hello good morning {state.email} <br></br>Welcome to ChicCRM registration process now you are in</Box>
             <Box sx={{ fontSize: '13px' }}>After complete all infomation you will received email your password</Box>
           </Box>
         </Box>
@@ -46,17 +42,15 @@ function page() {
               <input accept='image/*' style={{ display: 'none' }} id='raised-button-file' type='file' onChange={handleFileChange} />
               <label htmlFor='raised-button-file'>
                 {state.selectedImage ? (
-                  <img src={state.selectedImage} alt='Selected' style={{ width: '100%', height: '100%', borderRadius: '50%' }} />
+                  <img src={state.selectedImage} alt='Selected' style={{ width: '100px', height: '100px', borderRadius: '100%' }} />
                 ) : (
                   <IconButton sx={{ color: '#1F2939' }} component='span'>
-                    <AddIcon />
+                    <AddAPhotoIcon />
                   </IconButton>
                 )}
               </label>
             </Box>
-            <Button sx={{ background: '#84BAA1', color: '#ffffff', mt: '15px', textTransform: 'capitalize', ':hover': { background: '#629f84' } }} onClick={handleButtonClick}>Upload Imag</Button>
           </Box>
-
           <Box sx={{ ml: 5, display: 'flex' }}>
             <Grid container rowGap={2}>
               <Box sx={{ display: 'flex', flexDirection: 'column', gap: 2, mr: 5 }}>
@@ -106,7 +100,7 @@ function page() {
                   <Box sx={{ pt: 1.5, width: '150px', color: '#1F2939', fontWeight: '500' }}>District</Box>
                   <Select labelId="amphoe-select-label" variant="standard" id="amphoe-select" value={state.selectedAmphoe} label="Amphoe" onChange={Handlecompany.handleAmphoeChange}
                     sx={{ width: "250px" }} size='small'>
-                    {state.selectedProvince && state.amphures.map((amphoe, index) => (
+                    {state.selectedProvince && state.amphures?.map((amphoe, index) => (
                       <MenuItem key={index} value={amphoe}>
                         {amphoe}
                       </MenuItem>
@@ -116,7 +110,7 @@ function page() {
                   <Box sx={{ pt: 1.5, width: '150px', color: '#1F2939', fontWeight: '500' }}>Sub-Distric</Box>
                   <Select labelId="tambon-select-label" variant="standard" id="tambon-select" value={state.selectedTambon} label="Tambon"
                     onChange={Handlecompany.handleTambonChange} sx={{ width: "250px" }} size='small'>
-                    {state.selectedAmphoe && state.tambons.map((tambon, index) => (
+                    {state.selectedAmphoe && state.tambons?.map((tambon, index) => (
                       <MenuItem key={index} value={tambon}>
                         {tambon}
                       </MenuItem>
