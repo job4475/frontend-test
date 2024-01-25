@@ -1,5 +1,4 @@
 import { Box, Button } from '@mui/material'
-import { Box, Button } from '@mui/material'
 import React, { useContext } from 'react'
 import arrow from '@/assets/assets/images/register/arrow.png'
 import Image from 'next/image'
@@ -22,7 +21,6 @@ function index() {
                 <Image style={{width:"75%",height:"auto"}} alt="logo" src={arrow}></Image>
             </Box>
             {state.registerSuccess?<Dialog/>:""}
-  
         </Button>
     </Box>
   )
