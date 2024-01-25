@@ -97,6 +97,7 @@ function SelectVerify() {
         router.push('/OTPverify'); 
         sendOTPEmail();
     }else if(isClickedAut){
+      setState((prevData) => ({ ...prevData,loading: true }))
         router.push('/Authenticator');
         getQR();
     }

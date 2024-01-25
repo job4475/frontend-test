@@ -10,6 +10,9 @@ import { StateContext } from '@/context/Context'
 
 function index() {
     const {state, setState} = useContext(StateContext);
+    const handlePhoneClick = () => {
+      window.open(`tel:${state.phoneNumber || "021019884"}`);
+    };
   return (
     <Box sx={{mt:3}}>
       <Box sx={{fontWeight:600,mb:3}}>{data_register[0].title_content1}</Box>
@@ -32,13 +35,17 @@ function index() {
               <Box sx={{ml:1}}>
                 <Box sx={{display:"flex",alignItems:"center"}}>
                   <Image alt="website" src={website}/>
-                  <Box sx={{ml:2}}><a href={state.webSite} target="_blank" rel="noopener noreferrer">
+                  <Box sx={{ml:2}}>
+                    <a href={state.webSite} target="_blank" rel="noopener noreferrer">
                     {state.webSite || "https://www.tracthai.com"}
-                  </a></Box>
+                  </a>
+                  </Box>
                 </Box>
-                <Box sx={{mt:1,display:"flex",alignItems:"center"}}>
-                  <Image alt="tel" src={tel}/>
-                  <Box sx={{ml:2}}>{state.phoneNumber ||"021019884 "}</Box>
+                <Box sx={{ mt: 1, display: "flex", alignItems: "center" }}>
+                  <a href={`tel:${state.phoneNumber || "021019884"}`} onClick={handlePhoneClick} style={{ textDecoration: 'none', display: 'flex', alignItems: 'center' }}>
+                    <Image alt="tel" src={tel} sx={{ width: '24px', height: '24px' }} />
+                    <Box sx={{ ml: 2, whiteSpace: 'nowrap' }}>{state.phoneNumber || "021019884"}</Box>
+                  </a>
                 </Box>
                 <Box sx={{mt:1,display:"flex",alignItems:"center"}}>
                   <Image alt="map" src={map}/>

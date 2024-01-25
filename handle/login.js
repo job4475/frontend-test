@@ -59,6 +59,7 @@ function login() {
     .then(result => {
         console.log(result);
         if (result.match === true) {
+          localStorage.setItem("datacompanylc", JSON.stringify(result.data));
             setState({
                 ...state,
                 companyID: result.data.CompanyID,
@@ -73,6 +74,7 @@ function login() {
                 selectedTambon: result.data.SubDistrict,
                 zipcode: result.data.Zipcode,
                 country: result.data.Country,  
+                
             });
             setState((prevData) => ({ ...prevData,loading: false }));
             router.push('/Selectcompany');
