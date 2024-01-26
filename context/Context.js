@@ -26,7 +26,6 @@ export const StateProvider = ({children}) => {
     open:false,resetpassword:false,registerSuccess:false,qrcodeurl:'',status:'',message:'',error:false,qrcode:"",phoneNumber:'',webSite:'',
     passwordStrength:'',confirmpassword:"",passwordsMatch:'',backdrop:false,timer:0
     });
-    console.log("🚀 ~ StateProvider ~ state:", state)
     return (
         <StateContext.Provider value={{state,setState}}>
             {/* <Countries/> */}
