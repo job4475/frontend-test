@@ -1,12 +1,18 @@
-import { Box } from '@mui/material'
-import React from 'react'
+'use client'
+import { StateContext } from '@/context/Context';
+import React, { useContext, useState } from 'react';
+import OtpInput from 'react-otp-input';
 
-function page() {
+export default function App() {
+  const { state, setState } = useContext(StateContext);
+  const handleChange = (value) => {
+    if (/^\d*$/.test(value)) {
+      setState({ ...state, input_OTP: value });
+    }
+  };
   return (
-    <Box sx={{width:'100%', height:'100vh',display:'flex',flexDirection:'column',alignItems:'center'}}>
-      <Box sx={{background:'red',height:'150px',width:'150px'}}></Box>
-    </Box>
-  )
+    <OtpInput value={state.input_OTP} onChange={handleChange} numInputs={6}isInputNum={true} separator={<span>-</span>}
+      renderInput={(props) => <input {...props} />} inputStyle={{ width: '2rem', height: '2rem', margin: '0 0.5rem',
+        fontSize: '1.5rem', borderBottom: '1px solid #BBC0CA',  }} />
+  );
 }
-
-export default page

@@ -4,6 +4,7 @@ import { useRouter } from 'next/navigation';
 import React, { useContext } from 'react';
 
 function ForgetPassword() {
+    
     const { state, setState } = useContext(StateContext);
     const router = useRouter();
     const sendMail = () => {

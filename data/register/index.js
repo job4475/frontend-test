@@ -30,9 +30,6 @@ export const input_data = [
             form_title:"Phone number",
     },
     {
-            form_title:"Email",
-    },
-    {
             form_title:"Job Title",
     },
     {

@@ -1,8 +1,7 @@
 'use client'
 import { data_register, input_data } from '@/data/register'
-import { Box, FormControl, Grid, Input, InputLabel, MenuItem, Select } from '@mui/material'
+import { Box, FormControl, Grid, Input, MenuItem, Select, TextField } from '@mui/material'
 import React, { useContext } from 'react'
-import handlechangeTitle from '@/handle/register'
 import { StateContext } from '@/context/Context'
 
 function Index() {
@@ -10,14 +9,6 @@ function Index() {
   const HandleChange = (event) => {
     const { name, value } = event.target;
     setState((prevState) => ({...prevState,[name]: value,}));
-    if (name === "email") {
-      // Update state.email
-      setState((prevState) => ({...prevState, email: value}));
-    } else {
-      // For other input fields, update the state based on the name
-      setState((prevState) => ({...prevState, [name]: value}));
-    }
-    
   };
   const HandleChangeTitle = (event) => {
     const value = event.target.value;
@@ -31,7 +22,7 @@ function Index() {
             <Box id={`input_${item.form_title.toLowerCase().replace(' ', '_')}`} sx={{ display: 'flex', alignItems: 'center' }}>
               <Box>{item.form_title}</Box>
               <Box sx={{ ml: item.form_title === "Title" ? 11.3 : item.form_title === "First name" ? 5 : item.form_title === "Last name" ? 5 : item.form_title === "Phone number" ? 0.5 :
-              item.form_title === "Email" ? 9.9 : item.form_title === "Role" ? 11 : item.form_title === "Job Title" ? 7.5 : "" }}>
+               item.form_title === "Role" ? 11 : item.form_title === "Job Title" ? 7.5 : "" }}>
                 <FormControl variant="standard" sx={{ m: 1, minWidth: 220 }}>
                   {item.form_title === "Title" ? (
                     <Box sx={{width:202}}>

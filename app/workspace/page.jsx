@@ -54,7 +54,6 @@ const page = () => {
 
   const isLocalStorageAvailable = typeof window !== 'undefined' && window.localStorage;
 
-  // Use local storage only if it's available
   const storedLoginTime = isLocalStorageAvailable ? localStorage.getItem('loginTime') : null;
   const [loginTime, setLoginTime] = React.useState(
     storedLoginTime ? new Date(storedLoginTime) : new Date()

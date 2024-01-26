@@ -13,7 +13,7 @@ function OTPverify() {
   const HandleQRCode = handleqrcode();
   const {state, setState} = useContext(StateContext);
   return (
-    <Box p={3} sx={{display: 'flex',flexDirection: 'column',background: 'width',width: '400px',height: '500px',
+    <Box p={3} sx={{display: 'flex',flexDirection: 'column',background: 'white',width: '400px',height: '500px',
     borderRadius: "15px",marginLeft: 'auto',mr: 5,mt: 1,boxShadow: '0px 0px 10px rgba(0, 0, 0, 0.1)',justifyContent:'space-between'}}>
     <Box>
       <Box sx={{fontWeight:'800'}}>You are almost done!</Box> 

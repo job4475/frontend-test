@@ -4,7 +4,6 @@ import ResetSucceed from "../ui/login/ResetSucceed/ResetSucceed";
 import Image from "next/image";
 import Chiclogo from "@/assets/assets/images/sigin/chiclogo.png";
 
-
 const page = () => {
   return (
     <div className="flex flex-col xl:flex-row bg-[#F7FAFB] h-screen">
@@ -13,7 +12,6 @@ const page = () => {
       </div>
       <div className="my-[auto] xl:mt-[auto] basis-1/1 xl:basis-1/3 flex flex-col content-center justify-center items-center">
         <ResetSucceed />
-       
       </div>
     </div>
   );
