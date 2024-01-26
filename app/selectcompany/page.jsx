@@ -72,7 +72,7 @@ const page = () => {
           </Box>
 
           <Box onClick={CreateCompany} sx={{ display: 'flex', justifyContent: 'space-between', cursor: "pointer", transition: "background-color 0.3s ease", "&:hover": { backgroundColor: "#f4f9f6" } }} className="basis-2/6 rounded-[10px] border border-[#C2CCE1] w-[250px] h-[370px] mr-3 mt-2 lg:mt-4 flex flex-col  items-center py-[42px] px-[40px] text-center" >
-            <Box sx={{}}>
+            <Box sx={{ transition: 'transform 0.3s ease', '&:hover': { transform: 'scale(1.3)' }}}>
               <Box sx={{ width: '90px', height: '90px', display: 'flex', justifyContent: 'center', alignItems: 'center' }}>
                 <svg
                   xmlns="http://www.w3.org/2000/svg"
