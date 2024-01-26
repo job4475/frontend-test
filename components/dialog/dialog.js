@@ -16,11 +16,13 @@ function dialod() {
   };
   const resetpassword = () => {
     setState({...state,resetpassword: false})
-    router.push('/Login');
+    window.location.href="/"
+    // router.push('/Login');
   };
   const registerSuccess = () => {
     setState({...state,registerSuccess: false})
-    router.push('/Login');
+    window.location.href="/"
+    
   };
   const error = () => {
     setState({...state,error: false})
@@ -68,7 +70,7 @@ function dialod() {
             </Box>
           </Dialog>
         {/* error */}
-          <Dialog open={state.error} onClose={handleClose} PaperProps={{ style: { borderRadius: '15px' } }}>
+          <Dialog open={state.error} onClose={error} PaperProps={{ style: { borderRadius: '15px' } }}>
             <Box sx={{ width: '430px', height: '480px', display: 'flex', justifyContent: 'center', alignItems: 'center', flexDirection: 'column' }}>
               <Box sx={{ width: '100%', height: '50%', background: '#FF6B6B', display: 'flex', justifyContent: 'center', alignItems: 'center' }}>
                 <Image src={Error} alt='Message' width={100}></Image>
