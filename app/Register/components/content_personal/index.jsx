@@ -10,6 +10,14 @@ function Index() {
   const HandleChange = (event) => {
     const { name, value } = event.target;
     setState((prevState) => ({...prevState,[name]: value,}));
+    if (name === "email") {
+      // Update state.email
+      setState((prevState) => ({...prevState, email: value}));
+    } else {
+      // For other input fields, update the state based on the name
+      setState((prevState) => ({...prevState, [name]: value}));
+    }
+    
   };
   const HandleChangeTitle = (event) => {
     const value = event.target.value;

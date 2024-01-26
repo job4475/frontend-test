@@ -7,7 +7,7 @@ import { StateContext } from '@/context/Context';
 import handlelogin from "@/handle/login"
 import Loading from '@/components/loading'
 import Backdrop from '@/components/backdrop/backdrop' 
-
+import Dialog from '@/components/dialog/dialog'
 function Index() {
   const {state, setState} = useContext(StateContext);
  const HandleLogin = handlelogin();
@@ -58,6 +58,7 @@ function Index() {
         <Button variant="contained" onClick={state.info === 0 ? HandleLogin.handleSignInClick : HandleLogin.handleSignUpClick} sx={{transition:'transform 0.3s ease','&:hover': {transform: 'scale(1.03)',},}} style={{background: '#84BAA1',width: '90%',height:'44px', textTransform: 'capitalize', marginTop: 10,boxShadow:'0px 0px 0px',borderRadius:'8px',fontWeight:'600'}}>
          {state.loading?<Loading/>:state.info === 0 ? 'Sign In' : 'Next'}
         </Button>
+        {state.open?<Dialog/>:""}
         </Box>
       </Box>
     </Box>

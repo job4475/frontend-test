@@ -10,6 +10,7 @@ import Feature from '@/services/feature'
 import FeatureLead from '@/services/featurelead'
 import Qrcode from '@/services/qrcode'
 import GetLogoBinary from '@/services/getLogoBinary'
+import Timeout from '@/services/settimeout'
 export const StateContext = createContext();
 
 export const StateProvider = ({children}) => {
@@ -23,12 +24,13 @@ export const StateProvider = ({children}) => {
     confirmlink:'',latitude:'',longitude:'',selectedImage:null,countries:["Thailand"],data:[],companyID:'',referenceID:'',logoImage:'',memberAuthorization:[],dragover:false,sumsize:0,size_progress:0,
     sumsize_original:0,leadAuthorization:[],periodDays:"",periodHours:"",opensTime:"",confirmlink:'',latitude:'',longitude:'',selectedImage:null,data:[],companyID:'',referenceID:'',logoImage:'',memberfeature:[],securedoc:false,
     open:false,resetpassword:false,registerSuccess:false,qrcodeurl:'',status:'',message:'',error:false,qrcode:"",phoneNumber:'',webSite:'',
-    passwordStrength:'',confirmpassword:"",passwordsMatch:'',backdrop:false
+    passwordStrength:'',confirmpassword:"",passwordsMatch:'',backdrop:false,timer:0
     });
     console.log("🚀 ~ StateProvider ~ state:", state)
     return (
         <StateContext.Provider value={{state,setState}}>
             {/* <Countries/> */}
+            <Timeout/>
             <GetLogoBinary/>
             <Feature/>
             <Address/>

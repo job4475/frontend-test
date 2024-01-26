@@ -25,7 +25,7 @@ function index() {
         )}
       </Box>
         <Box sx={{display:"flex",flexDirection:"column",alignItems:"left",ml:2}}>
-           <Box sx={{fontWeight:600}}>{state.datacompanylc.Companyname}</Box>
+           <Box sx={{fontWeight:600,textTransform:'capitalize'}}>{state.datacompanylc.Companyname}</Box>
               <Box sx={{display:"flex",mt:1}}>
               <Box sx={{width:"300px"}}>
               <div dangerouslySetInnerHTML={{ __html: `${state.datacompanylc.AddressNo||state.no} ${state.datacompanylc.Address1En||state.street}<br>
