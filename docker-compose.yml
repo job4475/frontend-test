@@ -9,7 +9,7 @@ services:
       dockerfile: Dockerfile
     restart: always
     ports:
-      - -3434:3434
+      - 3434:3434
     # depends_on:
     #   - backendchic
 
