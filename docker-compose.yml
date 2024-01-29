@@ -1,15 +1,15 @@
 version: '3.1'
 services:
 
-  chiccrm:
+  chiccrmtest:
     # Specify either an image or a build context
-    image: chiccrm-frontend
+    # image: your-image-name
     build:
       context: ./
       dockerfile: Dockerfile
     restart: always
     ports:
-      - 3434:3434
+      - 3333:3333
     # depends_on:
     #   - backendchic
 
