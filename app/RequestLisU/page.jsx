@@ -10,7 +10,7 @@ import { StateContext } from '@/context/Context';
 
 function page() {
   const {state, setState} = React.useContext(StateContext);
-  useEffect(() => {
+  React.useEffect(() => {
     setState((prevData) => ({ ...prevData, backdrop: false}));
   }, [])
   
