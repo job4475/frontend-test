@@ -9,11 +9,7 @@ import Loading from '@/components/loading'
 
 
 function SelectVerify() {
-<<<<<<< HEAD
   const {state, setState} = useContext(StateContext);
-=======
-  const { state, setState } = useContext(StateContext);
->>>>>>> aa36b1510b5182940b75a10bbbe08753120503fd
 
   const router = useRouter();
 
@@ -87,11 +83,7 @@ function SelectVerify() {
           setState({ ...state, qrcodeurl: result.qrCodeURL });
           router.push('/Authenticator');
 
-<<<<<<< HEAD
         } else if(result.statusqr===false&&(state.qrcode===""&&state.qrcodeurl==="")) {
-=======
-        } else if (result.statusqr === false && state.qrcode === "") {
->>>>>>> aa36b1510b5182940b75a10bbbe08753120503fd
           router.push('/Authenverify');
         } else {
           router.push('/Authenticator');
