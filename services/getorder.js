@@ -11,7 +11,7 @@ function token() {
             method: 'GET',
             redirect: 'follow'
           };
-          fetch(`${process.env.NEXT_PUBLIC_API_ENDPOINT_LOGIN}:${process.env.NEXT_PUBLIC_API_PORT_TEST}/api/getLogSecuredocActivityByMember/${state.decode_token.ID}`, requestOptions)
+          fetch(`${process.env.NEXT_PUBLIC_API_ENDPOINT_LOGIN}${process.env.NEXT_PUBLIC_API_PORT_LOGIN?`:${process.env.NEXT_PUBLIC_API_PORT_LOGIN}`:""}/api/getLogSecuredocActivityByMember/${state.decode_token.ID}`, requestOptions)
             .then(response => response.json())
             .then(result => {
                 setState({...state,allorder: result.logSecuredocActivityMember});

@@ -19,7 +19,7 @@ function autenvelify() {
         body: raw,
         redirect: 'follow'
         };
-        fetch(`${process.env.NEXT_PUBLIC_API_ENDPOINT_GET}:${process.env.NEXT_PUBLIC_API_PORT_LOGIN}/api/validateQrTOTP`, requestOptions)
+        fetch(`${process.env.NEXT_PUBLIC_API_ENDPOINT_GET}${process.env.NEXT_PUBLIC_API_PORT_LOGIN?`:${process.env.NEXT_PUBLIC_API_PORT_LOGIN}`:""}/api/validateQrTOTP`, requestOptions)
         .then(response => response.json())
         .then(result => {
           console.log(result);

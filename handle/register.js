@@ -31,7 +31,7 @@ var raw = JSON.stringify({
   "address1_en": state.street,
   "address_no": state.no,
   "job_title": state.job_title,
-  "role": state.role,
+  "role": "user",
   "Website": "www.tracthai.com"
 });
 
@@ -42,7 +42,7 @@ var requestOptions = {
   redirect: 'follow'
 };
 
-fetch(`${process.env.NEXT_PUBLIC_API_ENDPOINT_GET}:${process.env.NEXT_PUBLIC_API_PORT_LOGIN}/api/registerChicCRM`, requestOptions)
+fetch(`${process.env.NEXT_PUBLIC_API_ENDPOINT_GET}${process.env.NEXT_PUBLIC_API_PORT_LOGIN?`:${process.env.NEXT_PUBLIC_API_PORT_LOGIN}`:""}/api/registerChicCRM`, requestOptions)
     .then(response => response.json())
     .then(result => {
       console.log(result);
@@ -57,7 +57,7 @@ fetch(`${process.env.NEXT_PUBLIC_API_ENDPOINT_GET}:${process.env.NEXT_PUBLIC_API
             body: formdata,
             redirect: 'follow'
           };
-          fetch(`${process.env.NEXT_PUBLIC_API_ENDPOINT_GET}:${process.env.NEXT_PUBLIC_API_PORT_LOGIN}/api/uploadLogoBinary`, uploadRequestOptions)
+          fetch(`${process.env.NEXT_PUBLIC_API_ENDPOINT_GET}${process.env.NEXT_PUBLIC_API_PORT_LOGIN?`:${process.env.NEXT_PUBLIC_API_PORT_LOGIN}`:""}/api/uploadLogoBinary`, uploadRequestOptions)
             .then(response => response.json())
             .then(uploadResult => {
               console.log(uploadResult);

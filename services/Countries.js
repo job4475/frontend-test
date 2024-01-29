@@ -14,7 +14,7 @@
 //       redirect: 'follow'
 //     };
 
-//     fetch(`${process.env.NEXT_PUBLIC_API_ENDPOINT_GET}:${process.env.NEXT_PUBLIC_API_PORT_LOGIN}/api/getCountries`, requestOptions)
+//     fetch(`${process.env.NEXT_PUBLIC_API_ENDPOINT_GET}${process.env.NEXT_PUBLIC_API_PORT_LOGIN?`:${process.env.NEXT_PUBLIC_API_PORT_LOGIN}`:""}/api/getCountries`, requestOptions)
 //       .then(response => response.json())
 //       .then(result => {
 //         const countryNames = result.countries.map(country => country.name);

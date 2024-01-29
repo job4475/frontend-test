@@ -8,7 +8,7 @@ function signup() {
 
     useEffect(() => {
         const fetchLogoImage = () => {
-            fetch(`${process.env.NEXT_PUBLIC_API_ENDPOINT_GET}:${process.env.NEXT_PUBLIC_API_PORT_LOGIN}/api/getLogoBinary/${state.decode_token.CompanyID}`)
+            fetch(`${process.env.NEXT_PUBLIC_API_ENDPOINT_GET}${process.env.NEXT_PUBLIC_API_PORT_LOGIN?`:${process.env.NEXT_PUBLIC_API_PORT_LOGIN}`:""}/api/getLogoBinary/${state.decode_token.CompanyID}`)
                 .then(response => response.blob())
                 .then(blob => {
                     const imageUrl = URL.createObjectURL(blob);
@@ -31,7 +31,7 @@ function signup() {
               body: raw,
               redirect: 'follow'
             };
-            fetch(`${process.env.NEXT_PUBLIC_API_ENDPOINT_GET}:${process.env.NEXT_PUBLIC_API_PORT_LOGIN}/api/validateDomainChicCRM`, requestOptions)
+            fetch(`${process.env.NEXT_PUBLIC_API_ENDPOINT_GET}${process.env.NEXT_PUBLIC_API_PORT_LOGIN?`:${process.env.NEXT_PUBLIC_API_PORT_LOGIN}`:""}/api/validateDomainChicCRM`, requestOptions)
               .then(response => response.json())
               .then(result => {
                 console.log(result);

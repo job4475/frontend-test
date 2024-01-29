@@ -7,7 +7,7 @@ function otpvelify() {
     const router = useRouter();
  
         const fetchLogoImage = () => {
-            fetch(`${process.env.NEXT_PUBLIC_API_ENDPOINT_GET}:${process.env.NEXT_PUBLIC_API_PORT_LOGIN}/api/getLogoBinary/${state.decode_token.CompanyID}`)
+            fetch(`${process.env.NEXT_PUBLIC_API_ENDPOINT_GET}${process.env.NEXT_PUBLIC_API_PORT_LOGIN?`:${process.env.NEXT_PUBLIC_API_PORT_LOGIN}`:""}/api/getLogoBinary/${state.decode_token.CompanyID}`)
                 .then(response => response.blob())
                 .then(blob => {
                     const imageUrl = URL.createObjectURL(blob);
@@ -16,7 +16,8 @@ function otpvelify() {
                 .catch(error => console.error("Error fetching binary data:", error));
         };
         const workspace = () => {
-            setState({ ...state, loading: true });
+            setState((prevData) => ({ ...prevData,loading: true, alert: false }));
+            
             var myHeaders = new Headers();
             myHeaders.append("Content-Type", "application/json");
             var raw = JSON.stringify({
@@ -29,7 +30,7 @@ function otpvelify() {
                 body: raw,
                 redirect: 'follow'
             };
-            fetch(`${process.env.NEXT_PUBLIC_API_ENDPOINT_GET}:${process.env.NEXT_PUBLIC_API_PORT_LOGIN}/api/validateOTPEmail`, requestOptions)
+            fetch(`${process.env.NEXT_PUBLIC_API_ENDPOINT_GET}${process.env.NEXT_PUBLIC_API_PORT_LOGIN?`:${process.env.NEXT_PUBLIC_API_PORT_LOGIN}`:""}/api/validateOTPEmail`, requestOptions)
                 .then(response => response.json())
                 .then(result => {
                     console.log(result);
@@ -38,14 +39,13 @@ function otpvelify() {
                         fetchLogoImage();
                         window.location.href = "/Workspace"
                     } else {
-                        setState((prevData) => ({ ...prevData, alert: true, alert_text: result.message, alert_type: "error" }));
+                        setState((prevData) => ({ ...prevData, alert: true, alert_text: result.message, alert_type: "error",loading: false }));
                         setTimeout(() => {
                          setState((prevData) => ({ ...prevData, alert: false }));
                         }, 3000);                    }
                 })
                 .catch(error => console.log('error', error));
         };
-    
     const handleCodeChange = (code) => {
         console.log('Verification Code:', code);
         if (code.length === 6) {

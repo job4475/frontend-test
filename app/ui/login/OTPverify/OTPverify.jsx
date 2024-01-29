@@ -4,14 +4,16 @@ import VerificationCodeInput from './VerificationCodeInput'
 import { Box, Button } from '@mui/material';
 import handleotp from "@/handle/otpvelify"
 import handleqrcode from "@/handle/Authenticator"
+import resend from "@/handle/resendOTP"
 import { StateContext } from '@/context/Context';
 import Loading from '@/components/loading'
 function OTPverify() {
+  const Handleresend = resend();
   const HandleOTP = handleotp();
   const HandleQRCode = handleqrcode();
   const {state, setState} = useContext(StateContext);
   return (
-    <Box p={3} sx={{display: 'flex',flexDirection: 'column',background: 'width',width: '400px',height: '500px',
+    <Box p={3} sx={{display: 'flex',flexDirection: 'column',background: 'white',width: '400px',height: '500px',
     borderRadius: "15px",marginLeft: 'auto',mr: 5,mt: 1,boxShadow: '0px 0px 10px rgba(0, 0, 0, 0.1)',justifyContent:'space-between'}}>
     <Box>
       <Box sx={{fontWeight:'800'}}>You are almost done!</Box> 
@@ -26,7 +28,11 @@ function OTPverify() {
       <p style={{fontSize:'14px',fontWeight:'600'}}>{state.referenceID}</p>
     </Box>
     <Box sx={{display:'flex',justifyContent:'center',mt:'px'}}>
+<<<<<<< HEAD
     <Button style={{fontSize:'14px', fontWeight:'600',color:'#4D94FB',textTransform:'capitalize',transition:'color 0.3s'}} onClick={HandleOTP.sendOTPEmail} hoverStyle={{color:'red'}}>Resend Code</Button>
+=======
+    <Button onClick={Handleresend.sendOTPEmail} sx={{fontSize:'14px', fontWeight:'600',color:'#4D94FB',textTransform:'capitalize',transition:'color 0.3s'}} disabled={state.timer > 0?true:false} > {state.timer > 0 ? `Resend Code (${state.timer})` : "Resend Code"} </Button>
+>>>>>>> aa36b1510b5182940b75a10bbbe08753120503fd
     </Box>
     </Box>
     <Box sx={{display:'flex',justifyContent:'center'}}>

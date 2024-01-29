@@ -10,9 +10,11 @@ import Feature from '@/services/feature'
 import FeatureLead from '@/services/featurelead'
 import Qrcode from '@/services/qrcode'
 import GetLogoBinary from '@/services/getLogoBinary'
+import Timeout from '@/services/settimeout'
 export const StateContext = createContext();
 
 export const StateProvider = ({children}) => {
+    
     const [state, setState] = useState({ titleselect:"",last_name:"",input_email:"",role:"",selectedProvince:'',selectedAmphoe:'',selectedTambon:'',
     first_name:"",phone_number:"",job_title:"",email:'',password:'',confirmPassword:'',alias:'',province:'',companyname:'',district:''
     ,no:'',subdistric:'',street:'',zipcode:'',country:'',googlemaps:'',newpassword:'',recipient:[],showPassword:false,amphures:[],provinces:[],tambons:[],
@@ -22,12 +24,14 @@ export const StateProvider = ({children}) => {
     periodDays:"",periodHours:"",opensTime:"",loading:false,allorder:[],viewfile:false,viewRecipient:false,allleadorder:[],pageloader:false,alert:false,alert_text:"",alert_type:"",
     confirmlink:'',latitude:'',longitude:'',selectedImage:null,countries:["Thailand"],data:[],companyID:'',referenceID:'',logoImage:'',memberAuthorization:[],dragover:false,sumsize:0,size_progress:0,
     sumsize_original:0,leadAuthorization:[],memberfeature:[],securedoc:false,open:false,resetpassword:false,registerSuccess:false,qrcodeurl:'',status:'',message:'',error:false,qrcode:"",phoneNumber:'',webSite:'',
-    passwordStrength:'',confirmpassword:"",passwordsMatch:'',backdrop:false,error:false,qrcode:"",phoneNumber:'',webSite:'',messageBody:""
+    passwordStrength:'',confirmpassword:"",passwordsMatch:'',backdrop:false,error:false,qrcode:"",phoneNumber:'',webSite:'',messageBody:"",timer:0
     });
     console.log("🚀 ~ StateProvider ~ state:", state)
     return (
+        
         <StateContext.Provider value={{state,setState}}>
             {/* <Countries/> */}
+            <Timeout/>
             <GetLogoBinary/>
             <Feature/>
             <Address/>
@@ -41,3 +45,4 @@ export const StateProvider = ({children}) => {
         </StateContext.Provider>
     )
 }
+console.log("🚀 ~ StateProvider ~ StateProvider:", StateProvider)
