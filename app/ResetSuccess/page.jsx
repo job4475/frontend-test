@@ -12,6 +12,10 @@ const page = () => {
     router.push("/Login");
   }
 
+  if (state.decode_token !== "") {
+    router.push('/Workspace');
+  }
+
   return (
     <div className="flex flex-col xl:flex-row bg-[#F7FAFB] h-screen">
       <div className="basis-2/3 hidden xl:block">

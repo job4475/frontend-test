@@ -8,6 +8,7 @@ import ContentCompany from './components/content_company'
 import ContentPersonal from './components/content_personal'
 import Button from './components/button'
 import Map from './components/map'
+import { useRouter } from 'next/navigation';
 function page() {
   const {state, setState} = useContext(StateContext);
   React.useEffect(() => {
@@ -20,6 +21,10 @@ function page() {
     };
 
     window.addEventListener("beforeunload", handleBeforeUnload);
+    const router = useRouter();
+    if (state.decode_token !== "") {
+      router.push('/Workspace');
+    }
 
     return () => {
       window.removeEventListener("beforeunload", handleBeforeUnload);

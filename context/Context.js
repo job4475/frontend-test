@@ -28,7 +28,6 @@ export const StateProvider = ({children}) => {
     });
     console.log("🚀 ~ StateProvider ~ state:", state)
     return (
-        
         <StateContext.Provider value={{state,setState}}>
             {/* <Countries/> */}
             <Timeout/>

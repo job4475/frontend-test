@@ -11,6 +11,9 @@ const page = () => {
   const backlogin = () => {
     router.push("/Login");
   }
+  if (state.decode_token !== "") {
+    router.push('/Workspace');
+  }
 
   return (
     <div className="flex flex-col xl:flex-row bg-[#F7FAFB] h-screen">
