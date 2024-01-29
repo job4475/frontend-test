@@ -1,8 +1,7 @@
 'use client'
 import { Box, Button, TextField } from '@mui/material';
-import React, { useContext, useState } from 'react';
+import React, { useContext } from 'react';
 import { StateContext } from '@/context/Context';
-import { useRouter } from 'next/router';
 import handleforget from '@/handle/forgetpassword'
 import Loading from '@/components/loading'
 
