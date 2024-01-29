@@ -43,10 +43,11 @@ function index() {
         <div className=" flex flex-col lg:flex-row">
           <div className="mr-3">
             <Image
+              onClick={()=>{window.location.href = "/Workspace"}}
               src={Logotrac} 
               alt="logo"
               priority={true}
-              style={{ width: "70px", height: "70px", borderRadius: "99px" }}
+              style={{ cursor:"pointer",width: "70px", height: "70px", borderRadius: "99px" }}
             />
           </div>
           <div className="">

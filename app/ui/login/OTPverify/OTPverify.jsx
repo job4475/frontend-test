@@ -28,11 +28,15 @@ function OTPverify() {
       <p style={{fontSize:'14px',fontWeight:'600'}}>{state.referenceID}</p>
     </Box>
     <Box sx={{display:'flex',justifyContent:'center',mt:'px'}}>
+<<<<<<< HEAD
+    <Button style={{fontSize:'14px', fontWeight:'600',color:'#4D94FB',textTransform:'capitalize',transition:'color 0.3s'}} onClick={HandleOTP.sendOTPEmail} hoverStyle={{color:'red'}}>Resend Code</Button>
+=======
     <Button onClick={Handleresend.sendOTPEmail} sx={{fontSize:'14px', fontWeight:'600',color:'#4D94FB',textTransform:'capitalize',transition:'color 0.3s'}} disabled={state.timer > 0?true:false} > {state.timer > 0 ? `Resend Code (${state.timer})` : "Resend Code"} </Button>
+>>>>>>> aa36b1510b5182940b75a10bbbe08753120503fd
     </Box>
     </Box>
     <Box sx={{display:'flex',justifyContent:'center'}}>
-    <Button variant="contained" onClick={HandleOTP.workspace} style={{background:'#84BAA1',width:'90%',textTransform:'capitalize'}}>{state.loading?<Loading/>:"Next"}</Button>
+    <Button variant="contained" onClick={HandleOTP.workspace} style={{background:'#84BAA1',width:'90%',textTransform:'capitalize'}}>{state.loading?(<Loading/>):"Next"}</Button>
     </Box>
     <Button variant="text" style={{textTransform:"capitalize",color:"gray"}} onClick={HandleQRCode.tryanother}>Try Another method</Button>
   </Box>

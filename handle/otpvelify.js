@@ -35,14 +35,14 @@ function otpvelify() {
                 .then(result => {
                     console.log(result);
                     if (result.status === "OK") {
+                        setState({ ...state, loading: false });
                         fetchLogoImage();
-                        router.push('/Workspace');
+                        window.location.href = "/Workspace"
                     } else {
                         setState((prevData) => ({ ...prevData, alert: true, alert_text: result.message, alert_type: "error",loading: false }));
                         setTimeout(() => {
-                            setState((prevData) => ({ ...prevData, alert: false}));
-                          }, 2000);
-                    }
+                         setState((prevData) => ({ ...prevData, alert: false }));
+                        }, 3000);                    }
                 })
                 .catch(error => console.log('error', error));
         };

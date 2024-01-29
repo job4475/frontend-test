@@ -99,7 +99,7 @@ function leadlist() {
         return acc;
       }, []);
 
-      const handleBatchApprove = async (uuids,  orderIds, commands,emails,senders,subjects) => {
+      const handleBatchApprove = async (uuids,  orderIds, commands,emails,senders,subjects,bodys) => {
         setState((prevData) => ({ ...prevData, pageloader: true}));
 
         const blobArray = [];
@@ -157,6 +157,7 @@ function leadlist() {
             formdataSendmail.append("email", emails[0]);
             formdataSendmail.append("sender", senders[0]);
             formdataSendmail.append("subject", subjects[0]);
+            formdataSendmail.append("body", bodys[0]);
             
             var requestOptionsSendmail = {
               method: 'POST',
@@ -198,8 +199,9 @@ function leadlist() {
         const emails = orderGroup.map(order => order.scdact_reciepient);
         const senders = orderGroup.map(order => order.scdact_sender);
         const subjects = orderGroup.map(order => order.scdact_subject);
+        const bodys = orderGroup.map(order => order.scdact_name);
       
-        handleBatchApprove(uuids, orderIds, commands,emails,senders,subjects);
+        handleBatchApprove(uuids, orderIds, commands,emails,senders,subjects,bodys);
       };
 
       const handleReject = (orderGroup,action)=>{

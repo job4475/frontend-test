@@ -9,7 +9,7 @@ import Loading from '@/components/loading'
 
 
 function SelectVerify() {
-  const { state, setState } = useContext(StateContext);
+  const {state, setState} = useContext(StateContext);
 
   const router = useRouter();
 
@@ -83,7 +83,7 @@ function SelectVerify() {
           setState({ ...state, qrcodeurl: result.qrCodeURL });
           router.push('/Authenticator');
 
-        } else if (result.statusqr === false && state.qrcode === "") {
+        } else if(result.statusqr===false&&(state.qrcode===""&&state.qrcodeurl==="")) {
           router.push('/Authenverify');
         } else {
           router.push('/Authenticator');

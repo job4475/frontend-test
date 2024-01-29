@@ -6,7 +6,7 @@ function autenvelify() {
         const { state, setState } = useContext(StateContext);
         const router = useRouter();
         const verifyauthen = () => {
-          setState((prevData) => ({ ...prevData,loading: true }));
+        setState((prevData) => ({ ...prevData, loading: true }));
         var myHeaders = new Headers();
         myHeaders.append("Content-Type", "application/json");
         var raw = JSON.stringify({
@@ -27,7 +27,7 @@ function autenvelify() {
               localStorage.removeItem("qrcode");
               window.location.href = "/Workspace"
           } else {
-             setState((prevData) => ({ ...prevData, loading: false, alert: true, alert_text: result.message, alert_type: "error" }));
+             setState((prevData) => ({ ...prevData, alert: true, alert_text: result.message, alert_type: "error" }));
             setTimeout(() => {
              setState((prevData) => ({ ...prevData, alert: false }));
             }, 3000);

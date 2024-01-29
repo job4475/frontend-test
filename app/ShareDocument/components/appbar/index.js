@@ -43,7 +43,7 @@ function index() {
       <Box sx={{display:'flex',justifyContent:'space-between',p:2,pl:5,pr:5,pb:2}}>
         <div className=" flex flex-col lg:flex-row">
           <div className="mr-3" style={{cursor:"pointer",}}>
-            <Image src={Logotrac} alt="logo" priority={true} style={{ width: "90px", height: "90px", borderRadius: "99px" }} />
+            <Image onClick={()=>{window.location.href = "/Workspace"}} src={Logotrac} alt="logo" priority={true} style={{ width: "90px", height: "90px", borderRadius: "99px" }} />
           </div>
           <div className="">
             <div className="flex flex-col lg:flex-row justify-start lg:justify-between items-start lg:items-center">

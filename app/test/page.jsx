@@ -1,3 +1,14 @@
+<<<<<<< HEAD
+import React from 'react'
+
+function page() {
+  return (
+    <div>page</div>
+  )
+}
+
+export default page
+=======
 'use client'
 import { StateContext } from '@/context/Context';
 import React, { useContext, useState } from 'react';
@@ -16,3 +27,4 @@ export default function App() {
         fontSize: '1.5rem', borderBottom: '1px solid #BBC0CA',  }} />
   );
 }
+>>>>>>> aa36b1510b5182940b75a10bbbe08753120503fd
