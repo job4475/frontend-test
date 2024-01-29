@@ -1,0 +1,17 @@
+version: '3.1'
+services:
+
+  frontendtest:
+    # Specify either an image or a build context
+    # image: your-image-name
+    build:
+      context: ./
+      dockerfile: Dockerfile
+    restart: always
+    ports:
+      - 3434:3434
+    # depends_on:
+    #   - backendchic
+
+volumes:
+  db_data2:
