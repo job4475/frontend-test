@@ -25,6 +25,7 @@ function page() {
       window.removeEventListener("beforeunload", handleBeforeUnload);
     };
     }, [state.pageloader]);
+    
   return (
     <Box sx={{ background: `linear-gradient(108deg, #84BAA1 0%, #FFFBE2 100%)`,  height: "100vh" }}style={{ filter: state.pageloader ? 'blur(4px)' : 'none', pointerEvents: state.pageloader ? 'none' : 'auto' }}>
   <Grid container >
