@@ -18,40 +18,40 @@ function index() {
       <Box sx={{fontWeight:600,mb:3}}>{data_register[0].title_content1}</Box>
       <Box sx={{display:"flex"}}>
       <Box sx={{mr:1,width:'100px'}} >
-        {state.datacompanylc.CompanyLogo || state.selectedImage ? (
-          <Image width={100} height={100} alt="logo" src={state.datacompanylc.CompanyLogo|| state.selectedImage}></Image>
+        {state.datacompanylc?.CompanyLogo || state.selectedImage ? (
+          <Image width={100} height={100} alt="logo" src={state.datacompanylc?.CompanyLogo|| state.selectedImage}></Image>
         ) : (
           <p></p>
         )}
       </Box>
         <Box sx={{display:"flex",flexDirection:"column",alignItems:"left",ml:2}}>
-           <Box sx={{fontWeight:600,textTransform:'capitalize'}}>{state.datacompanylc.Companyname}</Box>
+           <Box sx={{fontWeight:600,textTransform:'capitalize'}}>{state.datacompanylc?.Companyname}</Box>
               <Box sx={{display:"flex",mt:1}}>
               <Box sx={{width:"300px"}}>
-              <div dangerouslySetInnerHTML={{ __html: `${state.datacompanylc.AddressNo||state.no} ${state.datacompanylc.Address1En||state.street}<br>
-              ${state.datacompanylc.District||state.selectedAmphoe } ${state.datacompanylc.SubDistrict||state.selectedTambon}<br>
-              ${state.datacompanylc.Province||state.selectedProvince} ${state.datacompanylc.Zipcode||state.zipcode}<br> ${state.datacompanylc.Country||state.country}` }} />
+              <div dangerouslySetInnerHTML={{ __html: `${state.datacompanylc?.AddressNo||state.no} ${state.datacompanylc?.Address1En||state.street}<br>
+              ${state.datacompanylc?.District||state.selectedAmphoe } ${state.datacompanylc?.SubDistrict||state.selectedTambon}<br>
+              ${state.datacompanylc?.Province||state.selectedProvince} ${state.datacompanylc?.Zipcode||state.zipcode}<br> ${state.datacompanylc?.Country||state.country}` }} />
               </Box>
               <Box sx={{ml:1}}>
                 <Box sx={{display:"flex",alignItems:"center"}}>
                   <Image alt="website" src={website}/>
                   <Box sx={{ml:2}}>
-                    <a href={state.datacompanylc.Website} target="_blank" rel="noopener noreferrer">
-                    {state.datacompanylc.Website }
+                    <a href={state.datacompanylc?.Website} target="_blank" rel="noopener noreferrer">
+                    {state.datacompanylc?.Website }
                   </a>
                   </Box>
                 </Box>
                 <Box sx={{ mt: 1, display: "flex", alignItems: "center" }}>
                   <a href={`tel:${state.phoneNumber || "021019884"}`} onClick={handlePhoneClick} style={{ textDecoration: 'none', display: 'flex', alignItems: 'center' }}>
                     <Image alt="tel" src={tel} sx={{ width: '24px', height: '24px' }} />
-                    <Box sx={{ ml: 2, whiteSpace: 'nowrap' }}>{state.datacompanylc.CompanyPhone }</Box>
+                    <Box sx={{ ml: 2, whiteSpace: 'nowrap' }}>{state.datacompanylc?.CompanyPhone }</Box>
                   </a>
                 </Box>
                 <Box sx={{mt:1,display:"flex",alignItems:"center"}}>
                   <Image alt="map" src={map}/>
                   <Box sx={{ml:2}}>
-                    <a href={state.datacompanylc.Geolocation} target="_blank" rel="noopener noreferrer">
-                    {state.datacompanylc.Geolocation}
+                    <a href={state.datacompanylc?.Geolocation} target="_blank" rel="noopener noreferrer">
+                    {state.datacompanylc?.Geolocation}
                   </a>
                   </Box>
                 </Box>

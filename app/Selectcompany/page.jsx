@@ -46,7 +46,7 @@ const page = () => {
               />
             </Box>
             <div>
-              <h4>{state.datacompanylc.Companyname}</h4>
+              <h4>{state.datacompanylc?.Companyname}</h4>
             </div>
             <div>
               <svg
@@ -66,7 +66,7 @@ const page = () => {
             </div>
             <div>
               <p className="text-[12px] font-[500]">
-                {state.datacompanylc.Companyname} {state.datacompanylc.Province}, {state.datacompanylc.Zipcode} {state.datacompanylc.Country}.
+                {state.datacompanylc?.Companyname} {state.datacompanylc?.Province}, {state.datacompanylc?.Zipcode} {state.datacompanylc?.Country}.
               </p>
             </div>
           </Box>
