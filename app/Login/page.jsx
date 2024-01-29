@@ -12,7 +12,7 @@ const Page = () => {
   const router = useRouter();
 
   const backToLogin = () => {
-    router.push("/Login");
+    window.location.href="/"
   };
 
   useEffect(() => {

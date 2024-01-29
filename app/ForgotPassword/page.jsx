@@ -9,10 +9,7 @@ const page = () => {
   const router = useRouter();
 
   const backlogin = () => {
-    router.push("/Login");
-  }
-  if (state.decode_token !== "") {
-    router.push('/Workspace');
+    window.location.href="/"
   }
 
   return (

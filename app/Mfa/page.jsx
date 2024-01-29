@@ -10,7 +10,7 @@ import { StateContext } from "@/context/Context";
 const page = () => {
 
   const backlogin = () => {
-    router.push("/Login");
+    window.location.href="/"
   }
  
   return (

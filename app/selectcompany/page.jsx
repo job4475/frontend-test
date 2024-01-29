@@ -25,9 +25,7 @@ const page = () => {
     router.push('/CreateCompany');
   }
   
-  if (state.decode_token !== "") {
-    router.push('/Workspace');
-  }
+ 
   return (
     <div
       className="h-screen"

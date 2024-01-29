@@ -26,12 +26,11 @@ function login() {
       fetch(`${process.env.NEXT_PUBLIC_API_ENDPOINT_GET}:${process.env.NEXT_PUBLIC_API_PORT_LOGIN}/api/${state.email==="thananchai.sskru@gmail.com"||state.email==="woraponasvn36@gmail.com"?"LoginTeamleadSecuredoc":"LoginChicCRM"}`, requestOptions)
         .then(response => response.json())
         .then(result => {
-          setState((prevData) => ({ ...prevData,loading: false }));
           if (result.status === "OK") {
             const decodedToken = JSON.parse(atob(result.token.split('.')[1]));
             localStorage.setItem("decode_token", JSON.stringify(decodedToken));
             setState({ ...state, decode_token: decodedToken });
-            router.push('/Mfa'); 
+            router.push('/Mfa').then(()=>setState((prevData) => ({ ...prevData,loading: false }))); 
           } else {
             setState((prevData) => ({ ...prevData, alert: true, alert_text: result.message, alert_type: "error" }));
             setTimeout(() => {

@@ -23,10 +23,7 @@ const page = () => {
       };
     
     }, [state.pageloader]);
-    const router = useRouter();
-    if (state.decode_token !== "") {
-      router.push('/Workspace');
-    }
+   
   return (
     <Box sx={{background: 'linear-gradient(90deg,#84BAA1, #FFFBE2 )',height:'100vh'}}>
       <Box sx={{background:'#ffffff',width:'80%',height:'100vh'}}>
