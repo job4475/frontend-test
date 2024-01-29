@@ -5,6 +5,7 @@ import Image from "next/image";
 import Chiclogo from "@/assets/assets/images/sigin/chiclogo.png";
 import { Router } from "next/router";
 import { useRouter } from "next/navigation";
+import { Title } from "@mui/icons-material";
 
 const page = () => {
 
@@ -15,7 +16,9 @@ const page = () => {
   }
 
   return (
+    
     <div className="flex flex-col xl:flex-row bg-[#F7FAFB] h-screen">
+       
       <div className="basis-2/3 hidden xl:block ">
         <Image onClick={backlogin} src={Chiclogo} alt="logo" className="absolute w-[80px] h-[auto] top-5 left-5 hover:scale-110 duration-500 cursor-pointer" />
       </div>

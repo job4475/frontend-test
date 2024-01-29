@@ -26,10 +26,10 @@ function page() {
     };
     }, [state.pageloader]);
   return (
-    <Box sx={{ background: `linear-gradient(108deg, #84BAA1 0%, #FFFBE2 100%)`,  height: "auto" }}style={{ filter: state.pageloader ? 'blur(4px)' : 'none', pointerEvents: state.pageloader ? 'none' : 'auto' }}>
+    <Box sx={{ background: `linear-gradient(108deg, #84BAA1 0%, #FFFBE2 100%)`,  height: "100vh" }}style={{ filter: state.pageloader ? 'blur(4px)' : 'none', pointerEvents: state.pageloader ? 'none' : 'auto' }}>
   <Grid container >
     <Grid item >
-      <Box sx={{  display: { md: 'flex', xs: 'block' }, alignItems: "center", p: 5, height: "auto",width:"85%", background: "#fff", borderRadius: "0px 14px 14px 0px" }}>
+      <Box sx={{  display: { md: 'flex', xs: 'block' }, alignItems: "center", p: 5, height: "100vh",width:"85%", background: "#fff", borderRadius: "0px 14px 14px 0px" }}>
         <Box pt >
           <ContentAccount />
           <ContentCompany />

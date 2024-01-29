@@ -15,7 +15,7 @@ function ForgetPassword() {
         "username": state.email
         });
         var requestOptions = {method: 'POST',headers: myHeaders,body: raw,redirect: 'follow'};
-        fetch(`${process.env.NEXT_PUBLIC_API_ENDPOINT_GET}:${process.env.NEXT_PUBLIC_API_PORT_LOGIN}/api/RequestResetPasswordChicCRM`, requestOptions)
+        fetch(`${process.env.NEXT_PUBLIC_API_ENDPOINT_GET}${process.env.NEXT_PUBLIC_API_PORT_LOGIN?`:${process.env.NEXT_PUBLIC_API_PORT_LOGIN}`:""}/api/RequestResetPasswordChicCRM`, requestOptions)
         .then(response => response.json())
         .then(result => {
             if (result.status === "OK") {

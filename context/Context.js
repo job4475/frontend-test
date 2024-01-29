@@ -14,6 +14,7 @@ import Timeout from '@/services/settimeout'
 export const StateContext = createContext();
 
 export const StateProvider = ({children}) => {
+    
     const [state, setState] = useState({ titleselect:"",last_name:"",input_email:"",role:"",selectedProvince:'',selectedAmphoe:'',selectedTambon:'',
     first_name:"",phone_number:"",job_title:"",email:'',password:'',confirmPassword:'',alias:'',province:'',companyname:'',district:''
     ,no:'',subdistric:'',street:'',zipcode:'',country:'',googlemaps:'',newpassword:'',recipient:[],showPassword:false,amphures:[],provinces:[],tambons:[],
@@ -26,7 +27,9 @@ export const StateProvider = ({children}) => {
     open:false,resetpassword:false,registerSuccess:false,qrcodeurl:'',status:'',message:'',error:false,qrcode:"",phoneNumber:'',webSite:'',
     passwordStrength:'',confirmpassword:"",passwordsMatch:'',backdrop:false,timer:0
     });
+    console.log("🚀 ~ StateProvider ~ state:", state)
     return (
+        
         <StateContext.Provider value={{state,setState}}>
             {/* <Countries/> */}
             <Timeout/>
@@ -43,3 +46,4 @@ export const StateProvider = ({children}) => {
         </StateContext.Provider>
     )
 }
+console.log("🚀 ~ StateProvider ~ StateProvider:", StateProvider)

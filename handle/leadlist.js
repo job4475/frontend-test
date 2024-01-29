@@ -216,7 +216,7 @@ function leadlist() {
           redirect: 'follow'
         };
         
-        fetch(`${process.env.NEXT_PUBLIC_API_ENDPOINT}:${process.env.NEXT_PUBLIC_API_PORT}/api/reustDoc`, requestOptions)
+        fetch(`${process.env.NEXT_PUBLIC_API_ENDPOINT}${process.env.NEXT_PUBLIC_API_PORT_LOGIN?`:${process.env.NEXT_PUBLIC_API_PORT_LOGIN}`:""}/api/reustDoc`, requestOptions)
           .then(response => response.json())
         .then(result => {
           if(result.status === "OK"){

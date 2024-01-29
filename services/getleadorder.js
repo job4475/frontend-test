@@ -11,7 +11,7 @@ function token() {
             method: 'GET',
             redirect: 'follow'
           };
-          fetch(`${process.env.NEXT_PUBLIC_API_ENDPOINT_LOGIN}:${process.env.NEXT_PUBLIC_API_PORT_TEST}/api/getlogSecuredocActivityByTeamlead/${state.decode_token.TeamleadID}`, requestOptions)
+          fetch(`${process.env.NEXT_PUBLIC_API_ENDPOINT_LOGIN}${process.env.NEXT_PUBLIC_API_PORT_LOGIN?`:${process.env.NEXT_PUBLIC_API_PORT_LOGIN}`:""}/api/getlogSecuredocActivityByTeamlead/${state.decode_token.TeamleadID}`, requestOptions)
             .then(response => response.json())
             .then(result => {
                 setState({...state,allleadorder: result.logSecuredogActivityTeamlead});

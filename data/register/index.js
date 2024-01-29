@@ -32,7 +32,5 @@ export const input_data = [
     {
             form_title:"Job Title",
     },
-    {
-            form_title:"Role",
-    },
+   
 ]

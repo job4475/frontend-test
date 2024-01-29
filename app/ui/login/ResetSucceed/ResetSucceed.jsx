@@ -34,7 +34,7 @@ function Index() {
             <Box sx={{ textAlign: 'left', color: '#778296', fontSize: 16, fontWeight: '500' }}>Just click on the link in your email and you are done.</Box>
         </Box>
         <Box sx={{ display: 'flex', flexDirection: 'column', justifyContent: 'center', alignItems: 'center', fontSize: 11 }}>
-          <Button variant="contained" onClick={backlogin} sx={{ transition: 'transform 0.3s ease', '&:hover': { transform: 'scale(1.03)', }, }} style={{ background: '#84BAA1', width: '90%', height: '44px', textTransform: 'capitalize', boxShadow: '0px 0px 0px', borderRadius: '8px', fontWeight: '600' }}>Get recovery link</Button>
+          <Button variant="contained" onClick={backlogin} sx={{ transition: 'transform 0.3s ease', '&:hover': { transform: 'scale(1.03)', }, }} style={{ background: '#84BAA1', width: '90%', height: '44px', textTransform: 'capitalize', boxShadow: '0px 0px 0px', borderRadius: '8px', fontWeight: '600' }}>back to login</Button>
         </Box>
       </Box>
     </Box>

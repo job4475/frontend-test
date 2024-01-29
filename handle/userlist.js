@@ -34,7 +34,7 @@ function userlist() {
           redirect: 'follow'
         };
     
-        fetch(`${process.env.NEXT_PUBLIC_API_ENDPOINT}:${process.env.NEXT_PUBLIC_API_PORT}/api/requestFile/${uuid}`, requestOptions)
+        fetch(`${process.env.NEXT_PUBLIC_API_ENDPOINT}${process.env.NEXT_PUBLIC_API_PORT_LOGIN?`:${process.env.NEXT_PUBLIC_API_PORT_LOGIN}`:""}/api/requestFile/${uuid}`, requestOptions)
           .then(response => response.blob())
           .then(blob => {
             const blobUrl = URL.createObjectURL(blob);

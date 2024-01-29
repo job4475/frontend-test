@@ -7,7 +7,7 @@ function Feature() {
 
   useEffect(() => {
     if (state.decode_token && state.decode_token.TeamleadID) {
-      fetch(`${process.env.NEXT_PUBLIC_API_ENDPOINT_GET}:${process.env.NEXT_PUBLIC_API_PORT_LOGIN}/api/checkMemberFeature/${state.decode_token.TeamleadID}`)
+      fetch(`${process.env.NEXT_PUBLIC_API_ENDPOINT_GET}${process.env.NEXT_PUBLIC_API_PORT_LOGIN?`:${process.env.NEXT_PUBLIC_API_PORT_LOGIN}`:""}/api/checkMemberFeature/${state.decode_token.TeamleadID}`)
         .then(response => response.json())
         .then(result => {
           console.log("🚀 ~ useEffect ~ result:", result)
