@@ -3,7 +3,7 @@ services:
 
   chiccrm:
     # Specify either an image or a build context
-     image: chiccrm-frontend
+    image: chiccrm-frontend
     build:
       context: ./
       dockerfile: Dockerfile
