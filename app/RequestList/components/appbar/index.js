@@ -4,8 +4,8 @@ import { Box, Skeleton } from '@mui/material'
 import Image from "next/image";
 import Logotrac from "@/assets/assets/images/logotrac.png";
 import { StateContext } from '@/context/Context';
-import { useEffect } from 'react';
-import { useState } from 'react';
+import { useEffect,useState } from 'react';
+
 
 function index() {
   const {state, setState} = React.useContext(StateContext);

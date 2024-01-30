@@ -1,5 +1,5 @@
 "use client";
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useState,useContext } from "react";
 import Image from "next/image";
 import Logotrac from "@/assets/assets/images/logotrac.png";
 import CarReserve from "@/assets/assets/images/workspace/CarReserve.png";
@@ -8,53 +8,33 @@ import RemoteSupport from "@/assets/assets/images/workspace/RemoteSupport.png";
 import ShareDocument from "@/assets/assets/images/workspace/ShareDocument.png";
 import UnderReview from "@/assets/assets/images/workspace/UnderReview.png";
 import { useRouter } from "next/navigation";
-import { useContext } from "react";
 import { StateContext } from "@/context/Context";
 import { Button, Box, Skeleton } from "@mui/material";
 import Backdrop from '@/components/backdrop/backdrop' 
 import { useCookies } from "react-cookie";
 
-const page = () => {
+const Page = () => {
   const { state, setState } = useContext(StateContext);
-  const [cookies, setCookie, removeCookie] = useCookies(['token']);
+  const [ removeCookie] = useCookies(['token']);
   const router = useRouter(); 
   
   const sharedocumentRouter = () => {
     setState((prevData) => ({ ...prevData, backdrop: true}));         
     if(state.decode_token.Role==="admin"){
       window.location.href = "/RequestList"
-      // router.push("/RequestList");
-      // setTimeout(() => {
-      //   setState((prevData) => ({ ...prevData, backdrop: false}));
-      // }, 2000); 
     }else{
       window.location.href = "/ShareDocument"
-      // router.push("/ShareDocument");
-      // setTimeout(() => {
-      //   setState((prevData) => ({ ...prevData, backdrop: false}));
-      // }, 2000); 
     }
     };
 
-  const remotesupportRouter = () => {
-    router.push("/remotesupport");
-  };
-  const myopportunityRouter = () => {
-    router.push("/myopportunity");
-  };
-  const carreserveRouter = () => {
-    router.push("/carreserve");
-  };
-  const underreviewRouter = () => {
-    router.push("/underreview");
-  };
+
   const orgmbatFeature = state?.memberAuthorization?.orgmbat_feature;
 
-  const [sharedocument, setSharedocument] = useState(false);
-  const [remotesupport, setRemotesupport] = useState(false);
-  const [myopportunity, setMyopportunity] = useState(false);
-  const [carreserve, setCarreserve] = useState(false);
-  const [underreview, setUnderreview] = useState(false);
+  const [setSharedocument] = useState(false);
+  const [ setRemotesupport] = useState(false);
+  const [ setMyopportunity] = useState(false);
+  const [ setCarreserve] = useState(false);
+  const [ setUnderreview] = useState(false);
 
   useEffect(() => {
     if (orgmbatFeature) {
@@ -70,7 +50,7 @@ const page = () => {
 
   // Use local storage only if it's available
   const storedLoginTime = isLocalStorageAvailable ? localStorage.getItem('loginTime') : null;
-  const [loginTime, setLoginTime] = React.useState(
+  const [loginTime] = React.useState(
     storedLoginTime ? new Date(storedLoginTime) : new Date()
   );
 
@@ -113,9 +93,7 @@ const page = () => {
     removeCookie('token',{path: '/'});
     window.location.href="/"
   }
-  const Notallowed =()=>{
 
-  }
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
@@ -125,7 +103,9 @@ const page = () => {
 
     return () => clearTimeout(timeoutId);
   }, []);
+  const Notallowed =()=>{
 
+  }
 
   return (
     <>
@@ -204,7 +184,6 @@ const page = () => {
           <div>
               <div
                 onClick={state.memberAuthorization?.orgmbat_feature!=="#securedoc"||state.decode_token?.Role==="admin"?Notallowed:sharedocumentRouter}
-                // className="font-semibold mr-0 lg:mr-4 my-2 text-center flex flex-col items-center justify-center w-48 h-48 px-6 py-4 border border-gray-300 rounded-lg cursor-pointer transition-colors duration-300 hover:bg-gray-200"
                 className={`font-semibold mr-0 lg:mr-4 my-2 text-center flex flex-col items-center justify-center w-48 h-48 px-6 py-4 border border-gray-300 rounded-lg  transition-colors duration-300 ${state.memberAuthorization?.orgmbat_feature!=="#securedoc"||state.decode_token?.Role==="admin"?"bg-gray-100":""}   ${state.memberAuthorization?.orgmbat_feature!=="#securedoc"||state.decode_token?.Role==="admin"?"":"cursor-pointer"} ${state.memberAuthorization?.orgmbat_feature!=="#securedoc"||state.decode_token?.Role==="admin"?"":"hover:bg-gray-200"} `}
               >
                 <Image
@@ -294,4 +273,4 @@ const page = () => {
   );
 };
 
-export default page;
+export default Page;
