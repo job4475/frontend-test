@@ -1,5 +1,5 @@
 import { Box, Button } from '@mui/material'
-import React, { useContext } from 'react'
+import React, { useContext, useEffect } from 'react'
 import arrow from '@/assets/assets/images/register/arrow.png'
 import Image from 'next/image'
 import handleregis from "@/handle/register"
@@ -8,9 +8,9 @@ import Loading from '@/components/loading'
 import Dialog from '@/components/dialog/dialog'
 
 function index() {
-  const { state, setState } = useContext(StateContext);
+  const { state } = useContext(StateContext);
   const Handleregis = handleregis();
-  React.useEffect(() => {
+ useEffect(() => {
     const handleBeforeUnload = (event) => {
       if (state.email !==" ") {
         const message = "Leaving this page may result in data loss. Are you sure?";

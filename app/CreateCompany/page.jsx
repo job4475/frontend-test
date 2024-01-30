@@ -1,13 +1,13 @@
 "use client";
-import React, { useContext } from "react";
+import React, { useContext, useEffect } from "react";
 import Addcompany from '../ui/register/addcompany/page'
 import { StateContext } from "@/context/Context";
 import { Box } from "@mui/material";
-import { useRouter } from "next/navigation";
+
 
 const page = () => {
-    const {state, setState} = useContext(StateContext);
-    React.useEffect(() => {
+    const {state} = useContext(StateContext);
+    useEffect(() => {
       const handleBeforeUnload = (event) => {
         if (state.email !==" ") {
           const message = "Leaving this page may result in data loss. Are you sure?";

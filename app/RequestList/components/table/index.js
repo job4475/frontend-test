@@ -1,6 +1,6 @@
 "use client";
 import * as React from 'react';
-import { Box, Button, ClickAwayListener, Paper, Table, TableBody, TableCell, TableContainer, TableHead, TableRow, Tooltip } from '@mui/material'
+import { Box, Button, Paper, Table, TableBody, TableCell, TableContainer, TableHead, TableRow } from '@mui/material'
 import { StateContext } from '@/context/Context';
 import file from '@/assets/assets/images/file.png'
 import recipient from '@/assets/assets/images/recipient.png'
@@ -12,7 +12,7 @@ import CloseIcon from '@mui/icons-material/Close';
 import SecurityIcon from '@mui/icons-material/Security';
 
 function index() {
-  const {state, setState} = React.useContext(StateContext);
+  
   const handleLeadList = HandleLeadList();
   handleLeadList.groupedOrders?.sort((a, b) => b[0].scdact_timestamp - a[0].scdact_timestamp);
   const [tooltipOpen, setTooltipOpen] = React.useState({});

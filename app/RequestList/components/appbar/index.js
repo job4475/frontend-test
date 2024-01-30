@@ -7,13 +7,13 @@ import { StateContext } from '@/context/Context';
 import { useEffect,useState } from 'react';
 
 
-function index() {
-  const {state, setState} = React.useContext(StateContext);
+function Index() {
+  const {state} = React.useContext(StateContext);
   const isLocalStorageAvailable = typeof window !== 'undefined' && window.localStorage;
 
   // Use local storage only if it's available
   const storedLoginTime = isLocalStorageAvailable ? localStorage.getItem('loginTime') : null;
-  const [loginTime, setLoginTime] = React.useState(
+  const [loginTime] = React.useState(
     storedLoginTime ? new Date(storedLoginTime) : new Date()
   );
 
@@ -115,4 +115,4 @@ function index() {
   )
 }
 
-export default index
+export default Index

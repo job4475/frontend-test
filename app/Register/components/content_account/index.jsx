@@ -6,7 +6,7 @@ import accountimg from '@/assets/assets/images/register/account.png'
 import { StateContext } from '@/context/Context'
 
 function index() {
-  const { state, setState } = useContext(StateContext);
+  const { state } = useContext(StateContext);
 
   return (
     <Box sx={{ display: "flex", alignItems: "center" }}>

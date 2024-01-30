@@ -1,6 +1,6 @@
 'use client'
 import { data_register, input_data } from '@/data/register'
-import { Box, FormControl, Grid, Input, MenuItem, Select, TextField } from '@mui/material'
+import { Box, FormControl, Grid, Input, MenuItem, Select } from '@mui/material'
 import React, { useContext } from 'react'
 import { StateContext } from '@/context/Context'
 
