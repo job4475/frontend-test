@@ -47,7 +47,7 @@ function SelectVerify() {
       .then(response => response.json())
       .then(result => {
         if (result.status === "OK") {
-          setState({ ...state, referenceID: result.referenceID, loading: false });
+          setState({ ...state, referenceID: result.referenceID });
           router.push('/OTPverify');
         } else {
           setState((prevData) => ({ ...prevData, alert: true, alert_text: result.message, alert_type: "error" }));
@@ -93,11 +93,9 @@ function SelectVerify() {
   }
   const handlenext = ()=>{
     if (isClickedMail){
-      setState((prevData) => ({ ...prevData,loading: true }));
         router.push('/OTPverify'); 
         sendOTPEmail();
     }else if(isClickedAut){
-      setState((prevData) => ({ ...prevData,loading: true }))
         router.push('/Authenticator');
         getQR();
     }

@@ -1,13 +1,17 @@
 import { Box, Button } from '@mui/material'
-import React from 'react'
+import React, { useContext } from 'react'
 import HandleUserList from '@/handle/userlist'
+import { StateContext } from '@/context/Context';
+import Loading from '@/components/loading'
+
 function index() {
   const handleUserList = HandleUserList();
+  const {state, setState} = useContext(StateContext);
 
   return (
     <Box sx={{display:'flex',justifyContent:'center',mt:1,pb:3}}>
      <Box sx={{ display: 'flex', justifyContent: 'flex-end',width:"90%" }}>
-       <Button onClick={handleUserList.handleNewRequest} variant="contained" style={{backgroundColor:'#84BAA1',textTransform:''}}>New Request +</Button>
+       <Button onClick={handleUserList.handleNewRequest} variant="contained" style={{backgroundColor:'#84BAA1',textTransform:''}}>{state.loading?<Loading/>:"New Request +"}</Button>
      </Box>
     </Box>
   )

@@ -400,13 +400,13 @@ const SwitchBox = ({ label, checked, onChange }) => (
           if (result.Status === "OK") {
             // setData((prevData) => ({ ...prevData, alert: true, alert_text: result.message.finalcode_result, alert_type: "success"}));
             //^delay 3 seconds
-              setState((prevData) => ({ ...prevData, loading: false,titleselect:"",input_last_name:"",input_email:"",input_role:"",
+              setState((prevData) => ({ ...prevData, titleselect:"",input_last_name:"",input_email:"",input_role:"",
               input_firstName:"",input_phone:"",input_jobtitle:"",email:'',Password:'',Alias:'',Province:'',Companyname:'',District:''
               ,No:'',SubDistric:'',Street:'',ZIPCode:'',Country:'',GoogleMaps:'',Newpassword:'',recipient:[],input_recip:"",subject:"",message:"",secure_type:false,selectedFileName:[],
               selectedFile:[],allowconverttooriginalfile: false,allowcopypaste: false,allowprint: false,alloweditsecuredfile: false,allowrunamacro: false,allowconverttobrowserviewfile: false,enableconverttooriginalfile:false,
               timelimitBeforeOri:"",timelimitBefore:"",timeBefore:"",timelimitAfterOri:"",timelimitAfter:"",timeAfter:"",limitDateTime:false,limitViewablePeriod:false,limitNumberFileOpen:false,noLimit:false,
               periodDays:"",periodHours:"",opensTime:"",loading:false,messageBody:"",watermark:false,screenwatermark:false}));
-              router.push('/RequestLisU');
+              window.location.href = '/RequestLisU'
           } else {
             // setData((prevData) => ({ ...prevData, loading: false, alert: true, alert_text: result.message.finalcode_result, alert_type: "error" }));
           }

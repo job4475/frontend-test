@@ -11,7 +11,8 @@ function userlist() {
 
     const router = useRouter();
     const handleNewRequest = ()=>{
-        router.push('/ShareDocument');
+      setState((prevData) => ({ ...prevData, loading: true}));
+      window.location.href = '/ShareDocument'
       }
     
       const handleTooltipOpen = () => {

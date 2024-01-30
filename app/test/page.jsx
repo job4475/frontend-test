@@ -1,3 +1,43 @@
+<<<<<<< HEAD
+'use client'
+import { useRouter } from 'next/navigation';
+import React, { useState } from 'react'
+
+function Page() {
+  const [loading, setLoading] = useState(false)
+  const router = useRouter();
+
+  const handleNext = () => {
+    setLoading(true)
+    var requestOptions = {
+      method: 'GET',
+      redirect: 'follow'
+    };
+
+    fetch("http://192.168.3.113:8888/api/getProvinceAmphoeTambonZipcode", requestOptions)
+      .then(response => response.json())
+      .then(result => {
+        if (result) {
+          router.push("/ShareDocument").then(() => {
+            setLoading(false);
+          });
+        }
+      })
+      .catch(error => {
+        console.log('error', error);
+        setLoading(false);
+      });
+  }
+
+  return (
+    <div>
+      <button onClick={handleNext}>{loading ? "Loading..." : "Next"}</button>
+    </div>
+  )
+}
+
+export default Page;
+=======
 "use client"
 import React, { useContext, useEffect, useState } from "react";
 import { Box, Button, Skeleton, TextField } from "@mui/material";
@@ -90,3 +130,4 @@ function Index() {
 }
 
 export default Index;
+>>>>>>> ca5b45f39efd0c342c092d21beea79a275fe9d3d
