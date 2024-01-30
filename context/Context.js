@@ -11,6 +11,7 @@ import FeatureLead from '@/services/featurelead'
 import Qrcode from '@/services/qrcode'
 import GetLogoBinary from '@/services/getLogoBinary'
 import Timeout from '@/services/settimeout'
+import DisableLoading from '@/services/disableLoading'
 export const StateContext = createContext();
 
 export const StateProvider = ({children}) => {
@@ -31,6 +32,7 @@ export const StateProvider = ({children}) => {
         
         <StateContext.Provider value={{state,setState}}>
             {/* <Countries/> */}
+            {/* <DisableLoading/> */}
             <Timeout/>
             <GetLogoBinary/>
             <Feature/>

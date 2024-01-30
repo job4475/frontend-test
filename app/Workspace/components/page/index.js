@@ -10,7 +10,7 @@ import UnderReview from "@/assets/assets/images/workspace/UnderReview.png";
 import { useRouter } from "next/navigation";
 import { useContext } from "react";
 import { StateContext } from "@/context/Context";
-import { Button, Box } from "@mui/material";
+import { Button, Box, Skeleton } from "@mui/material";
 import Backdrop from '@/components/backdrop/backdrop' 
 
 const page = () => {
@@ -18,14 +18,19 @@ const page = () => {
   const router = useRouter(); 
   
   const sharedocumentRouter = () => {
-    setState((prevData) => ({ ...prevData, backdrop: true}));
-    setTimeout(() => {
-      setState((prevData) => ({ ...prevData, backdrop: false}));
-    }, 2000);          
+    setState((prevData) => ({ ...prevData, backdrop: true}));         
     if(state.decode_token.Role==="admin"){
-      router.push("/RequestList");
+      window.location.href = "/RequestList"
+      // router.push("/RequestList");
+      // setTimeout(() => {
+      //   setState((prevData) => ({ ...prevData, backdrop: false}));
+      // }, 2000); 
     }else{
-      router.push("/ShareDocument");
+      window.location.href = "/ShareDocument"
+      // router.push("/ShareDocument");
+      // setTimeout(() => {
+      //   setState((prevData) => ({ ...prevData, backdrop: false}));
+      // }, 2000); 
     }
     };
 
@@ -76,7 +81,14 @@ const page = () => {
       const currentTime = new Date();
       const elapsedTime = currentTime - loginTime;
       const formattedTime = formatElapsedTime(elapsedTime);
-      document.getElementById('loginPeriod').innerText = `Login Period: ${formattedTime}`;
+      const loginPeriodElement = document.getElementById('loginPeriod');
+
+       if (loginPeriodElement) {
+         loginPeriodElement.innerText = `Login Period: ${formattedTime}`;
+       } else {
+         console.error("Element with id 'loginPeriod' not found in the DOM.");
+       }
+       
     }, 0);
 
     return () => clearInterval(intervalId);
@@ -99,6 +111,15 @@ const page = () => {
   const Notallowed =()=>{
 
   }
+  const [loading, setLoading] = useState(true);
+
+  useEffect(() => {
+    const timeoutId = setTimeout(() => {
+      setLoading(false);
+    }, 50);
+
+    return () => clearTimeout(timeoutId);
+  }, []);
 
 
   return (
@@ -107,34 +128,67 @@ const page = () => {
       <div className="max-w-screen-xl p-2 lg:p-0 container mx-auto my-2 lg:my-12 flex flex-col lg:flex-row justify-start lg:justify-between items-start lg:items-center">
       <div className=" flex flex-col lg:flex-row">
           <div className="mr-3" style={{cursor:"pointer",}}>
-            <Image src={Logotrac} alt="logo" priority={true} style={{ width: "90px", height: "90px", borderRadius: "99px" }} />
-          </div>
+          {!loading ? (
+            <Image variant="rectangular"  src={Logotrac} alt="logo"  style={{ width: "90px", height: "90px", borderRadius: "99px" }} />
+            ) : (
+            <Skeleton animation="wave"  variant="rectangular"  src={Logotrac} alt="logo" style={{ width: "90px", height: "90px", borderRadius: "99px" }} />
+            )}
+            </div>
           <div className="">
             <div className="flex flex-col lg:flex-row justify-start lg:justify-between items-start lg:items-center">
+            {!loading ? (
               <span style={{textTransform:"capitalize"}} className="text-lg font-semibold mr-1">
               {state.decode_token.FirstnameOriginal?state.decode_token?.FirstnameOriginal:state.decode_token?.Firstname} {state.decode_token.SurnameTokenOriginal?state.decode_token?.SurnameTokenOriginal:state.decode_token?.Surname}
               </span>
+              ) : (
+              <Skeleton animation="wave" height={30} width="200px" />
+              )}
               <Box sx={{display:'flex',gap:'7px',ml:'10px'}}>
+              {!loading ? (
                 <Button disabled style={{background:'#E4E4E4',textTransform:'capitalize'}}>Edit Profile</Button>
+                ) : (
+                  <Skeleton width="100px" height="60px" disabled style={{background:'#E4E4E4',textTransform:'capitalize'}}/>
+                  )}
+                  {!loading ? (
                 <Button onClick={handleclicklogout} style={{background:'#F95353',color:'#fff',borderRadius:'4px',textTransform:'capitalize'}}>Logout</Button>
-              </Box>
+                ) : (
+                  <Skeleton width="80px" height="60px" disabled style={{background:'#E4E4E4',textTransform:'capitalize'}}/>
+                  )}
+                </Box>
             </div>
             <div>
+            {!loading ? (
             <span className="text-lg">{state.decode_token.JobTitleOriginal?state.decode_token?.JobTitleOriginal:state.decode_token?.Role}</span>
+            ) : (
+              <Skeleton animation="wave" height={30} width="190px" />
+              )}
             </div>
             <div>
+            {!loading ? (
             <span id="loginPeriod" className="text-lg">Login Period: 00:00:00</span>
+            ) : (
+              <Skeleton animation="wave" height={30} width="180px" />
+              )}
             </div>
           </div>
         </div>
         <div className="m-2">
           <div>
+          {!loading ? (
             <Image
               src={state.decode_token.CompanyLogoOriginal?state.decode_token?.CompanyLogoOriginal:Logotrac}
               alt="logo"
               width={100}
               height={100}
             />
+            ) : (
+              <Skeleton
+              src={state.decode_token.CompanyLogoOriginal?state.decode_token?.CompanyLogoOriginal:Logotrac}
+              alt="logo"
+              width={100}
+              height={170}
+            />
+            )}
           </div>
         </div>
       </div>
@@ -143,16 +197,15 @@ const page = () => {
         <h3 className="my-2 lg:my-5">My work space</h3>
         <div className="flex flex-col lg:flex-row">
           <div>
-            {state.memberAuthorization?.orgmbat_feature||state.leadAuthorization?.orgmbat_feature==="#securedoc" ? (
               <div
-                onClick={state.decode_token?.Role==="admin"?Notallowed:sharedocumentRouter}
+                onClick={state.memberAuthorization?.orgmbat_feature!=="#securedoc"||state.decode_token?.Role==="admin"?Notallowed:sharedocumentRouter}
                 // className="font-semibold mr-0 lg:mr-4 my-2 text-center flex flex-col items-center justify-center w-48 h-48 px-6 py-4 border border-gray-300 rounded-lg cursor-pointer transition-colors duration-300 hover:bg-gray-200"
-                className={`font-semibold mr-0 lg:mr-4 my-2 text-center flex flex-col items-center justify-center w-48 h-48 px-6 py-4 border border-gray-300 rounded-lg  transition-colors duration-300 ${state.decode_token?.Role==="admin"?"bg-gray-100":""}   ${state.decode_token?.Role==="admin"?"":"cursor-pointer"} ${state.decode_token?.Role==="admin"?"":"hover:bg-gray-200"} `}
+                className={`font-semibold mr-0 lg:mr-4 my-2 text-center flex flex-col items-center justify-center w-48 h-48 px-6 py-4 border border-gray-300 rounded-lg  transition-colors duration-300 ${state.memberAuthorization?.orgmbat_feature!=="#securedoc"||state.decode_token?.Role==="admin"?"bg-gray-100":""}   ${state.memberAuthorization?.orgmbat_feature!=="#securedoc"||state.decode_token?.Role==="admin"?"":"cursor-pointer"} ${state.memberAuthorization?.orgmbat_feature!=="#securedoc"||state.decode_token?.Role==="admin"?"":"hover:bg-gray-200"} `}
               >
                 <Image
                   src={ShareDocument}
                   alt="logo"
-                  style={{ width: "70px", height: "75px",filter:state.decode_token?.Role==="admin"?"grayscale(1)":"" }}
+                  style={{ width: "70px", height: "75px",filter:state.memberAuthorization?.orgmbat_feature!=="#securedoc"||state.decode_token?.Role==="admin"?"grayscale(1)":"" }}
                 />
                 <div className="my-3">
                   Secure
@@ -160,11 +213,9 @@ const page = () => {
                   Doc
                 </div>
               </div>
-            ) : null}
           </div>
 
           <div>
-          {state.memberAuthorization?.orgmbat_feature||state.leadAuthorization?.orgmbat_feature==="#securedoc" ? (
               <div
                 onClick={Notallowed}
                 className={`font-semibold mr-0 lg:mr-4 my-2 text-center flex flex-col items-center justify-center w-48 h-48 px-6 py-4 border border-gray-300 rounded-lg  transition-colors duration-300  bg-gray-100 `}
@@ -180,12 +231,10 @@ const page = () => {
                   Support
                 </div>
               </div>
-            ) : null}
           </div>
 
 
           <div>
-          {state.memberAuthorization?.orgmbat_feature||state.leadAuthorization?.orgmbat_feature==="#securedoc" ? (
               <div
                 onClick={Notallowed}
                 className={`font-semibold mr-0 lg:mr-4 my-2 text-center flex flex-col items-center justify-center w-48 h-48 px-6 py-4 border border-gray-300 rounded-lg  transition-colors duration-300  bg-gray-100 `}              >
@@ -199,11 +248,9 @@ const page = () => {
                   Opportunity
                 </div>
               </div>
-            ) : null}
           </div>
 
           <div>
-          {state.memberAuthorization?.orgmbat_feature||state.leadAuthorization?.orgmbat_feature==="#securedoc" ? (
               <div
               onClick={Notallowed}
               className={`font-semibold mr-0 lg:mr-4 my-2 text-center flex flex-col items-center justify-center w-48 h-48 px-6 py-4 border border-gray-300 rounded-lg  transition-colors duration-300  bg-gray-100 `}              >
@@ -217,19 +264,17 @@ const page = () => {
                   Reserve
                 </div>
               </div>
-            ) : null}
           </div>
 
           <div>
-          {state.memberAuthorization?.orgmbat_feature||state.leadAuthorization?.orgmbat_feature==="#securedoc" ? (
               <div
-                onClick={state.decode_token?.Role==="user"?Notallowed:sharedocumentRouter}
-                className={`font-semibold mr-0 lg:mr-4 my-2 text-center flex flex-col items-center justify-center w-48 h-48 px-6 py-4 border border-gray-300 rounded-lg  transition-colors duration-300 ${state.decode_token?.Role==="user"?"bg-gray-100":""}   ${state.decode_token?.Role==="user"?"":"cursor-pointer"} ${state.decode_token?.Role==="user"?"":"hover:bg-gray-200"} `}
+                onClick={(state.memberAuthorization?.orgmbat_feature||state.leadAuthorization?.orgmbat_feature!=="#securedoc")||state.decode_token?.Role==="user"?Notallowed:sharedocumentRouter}
+                className={`font-semibold mr-0 lg:mr-4 my-2 text-center flex flex-col items-center justify-center w-48 h-48 px-6 py-4 border border-gray-300 rounded-lg  transition-colors duration-300 ${(state.memberAuthorization?.orgmbat_feature||state.leadAuthorization?.orgmbat_feature!=="#securedoc")||state.decode_token?.Role==="user"?"bg-gray-100":""}   ${(state.memberAuthorization?.orgmbat_feature||state.leadAuthorization?.orgmbat_feature!=="#securedoc")||state.decode_token?.Role==="user"?"":"cursor-pointer"} ${(state.memberAuthorization?.orgmbat_feature||state.leadAuthorization?.orgmbat_feature!=="#securedoc")||state.decode_token?.Role==="user"?"":"hover:bg-gray-200"} `}
               >
                 <Image
                   src={UnderReview}
                   alt="logo"
-                  style={{ width: "70px", height: "75px",filter:state.decode_token?.Role==="user"?"grayscale(1)":"" }}
+                  style={{ width: "70px", height: "75px",filter:(state.memberAuthorization?.orgmbat_feature||state.leadAuthorization?.orgmbat_feature!=="#securedoc")||state.decode_token?.Role==="user"?"grayscale(1)":"" }}
                 />
                 <div className="my-3">
                  Under
@@ -237,7 +282,6 @@ const page = () => {
                   Review
                 </div>
               </div>
-            ) : null}
           </div> 
         </div>
       </div>

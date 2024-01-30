@@ -64,7 +64,7 @@ function index() {
          </Box>
          </Box>
              <Box display="flex" justifyContent="flex-end" >
-           <Button variant="outlined"size="large" onClick={handleShareDoc.handleExit} style={{borderColor:"#84BAA1",color:"#84BAA1", marginRight: "10px",textTransform:'capitalize' }}>Exit</Button>
+           <Button variant="outlined"size="large" onClick={()=>{window.location.href = '/RequestLisU'}} style={{borderColor:"#84BAA1",color:"#84BAA1", marginRight: "10px",textTransform:'capitalize' }}>My Requests</Button>
            <Button onClick={handleShareDoc.handleUpload} disabled={state.recipient.length >0&&state.subject&&state.messageBody&&state.selectedFile.length>0?false:true}  variant="contained" size="large" color="btncolor" style={{color:"white", marginRight: "10px",textTransform:'capitalize' }}>{state.loading?<Loading/>:"Send File"}</Button>
          </Box>
          </Box>

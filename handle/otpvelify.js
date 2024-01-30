@@ -35,7 +35,6 @@ function otpvelify() {
                 .then(result => {
                     console.log(result);
                     if (result.status === "OK") {
-                        setState({ ...state, loading: false });
                         fetchLogoImage();
                         window.location.href = "/Workspace"
                     } else {
