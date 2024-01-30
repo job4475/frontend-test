@@ -3,9 +3,7 @@ import React from "react";
 import Mfa from "../ui/authenmethod";
 import Image from "next/image";
 import Chiclogo from "@/assets/assets/images/sigin/chiclogo.png";
-import { useRouter } from "next/navigation";
-import { useContext } from "react";
-import { StateContext } from "@/context/Context";
+
 
 const page = () => {
 

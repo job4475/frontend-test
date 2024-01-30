@@ -23,7 +23,7 @@ function Validatepassword() {
         switch (strengthLevels) {
           case 0:
           case 1:
-            setState((prevData) => ({ ...prevData, passwordStrength: "Very Weak" }))
+            setState((prevData) => ({ ...prevData, passwordStrength: "VeryWeak" }))
             break;
           case 2:
             setState((prevData) => ({ ...prevData, passwordStrength: "Weak" }))
@@ -35,7 +35,7 @@ function Validatepassword() {
             setState((prevData) => ({ ...prevData, passwordStrength: "Strong" }))
             break;
           case 5:
-            setState((prevData) => ({ ...prevData, passwordStrength: "Very Strong" }))
+            setState((prevData) => ({ ...prevData, passwordStrength: "VeryStrong" }))
             break;
           default:
             setState((prevData) => ({ ...prevData, passwordStrength: "" }))

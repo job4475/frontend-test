@@ -3,7 +3,7 @@ import React from "react";
 import OTPverify from "../ui/login/OTPauthen/authenverify";
 import Image from "next/image";
 import Chiclogo from "@/assets/assets/images/sigin/chiclogo.png";
-import { useRouter } from "next/navigation";
+
 
 const page = () => {
 

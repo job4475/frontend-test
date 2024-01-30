@@ -3,7 +3,6 @@ import React from "react";
 import Changepassword from "../ui/Changepassword/Changepassword";
 import Image from "next/image";
 import Chiclogo from "@/assets/assets/images/sigin/chiclogo.png";
-import { useRouter } from "next/navigation";
 
 const page = () => {
  

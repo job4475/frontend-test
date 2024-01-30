@@ -1,5 +1,5 @@
 "use client";
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useState,useContext } from "react";
 import Image from "next/image";
 import Logotrac from "@/assets/assets/images/logotrac.png";
 import CarReserve from "@/assets/assets/images/workspace/CarReserve.png";
@@ -30,7 +30,7 @@ const Page = () => {
   const isLocalStorageAvailable = typeof window !== 'undefined' && window.localStorage;
 
   const storedLoginTime = isLocalStorageAvailable ? localStorage.getItem('loginTime') : null;
-  const [loginTime] = useState(
+  const [loginTime, setLoginTime] = React.useState(
     storedLoginTime ? new Date(storedLoginTime) : new Date()
   );
 
@@ -73,9 +73,7 @@ const Page = () => {
     removeCookie('token',{path: '/'});
     window.location.href="/"
   }
-  const Notallowed =()=>{
 
-  }
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
@@ -85,13 +83,9 @@ const Page = () => {
 
     return () => clearTimeout(timeoutId);
   }, []);
+  const Notallowed =()=>{
 
-const handlesharedoc =()=>{
-  state.memberAuthorization?.orgmbat_feature!=="#securedoc"||state.decode_token?.Role==="admin"?Notallowed():sharedocumentRouter()
-}
-const handleleaderreview =()=>{
-  (state.memberAuthorization?.orgmbat_feature||state.leadAuthorization?.orgmbat_feature!=="#securedoc")||state.decode_token?.Role==="user"?Notallowed():sharedocumentRouter()
-}
+
   return (
     <>
     <Backdrop/>
@@ -167,7 +161,8 @@ const handleleaderreview =()=>{
         <h3 className="my-2 lg:my-5">My work space</h3>
         <div className="flex flex-col lg:flex-row">
           <div>
-              <div role="button" tabIndex={0} onClick={handlesharedoc} onKeyDown={(e) => { if (e.key === 'Enter') {handlesharedoc();}}}
+              <div
+                onClick={state.memberAuthorization?.orgmbat_feature!=="#securedoc"||state.decode_token?.Role==="admin"?Notallowed:sharedocumentRouter}
                 // className="font-semibold mr-0 lg:mr-4 my-2 text-center flex flex-col items-center justify-center w-48 h-48 px-6 py-4 border border-gray-300 rounded-lg cursor-pointer transition-colors duration-300 hover:bg-gray-200"
                 className={`font-semibold mr-0 lg:mr-4 my-2 text-center flex flex-col items-center justify-center w-48 h-48 px-6 py-4 border border-gray-300 rounded-lg  transition-colors duration-300 ${state.memberAuthorization?.orgmbat_feature!=="#securedoc"||state.decode_token?.Role==="admin"?"bg-gray-100":""}   ${state.memberAuthorization?.orgmbat_feature!=="#securedoc"||state.decode_token?.Role==="admin"?"":"cursor-pointer"} ${state.memberAuthorization?.orgmbat_feature!=="#securedoc"||state.decode_token?.Role==="admin"?"":"hover:bg-gray-200"} `}
               >
@@ -285,5 +280,6 @@ const handleleaderreview =()=>{
     </>
   );
 };
+}
 
 export default Page;

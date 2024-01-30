@@ -4,12 +4,11 @@ import { Box } from '@mui/material'
 import AppBar from './components/appbar'
 import Title from './components/title'
 import TableList from './components/table'
-import BtNewReq from './components/button'
 import GetLeadOrder from '@/services/getleadorder'
 import { StateContext } from '@/context/Context';
 
 function Page() {
-  const {state, setState} = React.useContext(StateContext);
+  const {state} = React.useContext(StateContext);
 
   React.useEffect(() => {
     const handleBeforeUnload = (event) => {

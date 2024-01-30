@@ -57,7 +57,7 @@ function Login() {
     .then(response => response.json())
     .then(result => {
         if (result.match === true) {
-                localStorage.setItem("datacompanylc", JSON.stringify(result.data));
+                // localStorage.setItem("datacompanylc", JSON.stringify(result.data));
             setState({
                 ...state,
                 datacompany: result.data,
