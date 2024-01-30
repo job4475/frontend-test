@@ -85,6 +85,12 @@ const Page = () => {
   }, []);
   const Notallowed =()=>{
 
+  }
+
+  const handlesharedoc = ()=>{
+    state.memberAuthorization?.orgmbat_feature!=="#securedoc"||state.decode_token?.Role==="admin"?Notallowed():sharedocumentRouter()
+  }
+
 
   return (
     <>
@@ -162,7 +168,14 @@ const Page = () => {
         <div className="flex flex-col lg:flex-row">
           <div>
               <div
-                onClick={state.memberAuthorization?.orgmbat_feature!=="#securedoc"||state.decode_token?.Role==="admin"?Notallowed:sharedocumentRouter}
+               role="button"
+               tabIndex={0}
+               onClick={handlesharedoc}
+               onKeyDown={(e) => {
+                 if (e.key === 'Enter') {
+                  handlesharedoc();
+                 }
+               }}
                 // className="font-semibold mr-0 lg:mr-4 my-2 text-center flex flex-col items-center justify-center w-48 h-48 px-6 py-4 border border-gray-300 rounded-lg cursor-pointer transition-colors duration-300 hover:bg-gray-200"
                 className={`font-semibold mr-0 lg:mr-4 my-2 text-center flex flex-col items-center justify-center w-48 h-48 px-6 py-4 border border-gray-300 rounded-lg  transition-colors duration-300 ${state.memberAuthorization?.orgmbat_feature!=="#securedoc"||state.decode_token?.Role==="admin"?"bg-gray-100":""}   ${state.memberAuthorization?.orgmbat_feature!=="#securedoc"||state.decode_token?.Role==="admin"?"":"cursor-pointer"} ${state.memberAuthorization?.orgmbat_feature!=="#securedoc"||state.decode_token?.Role==="admin"?"":"hover:bg-gray-200"} `}
               >
@@ -280,6 +293,5 @@ const Page = () => {
     </>
   );
 };
-}
 
 export default Page;
