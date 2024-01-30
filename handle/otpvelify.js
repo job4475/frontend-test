@@ -1,9 +1,12 @@
 import { useContext, useEffect } from 'react';
 import { StateContext } from '@/context/Context';
 import { useRouter } from 'next/navigation';
+import { useCookies } from 'react-cookie'; // Import useCookies
 
 function otpvelify() {
     const { state, setState } = useContext(StateContext);
+    const [cookies, setCookie, removeCookie] = useCookies(['token']);
+
     const router = useRouter();
  
         const fetchLogoImage = () => {
@@ -36,6 +39,8 @@ function otpvelify() {
                     console.log(result);
                     if (result.status === "OK") {
                         fetchLogoImage();
+                        const expirationDate = new Date(state.decode_token.Exp * 1000);
+                        setCookie('token', state.decode_token, { path: '/', expires: expirationDate });
                         window.location.href = "/Workspace"
                     } else {
                         setState((prevData) => ({ ...prevData, alert: true, alert_text: result.message, alert_type: "error",loading: false }));

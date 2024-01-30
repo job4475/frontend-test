@@ -12,9 +12,11 @@ import { useContext } from "react";
 import { StateContext } from "@/context/Context";
 import { Button, Box, Skeleton } from "@mui/material";
 import Backdrop from '@/components/backdrop/backdrop' 
+import { useCookies } from "react-cookie";
 
 const page = () => {
   const { state, setState } = useContext(StateContext);
+  const [cookies, setCookie, removeCookie] = useCookies(['token']);
   const router = useRouter(); 
   
   const sharedocumentRouter = () => {
@@ -106,6 +108,9 @@ const page = () => {
     localStorage.removeItem("ally-supports-cache")
     localStorage.removeItem("decode_token")
     localStorage.removeItem("loginTime")
+    localStorage.removeItem("datacompanylc")
+    
+    removeCookie('token',{path: '/'});
     window.location.href="/"
   }
   const Notallowed =()=>{

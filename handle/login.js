@@ -30,14 +30,13 @@ function login() {
             const decodedToken = JSON.parse(atob(result.token.split('.')[1]));
             localStorage.setItem("decode_token", JSON.stringify(decodedToken));
             setState({ ...state, decode_token: decodedToken });
-            router.push('/Mfa'); 
+            router.push('/Mfa').then(()=>setState((prevData) => ({ ...prevData,loading: false }))); 
           } else {
             setState((prevData) => ({ ...prevData, alert: true, alert_text: result.message, alert_type: "error" }));
             setTimeout(() => {
               window.location.reload();
             }, 3000);          
           }
-          console.log("🚀 ~ handleSignInClick ~ result:", result)
         })
         .catch(error => console.log('error', error));
     };
@@ -57,13 +56,12 @@ function login() {
     fetch(`${process.env.NEXT_PUBLIC_API_ENDPOINT_GET}${process.env.NEXT_PUBLIC_API_PORT_LOGIN?`:${process.env.NEXT_PUBLIC_API_PORT_LOGIN}`:""}/api/validateDomainChicCRM`, requestOptions)
     .then(response => response.json())
     .then(result => {
-        console.log(result);
         if (result.match === true) {
-          localStorage.setItem("datacompanylc", JSON.stringify(result.data));
+                localStorage.setItem("datacompanylc", JSON.stringify(result.data));
             setState({
                 ...state,
-                companyID: result.data.CompanyID,
                 datacompany: result.data,
+                companyID: result.data.CompanyID,
                 companyname: result.data.Companyname,
                 alias: result.data.CompanyAlias,
                 no: result.data.AddressNo,
@@ -73,9 +71,8 @@ function login() {
                 selectedAmphoe: result.data.District,
                 selectedTambon: result.data.SubDistrict,
                 zipcode: result.data.Zipcode,
-                country: result.data.Country,  
+                country: result.data.Country,    
             });
-            
             setState((prevData) => ({ ...prevData,loading: false }));
             router.push('/Selectcompany');
         } else if(result.message === "domain does not match. To proceed, please check your email") {
@@ -111,7 +108,6 @@ function login() {
           setTimeout(() => {
             setState((prevData) => ({ ...prevData, alert: false}));
           }, 2000);
-
         }
     })
     .catch(error => console.error("Error fetching data:", error));

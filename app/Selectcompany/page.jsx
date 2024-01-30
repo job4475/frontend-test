@@ -24,6 +24,8 @@ const page = () => {
     }, 1000);
     router.push('/CreateCompany');
   }
+  
+ 
   return (
     <div
       className="h-screen"

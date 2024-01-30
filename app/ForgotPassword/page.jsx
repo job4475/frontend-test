@@ -9,7 +9,7 @@ const page = () => {
   const router = useRouter();
 
   const backlogin = () => {
-    router.push("/Login");
+    window.location.href="/"
   }
 
   return (

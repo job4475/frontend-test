@@ -1,9 +1,11 @@
 import { StateContext } from '@/context/Context';
 import { useRouter } from 'next/navigation';
 import React, { useContext } from 'react'
+import { useCookies } from 'react-cookie';
 
 function autenvelify() {
         const { state, setState } = useContext(StateContext);
+        const [cookies, setCookie, removeCookie] = useCookies(['token']);
         const router = useRouter();
         const verifyauthen = () => {
         setState((prevData) => ({ ...prevData, loading: true }));
@@ -25,6 +27,8 @@ function autenvelify() {
           console.log(result);
           if (result.status === "OK") {
               localStorage.removeItem("qrcode");
+              const expirationDate = new Date(state.decode_token.Exp * 1000);
+              setCookie('token', state.decode_token, { path: '/', expires: expirationDate });
               window.location.href = "/Workspace"
           } else {
              setState((prevData) => ({ ...prevData, alert: true, alert_text: result.message, alert_type: "error" }));

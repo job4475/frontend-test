@@ -18,6 +18,7 @@ function Authenticator() {
   };
 
   const tryanother=()=>{
+    setState((prevData) => ({ ...prevData,loading: false }))
     router.push('/Mfa'); 
 
   }

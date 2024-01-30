@@ -11,6 +11,8 @@ const page = () => {
   const backlogin = () => {
     router.push("/Login");
   }
+  
+ 
 
   return (
     <div className="flex flex-col xl:flex-row bg-[#F7FAFB] h-screen">
