@@ -19,13 +19,7 @@ function page() {
         return message;
       }
     };
-
     window.addEventListener("beforeunload", handleBeforeUnload);
-    const router = useRouter();
-    if (state.decode_token !== "") {
-      router.push('/Workspace');
-    }
-
     return () => {
       window.removeEventListener("beforeunload", handleBeforeUnload);
     };

@@ -96,6 +96,8 @@ const page = () => {
     localStorage.removeItem("ally-supports-cache")
     localStorage.removeItem("decode_token")
     localStorage.removeItem("loginTime")
+    localStorage.removeItem("datacompanylc")
+    
     removeCookie('token',{path: '/'});
     window.location.href="/"
   }
