@@ -8,7 +8,7 @@ import { StateContext } from '@/context/Context';
 import handlecompany from "@/handle/addcompany"
 import AddAPhotoIcon from '@mui/icons-material/AddAPhoto';
 
-function page() {
+function Page() {
   const { state, setState } = useContext(StateContext);
   const Handlecompany = handlecompany();
   const handleFileChange = (event) => {
@@ -144,4 +144,4 @@ function page() {
   )
 }
 
-export default page
+export default Page

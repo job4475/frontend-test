@@ -1,5 +1,5 @@
 "use client";
-import React, { useContext, useEffect, useRef, useState } from "react";
+import React, { useContext, useRef } from "react";
 import Image from "next/image";
 import Upfile from '@/assets/assets/images/upfile.png';
 import { Box, Button, Chip, Grid, TextField } from "@mui/material";
@@ -9,7 +9,7 @@ import HandleShareDoc from '@/handle/sharedoc'
 import SubjectIcon from '@mui/icons-material/Subject';
 import UseefOutsideClick from '@/hook/securedoc'
 
-function index() {
+function Index() {
   const {state, setState} = useContext(StateContext);
   const fileInputRef = useRef(null);
   const textFieldRef = useRef(null);
@@ -94,4 +94,4 @@ function index() {
   }
 }
 
-export default index
+export default Index

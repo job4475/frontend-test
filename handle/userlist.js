@@ -1,15 +1,12 @@
 'use client'
 import { StateContext } from '@/context/Context';
-import { Box, FormControlLabel, Switch } from '@mui/material';
-import React, { useContext, useRef, useState,useCallback } from 'react'
-import { useRouter } from "next/navigation";
-import { createTheme, ThemeProvider, styled } from "@mui/material/styles";
+import React, { useContext } from 'react'
+import { styled } from "@mui/material/styles";
 import Tooltip, { tooltipClasses } from '@mui/material/Tooltip';
 
-function userlist() {
+function Userlist() {
   const {state, setState} = useContext(StateContext);
 
-    const router = useRouter();
     const handleNewRequest = ()=>{
       setState((prevData) => ({ ...prevData, loading: true}));
       window.location.href = '/ShareDocument'
@@ -107,5 +104,5 @@ function userlist() {
 
 }
 
-export default userlist
+export default Userlist
 

@@ -1,11 +1,11 @@
 "use client";
-import React, { useContext, useRef, useState } from "react";
-import { Box, Button, Checkbox, Chip, FormControlLabel, FormGroup, Grid, Paper, Switch, TextField, Typography } from "@mui/material";
+import React, { useContext, useRef } from "react";
+import { Box, Button, Checkbox,TextField } from "@mui/material";
 import { StateContext } from "@/context/Context";
 import HandleShareDoc from '@/handle/sharedoc'
 import Loading from '@/components/loading'
-function index() {
-    const {state, setState} = useContext(StateContext);
+function Index() {
+    const {state} = useContext(StateContext);
     const fileInputRef = useRef(null);
     const textFieldRef = useRef(null);
     const handleShareDoc = HandleShareDoc(textFieldRef,fileInputRef);
@@ -71,4 +71,4 @@ function index() {
   )
 }
 
-export default index
+export default Index

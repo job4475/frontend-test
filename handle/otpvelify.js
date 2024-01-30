@@ -1,13 +1,10 @@
-import { useContext, useEffect } from 'react';
+import { useContext } from 'react';
 import { StateContext } from '@/context/Context';
-import { useRouter } from 'next/navigation';
 import { useCookies } from 'react-cookie'; // Import useCookies
 
-function otpvelify() {
+function Otpvelify() {
     const { state, setState } = useContext(StateContext);
-    const [cookies, setCookie, removeCookie] = useCookies(['token']);
-
-    const router = useRouter();
+    const [ setCookie] = useCookies(['token']);
  
         const fetchLogoImage = () => {
             fetch(`${process.env.NEXT_PUBLIC_API_ENDPOINT_GET}${process.env.NEXT_PUBLIC_API_PORT_LOGIN?`:${process.env.NEXT_PUBLIC_API_PORT_LOGIN}`:""}/api/getLogoBinary/${state.decode_token.CompanyID}`)
@@ -58,4 +55,4 @@ function otpvelify() {
     };
     return { handleCodeChange,workspace };
 }
-export default otpvelify;
+export default Otpvelify;

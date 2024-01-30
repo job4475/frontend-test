@@ -2,16 +2,16 @@
 'use client'
 import { StateContext } from '@/context/Context';
 import { Box, Grid } from '@mui/material';
-import React, { useContext, useState } from 'react'
+import React, { useContext } from 'react'
 import ContentAccount from './components/content_account'
 import ContentCompany from './components/content_company'
 import ContentPersonal from './components/content_personal'
 import Button from './components/button'
 import Map from './components/map'
-import { useRouter } from 'next/navigation';
-function page() {
-  const {state, setState} = useContext(StateContext);
-  React.useEffect(() => {
+import { useEffect } from 'react';
+function Page() {
+  const {state} = useContext(StateContext);
+  useEffect(() => {
     const handleBeforeUnload = (event) => {
       if (state.pageloader) {
         const message = "Leaving this page may result in data loss. Are you sure?";
@@ -44,4 +44,4 @@ function page() {
   )
 }
 
-export default page
+export default Page

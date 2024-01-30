@@ -1,9 +1,9 @@
 'use client'
 import { StateContext } from '@/context/Context';
 import { useRouter } from 'next/navigation';
-import React, { useContext } from 'react'
+import { useContext } from 'react'
 
-function register() {
+function Register() {
   const {state, setState} = useContext(StateContext);
   const router = useRouter();
   const handleRegister = () => {
@@ -83,5 +83,5 @@ fetch(`${process.env.NEXT_PUBLIC_API_ENDPOINT_GET}${process.env.NEXT_PUBLIC_API_
 }
   return {handlechangeTitle,handlechangeinput,Selectcompany,handleRegister};
 }
-export default register
+export default Register
 

@@ -1,9 +1,9 @@
 'use client'
 import { StateContext } from '@/context/Context';
 import { useRouter } from 'next/navigation';
-import React, { useContext, useEffect, useState } from 'react'
+import { useContext, useState } from 'react'
 
-function addcompany() {
+function Addcompany() {
     const {state, setState} = useContext(StateContext);
     const router = useRouter();
     const [password, setPassword] = useState('');
@@ -82,5 +82,5 @@ function addcompany() {
   return {handleTogglePassword,isPasswordValid,Confirm,Changepassword}
 }
 
-export default addcompany
+export default Addcompany
 

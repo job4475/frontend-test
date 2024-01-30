@@ -10,14 +10,13 @@ import HandleLeadList from '@/handle/leadlist'
 import CheckIcon from '@mui/icons-material/Check';
 import CloseIcon from '@mui/icons-material/Close';
 import SecurityIcon from '@mui/icons-material/Security';
+import { useState } from 'react';
 
-function index() {
-  const {state, setState} = React.useContext(StateContext);
+function Index() {
   const handleLeadList = HandleLeadList();
   handleLeadList.groupedOrders?.sort((a, b) => b[0].scdact_timestamp - a[0].scdact_timestamp);
-  const [tooltipOpen, setTooltipOpen] = React.useState({});
-  console.log("🚀 ~ index ~ tooltipOpen:", tooltipOpen)
-  const [tooltipContent, setTooltipContent] = React.useState({});
+  const [tooltipOpen, setTooltipOpen] = useState({});
+  const [tooltipContent, setTooltipContent] = useState({});
 
   const handleOpen = (index, sender) => {
     setTooltipOpen({ ...tooltipOpen, [index]: true });
@@ -28,8 +27,8 @@ function index() {
     setTooltipOpen({ ...tooltipOpen, [index]: false });
   };
 
-  const [tooltipOpenRecipient, setTooltipOpenRecipient] = React.useState({});
-  const [tooltipContentRecipient, setTooltipContentRecipient] = React.useState({});
+  const [tooltipOpenRecipient, setTooltipOpenRecipient] = useState({});
+  const [tooltipContentRecipient, setTooltipContentRecipient] = useState({});
 
   const handleOpenRecipient = (index, sender) => {
     setTooltipOpenRecipient({ ...tooltipOpenRecipient, [index]: true });
@@ -39,8 +38,8 @@ function index() {
   const handleCloseRecipient = (index) => {
     setTooltipOpenRecipient({ ...tooltipOpenRecipient, [index]: false });
   };
-  const [tooltipOpenPermission, setTooltipOpenPermission] = React.useState({});
-  const [tooltipContentPermission, setTooltipContentPermission] = React.useState({});
+  const [tooltipOpenPermission, setTooltipOpenPermission] = useState({});
+  const [tooltipContentPermission, setTooltipContentPermission] = useState({});
 
   const handleOpenPermission = (index, sender) => {
     setTooltipOpenPermission({ ...tooltipOpenPermission, [index]: true });
@@ -79,9 +78,6 @@ function index() {
                 open={tooltipOpen[index] || false}
                 title={
                   <>
-                  {/* <Box component="h5" sx={{color: row[0].scdact_status === "Approved" ? "green" : row[0].scdact_status === "Rejected" ? "red" : "",display: row[0].scdact_status === "Approved"||row[0].scdact_status === "Rejected" ?"flex":"none"}}>
-                    {row[0].scdact_status === "Approved"?"Already approved":"Already rejected"}
-                  </Box> */}
                   <Box sx={{ p:1,display: "flex", flexDirection: 'column', justifyContent: 'flex-start', alignItems: 'flex-start' }}>
                     <Box component="h3" sx={{ ml: 1, color: 'gray.main' }}>All Files</Box>
                     {row.map((item, itemIndex) => (
@@ -235,4 +231,4 @@ function index() {
   )
 }
 
-export default index
+export default Index

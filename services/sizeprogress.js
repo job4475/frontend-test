@@ -2,7 +2,7 @@
 import { StateContext } from '@/context/Context';
 import React, { useEffect } from 'react'
 
-function sizeprogress() {
+function Sizeprogress() {
     const {state, setState} = React.useContext(StateContext);
 
     useEffect(() => {
@@ -22,4 +22,4 @@ function sizeprogress() {
   return null
 }
 
-export default sizeprogress
+export default Sizeprogress

@@ -1,6 +1,6 @@
 "use client";
 import React, { useContext } from "react";
-import { Box, Grid, Paper } from "@mui/material";
+import { Box, Grid } from "@mui/material";
 import AppBar from './components/appbar'
 import Title from './components/title'
 import Content1 from './components/content1'
@@ -9,8 +9,8 @@ import Content3 from './components/content3'
 import Progress from '@/components/progress'
 import { StateContext } from "@/context/Context";
 import SizeProgress from '@/services/sizeprogress'
-const page = () => {
-  const {state, setState} = React.useContext(StateContext);
+const Page = () => {
+  const {state} = useContext(StateContext);
   return (
     <>
       <AppBar/>
@@ -40,4 +40,4 @@ const page = () => {
  
 };
 
-export default page;
+export default Page;

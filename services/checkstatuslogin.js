@@ -1,10 +1,10 @@
 'use client '
 import { useRouter } from 'next/navigation';
-import React, { useEffect } from 'react'
+import  { useEffect } from 'react'
 import { useCookies } from 'react-cookie';
 
 
-function checkstatuslogin() {
+function Checkstatuslogin() {
   const items = JSON.parse(localStorage.getItem('decode_token'));
     const [cookies, setCookie, removeCookie] = useCookies(['token']);
     const router = useRouter();
@@ -19,4 +19,4 @@ function checkstatuslogin() {
   return null
 }
 
-export default checkstatuslogin
+export default Checkstatuslogin

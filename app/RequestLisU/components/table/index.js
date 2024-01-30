@@ -1,19 +1,18 @@
 "use client";
 import * as React from 'react';
 import { Box, Button, ClickAwayListener, Paper, Table, TableBody, TableCell, TableContainer, TableHead, TableRow, Tooltip } from '@mui/material'
-import { StateContext } from '@/context/Context';
 import file from '@/assets/assets/images/file.png'
 import recipient from '@/assets/assets/images/recipient.png'
 import dropdown from '@/assets/assets/images/dropdown.png'
 import Image from 'next/image';
 import HandleUserList from '@/handle/userlist'
+import { useState } from 'react';
 
-function index() {
-  const {state, setState} = React.useContext(StateContext);
+function Index() {
   const handleUserList = HandleUserList();
   handleUserList.groupedOrders?.sort((a, b) => b[0].scdact_timestamp - a[0].scdact_timestamp);
-  const [tooltipOpen, setTooltipOpen] = React.useState({});
-  const [tooltipContent, setTooltipContent] = React.useState({});
+  const [tooltipOpen, setTooltipOpen] = useState({});
+  const [tooltipContent, setTooltipContent] = useState({});
 
   const handleOpen = (index, sender) => {
     setTooltipOpen({ ...tooltipOpen, [index]: true });
@@ -24,8 +23,8 @@ function index() {
     setTooltipOpen({ ...tooltipOpen, [index]: false });
   };
 
-  const [tooltipOpenRecipient, setTooltipOpenRecipient] = React.useState({});
-  const [tooltipContentRecipient, setTooltipContentRecipient] = React.useState({});
+  const [tooltipOpenRecipient, setTooltipOpenRecipient] = useState({});
+  const [tooltipContentRecipient, setTooltipContentRecipient] = useState({});
 
   const handleOpenRecipient = (index, sender) => {
     setTooltipOpenRecipient({ ...tooltipOpenRecipient, [index]: true });
@@ -133,4 +132,4 @@ function index() {
   )
 }
 
-export default index
+export default Index

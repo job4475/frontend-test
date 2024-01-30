@@ -1,10 +1,8 @@
 import { StateContext } from '@/context/Context';
-import { useRouter } from 'next/navigation';
-import React, { useContext } from 'react'
+import  { useContext } from 'react'
 
-function resendOTP() {
+function ResendOTP() {
   const { state, setState } = useContext(StateContext);
-  const router = useRouter();
   const sendOTPEmail = () => {
     setState({ ...state,timer:15  })
     var myHeaders = new Headers();
@@ -30,4 +28,4 @@ function resendOTP() {
   return {sendOTPEmail}
 }
 
-export default resendOTP
+export default ResendOTP

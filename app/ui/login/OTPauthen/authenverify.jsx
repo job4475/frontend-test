@@ -7,10 +7,10 @@ import handleqrcode from "@/handle/autenvelify"
 import { StateContext } from '@/context/Context';
 import Loading from  '@/components/loading/index'
 
-function authenverify() {
+function Authenverify() {
   const HandleOTP = handleotp();
   const HandleQRCode = handleqrcode();
-  const {state, setState} = useContext(StateContext);
+  const {state} = useContext(StateContext);
   return (
     <Box p={3} sx={{display: 'flex',flexDirection: 'column',background: 'white',width: '400px',height: '500px',
     borderRadius: "15px",marginLeft: 'auto',mr: 5,mt: 1,boxShadow: '0px 0px 10px rgba(0, 0, 0, 0.1)',justifyContent:'space-between'}}>
@@ -29,4 +29,4 @@ function authenverify() {
   </Box>
   )
 }
-export default authenverify
+export default Authenverify

@@ -1,13 +1,12 @@
 "use client";
-import React, { useContext, useRef, useState } from "react";
+import React, { useContext, useRef } from "react";
 import { Box,  FormControlLabel, Grid, TextField,  } from "@mui/material";
-import LockIcon from '@mui/icons-material/Lock';
-import { StateContext } from "@/context/Context";
 import HandleShareDoc from '@/handle/sharedoc'
 import MessageIcon from '@mui/icons-material/Message';
+import { StateContext } from "@/context/Context";
 
-function index() {
-    const {state, setState} = useContext(StateContext);
+function Index() {
+    const {state} = useContext(StateContext);
   const fileInputRef = useRef(null);
   const textFieldRef = useRef(null);
   const handleShareDoc = HandleShareDoc(textFieldRef,fileInputRef);
@@ -28,12 +27,6 @@ function index() {
            <Box style={{color:"red"}}>*&nbsp;</Box>{state.secure_type ? " For recipients using the FinalCode." : ` For recipients who do not use the FinalCode.`}
          </Box>
          </Box>
-         {/* <TextField disabled id="outlined-basic" label="Template policy"size="small" variant="outlined" style={{width:"100%",paddingBottom:10}}
-         InputProps={{
-           startAdornment: (
-             <LockIcon style={{ color: "gray" }} />
-           ),
-         }}/> */}
          <TextField id="outlined-basic" value={state.message} onChange={handleShareDoc.handlemessageChange} label="Message Encrypt Files"size="small" variant="outlined" style={{width:"100%",paddingBottom:10}}
          InputProps={{
            startAdornment: (
@@ -83,4 +76,4 @@ function index() {
   )
 }
 
-export default index
+export default Index

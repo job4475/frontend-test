@@ -4,21 +4,19 @@ import { Box, Skeleton } from '@mui/material'
 import Image from "next/image";
 import Logotrac from "@/assets/assets/images/logotrac.png";
 import { StateContext } from '@/context/Context';
-import { useState } from 'react';
-import { useEffect } from 'react';
+import { useEffect,useContext,useState } from 'react';
 
-function index() {
-  const {state, setState} = React.useContext(StateContext);
+function Index() {
+  const {state} = useContext(StateContext);
 
   const isLocalStorageAvailable = typeof window !== 'undefined' && window.localStorage;
 
-  // Use local storage only if it's available
   const storedLoginTime = isLocalStorageAvailable ? localStorage.getItem('loginTime') : null;
   const [loginTime, setLoginTime] = React.useState(
     storedLoginTime ? new Date(storedLoginTime) : new Date()
   );
 
-  React.useEffect(() => {
+  useEffect(() => {
     if (isLocalStorageAvailable) {
       localStorage.setItem('loginTime', loginTime);
     }
@@ -57,10 +55,14 @@ function index() {
 
     return () => clearTimeout(timeoutId);
   }, []);
+const handleRedirect =()=>{
+  window.location.href = '/Workspace'
+}
+
   return (
 <Box sx={{display:"flex",justifyContent:"space-between",alignItems:"center",p:2}}>
       <Box sx={{display:"flex"}}>
-          <div onClick={()=>{window.location.href = '/Workspace'}} className="mr-3" style={{cursor:"pointer",}}>
+          <div onClick={handleRedirect} className="mr-3" style={{cursor:"pointer",}}>
           {!loading ? (
             <Image variant="rectangular"  src={Logotrac} alt="logo"  style={{ width: "90px", height: "90px", borderRadius: "99px" }} />
             ) : (
@@ -116,4 +118,4 @@ function index() {
   )
 }
 
-export default index
+export default Index

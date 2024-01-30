@@ -1,7 +1,7 @@
 'use client'
 import { StateContext } from '@/context/Context';
 import { Box, FormControlLabel, Switch } from '@mui/material';
-import React, { useContext, useRef, useState,useCallback } from 'react'
+import React, { useContext,useCallback } from 'react'
 import { styled } from '@mui/material/styles';
 import { useRouter } from 'next/navigation';
 import another from '@/assets/assets/images/marco.png'
@@ -13,20 +13,17 @@ import ai from '@/assets/assets/images/ai.png'
 import code from '@/assets/assets/images/code.png'
 import doc from '@/assets/assets/images/doc.png'
 import iso from '@/assets/assets/images/iso.png'
-import js from '@/assets/assets/images/js.png'
 import mp3 from '@/assets/assets/images/mp3.png'
 import mp4 from '@/assets/assets/images/mp4.png'
 import ppt from '@/assets/assets/images/ppt.png'
-import ps from '@/assets/assets/images/ps.png'
 import sql from '@/assets/assets/images/sql.png'
 import svg from '@/assets/assets/images/svg.png'
 import ttf from '@/assets/assets/images/ttf.png'
 import xls from '@/assets/assets/images/xls.png'
 import zip from '@/assets/assets/images/zip.png'
 
-function sharedoc(textFieldRef,fileInputRef) {
+function Sharedoc(textFieldRef,fileInputRef) {
   const {state, setState} = useContext(StateContext);
-  const router = useRouter();
 
   const HandleSwitchChange = (label) => {
     setSwitchStates((prevSwitchStates) => ({
@@ -560,4 +557,4 @@ const SwitchBox = ({ label, checked, onChange }) => (
     handleChangeperiodDays,handleUpload,IOSSwitch,fileSources,handlemessageBodyChange
   };}
 
-export default sharedoc
+export default Sharedoc

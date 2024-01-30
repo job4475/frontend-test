@@ -3,12 +3,8 @@ import React from "react";
 import OTPverify from "../ui/login/OTPverify/OTPverify";
 import Image from "next/image";
 import Chiclogo from "@/assets/assets/images/sigin/chiclogo.png";
-import { useRouter } from "next/navigation";
 
-const page = () => {
-
-  const router = useRouter();
-
+const Page = () => {
   const backlogin = () => {
     window.location.href="/";
   }
@@ -19,10 +15,9 @@ const page = () => {
       </div>
       <div className="my-[auto] xl:mt-[auto] basis-1/1 xl:basis-1/3 flex flex-col content-center justify-center items-center">
         <OTPverify />
-        {/* <ResetPassword /> */}
       </div>
     </div>
   );
 };
 
-export default page;
+export default Page;

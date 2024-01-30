@@ -6,7 +6,7 @@ import React, { useContext } from 'react'
 import handlechangeTitle from '@/handle/register'
 import { StateContext } from '@/context/Context'
 
-function index() {
+function Index() {
     const {state, setState} = useContext(StateContext);
     const {HandlechangeTitle} =handlechangeTitle();
   return (
@@ -26,4 +26,4 @@ function index() {
   )
 }
 
-export default index
+export default Index

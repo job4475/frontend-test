@@ -3,7 +3,7 @@ import { useRouter } from 'next/navigation';
 import React, { useContext, useEffect } from 'react';
 
 
-function getLogoBinary() {
+function GetLogoBinary() {
     const { state, setState } = useContext(StateContext);
     const router = useRouter();
 
@@ -24,4 +24,4 @@ function getLogoBinary() {
     return null;
 }
 
-export default getLogoBinary;
+export default GetLogoBinary;

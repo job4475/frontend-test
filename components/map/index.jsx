@@ -1,7 +1,7 @@
 'use client'
 import React from 'react'
 
-function Map (props)  {
+function Location (props)  {
   return (
   <>
    <iframe  
@@ -18,4 +18,4 @@ function Map (props)  {
   )
   }
 
-export default Map
+export default Location

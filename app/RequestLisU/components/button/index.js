@@ -4,9 +4,9 @@ import HandleUserList from '@/handle/userlist'
 import { StateContext } from '@/context/Context';
 import Loading from '@/components/loading'
 
-function index() {
+function Index() {
   const handleUserList = HandleUserList();
-  const {state, setState} = useContext(StateContext);
+  const {state} = useContext(StateContext);
 
   return (
     <Box sx={{display:'flex',justifyContent:'center',mt:1,pb:3}}>
@@ -17,4 +17,4 @@ function index() {
   )
 }
 
-export default index
+export default Index

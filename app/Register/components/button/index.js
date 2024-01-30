@@ -6,11 +6,12 @@ import handleregis from "@/handle/register"
 import { StateContext } from '@/context/Context'
 import Loading from '@/components/loading'
 import Dialog from '@/components/dialog/dialog'
+import { useEffect } from 'react'
 
-function index() {
-  const { state, setState } = useContext(StateContext);
+function Index() {
+  const { state } = useContext(StateContext);
   const Handleregis = handleregis();
-  React.useEffect(() => {
+  useEffect(() => {
     const handleBeforeUnload = (event) => {
       if (state.email !==" ") {
         const message = "Leaving this page may result in data loss. Are you sure?";
@@ -40,4 +41,4 @@ function index() {
   )
 }
 
-export default index
+export default Index

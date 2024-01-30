@@ -24,8 +24,8 @@ export const StateProvider = ({children}) => {
     timelimitBeforeOri:"",timelimitBefore:"",timeBefore:"",timelimitAfterOri:"",timelimitAfter:"",timeAfter:"",limitDateTime:false,limitViewablePeriod:false,limitNumberFileOpen:false,noLimit:false,
     periodDays:"",periodHours:"",opensTime:"",loading:false,allorder:[],viewfile:false,viewRecipient:false,allleadorder:[],pageloader:false,alert:false,alert_text:"",alert_type:"",
     confirmlink:'',latitude:'',longitude:'',selectedImage:null,countries:["Thailand"],data:[],companyID:'',referenceID:'',logoImage:'',memberAuthorization:[],dragover:false,sumsize:0,size_progress:0,
-    sumsize_original:0,leadAuthorization:[],memberfeature:[],securedoc:false,open:false,resetpassword:false,registerSuccess:false,qrcodeurl:'',status:'',message:'',error:false,qrcode:"",phoneNumber:'',webSite:'',
-    passwordStrength:'',confirmpassword:"",passwordsMatch:'',backdrop:false,error:false,qrcode:"",phoneNumber:'',webSite:'',messageBody:"",timer:0,showContent:false
+    sumsize_original:0,leadAuthorization:[],memberfeature:[],securedoc:false,open:false,resetpassword:false,registerSuccess:false,qrcodeurl:'',status:'',error:false,qrcode:"",phoneNumber:'',
+    passwordStrength:'',confirmpassword:"",passwordsMatch:'',backdrop:false,webSite:'',messageBody:"",timer:0,showContent:false
     });
     console.log("🚀 ~ StateProvider ~ state:", state)
     return (

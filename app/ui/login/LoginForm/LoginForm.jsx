@@ -42,14 +42,14 @@ function Index() {
             background: '#DAEBE3', alignItems: 'center', justifyContent: 'space-between', py: '3px', px: '4px'
           }}>
 
-            <Box onClick={() => { setState({ ...state, info: 0 }); (0); }} sx={{
+            <Box onClick={() => { setState({ ...state, info: 0 })}} sx={{
               cursor: "pointer", width: "90px", height: "100%", flexShrink: 0,
               background: state.info === 0 ? "#84BAA1" : "", color: state.info === 0 ? "#fff" : "#3d4d69", borderRadius: "40px", display: "flex",
               justifyContent: "center", alignItems: "center", fontSize: '15px', fontWeight: '500'
             }}>
               <Box>Sign In</Box>
             </Box>
-            <Box onClick={() => { setState({ ...state, info: 1 }); (1); }} sx={{
+            <Box onClick={() => { setState({ ...state, info: 1 }) }} sx={{
               cursor: "pointer", ml: -2, width: "90px", height: "100%", flexShrink: 0,
               background: state.info === 1 ? "#84BAA1" : "", color: state.info === 1 ? "#fff" : "#3d4d69", borderRadius: "40px", display: "flex",
               justifyContent: "center", alignItems: "center", fontSize: '15px', fontWeight: '500'

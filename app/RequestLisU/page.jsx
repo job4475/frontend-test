@@ -7,10 +7,11 @@ import TableList from './components/table'
 import BtNewReq from './components/button'
 import GetAllOrder from '@/services/getorder'
 import { StateContext } from '@/context/Context';
+import { useContext,useEffect } from 'react';
 
 function page() {
-  const {state, setState} = React.useContext(StateContext);
-  React.useEffect(() => {
+  const {setState} = useContext(StateContext);
+  useEffect(() => {
     setState((prevData) => ({ ...prevData, backdrop: false}));
   }, [])
   

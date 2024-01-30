@@ -1,9 +1,9 @@
 'use client'
 import { StateContext } from '@/context/Context';
 import { useRouter } from 'next/navigation';
-import React, { useContext } from 'react';
+import  { useContext } from 'react';
 
-function login() {
+function Login() {
     const router = useRouter();
     const {state, setState} = useContext(StateContext);
     const handleTogglePassword = () => {
@@ -129,5 +129,5 @@ function login() {
           return {handleTogglePassword,handleSignInClick,handleSignUpClick,ForgotPassword,Email,Password}
         }
 
-        export default login
+        export default Login
 

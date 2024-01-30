@@ -16,65 +16,29 @@ import { useCookies } from "react-cookie";
 
 const page = () => {
   const { state, setState } = useContext(StateContext);
-  const [cookies, setCookie, removeCookie] = useCookies(['token']);
+  const [ removeCookie] = useCookies(['token']);
   const router = useRouter(); 
   
   const sharedocumentRouter = () => {
     setState((prevData) => ({ ...prevData, backdrop: true}));         
     if(state.decode_token.Role==="admin"){
       window.location.href = "/RequestList"
-      // router.push("/RequestList");
-      // setTimeout(() => {
-      //   setState((prevData) => ({ ...prevData, backdrop: false}));
-      // }, 2000); 
+      
     }else{
       window.location.href = "/ShareDocument"
-      // router.push("/ShareDocument");
-      // setTimeout(() => {
-      //   setState((prevData) => ({ ...prevData, backdrop: false}));
-      // }, 2000); 
     }
     };
 
-  const remotesupportRouter = () => {
-    router.push("/remotesupport");
-  };
-  const myopportunityRouter = () => {
-    router.push("/myopportunity");
-  };
-  const carreserveRouter = () => {
-    router.push("/carreserve");
-  };
-  const underreviewRouter = () => {
-    router.push("/underreview");
-  };
   const orgmbatFeature = state?.memberAuthorization?.orgmbat_feature;
-
-  const [sharedocument, setSharedocument] = useState(false);
-  const [remotesupport, setRemotesupport] = useState(false);
-  const [myopportunity, setMyopportunity] = useState(false);
-  const [carreserve, setCarreserve] = useState(false);
-  const [underreview, setUnderreview] = useState(false);
-
-  useEffect(() => {
-    if (orgmbatFeature) {
-      setSharedocument(orgmbatFeature.includes("#sharedocument"));
-      setRemotesupport(orgmbatFeature.includes("#remotesupport"));
-      setMyopportunity(orgmbatFeature.includes("#myopportunity"));
-      setCarreserve(orgmbatFeature.includes("#carreserve"));
-      setUnderreview(orgmbatFeature.includes("#underreview"));
-    }
-  }, [orgmbatFeature]);
 
   const isLocalStorageAvailable = typeof window !== 'undefined' && window.localStorage;
 
-  // Use local storage only if it's available
   const storedLoginTime = isLocalStorageAvailable ? localStorage.getItem('loginTime') : null;
-  const [loginTime, setLoginTime] = React.useState(
+  const [loginTime] = useState(
     storedLoginTime ? new Date(storedLoginTime) : new Date()
   );
 
-  React.useEffect(() => {
+  useEffect(() => {
     if (isLocalStorageAvailable) {
       localStorage.setItem('loginTime', loginTime);
     }
@@ -126,7 +90,12 @@ const page = () => {
     return () => clearTimeout(timeoutId);
   }, []);
 
-
+const handlesharedoc =()=>{
+  state.memberAuthorization?.orgmbat_feature!=="#securedoc"||state.decode_token?.Role==="admin"?Notallowed():sharedocumentRouter()
+}
+const handleleaderreview =()=>{
+  (state.memberAuthorization?.orgmbat_feature||state.leadAuthorization?.orgmbat_feature!=="#securedoc")||state.decode_token?.Role==="user"?Notallowed():sharedocumentRouter()
+}
   return (
     <>
     <Backdrop/>
@@ -203,7 +172,7 @@ const page = () => {
         <div className="flex flex-col lg:flex-row">
           <div>
               <div
-                onClick={state.memberAuthorization?.orgmbat_feature!=="#securedoc"||state.decode_token?.Role==="admin"?Notallowed:sharedocumentRouter}
+                onClick={handlesharedoc}
                 // className="font-semibold mr-0 lg:mr-4 my-2 text-center flex flex-col items-center justify-center w-48 h-48 px-6 py-4 border border-gray-300 rounded-lg cursor-pointer transition-colors duration-300 hover:bg-gray-200"
                 className={`font-semibold mr-0 lg:mr-4 my-2 text-center flex flex-col items-center justify-center w-48 h-48 px-6 py-4 border border-gray-300 rounded-lg  transition-colors duration-300 ${state.memberAuthorization?.orgmbat_feature!=="#securedoc"||state.decode_token?.Role==="admin"?"bg-gray-100":""}   ${state.memberAuthorization?.orgmbat_feature!=="#securedoc"||state.decode_token?.Role==="admin"?"":"cursor-pointer"} ${state.memberAuthorization?.orgmbat_feature!=="#securedoc"||state.decode_token?.Role==="admin"?"":"hover:bg-gray-200"} `}
               >
@@ -273,7 +242,7 @@ const page = () => {
 
           <div>
               <div
-                onClick={(state.memberAuthorization?.orgmbat_feature||state.leadAuthorization?.orgmbat_feature!=="#securedoc")||state.decode_token?.Role==="user"?Notallowed:sharedocumentRouter}
+                onClick={handleleaderreview}
                 className={`font-semibold mr-0 lg:mr-4 my-2 text-center flex flex-col items-center justify-center w-48 h-48 px-6 py-4 border border-gray-300 rounded-lg  transition-colors duration-300 ${(state.memberAuthorization?.orgmbat_feature||state.leadAuthorization?.orgmbat_feature!=="#securedoc")||state.decode_token?.Role==="user"?"bg-gray-100":""}   ${(state.memberAuthorization?.orgmbat_feature||state.leadAuthorization?.orgmbat_feature!=="#securedoc")||state.decode_token?.Role==="user"?"":"cursor-pointer"} ${(state.memberAuthorization?.orgmbat_feature||state.leadAuthorization?.orgmbat_feature!=="#securedoc")||state.decode_token?.Role==="user"?"":"hover:bg-gray-200"} `}
               >
                 <Image

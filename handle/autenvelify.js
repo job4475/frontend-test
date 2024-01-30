@@ -1,12 +1,10 @@
 import { StateContext } from '@/context/Context';
-import { useRouter } from 'next/navigation';
-import React, { useContext } from 'react'
+import { useContext } from 'react'
 import { useCookies } from 'react-cookie';
 
-function autenvelify() {
+function Autenvelify() {
         const { state, setState } = useContext(StateContext);
-        const [cookies, setCookie, removeCookie] = useCookies(['token']);
-        const router = useRouter();
+        const [ setCookie] = useCookies(['token']);
         const verifyauthen = () => {
         setState((prevData) => ({ ...prevData, loading: true }));
         var myHeaders = new Headers();
@@ -41,4 +39,4 @@ function autenvelify() {
         }
   return {verifyauthen}
 }
-export default autenvelify
+export default Autenvelify

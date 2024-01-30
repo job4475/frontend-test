@@ -9,10 +9,9 @@ import Success from '@/assets/assets/images/checked.png'
 import Error from '@/assets/assets/images/cross.png'
 import { useCookies } from 'react-cookie';
 
-function dialod() {
+function Dialog() {
   const { state, setState } = useContext(StateContext);
-  const [cookies, setCookie, removeCookie] = useCookies(['token'])
-  const router = useRouter();
+  const [ removeCookie] = useCookies(['token'])
   const handleClose = () => {
     localStorage.removeItem("ally-supports-cache")
     localStorage.removeItem("decode_token")
@@ -25,7 +24,6 @@ function dialod() {
   const resetpassword = () => {
     setState({...state,resetpassword: false})
     window.location.href="/"
-    // router.push('/Login');
   };
   const registerSuccess = () => {
     setState({...state,registerSuccess: false})
@@ -94,4 +92,4 @@ function dialod() {
   )
 }
 
-export default dialod
+export default Dialog
