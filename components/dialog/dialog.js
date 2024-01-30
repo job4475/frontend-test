@@ -9,7 +9,7 @@ import Success from '@/assets/assets/images/checked.png'
 import Error from '@/assets/assets/images/cross.png'
 import { useCookies } from 'react-cookie';
 
-function Dialog() {
+function Dialog1() {
   const { state, setState } = useContext(StateContext);
   const [ removeCookie] = useCookies(['token'])
   const handleClose = () => {
@@ -92,4 +92,4 @@ function Dialog() {
   )
 }
 
-export default Dialog
+export default Dialog1

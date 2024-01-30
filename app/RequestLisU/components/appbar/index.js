@@ -62,7 +62,7 @@ const handleRedirect =()=>{
   return (
 <Box sx={{display:"flex",justifyContent:"space-between",alignItems:"center",p:2}}>
       <Box sx={{display:"flex"}}>
-          <div onClick={handleRedirect} className="mr-3" style={{cursor:"pointer",}}>
+          <div role="button" tabIndex={0} onClick={handleRedirect} onKeyDown={(e) => { if (e.key === 'Enter') {handleRedirect();}}} className="mr-3" style={{cursor:"pointer",}}>
           {!loading ? (
             <Image variant="rectangular"  src={Logotrac} alt="logo"  style={{ width: "90px", height: "90px", borderRadius: "99px" }} />
             ) : (

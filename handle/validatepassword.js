@@ -1,8 +1,8 @@
 'use client'
 import { StateContext } from '@/context/Context';
-import React, { useContext } from 'react'
+import { useContext } from 'react'
 
-function validatepassword() {
+function Validatepassword() {
     const {state, setState} = useContext(StateContext);
     const updatePassword = (newPassword) => {
         const validations = {
@@ -44,4 +44,4 @@ function validatepassword() {
   return updatePassword;
 }
 
-export default validatepassword
+export default Validatepassword

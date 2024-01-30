@@ -7,17 +7,15 @@ import MyOpportunity from "@/assets/assets/images/workspace/MyOpportunity.png";
 import RemoteSupport from "@/assets/assets/images/workspace/RemoteSupport.png";
 import ShareDocument from "@/assets/assets/images/workspace/ShareDocument.png";
 import UnderReview from "@/assets/assets/images/workspace/UnderReview.png";
-import { useRouter } from "next/navigation";
 import { useContext } from "react";
 import { StateContext } from "@/context/Context";
 import { Button, Box, Skeleton } from "@mui/material";
 import Backdrop from '@/components/backdrop/backdrop' 
 import { useCookies } from "react-cookie";
 
-const page = () => {
+const Page = () => {
   const { state, setState } = useContext(StateContext);
   const [ removeCookie] = useCookies(['token']);
-  const router = useRouter(); 
   
   const sharedocumentRouter = () => {
     setState((prevData) => ({ ...prevData, backdrop: true}));         
@@ -28,8 +26,6 @@ const page = () => {
       window.location.href = "/ShareDocument"
     }
     };
-
-  const orgmbatFeature = state?.memberAuthorization?.orgmbat_feature;
 
   const isLocalStorageAvailable = typeof window !== 'undefined' && window.localStorage;
 
@@ -171,8 +167,7 @@ const handleleaderreview =()=>{
         <h3 className="my-2 lg:my-5">My work space</h3>
         <div className="flex flex-col lg:flex-row">
           <div>
-              <div
-                onClick={handlesharedoc}
+              <div role="button" tabIndex={0} onClick={handlesharedoc} onKeyDown={(e) => { if (e.key === 'Enter') {handlesharedoc();}}}
                 // className="font-semibold mr-0 lg:mr-4 my-2 text-center flex flex-col items-center justify-center w-48 h-48 px-6 py-4 border border-gray-300 rounded-lg cursor-pointer transition-colors duration-300 hover:bg-gray-200"
                 className={`font-semibold mr-0 lg:mr-4 my-2 text-center flex flex-col items-center justify-center w-48 h-48 px-6 py-4 border border-gray-300 rounded-lg  transition-colors duration-300 ${state.memberAuthorization?.orgmbat_feature!=="#securedoc"||state.decode_token?.Role==="admin"?"bg-gray-100":""}   ${state.memberAuthorization?.orgmbat_feature!=="#securedoc"||state.decode_token?.Role==="admin"?"":"cursor-pointer"} ${state.memberAuthorization?.orgmbat_feature!=="#securedoc"||state.decode_token?.Role==="admin"?"":"hover:bg-gray-200"} `}
               >
@@ -191,7 +186,14 @@ const handleleaderreview =()=>{
 
           <div>
               <div
-                onClick={Notallowed}
+              role="button"
+              tabIndex={0}
+              onClick={Notallowed}
+              onKeyDown={(e) => {
+                if (e.key === 'Enter') {
+                  Notallowed();
+                }
+              }}
                 className={`font-semibold mr-0 lg:mr-4 my-2 text-center flex flex-col items-center justify-center w-48 h-48 px-6 py-4 border border-gray-300 rounded-lg  transition-colors duration-300  bg-gray-100 `}
               >
                 <Image
@@ -210,7 +212,14 @@ const handleleaderreview =()=>{
 
           <div>
               <div
-                onClick={Notallowed}
+              role="button"
+              tabIndex={0}
+              onClick={Notallowed}
+              onKeyDown={(e) => {
+                if (e.key === 'Enter') {
+                  Notallowed();
+                }
+              }}
                 className={`font-semibold mr-0 lg:mr-4 my-2 text-center flex flex-col items-center justify-center w-48 h-48 px-6 py-4 border border-gray-300 rounded-lg  transition-colors duration-300  bg-gray-100 `}              >
                 <Image
                   src={MyOpportunity}
@@ -226,7 +235,14 @@ const handleleaderreview =()=>{
 
           <div>
               <div
+              role="button"
+              tabIndex={0}
               onClick={Notallowed}
+              onKeyDown={(e) => {
+                if (e.key === 'Enter') {
+                  Notallowed();
+                }
+              }}
               className={`font-semibold mr-0 lg:mr-4 my-2 text-center flex flex-col items-center justify-center w-48 h-48 px-6 py-4 border border-gray-300 rounded-lg  transition-colors duration-300  bg-gray-100 `}              >
                 <Image
                   src={CarReserve}
@@ -242,7 +258,14 @@ const handleleaderreview =()=>{
 
           <div>
               <div
-                onClick={handleleaderreview}
+              role="button"
+              tabIndex={0}
+              onClick={handleleaderreview}
+              onKeyDown={(e) => {
+                if (e.key === 'Enter') {
+                  handleleaderreview();
+                }
+              }}
                 className={`font-semibold mr-0 lg:mr-4 my-2 text-center flex flex-col items-center justify-center w-48 h-48 px-6 py-4 border border-gray-300 rounded-lg  transition-colors duration-300 ${(state.memberAuthorization?.orgmbat_feature||state.leadAuthorization?.orgmbat_feature!=="#securedoc")||state.decode_token?.Role==="user"?"bg-gray-100":""}   ${(state.memberAuthorization?.orgmbat_feature||state.leadAuthorization?.orgmbat_feature!=="#securedoc")||state.decode_token?.Role==="user"?"":"cursor-pointer"} ${(state.memberAuthorization?.orgmbat_feature||state.leadAuthorization?.orgmbat_feature!=="#securedoc")||state.decode_token?.Role==="user"?"":"hover:bg-gray-200"} `}
               >
                 <Image
@@ -263,4 +286,4 @@ const handleleaderreview =()=>{
   );
 };
 
-export default page;
+export default Page;

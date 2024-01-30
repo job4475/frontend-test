@@ -9,7 +9,7 @@ import GetAllOrder from '@/services/getorder'
 import { StateContext } from '@/context/Context';
 import { useContext,useEffect } from 'react';
 
-function page() {
+function Page() {
   const {setState} = useContext(StateContext);
   useEffect(() => {
     setState((prevData) => ({ ...prevData, backdrop: false}));
@@ -26,4 +26,4 @@ function page() {
   )
 }
 
-export default page
+export default Page
