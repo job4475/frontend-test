@@ -6,8 +6,6 @@ import React from 'react'
 
 
 function Index() {
-    const {state, setState} = useContext(StateContext);
-    const {HandlechangeTitle} =handlechangeTitle();
   return (
     <Box>
       <Box sx={{fontWeight:600, mb:3}}>{data_register[0].title_content2}</Box>

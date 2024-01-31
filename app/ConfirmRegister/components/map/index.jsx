@@ -1,13 +1,13 @@
 'use client'
 
-import Map from '@/components/map'
+import Location from '@/components/map'
 import { Box } from '@mui/material'
 import React from 'react'
 
 function index() {
   return (
     <Box sx={{ display: "flex" }}>
-      <Map height="300"/>
+      <Location height="300"/>
     </Box>
   )
 }

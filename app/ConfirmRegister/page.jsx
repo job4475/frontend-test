@@ -6,7 +6,7 @@ import ContentAccount from './components/content_account'
 import ContentCompany from './components/content_company'
 import ContentPersonal from './components/content_personal'
 import Button from './components/button'
-import Map from './components/map'
+import Location from './components/map'
 function Page() {
 
   return (
@@ -19,7 +19,7 @@ function Page() {
         <Button/>
        </Box>
        <Box>
-        <Map/>
+        <Location/>
        </Box>
       </Box>
     </Box>

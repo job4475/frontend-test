@@ -4,7 +4,7 @@ import Image from 'next/image'
 import React from 'react'
 import accountimg from '@/assets/assets/images/register/account.png'
 
-function index() {
+function Index() {
   return (
     <Box sx={{display:"flex",alignItems:"center"}}>
     <Image alt="account" src={accountimg} />
@@ -16,4 +16,4 @@ function index() {
   )
 }
 
-export default index
+export default Index
