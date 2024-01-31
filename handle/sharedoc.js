@@ -365,7 +365,7 @@ const SwitchBox = ({ label, checked, onChange }) => (
       formdata.append("scdact_reciepient", state.recipient);
       formdata.append("scdact_sender", state.decode_token?state.decode_token.UsernameOriginal:"thananchai@tracthai.com");
       formdata.append("uuid_member", state.decode_token?state.decode_token.ID:"No value");
-      formdata.append("scdact_action", "Request");
+      formdata.append("scdact_action", `${state.watermark?"watermark":""} ${state.screenwatermark?"screenwatermark":""}` );
       formdata.append("scdact_enableconvertoriginal", state.enableconverttooriginalfile?"true":"false");
       formdata.append("scdact_actiontime", timestampInSeconds);
 

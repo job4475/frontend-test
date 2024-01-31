@@ -27,7 +27,7 @@ export const StateProvider = ({children}) => {
     sumsize_original:0,leadAuthorization:[],memberfeature:[],securedoc:false,open:false,resetpassword:false,registerSuccess:false,qrcodeurl:'',status:'',error:false,qrcode:"",phoneNumber:'',
     passwordStrength:'',confirmpassword:"",passwordsMatch:'',backdrop:false,webSite:'',messageBody:"",timer:0,showContent:false
     });
-    console.log("🚀 ~ StateProvider ~ state:", state)
+    // console.log("🚀 ~ StateProvider ~ state:", state)
     return (
         <StateContext.Provider value={{state,setState}}>
             {/* <Countries/> */}
@@ -46,4 +46,3 @@ export const StateProvider = ({children}) => {
         </StateContext.Provider>
     )
 }
-console.log("🚀 ~ StateProvider ~ StateProvider:", StateProvider)
