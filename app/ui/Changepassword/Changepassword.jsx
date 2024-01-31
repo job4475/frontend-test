@@ -22,9 +22,7 @@ function Index() {
       setState((prevData) => ({...prevData,confirmlink: tokenParam,confirmlink_decode: decodedToken,email: decodedToken.username,}));
     }
   }, [tokenParam]);
-  const resetpassword = (e) => {
-    setState({...state,password: e.target.value,});
-  };
+ 
   const confirmPassword = (e) => {
     setState({...state,confirmPassword: e.target.value,});
   };

@@ -3,6 +3,8 @@
   "version": "0.1.0",
   "private": true,
   "scripts": {
+    "test": "jest --watch",
+    "test-coverage": "jest --coverage",
     "dev": "next dev -p 3434",
     "build": "next build",
     "start": "next start -p 3434",
@@ -35,7 +37,13 @@
     "uuid": "^9.0.1"
   },
   "devDependencies": {
+    "@babel/preset-env": "^7.23.9",
+    "@babel/preset-react": "^7.23.3",
     "autoprefixer": "^10.4.16",
+    "babel-jest": "^29.7.0",
+    "enzyme": "^3.11.0",
+    "enzyme-adapter-react-16": "^1.15.7",
+    "jest": "^29.7.0",
     "postcss": "^8.4.32",
     "tailwindcss": "^3.3.6"
   }

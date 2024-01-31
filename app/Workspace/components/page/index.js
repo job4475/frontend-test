@@ -7,7 +7,6 @@ import MyOpportunity from "@/assets/assets/images/workspace/MyOpportunity.png";
 import RemoteSupport from "@/assets/assets/images/workspace/RemoteSupport.png";
 import ShareDocument from "@/assets/assets/images/workspace/ShareDocument.png";
 import UnderReview from "@/assets/assets/images/workspace/UnderReview.png";
-import { useContext } from "react";
 import { StateContext } from "@/context/Context";
 import { Button, Box, Skeleton } from "@mui/material";
 import Backdrop from '@/components/backdrop/backdrop' 
@@ -15,13 +14,12 @@ import { useCookies } from "react-cookie";
 
 const Page = () => {
   const { state, setState } = useContext(StateContext);
-  const [ removeCookie] = useCookies(['token']);
+  const [ cookies,removeCookie] = useCookies(['token']);
   
   const sharedocumentRouter = () => {
     setState((prevData) => ({ ...prevData, backdrop: true}));         
     if(state.decode_token.Role==="admin"){
       window.location.href = "/RequestList"
-      
     }else{
       window.location.href = "/ShareDocument"
     }
@@ -30,7 +28,7 @@ const Page = () => {
   const isLocalStorageAvailable = typeof window !== 'undefined' && window.localStorage;
 
   const storedLoginTime = isLocalStorageAvailable ? localStorage.getItem('loginTime') : null;
-  const [loginTime, setLoginTime] = React.useState(
+  const [loginTime] = useState(
     storedLoginTime ? new Date(storedLoginTime) : new Date()
   );
 
@@ -268,10 +266,10 @@ const Page = () => {
               <div
               role="button"
               tabIndex={0}
-              onClick={handleleaderreview}
+              onClick={sharedocumentRouter}
               onKeyDown={(e) => {
                 if (e.key === 'Enter') {
-                  handleleaderreview();
+                  sharedocumentRouter();
                 }
               }}
                 className={`font-semibold mr-0 lg:mr-4 my-2 text-center flex flex-col items-center justify-center w-48 h-48 px-6 py-4 border border-gray-300 rounded-lg  transition-colors duration-300 ${(state.memberAuthorization?.orgmbat_feature||state.leadAuthorization?.orgmbat_feature!=="#securedoc")||state.decode_token?.Role==="user"?"bg-gray-100":""}   ${(state.memberAuthorization?.orgmbat_feature||state.leadAuthorization?.orgmbat_feature!=="#securedoc")||state.decode_token?.Role==="user"?"":"cursor-pointer"} ${(state.memberAuthorization?.orgmbat_feature||state.leadAuthorization?.orgmbat_feature!=="#securedoc")||state.decode_token?.Role==="user"?"":"hover:bg-gray-200"} `}

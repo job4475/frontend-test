@@ -8,8 +8,6 @@ import { StateContext } from '@/context/Context';
 
 function Index() {
   const {state} = useContext(StateContext);
-function Index() {
-  const {state} = useContext(StateContext);
 
   const isLocalStorageAvailable = typeof window !== 'undefined' && window.localStorage;
 
@@ -118,7 +116,6 @@ function Index() {
         </Box>
       </Box>
   )
-}
 }
 
 export default Index;

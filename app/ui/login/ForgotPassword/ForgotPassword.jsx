@@ -6,7 +6,7 @@ import Loading from "@/components/loading";
 import { StateContext } from "@/context/Context";
 
 function Index() {
-  const { state, setState } = useContext(StateContext);
+  const { state } = useContext(StateContext);
   const HandleForget = handleforget();
   const [showContent, setShowContent] = useState(false);
   const [showButton, setShowButton] = useState(false);

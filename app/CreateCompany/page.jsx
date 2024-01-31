@@ -3,7 +3,6 @@ import React, { useContext, useEffect } from "react";
 import Addcompany from '../ui/register/addcompany/page'
 import { StateContext } from "@/context/Context";
 import { Box } from "@mui/material";
-import { useEffect } from "react";
 
 const Page = () => {
     const {state} = useContext(StateContext);

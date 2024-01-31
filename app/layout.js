@@ -1,4 +1,5 @@
 
+import React from 'react'
 import "./globals.css";
 import { StateProvider } from '@/context/Context'
 import ThemeRegistry from "@/utils/ThemeRegistry";

@@ -38,7 +38,6 @@ const Index = () => {
   return (
     <div className={styles["full-page"]}>
       <div className={styles["sub-page"]}>
-        <React.Fragment>
           <CssBaseline />
           <Container fixed>
             <h2>Hi, Is this the company you work ?</h2>
@@ -93,8 +92,8 @@ const Index = () => {
                     <path
                       d="M2 2H50"
                       stroke="#9FDBD6"
-                      stroke-width="3"
-                      stroke-linecap="round"
+                      strokeWidth="3"
+                      strokeLinecap="round"
                     />
                   </svg>
                 </Paper>
@@ -167,8 +166,8 @@ const Index = () => {
                     <path
                       d="M2 2H50"
                       stroke="#9FDBD6"
-                      stroke-width="3"
-                      stroke-linecap="round"
+                      strokeWidth="3"
+                      strokeLinecap="round"
                     />
                   </svg>
                 </Paper>
@@ -185,7 +184,6 @@ const Index = () => {
               </Paper>
             </Box>
           </Container>
-        </React.Fragment>
       </div>
     </div>
   );

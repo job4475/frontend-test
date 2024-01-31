@@ -5,6 +5,7 @@ import Chiclogo from "@/assets/assets/images/sigin/chiclogo.png";
 import { Box, Skeleton } from "@mui/material";
 import { StateContext } from "@/context/Context";
 import { useContext, useEffect } from "react";
+import React from 'react'
 
 const Page = () => {
   const {state, setState} = useContext(StateContext);

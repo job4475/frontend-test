@@ -9,8 +9,9 @@ import handlelogin from "@/handle/login"
 import Loading from '@/components/loading'
 import Backdrop from '@/components/backdrop/backdrop'
 import Dialog from '@/components/dialog/dialog'
-import { Title } from '@mui/icons-material';
 import { useContext, useEffect, useState } from 'react';
+import React from 'react'
+
 function Index() {
   const { state, setState } = useContext(StateContext);
   const [showContent, setShowContent] = useState(false);
@@ -29,6 +30,9 @@ function Index() {
 
     return () => clearTimeout(timer);
   }, []);
+
+  const onClickHandler = state.info === 0 ? HandleLogin.handleSignInClick : HandleLogin.handleSignUpClick;
+  const buttonText = state.loading ? <Loading /> : state.info === 0 ? 'Sign In' : 'Next';
   return (
     <Box>
 
@@ -93,8 +97,8 @@ function Index() {
         }
          {showContent ? (
           <Box sx={{ display: 'flex', justifyContent: 'center' }}>
-          <Button variant="contained" onClick={state.info === 0 ? HandleLogin.handleSignInClick : HandleLogin.handleSignUpClick} sx={{ transition: 'transform 0.3s ease', '&:hover': { transform: 'scale(1.03)', }, }} style={{ background: '#84BAA1', width: '90%', height: '44px', textTransform: 'capitalize', marginTop: 10, boxShadow: '0px 0px 0px', borderRadius: '8px', fontWeight: '600' }}>
-            {state.loading ? <Loading /> : state.info === 0 ? 'Sign In' : 'Next'}
+          <Button variant="contained" onClick={onClickHandler} sx={{ transition: 'transform 0.3s ease', '&:hover': { transform: 'scale(1.03)', }, }} style={{ background: '#84BAA1', width: '90%', height: '44px', textTransform: 'capitalize', marginTop: 10, boxShadow: '0px 0px 0px', borderRadius: '8px', fontWeight: '600' }}>
+             {buttonText}
           </Button>
           {state.open ? <Dialog /> : ""}
         </Box>

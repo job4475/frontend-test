@@ -4,7 +4,7 @@ import { useCookies } from 'react-cookie'; // Import useCookies
 
 function Otpvelify() {
     const { state, setState } = useContext(StateContext);
-    const [ setCookie] = useCookies(['token']);
+    const [cookies,setCookie] = useCookies(['token']);
  
         const fetchLogoImage = () => {
             fetch(`${process.env.NEXT_PUBLIC_API_ENDPOINT_GET}${process.env.NEXT_PUBLIC_API_PORT_LOGIN?`:${process.env.NEXT_PUBLIC_API_PORT_LOGIN}`:""}/api/getLogoBinary/${state.decode_token.CompanyID}`)
@@ -38,7 +38,7 @@ function Otpvelify() {
                         fetchLogoImage();
                         const expirationDate = new Date(state.decode_token.Exp * 1000);
                         setCookie('token', state.decode_token, { path: '/', expires: expirationDate });
-                        window.location.href = "/Workspace"
+                        window.location.href = '/Workspace'
                     } else {
                         setState((prevData) => ({ ...prevData, alert: true, alert_text: result.message, alert_type: "error",loading: false }));
                         setTimeout(() => {

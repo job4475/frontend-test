@@ -32,12 +32,12 @@ function SelectVerify() {
 
   const sendOTPEmail = () => {
 
-    var myHeaders = new Headers();
+    let myHeaders = new Headers();
     myHeaders.append("Content-Type", "application/json");
-    var otpData = {
+    let otpData = {
       "email": state.email
     };
-    var otpRequestOptions = {
+    let otpRequestOptions = {
       method: 'POST',
       headers: myHeaders,
       body: JSON.stringify(otpData),
@@ -60,14 +60,14 @@ function SelectVerify() {
   }
 
   const getQR = () => {
-    var myHeaders = new Headers();
+    let myHeaders = new Headers();
     myHeaders.append("Content-Type", "application/json");
 
-    var raw = JSON.stringify({
+    let raw = JSON.stringify({
       "value": 1,
       "accountName": state.email
     });
-    var requestOptions = {
+    let requestOptions = {
       method: 'POST',
       headers: myHeaders,
       body: raw,

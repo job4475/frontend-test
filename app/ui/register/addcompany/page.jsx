@@ -1,6 +1,6 @@
 'use client'
 import { Box, Button, Grid, IconButton, MenuItem, Select, TextField, Typography } from '@mui/material'
-import React, { useContext, useState } from 'react'
+import React, { useContext } from 'react'
 import Image from 'next/image'
 import Subtract from '@/assets/assets/images/Subtract.png'
 import Arrow from '@mui/icons-material/NorthRounded';
@@ -85,8 +85,8 @@ function Page() {
                   <Box sx={{ pt: 1.5, width: '150px', color: '#1F2939', fontWeight: '500' }}>Province</Box>
                   <Select labelId="province-select" variant="standard" id="province-select" value={state.selectedProvince} label="Province" onChange={Handlecompany.handleProvinceChange}
                     sx={{ width: "250px" }} size='small'>
-                    {state.provinces && state.provinces.map((province, index) => (
-                      <MenuItem key={index} value={province}>
+                    {state.provinces && state.provinces.map((province) => (
+                      <MenuItem key={province} value={province}>
                         {province}
                       </MenuItem>))}
                   </Select>
@@ -97,8 +97,8 @@ function Page() {
                   <Box sx={{ pt: 1.5, width: '150px', color: '#1F2939', fontWeight: '500' }}>District</Box>
                   <Select labelId="amphoe-select-label" variant="standard" id="amphoe-select" value={state.selectedAmphoe} label="Amphoe" onChange={Handlecompany.handleAmphoeChange}
                     sx={{ width: "250px" }} size='small'>
-                    {state.selectedProvince && state.amphures?.map((amphoe, index) => (
-                      <MenuItem key={index} value={amphoe}>
+                    {state.selectedProvince && state.amphures?.map((amphoe) => (
+                      <MenuItem key={amphoe} value={amphoe}>
                         {amphoe}
                       </MenuItem>
                     ))}
@@ -107,8 +107,8 @@ function Page() {
                   <Box sx={{ pt: 1.5, width: '150px', color: '#1F2939', fontWeight: '500' }}>Sub-Distric</Box>
                   <Select labelId="tambon-select-label" variant="standard" id="tambon-select" value={state.selectedTambon} label="Tambon"
                     onChange={Handlecompany.handleTambonChange} sx={{ width: "250px" }} size='small'>
-                    {state.selectedAmphoe && state.tambons?.map((tambon, index) => (
-                      <MenuItem key={index} value={tambon}>
+                    {state.selectedAmphoe && state.tambons?.map((tambon) => (
+                      <MenuItem key={tambon} value={tambon}>
                         {tambon}
                       </MenuItem>
                     ))}

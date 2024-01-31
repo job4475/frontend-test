@@ -11,7 +11,7 @@ function OTPverify() {
   const Handleresend = resend();
   const HandleOTP = handleotp();
   const HandleQRCode = handleqrcode();
-  const {state, setState} = useContext(StateContext);
+  const {state} = useContext(StateContext);
   return (
     <Box p={3} sx={{display: 'flex',flexDirection: 'column',background: 'white',width: '400px',height: '500px',
     borderRadius: "15px",marginLeft: 'auto',mr: 5,mt: 1,boxShadow: '0px 0px 10px rgba(0, 0, 0, 0.1)',justifyContent:'space-between'}}>
@@ -28,7 +28,7 @@ function OTPverify() {
       <p style={{fontSize:'14px',fontWeight:'600'}}>{state.referenceID}</p>
     </Box>
     <Box sx={{display:'flex',justifyContent:'center',mt:'px'}}>
-    <Button onClick={Handleresend.sendOTPEmail} sx={{fontSize:'14px', fontWeight:'600',color:'#4D94FB',textTransform:'capitalize',transition:'color 0.3s'}} disabled={state.timer > 0?true:false} > {state.timer > 0 ? `Resend Code (${state.timer})` : "Resend Code"} </Button>
+    <Button onClick={Handleresend.sendOTPEmail} sx={{fontSize:'14px', fontWeight:'600',color:'#4D94FB',textTransform:'capitalize',transition:'color 0.3s'}} disabled={state.timer > 0} > {state.timer > 0 ? `Resend Code (${state.timer})` : "Resend Code"} </Button>
     </Box>
     </Box>
     <Box sx={{display:'flex',justifyContent:'center'}}>
