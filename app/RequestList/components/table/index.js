@@ -169,6 +169,14 @@ function Index() {
                             <Box sx={{ pr: 1}}>Enable convert to original file</Box>
                             <Box sx={{display:"flex",alignItems:"center"}}>{row[0].scdact_cvtoriginal===true?<CheckIcon sx={{fontSize:"20px"}} color="approve"/>:<CloseIcon sx={{fontSize:"20px"}} color="reject"/>}</Box>
                           </Button>
+                          <Button style={{ textTransform: 'none',display: 'flex', justifyContent: 'space-between', width: '100%' }}>
+                            <Box sx={{ pr: 1}}>Allow Screen Watermark</Box>
+                            <Box sx={{display:"flex",alignItems:"center"}}>{row[0].scdact_action==="watermark screenwatermark"||row[0].scdact_action===" screenwatermark"?<CheckIcon sx={{fontSize:"20px"}} color="approve"/>:<CloseIcon sx={{fontSize:"20px"}} color="reject"/>}</Box>
+                          </Button>
+                          <Button style={{ textTransform: 'none',display: 'flex', justifyContent: 'space-between', width: '100%' }}>
+                            <Box sx={{ pr: 1}}>Allow Watermark</Box>
+                            <Box sx={{display:"flex",alignItems:"center"}}>{row[0].scdact_action==="watermark screenwatermark"||row[0].scdact_action==="watermark "?<CheckIcon sx={{fontSize:"20px"}} color="approve"/>:<CloseIcon sx={{fontSize:"20px"}} color="reject"/>}</Box>
+                          </Button>
                         </Box>
                   </Box>
                   </>
