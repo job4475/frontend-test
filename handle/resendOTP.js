@@ -5,18 +5,23 @@ function ResendOTP() {
   const { state, setState } = useContext(StateContext);
   const sendOTPEmail = () => {
     setState({ ...state,timer:15  })
-    var myHeaders = new Headers();
+    const myHeaders = new Headers();
     myHeaders.append("Content-Type", "application/json");
-    var otpData = {
+    const otpData = {
       "email": state.email
     };
-    var otpRequestOptions = {
+    const otpRequestOptions = {
       method: 'POST',
       headers: myHeaders,
       body: JSON.stringify(otpData),
       redirect: 'follow'
     };
-    fetch(`${process.env.NEXT_PUBLIC_API_ENDPOINT_GET}${process.env.NEXT_PUBLIC_API_PORT_LOGIN?`:${process.env.NEXT_PUBLIC_API_PORT_LOGIN}`:""}/api/sendOTPEmail`, otpRequestOptions)
+    const apiEndpoint = process.env.NEXT_PUBLIC_API_ENDPOINT_GET;
+    const apiPortLogin = process.env.NEXT_PUBLIC_API_PORT_LOGIN || "";
+    const apiPortString = apiPortLogin ? `:${apiPortLogin}` : "";
+    const apiUrl = apiEndpoint + apiPortString + "/api/sendOTPEmail";
+
+    fetch(apiUrl, otpRequestOptions)
     .then(response => response.json())
     .then(result => {
       console.log(result);

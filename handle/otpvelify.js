@@ -7,7 +7,12 @@ function Otpvelify() {
     const [ setCookie] = useCookies(['token']);
  
         const fetchLogoImage = () => {
-            fetch(`${process.env.NEXT_PUBLIC_API_ENDPOINT_GET}${process.env.NEXT_PUBLIC_API_PORT_LOGIN?`:${process.env.NEXT_PUBLIC_API_PORT_LOGIN}`:""}/api/getLogoBinary/${state.decode_token.CompanyID}`)
+            const apiEndpoint = process.env.NEXT_PUBLIC_API_ENDPOINT_GET;
+            const apiPortLogin = process.env.NEXT_PUBLIC_API_PORT_LOGIN || "";
+            const apiPortString = apiPortLogin ? `:${apiPortLogin}` : "";
+            const apiUrl = apiEndpoint + apiPortString + `/api/getLogoBinary/${state.decode_token.CompanyID}`;
+            
+            fetch(apiUrl, requestOptions)
                 .then(response => response.blob())
                 .then(blob => {
                     const imageUrl = URL.createObjectURL(blob);
@@ -29,7 +34,12 @@ function Otpvelify() {
                 body: raw,
                 redirect: 'follow'
             };
-            fetch(`${process.env.NEXT_PUBLIC_API_ENDPOINT_GET}${process.env.NEXT_PUBLIC_API_PORT_LOGIN?`:${process.env.NEXT_PUBLIC_API_PORT_LOGIN}`:""}/api/validateOTPEmail`, requestOptions)
+            const apiEndpoint = process.env.NEXT_PUBLIC_API_ENDPOINT_GET;
+            const apiPortLogin = process.env.NEXT_PUBLIC_API_PORT_LOGIN || "";
+            const apiPortString = apiPortLogin ? `:${apiPortLogin}` : "";
+            const apiUrl = apiEndpoint + apiPortString + "/api/validateOTPEmail";
+            
+            fetch(apiUrl, requestOptions)
                 .then(response => response.json())
                 .then(result => {
                     console.log(result);

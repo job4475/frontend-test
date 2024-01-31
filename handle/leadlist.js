@@ -27,7 +27,7 @@ function Leadlist() {
       };
 
       const handleClicktoGetFile = (uuid) => {
-        var requestOptions = {
+        const requestOptions = {
           method: 'GET',
           responseType: 'blob',
           redirect: 'follow'
@@ -109,14 +109,14 @@ function Leadlist() {
         };
       
         // Fetch files sequentially
-        for (let i = 0; i < uuids.length; i++) {
+        for (const uuid of uuids) {
           try {
-            const response = await fetch(`${process.env.NEXT_PUBLIC_API_ENDPOINT}:${process.env.NEXT_PUBLIC_API_PORT}/api/requestFile/${uuids[i]}`, requestOptions);
+            const response = await fetch(`${process.env.NEXT_PUBLIC_API_ENDPOINT}:${process.env.NEXT_PUBLIC_API_PORT}/api/requestFile/${uuid}`, requestOptions);
             if (response.ok) {
               const blob = await response.blob();
               blobArray.push(blob);
             } else {
-              console.log(`Error fetching file for uuid: ${uuids[i]}, Status: ${response.status}`);
+              console.log(`Error fetching file for uuid: ${uuid}, Status: ${response.status}`);
             }
           } catch (error) {
             console.log('Error:', error);
@@ -150,7 +150,7 @@ function Leadlist() {
       
           if (logResult.status === 'OK') {
             console.log("🚀 ~ handleBatchApprove ~ logResult:", logResult)
-            var formdataSendmail = new FormData();
+            const formdataSendmail = new FormData();
             formdataSendmail.append("order_id", orderIds[0]);
             formdataSendmail.append("action", "Approve");
             formdataSendmail.append("email", emails[0]);
@@ -158,7 +158,7 @@ function Leadlist() {
             formdataSendmail.append("subject", subjects[0]);
             formdataSendmail.append("body", bodys[0]);
             
-            var requestOptionsSendmail = {
+            const requestOptionsSendmail = {
               method: 'POST',
               body: formdataSendmail,
               redirect: 'follow'
@@ -207,17 +207,20 @@ function Leadlist() {
         setState((prevData) => ({ ...prevData, pageloader: true}));
         const orderIds = orderGroup.map(order => order.scdact_reqid);
 
-        var formdata = new FormData();
+        const formdata = new FormData();
         formdata.append("order_id", orderIds[0]);
         formdata.append("action", "Reject");
         
-        var requestOptions = {
+        const requestOptions = {
           method: 'POST',
           body: formdata,
           redirect: 'follow'
         };
         
-        fetch(`${process.env.NEXT_PUBLIC_API_ENDPOINT}${process.env.NEXT_PUBLIC_API_PORT_LOGIN?`:${process.env.NEXT_PUBLIC_API_PORT_LOGIN}`:""}/api/reustDoc`, requestOptions)
+        const apiEndpoint = process.env.NEXT_PUBLIC_API_ENDPOINT;
+        const apiPortLogin = process.env.NEXT_PUBLIC_API_PORT_LOGIN || "";
+        const apiUrl = `${apiEndpoint}${apiPortLogin}/api/requestDoc`;
+        fetch(apiUrl, requestOptions)
           .then(response => response.json())
         .then(result => {
           if(result.status === "OK"){

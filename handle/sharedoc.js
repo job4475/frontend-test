@@ -3,7 +3,6 @@ import { StateContext } from '@/context/Context';
 import { Box, FormControlLabel, Switch } from '@mui/material';
 import React, { useContext,useCallback } from 'react'
 import { styled } from '@mui/material/styles';
-import { useRouter } from 'next/navigation';
 import another from '@/assets/assets/images/marco.png'
 import pdf from '@/assets/assets/images/pdficon.png'
 import jpg from '@/assets/assets/images/jpg.png'
@@ -177,7 +176,6 @@ const handleSwitchChange = (key, event) => {
       newState.allowrunamacro = false;
       newState.screenwatermark = false;
       newState.watermark = false;
-
     }else if (state.secure_type===false && key === 'allowcopypaste' && event.target.checked){
       newState.screenwatermark = false;
     }else if(state.secure_type===true && key === 'allowcopypaste' && event.target.checked){
@@ -328,63 +326,36 @@ const SwitchBox = ({ label, checked, onChange }) => (
   </Box>
 );
 
-  const handleUpload = useCallback(async () => {
-    const uuid = require('uuid');
+const appendCommonFormData = (formdata, orderId, sanitizedFileName, emailText) => {
+  formdata.append("scdact_status", "Pending");
+};
 
-    if (state.selectedFile.length > 0) {
-      setState((prevData) => ({ ...prevData, loading: true }));
+const appendFileData = (formdata, file, orderId, sanitizedFileName, state, index) => {
+  const emailText = state.recipient.map((recipient) => `${recipient}`);
+  formdata.append("scdact_command", `./finalcode_api ${state.secure_type===true?"":"-browserview"} ...`);
+  formdata.append("scdact_binary", file, `/D:/Downloads/${orderId}/${sanitizedFileName}`);
+};
 
-      const formdata = new FormData();
-      const orderId = uuid.v4(); 
-      const currentDate = new Date();
-      const timestampInSeconds = Math.floor(currentDate.getTime() / 1000);
 
-      formdata.append("scdact_status", "Pending");
-      formdata.append("scdact_reqid", orderId);
-      formdata.append("scdact_name", state.messageBody?state.messageBody:"");
-      formdata.append("scdact_type", state.secure_type?"FCL":"HTML");
-      formdata.append("scdact_starttime", state.timelimitBefore&&state.timeBefore?state.timelimitBefore + state.timeBefore:0);
-      formdata.append("scdact_endtime", state.timelimitAfter&&state.timeAfter?state.timelimitAfter + state.timeAfter:0);
-      formdata.append("scdact_numberopen", state.opensTime?state.opensTime:0);
-      formdata.append("scdact_periodday", state.periodDays?state.periodDays:0);
-      formdata.append("scdact_periodhour",state.periodHours?state.periodHours:0);
-      formdata.append("scdact_nolimit", state.noLimit?"true":"false");
-      formdata.append("scdact_cvtoriginal", state.allowconverttooriginalfile?"true":"false");
-      formdata.append("scdact_edit", state.alloweditsecuredfile?"true":"false");
-      formdata.append("scdact_print", state.allowprint?"true":"false");
-      formdata.append("scdact_copy", state.allowcopypaste?"true":"false");
-      formdata.append("scdact_scrwatermark", "true");
-      formdata.append("scdact_watermark", "true");
-      formdata.append("scdact_cvthtml", state.allowconverttobrowserviewfile?"true":"false");
-      formdata.append("scdact_cvtfcl", state.allowconverttofcl?"true":"false"); 
-      formdata.append("scdact_marcro", state.allowrunamacro?"true":"false");
-      formdata.append("scdact_msgtext", state.message);
-      formdata.append("scdact_subject", state.subject);
-      formdata.append("scdact_createlocation", "สำเร็จ");
-      formdata.append("scdact_updatelocation", "สำเร็จ");
-      formdata.append("scdact_reciepient", state.recipient);
-      formdata.append("scdact_sender", state.decode_token?state.decode_token.UsernameOriginal:"thananchai@tracthai.com");
-      formdata.append("uuid_member", state.decode_token?state.decode_token.ID:"No value");
-      formdata.append("scdact_action", "Request");
-      formdata.append("scdact_enableconvertoriginal", state.enableconverttooriginalfile?"true":"false");
-      formdata.append("scdact_actiontime", timestampInSeconds);
+const handleUpload = useCallback(async () => {
+  const uuid = require('uuid');
+  if (state.selectedFile.length > 0) {
+    setState((prevData) => ({ ...prevData, loading: true }));
+    const formdata = new FormData();
+    const orderId = uuid.v4();
+    const currentDate = new Date();
+    const timestampInSeconds = Math.floor(currentDate.getTime() / 1000);
 
-      for (let i = 0; i < state.selectedFile.length; i++) {
-        const file = state.selectedFile[i];
-        const sanitizedFileName = file.name.replace(/\s+/g, '-');
-        const emailText = state.recipient.map((recipient, index) => `${recipient}`)
+ 
+    appendCommonFormData(formdata, orderId, sanitizedFileName, emailText);
 
-        formdata.append("scdact_command", `./finalcode_api ${state.secure_type===true?"":"-browserview"} ${state.message?`-mes:"${state.message}"`:""} ${state.enableconverttooriginalfile?"-to_bv_decode":""} ${state.allowconverttobrowserviewfile?"-to_bv_file":""} ${state.allowrunamacro||state.allowconverttooriginalfile?"-nomacro_deny":"-macro_deny"} ${state.alloweditsecuredfile?"-edit":""} -encrypt ${state.secure_type===true?"":"-bv_auth:1"}  -src:../data/${orderId}/${sanitizedFileName} -dest:../data/${orderId}/${sanitizedFileName}"(${emailText})"${state.secure_type===true?".fcl":".html"} ${state.allowconverttooriginalfile?"-decode":""} ${state.allowcopypaste?"-copypaste":""} ${state.allowprint?"-print":""} ${state.timelimitBefore?`-startdate:${state.timelimitBefore}`:""} ${state.timelimitAfter?`-date:${state.timelimitAfter}`:""} ${state.periodDays?`-day:${state.periodDays}`:""} ${state.periodHours?`-hour:${state.periodHours}`:""} ${state.opensTime?`-cnt:${state.opensTime}`:""} -user:thananchai@tracthai.com -mail:${emailText} ${state.watermark?"-watermark:2098":""} ${state.screenwatermark?"-scrnwatermark:2096":""}`);
-        formdata.append("scdact_binary", file, `/D:/Downloads/${orderId}/${sanitizedFileName}`);
+ 
+    for (let i = 0; i < state.selectedFile.length; i++) {
+      const file = state.selectedFile[i];
+      const sanitizedFileName = file.name.replace(/\s+/g, '-');
 
-        formdata.append("scdact_filename", sanitizedFileName);
-        formdata.append("scdact_filetype", state.selectedFileName[i].split('.')[1]);
-        formdata.append("scdact_filehash", "A");
-        formdata.append("scdact_filesize", formatBytes(file.size));
-        formdata.append("scdact_filecreated", file.lastModified);
-        formdata.append("scdact_filemodified", "A");
-        formdata.append("scdact_filelocation", "A");
-      }
+      appendFileData(formdata, file, orderId, sanitizedFileName, state, i);
+    }
 
        const xhr = new XMLHttpRequest();
 
@@ -405,18 +376,15 @@ const SwitchBox = ({ label, checked, onChange }) => (
               periodDays:"",periodHours:"",opensTime:"",loading:false,messageBody:"",watermark:false,screenwatermark:false}));
               window.location.href = '/RequestLisU'
           } else {
-            // setData((prevData) => ({ ...prevData, loading: false, alert: true, alert_text: result.message.finalcode_result, alert_type: "error" }));
+           
           }
         }
       };
 
       xhr.onerror = () => {
         // Record end time in case of an error
-        const endTime = performance.now();
-        // const elapsedTime = endTime - startTime;
-        // console.error(`API request failed in ${elapsedTime} milliseconds`);
-        // setData((prevData) => ({ ...prevData, alert: true, alert_text: 'An error occurred during the upload', alert_type: "error" }));
-      };
+        
+   };
 
       xhr.send(formdata);
     }

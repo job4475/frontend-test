@@ -26,13 +26,18 @@ function Userlist() {
       };
 
       const handleClicktoGetFile = (uuid) => {
-        var requestOptions = {
+        const requestOptions = {
           method: 'GET',
           responseType: 'blob',
           redirect: 'follow'
         };
     
-        fetch(`${process.env.NEXT_PUBLIC_API_ENDPOINT}${process.env.NEXT_PUBLIC_API_PORT_LOGIN?`:${process.env.NEXT_PUBLIC_API_PORT_LOGIN}`:""}/api/requestFile/${uuid}`, requestOptions)
+        const apiEndpoint = process.env.NEXT_PUBLIC_API_ENDPOINT;
+        const apiPortLogin = process.env.NEXT_PUBLIC_API_PORT_LOGIN || "";
+        const apiPortString = apiPortLogin ? `:${apiPortLogin}` : "";
+        const apiUrl = `${apiEndpoint}${apiPortString}/api/requestFile/${uuid}`;
+
+        fetch(apiUrl, requestOptions)
           .then(response => response.blob())
           .then(blob => {
             const blobUrl = URL.createObjectURL(blob);

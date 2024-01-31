@@ -8,7 +8,12 @@ function Signup() {
 
     useEffect(() => {
         const fetchLogoImage = () => {
-            fetch(`${process.env.NEXT_PUBLIC_API_ENDPOINT_GET}${process.env.NEXT_PUBLIC_API_PORT_LOGIN?`:${process.env.NEXT_PUBLIC_API_PORT_LOGIN}`:""}/api/getLogoBinary/${state.decode_token.CompanyID}`)
+          const apiEndpoint = process.env.NEXT_PUBLIC_API_ENDPOINT_GET;
+          const apiPortLogin = process.env.NEXT_PUBLIC_API_PORT_LOGIN || "";
+          const apiPortString = apiPortLogin ? `:${apiPortLogin}` : "";
+          const apiUrl = `${apiEndpoint}${apiPortString}/api/getLogoBinary/${state.decode_token.CompanyID}`;
+          
+          fetch(apiUrl)
                 .then(response => response.blob())
                 .then(blob => {
                     const imageUrl = URL.createObjectURL(blob);
@@ -22,20 +27,24 @@ function Signup() {
     }, [state.email, state.decode_token.CompanyID, setState, router]);
 
     const handleSignUpClick = () => {
-      var myHeaders = new Headers();
+      const myHeaders = new Headers();
       myHeaders.append("Content-Type", "application/json");
   
-      var raw = JSON.stringify({
+      const raw = JSON.stringify({
         "username": state.email
       });
   
-      var requestOptions = {
+      const requestOptions = {
         method: 'POST',
         headers: myHeaders,
         body: raw,
         redirect: 'follow'
       };
-      fetch(`${process.env.NEXT_PUBLIC_API_ENDPOINT_GET}${process.env.NEXT_PUBLIC_API_PORT_LOGIN?`:${process.env.NEXT_PUBLIC_API_PORT_LOGIN}`:""}/api/validateDomainChicCRM`, requestOptions)
+      const apiEndpoint = process.env.NEXT_PUBLIC_API_ENDPOINT_GET || "";
+      const apiPortLogin = process.env.NEXT_PUBLIC_API_PORT_LOGIN ? `:${process.env.NEXT_PUBLIC_API_PORT_LOGIN}` : "";
+      const apiUrl = apiEndpoint + apiPortLogin + "/api/validateDomainChicCRM";
+
+      fetch(apiUrl, requestOptions)
         .then(response => response.json())
         .then(result => {
           console.log(result);
