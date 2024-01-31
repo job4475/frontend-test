@@ -60,7 +60,6 @@ function SelectVerify() {
   }
 
   const getQR = () => {
-    setState({ ...state, loading: true });
     let myHeaders = new Headers();
     myHeaders.append("Content-Type", "application/json");
 

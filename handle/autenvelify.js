@@ -4,7 +4,7 @@ import { useCookies } from 'react-cookie';
 
 function Autenvelify() {
         const { state, setState } = useContext(StateContext);
-        const [ setCookie] = useCookies(['token']);
+        const [ cookies,setCookie] = useCookies(['token']);
         const verifyauthen = () => {
         setState((prevData) => ({ ...prevData, loading: true }));
         var myHeaders = new Headers();
@@ -29,7 +29,7 @@ function Autenvelify() {
               setCookie('token', state.decode_token, { path: '/', expires: expirationDate });
               window.location.href = "/Workspace"
           } else {
-             setState((prevData) => ({ ...prevData, alert: true, alert_text: result.message, alert_type: "error" }));
+             setState((prevData) => ({ ...prevData,loading: false, alert: true, alert_text: result.message, alert_type: "error" }));
             setTimeout(() => {
              setState((prevData) => ({ ...prevData, alert: false }));
             }, 3000);
