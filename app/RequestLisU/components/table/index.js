@@ -1,6 +1,6 @@
 "use client";
 import * as React from 'react';
-import { Box, Button, ClickAwayListener, Paper, Table, TableBody, TableCell, TableContainer, TableHead, TableRow, Tooltip } from '@mui/material'
+import { Box, Button, Paper, Table, TableBody, TableCell, TableContainer, TableHead, TableRow } from '@mui/material'
 import file from '@/assets/assets/images/file.png'
 import recipient from '@/assets/assets/images/recipient.png'
 import dropdown from '@/assets/assets/images/dropdown.png'
@@ -22,7 +22,6 @@ function Index() {
   const handleClose = (index) => {
     setTooltipOpen({ ...tooltipOpen, [index]: false });
   };
-
   const [tooltipOpenRecipient, setTooltipOpenRecipient] = useState({});
   const [tooltipContentRecipient, setTooltipContentRecipient] = useState({});
 
@@ -33,6 +32,15 @@ function Index() {
 
   const handleCloseRecipient = (index) => {
     setTooltipOpenRecipient({ ...tooltipOpenRecipient, [index]: false });
+  };
+  const getStatusColor = () => {
+    if (row[0].scdact_status === "Approved") {
+      return "#00E700";
+    } else if (row[0].scdact_status === "Rejected") {
+      return "#FF0000";
+    } else {
+      return "#0062FF";
+    }
   };
   return (
     <Box sx={{display:'flex',justifyContent:'center',mt:3}}>
@@ -50,12 +58,12 @@ function Index() {
       </TableHead>
       <TableBody>
         {handleUserList.groupedOrders?.map((row,index)=>(
-        <TableRow key={`${index}`}>
+        <TableRow key={row[0].scdact_reqid}>
           <TableCell align="center">{row[0].scdact_reqid}</TableCell>
           <TableCell id="cellheader" align="center">{handleUserList.convertTimestampToLocalTime(row[0].scdact_timestamp)}</TableCell>
           <TableCell id="bodycell" align="center">
             <div style={{ display: 'flex', justifyContent: 'center', alignItems: 'center' }}>
-            <Box key={index}>
+            <Box key={row[0].scdact_reqid}>
               <handleUserList.CustomTooltipRecipient
                 open={tooltipOpen[index] || false}
                 title={
@@ -66,10 +74,10 @@ function Index() {
                   <Box sx={{ p:1,display: "flex", flexDirection: 'column', justifyContent: 'flex-start', alignItems: 'flex-start' }}>
                     <Box component="h3" sx={{ ml: 1, color: 'gray.main' }}>All Files</Box>
                     {row.map((item, itemIndex) => (
-                      <Button onClick={() => row[0].scdact_status !== 'Approved' && row[0].scdact_status !== 'Rejected' ? handleUserList.handleClicktoGetFile(item.scdact_id) : ''} key={`button-${itemIndex}`} style={{ textTransform: 'none',display: 'flex', justifyContent: 'space-between', width: '100%' }}>
+                      <Button onClick={() => row[0].scdact_status !== 'Approved' && row[0].scdact_status !== 'Rejected' ? handleUserList.handleClicktoGetFile(item.scdact_id) : ''}
+                      key={`button-${item.scdact_id}`} style={{ textTransform: 'none', display: 'flex', justifyContent: 'space-between', width: '100%' }}>
                         <Box sx={{ pr: 1}}>{item.scdact_filename}</Box>
                         <Box >{item.scdact_filesize}</Box>
-
                       </Button>
                     ))}
                   </Box>
@@ -92,16 +100,16 @@ function Index() {
           </TableCell>
           <TableCell id="bodycell" align="center">
           <div style={{ display: 'flex', justifyContent: 'center', alignItems: 'center' }}>
-            <Box key={index}>
+          <Box key={row[0].uniqueId}>
             <handleUserList.CustomTooltipRecipient
                 open={tooltipOpenRecipient[index] || false}
                 title={
                   <Box sx={{ p:1,display: "flex", flexDirection: 'column', justifyContent: 'flex-start', alignItems: 'flex-start' }}>
                    <Box component="h3" sx={{ ml: 1, color: 'gray.main' }}>All Recipients</Box>
                    {Array.from(new Set(row.flatMap(item => item.scdact_reciepient.split(',')))).map((recipient, index) => (
-                     <Button key={`button-${index}`} style={{ display: 'flex', justifyContent: 'left', width: '100%' }}>
-                       <Box sx={{ textTransform:"lowercase",pr: 1 }}>{`${recipient}`}</Box>
-                     </Button>
+                     <Button key={`button-${row[0].uniqueId}`} style={{ display: 'flex', justifyContent: 'left', width: '100%' }}>
+                        <Box sx={{ textTransform:"lowercase",pr: 1 }}>{`${recipient}`}</Box>
+                      </Button>
                    ))}
                  </Box>
 
@@ -122,7 +130,9 @@ function Index() {
             </Box>
             </div>
           </TableCell>
-          <TableCell style={{fontWeight:600,color: row[0].scdact_status === "Approved" ? "#00E700" : row[0].scdact_status === "Rejected" ? "#FF0000" : "#0062FF", textAlign: "center"}} align="center">{row[0].scdact_status}</TableCell>
+          <TableCell style={{ fontWeight: 600, color: getStatusColor(), textAlign: "center" }} align="center">
+            {row[0].scdact_status}
+          </TableCell>
         </TableRow>
         ))}
       </TableBody>

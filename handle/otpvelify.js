@@ -17,14 +17,13 @@ function Otpvelify() {
         };
         const workspace = () => {
             setState((prevData) => ({ ...prevData,loading: true, alert: false }));
-            
-            var myHeaders = new Headers();
+            const myHeaders = new Headers();
             myHeaders.append("Content-Type", "application/json");
-            var raw = JSON.stringify({
+            const raw = JSON.stringify({
                 "otp": state.input_OTP,
                 "referenceID": state.referenceID,
             });
-            var requestOptions = {
+            const requestOptions = {
                 method: 'POST',
                 headers: myHeaders,
                 body: raw,

@@ -2,13 +2,13 @@
 'use client'
 import { StateContext } from '@/context/Context';
 import { Box, Grid } from '@mui/material';
-import React, { useContext } from 'react'
+import React, { useContext,useEffect } from 'react'
 import ContentAccount from './components/content_account'
 import ContentCompany from './components/content_company'
 import ContentPersonal from './components/content_personal'
 import Button from './components/button'
 import Map from './components/map'
-import { useEffect } from 'react';
+
 function Page() {
   const {state} = useContext(StateContext);
   useEffect(() => {

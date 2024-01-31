@@ -6,37 +6,31 @@ import Logotrac from "@/assets/assets/images/logotrac.png";
 import { StateContext } from '@/context/Context';
 import { useEffect,useState,useContext } from 'react';
 
-function Index() {
-  const {state} = useContext(StateContext);
-  const isLocalStorageAvailable = typeof window !== 'undefined' && window.localStorage;
+const Index = () => {
+  const { state } = useContext(StateContext);
 
-  // Use local storage only if it's available
+  const isLocalStorageAvailable = typeof window !== 'undefined' && window.localStorage;
   const storedLoginTime = isLocalStorageAvailable ? localStorage.getItem('loginTime') : null;
-  const [loginTime] = useState(
+
+  const [loginTime, setLoginTime] = useState(
     storedLoginTime ? new Date(storedLoginTime) : new Date()
   );
-
+  
   useEffect(() => {
     if (isLocalStorageAvailable) {
-      localStorage.setItem('loginTime', loginTime);
+      localStorage.setItem('loginTime', loginTime.toISOString());
     }
-    
-      const intervalId = setInterval(() => {
+
+    const intervalId = setInterval(() => {
       const currentTime = new Date();
       const elapsedTime = currentTime - loginTime;
       const formattedTime = formatElapsedTime(elapsedTime);
-      const loginPeriodElement = document.getElementById('loginPeriod');
 
-       if (loginPeriodElement) {
-         loginPeriodElement.innerText = `Login Period: ${formattedTime}`;
-       } else {
-         console.error("Element with id 'loginPeriod' not found in the DOM.");
-       }
-       
-    }, 0);
+      setFormattedTime(`Login Period: ${formattedTime}`);
+    }, 1000);
 
     return () => clearInterval(intervalId);
-  }, [loginTime]);
+  }, [loginTime, isLocalStorageAvailable]);
 
   const formatElapsedTime = (elapsedTime) => {
     const seconds = Math.floor(elapsedTime / 1000) % 60;
@@ -56,13 +50,26 @@ function Index() {
     return () => clearTimeout(timeoutId);
   }, []);
 
+  const [formattedTime, setFormattedTime] = useState('');
+
   const handleredirect = () => {
-    window.location.href = '/Workspace'
-  }
+    window.location.href = '/Workspace';
+  };
+
+  const handleClick = () => {
+    handleredirect();
+  };
+
+  const handleKeyPress = (e) => {
+    if (e.key === 'Enter') {
+      handleredirect();
+    }
+  };
+
   return (
 <Box sx={{display:"flex",justifyContent:"space-between",alignItems:"center",p:2}}>
       <Box sx={{display:"flex"}}>
-          <div role="button" tabIndex={0} onClick={handleredirect} onKeyDown={(e) => { if (e.key === 'Enter') { handleredirect(); }}}  className="mr-3" style={{cursor:"pointer",}}>
+      <div role="button"tabIndex={0}onClick={handleClick}onKeyDown={handleKeyPress}className="mr-3"style={{ cursor: "pointer" }}>
           {!loading ? (
             <Image variant="rectangular"  src={Logotrac} alt="logo"  style={{ width: "90px", height: "90px", borderRadius: "99px" }} />
             ) : (
@@ -100,17 +107,11 @@ function Index() {
           {!loading ? (
             <Image
               src={state.decode_token.CompanyLogoOriginal?state.decode_token?.CompanyLogoOriginal:Logotrac}
-              alt="logo"
-              width={100}
-              height={100}
-            />
+              alt="logo"width={100}height={100}/>
             ) : (
               <Skeleton
               src={state.decode_token.CompanyLogoOriginal?state.decode_token?.CompanyLogoOriginal:Logotrac}
-              alt="logo"
-              width={100}
-              height={170}
-            />
+              alt="logo"width={100}height={170}/>
             )}
           </div>
         </Box>

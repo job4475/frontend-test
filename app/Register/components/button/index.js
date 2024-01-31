@@ -6,7 +6,7 @@ import handleregis from "@/handle/register"
 import { StateContext } from '@/context/Context'
 import Loading from '@/components/loading'
 import Dialog from '@/components/dialog/dialog'
-import { useEffect } from 'react'
+
 
 function Index() {
   const { state } = useContext(StateContext);

@@ -5,11 +5,10 @@ import React, { useContext } from 'react'
 import website from '@/assets/assets/images/register/website.png'
 import tel from '@/assets/assets/images/register/tel.png'
 import map from '@/assets/assets/images/register/location.png'
-import accountimg from '@/assets/assets/images/register/account.png'
 import { StateContext } from '@/context/Context'
 
 function index() {
-    const {state, setState} = useContext(StateContext);
+    const {state} = useContext(StateContext);
     const handlePhoneClick = () => {
       window.open(`tel:${state.phoneNumber || "021019884"}`);
     };
