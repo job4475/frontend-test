@@ -1,4 +1,4 @@
-/* use client */
+'use client'
 import LoginForm from "../ui/login/LoginForm/LoginForm";
 import Image from "next/image";
 import Chiclogo from "@/assets/assets/images/sigin/chiclogo.png";
