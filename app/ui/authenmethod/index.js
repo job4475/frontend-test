@@ -31,7 +31,7 @@ function SelectVerify() {
   }
 
   const sendOTPEmail = () => {
-
+    setState({ ...state, loading: true });
     let myHeaders = new Headers();
     myHeaders.append("Content-Type", "application/json");
     let otpData = {
@@ -47,10 +47,10 @@ function SelectVerify() {
       .then(response => response.json())
       .then(result => {
         if (result.status === "OK") {
-          setState({ ...state, referenceID: result.referenceID });
+          setState({ ...state, referenceID: result.referenceID,loading: false });
           router.push('/OTPverify');
         } else {
-          setState((prevData) => ({ ...prevData, alert: true, alert_text: result.message, alert_type: "error" }));
+          setState((prevData) => ({ ...prevData, loading:false,alert: true, alert_text: result.message, alert_type: "error" }));
           setTimeout(() => {
             window.location.reload();
           }, 2000);
@@ -60,6 +60,7 @@ function SelectVerify() {
   }
 
   const getQR = () => {
+    setState({ ...state, loading: true });
     let myHeaders = new Headers();
     myHeaders.append("Content-Type", "application/json");
 
@@ -80,7 +81,7 @@ function SelectVerify() {
         if (result.status === "OK") {
           console.log("🚀 ~ getQR ~ result:", result)
           localStorage.setItem("qrcode", JSON.stringify(result.qrCodeURL));
-          setState({ ...state, qrcodeurl: result.qrCodeURL });
+          setState({ ...state, qrcodeurl: result.qrCodeURL,loading:false });
           router.push('/Authenticator');
 
         } else if(result.statusqr===false&&(state.qrcode===""&&state.qrcodeurl==="")) {

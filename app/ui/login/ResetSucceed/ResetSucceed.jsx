@@ -7,10 +7,7 @@ import { StateContext } from '@/context/Context';
 import { useRouter } from 'next/navigation';
 
 function Index() {
-  const { state } = useContext(StateContext);
-
-  const [showPassword, setShowPassword] = useState(false);
-  
+  const { state } = useContext(StateContext);  
 
   const router = useRouter();
   const backlogin = () => {
