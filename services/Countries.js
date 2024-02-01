@@ -1,14 +1,14 @@
 // import { StateContext } from '@/context/Context';
-// import React, { useContext, useEffect } from 'react'
+// import  { useContext, useEffect } from 'react'
 
 // function Countries() {
 //   const { state, setState } = useContext(StateContext);
 //   useEffect(() => {
     
-//     var myHeaders = new Headers();
+//     const myHeaders = new Headers();
 //     myHeaders.append("Content-Type", "application/json");
 
-//     var requestOptions = {
+//     const requestOptions = {
 //       method: 'GET',
 //       headers: myHeaders,
 //       redirect: 'follow'

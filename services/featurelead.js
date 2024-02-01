@@ -6,8 +6,13 @@ function Feature() {
   const { state, setState } = useContext(StateContext);
 
   useEffect(() => {
-    if (state.decode_token && state.decode_token.TeamleadID) {
-      fetch(`${process.env.NEXT_PUBLIC_API_ENDPOINT_GET}${process.env.NEXT_PUBLIC_API_PORT_LOGIN?`:${process.env.NEXT_PUBLIC_API_PORT_LOGIN}`:""}/api/checkMemberFeature/${state.decode_token.TeamleadID}`)
+    if (state.decode_token?.TeamleadID) {
+      const apiEndpoint = process.env.NEXT_PUBLIC_API_ENDPOINT_GET || '';
+      const apiPortLogin = process.env.NEXT_PUBLIC_API_PORT_LOGIN ? `:${process.env.NEXT_PUBLIC_API_PORT_LOGIN}` : '';
+      const memberId = state.decode_token && state.decode_token.TeamleadID;
+
+      const apiUrl = `${apiEndpoint}${apiPortLogin}/api/checkMemberFeature/${memberId}`;
+      fetch(apiUrl)
         .then(response => response.json())
         .then(result => {
           console.log("🚀 ~ useEffect ~ result:", result)

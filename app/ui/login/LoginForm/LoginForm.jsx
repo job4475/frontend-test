@@ -1,6 +1,5 @@
 'use client '
 import { Box, Button, Skeleton, TextField } from '@mui/material';
-
 import IconButton from '@mui/material/IconButton';
 import VisibilityIcon from '@mui/icons-material/Visibility';
 import VisibilityOffIcon from '@mui/icons-material/VisibilityOff';
@@ -9,12 +8,11 @@ import handlelogin from "@/handle/login"
 import Loading from '@/components/loading'
 import Backdrop from '@/components/backdrop/backdrop'
 import Dialog from '@/components/dialog/dialog'
-import { Title } from '@mui/icons-material';
 import { useContext, useEffect, useState } from 'react';
+
 function Index() {
   const { state, setState } = useContext(StateContext);
   const [showContent, setShowContent] = useState(false);
-  
   const HandleLogin = handlelogin();
   const handleEnterKeyPress = (e) => {
     if (e.key === 'Enter') {
@@ -26,12 +24,10 @@ function Index() {
     const timer = setTimeout(() => {
       setShowContent(true);
     }, 1000);
-
     return () => clearTimeout(timer);
   }, []);
   return (
     <Box>
-
       <Box sx={{
         display: 'flex', flexDirection: 'column', background: '#fff', width: '440px', height: '550px',
         borderRadius: "15px", marginLeft: 'auto', mr: 7, mt: 1, boxShadow: '0px 0px 10px rgba(0, 0, 0, 0.1)', justifyContent: 'space-between', py: '35px', px: '25px'
@@ -57,10 +53,8 @@ function Index() {
               <Box>Sign Up</Box>
             </Box>
           </Box>
-
         ) : (
           <Skeleton variant="rectangular" width={210} height={45} style={{ borderRadius: '50px' }} />
-
         )}
         {showContent ? (<Box sx={{ display: 'flex', flexDirection: 'column', justifyContent: 'center', alignItems: 'center' }}>
           <TextField id="standard-basic" label="Email" variant="standard" value={state.email} onChange={HandleLogin.Email} onKeyDown={handleEnterKeyPress} sx={{ width: '90%', '& label': { color: '#828895', fontWeight: '500' } }} />

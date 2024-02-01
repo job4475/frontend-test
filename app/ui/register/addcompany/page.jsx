@@ -83,12 +83,12 @@ function Page() {
                 </Box>
                 <Box sx={{ display: 'flex', alignItems: 'center' }}>
                   <Box sx={{ pt: 1.5, width: '150px', color: '#1F2939', fontWeight: '500' }}>Province</Box>
-                  <Select labelId="province-select" variant="standard" id="province-select" value={state.selectedProvince} label="Province" onChange={Handlecompany.handleProvinceChange}
-                    sx={{ width: "250px" }} size='small'>
-                    {state.provinces && state.provinces.map((province, index) => (
-                      <MenuItem key={index} value={province}>
+                  <Select labelId="province-select" variant="standard" id="province-select" value={state.selectedProvince} label="Province" onChange={Handlecompany?.handleProvinceChange} sx={{ width: "250px" }} size="small">
+                    {state.provinces?.map((province) => (
+                      <MenuItem key={province} value={province}>
                         {province}
-                      </MenuItem>))}
+                      </MenuItem>
+                    ))}
                   </Select>
                 </Box>
               </Box>

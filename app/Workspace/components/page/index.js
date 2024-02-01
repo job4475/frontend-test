@@ -14,46 +14,24 @@ import { useCookies } from "react-cookie";
 
 const Page = () => {
   const { state, setState } = useContext(StateContext);
-  const [ removeCookie] = useCookies(['token']);
-  
-  const sharedocumentRouter = () => {
-    setState((prevData) => ({ ...prevData, backdrop: true}));         
-    if(state.decode_token.Role==="admin"){
-      window.location.href = "/RequestList"
-      
-    }else{
-      window.location.href = "/ShareDocument"
-    }
-    };
-
+  const [removeCookie] = useCookies(['token']);
   const isLocalStorageAvailable = typeof window !== 'undefined' && window.localStorage;
 
-  const storedLoginTime = isLocalStorageAvailable ? localStorage.getItem('loginTime') : null;
-  const [loginTime, setLoginTime] = React.useState(
-    storedLoginTime ? new Date(storedLoginTime) : new Date()
-  );
+  const sharedocumentRouter = () => {
+    setState((prevData) => ({ ...prevData, backdrop: true }));
+    const redirectPath = state.decode_token.Role === "admin" ? "/RequestList" : "/ShareDocument";
+    window.location.href = redirectPath;
+  };
 
-  useEffect(() => {
-    if (isLocalStorageAvailable) {
-      localStorage.setItem('loginTime', loginTime);
-    }
-    
-      const intervalId = setInterval(() => {
-      const currentTime = new Date();
-      const elapsedTime = currentTime - loginTime;
-      const formattedTime = formatElapsedTime(elapsedTime);
-      const loginPeriodElement = document.getElementById('loginPeriod');
+  const handleLogout = () => {
+    localStorage.removeItem("ally-supports-cache");
+    localStorage.removeItem("decode_token");
+    localStorage.removeItem("loginTime");
+    localStorage.removeItem("datacompanylc");
 
-       if (loginPeriodElement) {
-         loginPeriodElement.innerText = `Login Period: ${formattedTime}`;
-       } else {
-         console.error("Element with id 'loginPeriod' not found in the DOM.");
-       }
-       
-    }, 0);
-
-    return () => clearInterval(intervalId);
-  }, [loginTime]);
+    removeCookie('token', { path: '/' });
+    window.location.href = "/";
+  };
 
   const formatElapsedTime = (elapsedTime) => {
     const seconds = Math.floor(elapsedTime / 1000) % 60;
@@ -63,17 +41,33 @@ const Page = () => {
     return `${String(hours).padStart(2, '0')}:${String(minutes).padStart(2, '0')}:${String(seconds).padStart(2, '0')}`;
   };
 
-  const handleclicklogout = () => {
-    localStorage.removeItem("ally-supports-cache")
-    localStorage.removeItem("decode_token")
-    localStorage.removeItem("loginTime")
-    localStorage.removeItem("datacompanylc")
-    
-    removeCookie('token',{path: '/'});
-    window.location.href="/"
-  }
+  const updateLoginTime = (currentTime) => {
+    if (isLocalStorageAvailable) {
+      localStorage.setItem('loginTime', currentTime);
+    }
+  };
 
-  const [loading, setLoading] = useState(true);
+  useEffect(() => {
+    const loginTime = isLocalStorageAvailable ? localStorage.getItem('loginTime') : null;
+    const initialLoginTime = loginTime ? new Date(loginTime) : new Date();
+    setLoginTime(initialLoginTime);
+
+    const intervalId = setInterval(() => {
+      const currentTime = new Date();
+      const elapsedTime = currentTime - initialLoginTime;
+      const formattedTime = formatElapsedTime(elapsedTime);
+      const loginPeriodElement = document.getElementById('loginPeriod');
+
+      if (loginPeriodElement) {
+        loginPeriodElement.innerText = `Login Period: ${formattedTime}`;
+      } else {
+        console.error("Element with id 'loginPeriod' not found in the DOM.");
+      }
+
+    }, 0);
+
+    return () => clearInterval(intervalId);
+  }, [isLocalStorageAvailable]);
 
   useEffect(() => {
     const timeoutId = setTimeout(() => {
@@ -81,10 +75,11 @@ const Page = () => {
     }, 50);
 
     return () => clearTimeout(timeoutId);
-  }, []);
+  }, [setLoading]);
+
   const Notallowed =()=>{
 
-
+  }
   return (
     <>
     <Backdrop/>
@@ -179,7 +174,7 @@ const Page = () => {
           </div>
 
           <div>
-              <div
+              <button
               role="button"
               tabIndex={0}
               onClick={Notallowed}
@@ -200,12 +195,12 @@ const Page = () => {
                   <br />
                   Support
                 </div>
-              </div>
+              </button>
           </div>
 
 
           <div>
-              <div
+              <button
               role="button"
               tabIndex={0}
               onClick={Notallowed}
@@ -224,11 +219,11 @@ const Page = () => {
                   <br />
                   Opportunity
                 </div>
-              </div>
+              </button>
           </div>
 
           <div>
-              <div
+              <button
               role="button"
               tabIndex={0}
               onClick={Notallowed}
@@ -247,11 +242,11 @@ const Page = () => {
                   <br />
                   Reserve
                 </div>
-              </div>
+              </button>
           </div>
 
           <div>
-              <div
+              <button
               role="button"
               tabIndex={0}
               onClick={handleleaderreview}
@@ -272,13 +267,13 @@ const Page = () => {
                   <br />
                   Review
                 </div>
-              </div>
+              </button>
           </div> 
         </div>
       </div>
     </>
   );
 };
-}
+
 
 export default Page;

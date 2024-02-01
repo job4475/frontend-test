@@ -6,7 +6,7 @@ import React, { useContext } from 'react'
 
 function Backdrop1() {
   
-  const { state, setState } = useContext(StateContext);
+  const { state } = useContext(StateContext);
 
   return (
     <Box>

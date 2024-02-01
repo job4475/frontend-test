@@ -1,10 +1,10 @@
 'use client'
 
-import React, {useState} from "react";
-import { Tabs,Tab, Input,Link, Button,Card,CardBody,CardHeader,} from "@nextui-org/react";
+import React from "react";
+import { Card,CardBody} from "@nextui-org/react";
 
 const ResetPassword = () => {
-  const [selected, setSelected] = useState("login");
+
   return (
     <div className="">
       <Card className="max-w-full w-[340px] h-[400px]">
