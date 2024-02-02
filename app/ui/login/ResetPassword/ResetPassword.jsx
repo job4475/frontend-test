@@ -12,7 +12,6 @@ import Loading from '@/components/loading'
 
 function Index() {
   const { state, setState } = useContext(StateContext);
-  const { state, setState } = useContext(StateContext);
   const [showPassword, setShowPassword] = useState(false);
   const HandleResetPassword = handleresetpassword();
   const updatePasswordFunc = updatePassword();

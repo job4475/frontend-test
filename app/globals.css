@@ -72,10 +72,11 @@ a:hover {
   text-decoration: underline;
 }
 
-aa {
+#aa {
   color: inherit;
   text-decoration: none;
 }
+
 
 .button-loader {
   display: flex;

@@ -95,7 +95,7 @@ function Login() {
           formdata.append('bodylink', 'http://localhost:3434/CreateCompany');
           formdata.append('linkname', 'Registration Link');
 
-          var requestOptions = {
+          const requestOptions = {
             method: 'POST',
             body: formdata,
             redirect: 'follow',

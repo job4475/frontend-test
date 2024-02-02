@@ -1,7 +1,7 @@
 'use client'
 
 import { Box, Button } from '@mui/material';
-import React, { useContext, useState } from 'react';
+import React, { useContext } from 'react';
 
 import { StateContext } from '@/context/Context';
 import { useRouter } from 'next/navigation';

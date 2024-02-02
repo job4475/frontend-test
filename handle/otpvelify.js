@@ -2,7 +2,7 @@ import { useContext } from 'react';
 import { StateContext } from '@/context/Context';
 import { useCookies } from 'react-cookie';
 
-function otpvelify() {
+function Otpvelify() {
     const { state, setState } = useContext(StateContext);
     const [cookies,setCookie] = useCookies(['token']);
  
@@ -56,4 +56,4 @@ function otpvelify() {
     };
     return { handleCodeChange,workspace };
 }
-export default otpvelify;
+export default Otpvelify;

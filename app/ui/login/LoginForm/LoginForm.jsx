@@ -8,8 +8,8 @@ import handlelogin from '@/handle/login'
 import Loading from '@/components/loading'
 import Backdrop from '@/components/backdrop/backdrop'
 import Dialog from '@/components/dialog/dialog'
-import { useContext, useEffect, useState } from 'react';
-import React from 'react'
+import React,{ useContext, useEffect, useState } from 'react';
+
 
 function Index() {
   const { state, setState } = useContext(StateContext);
