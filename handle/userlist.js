@@ -1,17 +1,15 @@
 'use client'
 import { StateContext } from '@/context/Context';
-import { Box, FormControlLabel, Switch } from '@mui/material';
-import React, { useContext, useRef, useState,useCallback } from 'react'
-import { useRouter } from "next/navigation";
-import { createTheme, ThemeProvider, styled } from "@mui/material/styles";
+import React, { useContext } from 'react'
+import { styled } from "@mui/material/styles";
 import Tooltip, { tooltipClasses } from '@mui/material/Tooltip';
 
-function userlist() {
+function Userlist() {
   const {state, setState} = useContext(StateContext);
 
-    const router = useRouter();
     const handleNewRequest = ()=>{
-        router.push('/ShareDocument');
+      setState((prevData) => ({ ...prevData, loading: true}));
+      window.location.href = '/ShareDocument'
       }
     
       const handleTooltipOpen = () => {
@@ -28,13 +26,18 @@ function userlist() {
       };
 
       const handleClicktoGetFile = (uuid) => {
-        var requestOptions = {
+        const requestOptions = {
           method: 'GET',
           responseType: 'blob',
           redirect: 'follow'
         };
     
-        fetch(`${process.env.NEXT_PUBLIC_API_ENDPOINT}:${process.env.NEXT_PUBLIC_API_PORT}/api/requestFile/${uuid}`, requestOptions)
+        const apiEndpoint = process.env.NEXT_PUBLIC_API_ENDPOINT;
+        const apiPortLogin = process.env.NEXT_PUBLIC_API_PORT_LOGIN || "";
+        const apiPortString = apiPortLogin ? `:${apiPortLogin}` : "";
+        const apiUrl = `${apiEndpoint}${apiPortString}/api/requestFile/${uuid}`;
+
+        fetch(apiUrl, requestOptions)
           .then(response => response.blob())
           .then(blob => {
             const blobUrl = URL.createObjectURL(blob);
@@ -106,5 +109,5 @@ function userlist() {
 
 }
 
-export default userlist
+export default Userlist
 

@@ -1,9 +1,9 @@
 'use client'
 import { StateContext } from '@/context/Context';
 import { useRouter } from 'next/navigation';
-import React, { useContext } from 'react'
+import { useContext } from 'react'
 
-function addcompany() {
+function Addcompany() {
     const {state, setState} = useContext(StateContext);
     const router = useRouter();
   const Selectcompany = () => {
@@ -80,5 +80,5 @@ function addcompany() {
     phoneNumber,webSite}
 }
 
-export default addcompany
+export default Addcompany
 

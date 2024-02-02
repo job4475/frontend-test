@@ -1,63 +1,73 @@
 'use client'
 import { StateContext } from '@/context/Context';
 import { useRouter } from 'next/navigation';
-import React, { useContext } from 'react'
+import { useContext } from 'react'
 
-function register() {
-  const {state, setState} = useContext(StateContext);
-  const router = useRouter();
-  const handleRegister = () => {
-    setState((prevData) => ({ ...prevData,loading: true,alert: false}));
-    var myHeaders = new Headers();
-myHeaders.append("Content-Type", "application/json");
+function Register() {
+            const {state, setState} = useContext(StateContext);
+            const router = useRouter();
+            const handleRegister = () => {
+              setState((prevData) => ({ ...prevData,loading: true,alert: false}));
+              const myHeaders = new Headers();
+            myHeaders.append("Content-Type", "application/json");
 
-var raw = JSON.stringify({
-  "username": state.email,
-  "title": state.titleselect,
-  "firstname_en": state.first_name,
-  "Surname_en": state.last_name,
-  "mobile_phone": state.phone_number,
-  "country": state.country,
-  "province": state.selectedProvince?state.selectedProvince:state.datacompany.Province, 
-  "district": state.selectedAmphoe?state.selectedAmphoe:state.datacompany.District,
-  "sub_district": state.selectedTambon?state.selectedTambon:state.datacompany.SubDistrict,
-  "zipcode": state.zipcode,
-  "create_location": state.googlemaps,
-  "url_logo": "https://iconscout.com/free-icon/logo-3446031",
-  "company_name_en": state.companyname,
-  "company_mobile": state.phone_number,
-  "company_alias": state.alias,
-  "company_geolo": state.googlemaps,
-  "address1_en": state.street,
-  "address_no": state.no,
-  "job_title": state.job_title,
-  "role": state.role,
-  "Website": "www.tracthai.com"
-});
+            const raw = JSON.stringify({
+              "username": state.email,
+              "title": state.titleselect,
+              "firstname_en": state.first_name,
+              "Surname_en": state.last_name,
+              "mobile_phone": state.phone_number,
+              "country": state.country,
+              "province": state.selectedProvince?state.selectedProvince:state.datacompany.Province, 
+              "district": state.selectedAmphoe?state.selectedAmphoe:state.datacompany.District,
+              "sub_district": state.selectedTambon?state.selectedTambon:state.datacompany.SubDistrict,
+              "zipcode": state.zipcode,
+              "create_location": state.googlemaps,
+              "url_logo": "https://iconscout.com/free-icon/logo-3446031",
+              "company_name_en": state.companyname,
+              "company_mobile": state.phone_number,
+              "company_alias": state.alias,
+              "company_geolo": state.googlemaps,
+              "address1_en": state.street,
+              "address_no": state.no,
+              "job_title": state.job_title,
+              "role": "user",
+              "Website": "www.tracthai.com"
+            });
 
-var requestOptions = {
-  method: 'POST',
-  headers: myHeaders,
-  body: raw,
-  redirect: 'follow'
-};
+            const requestOptions = {
+              method: 'POST',
+              headers: myHeaders,
+              body: raw,
+              redirect: 'follow'
+            };
 
-fetch(`${process.env.NEXT_PUBLIC_API_ENDPOINT_GET}:${process.env.NEXT_PUBLIC_API_PORT_LOGIN}/api/registerChicCRM`, requestOptions)
-    .then(response => response.json())
-    .then(result => {
-      console.log(result);
-      if (result.status === "OK") {
-        setState((prevData) => ({ ...prevData, companyID: result.companyID }));
-          var formdata = new FormData();
-          formdata.append("file",  state.selectedFile);
-          formdata.append("organizeID", result.companyID);
+            const apiEndpoint = process.env.NEXT_PUBLIC_API_ENDPOINT_GET;
+            const apiPortLogin = process.env.NEXT_PUBLIC_API_PORT_LOGIN || "";
+            const apiPortString = apiPortLogin ? `:${apiPortLogin}` : "";
+            const apiUrl = apiEndpoint + apiPortString + "/api/registerChicCRM";
+            
+            fetch(apiUrl, requestOptions)
+                .then(response => response.json())
+                .then(result => {
+                  console.log(result);
+                  if (result.status === "OK") {
+                    setState((prevData) => ({ ...prevData, companyID: result.companyID }));
+                    const formdata = new FormData();
+                      formdata.append("file",  state.selectedFile);
+                      formdata.append("organizeID", result.companyID);
 
-          var uploadRequestOptions = {
+                      const uploadRequestOptions = {
             method: 'PATCH',
             body: formdata,
             redirect: 'follow'
           };
-          fetch(`${process.env.NEXT_PUBLIC_API_ENDPOINT_GET}:${process.env.NEXT_PUBLIC_API_PORT_LOGIN}/api/uploadLogoBinary`, uploadRequestOptions)
+          const apiEndpoint = process.env.NEXT_PUBLIC_API_ENDPOINT_GET;
+          const apiPortLogin = process.env.NEXT_PUBLIC_API_PORT_LOGIN || "";
+          const apiPortString = apiPortLogin ? `:${apiPortLogin}` : "";
+          const apiUrl = apiEndpoint + apiPortString + "/api/uploadLogoBinary";
+
+          fetch(apiUrl, uploadRequestOptions)
             .then(response => response.json())
             .then(uploadResult => {
               console.log(uploadResult);
@@ -83,5 +93,5 @@ fetch(`${process.env.NEXT_PUBLIC_API_ENDPOINT_GET}:${process.env.NEXT_PUBLIC_API
 }
   return {handlechangeTitle,handlechangeinput,Selectcompany,handleRegister};
 }
-export default register
+export default Register
 

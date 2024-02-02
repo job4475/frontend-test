@@ -5,7 +5,7 @@ import Image from "next/image";
 import Chiclogo from "@/assets/assets/images/sigin/chiclogo.png";
 import { useRouter } from "next/navigation";
 
-const page = () => {
+const Page = () => {
   const router = useRouter();
 
   const backlogin = () => {
@@ -24,4 +24,4 @@ const page = () => {
   );
 };
 
-export default page;
+export default Page;

@@ -6,15 +6,27 @@ import { useRouter } from "next/navigation";
 import { StateContext } from "@/context/Context";
 import Backdrop from '@/components/backdrop/backdrop'
 
-const page = () => {
+const Page = () => {
 
   const router = useRouter();
   const { state, setState } = useContext(StateContext);
   const Register = () => {
-    setState({ ...state, backdrop: true });
-    setTimeout(() => {
-      setState((prevData) => ({ ...prevData, backdrop: false }));
-    }, 1000);
+    setState({
+      ...state,
+      datacompany: state.datacompanylc,
+      companyID: state.datacompanylc.CompanyID,
+      companyname: state.datacompanylc.Companyname,
+      alias: state.datacompanylc.CompanyAlias,
+      no: state.datacompanylc.AddressNo,
+      street: state.datacompanylc.Address1En,
+      googlemaps: state.datacompanylc.Geolocation,
+      selectedProvince: state.datacompanylc.Province,
+      selectedAmphoe: state.datacompanylc.District,
+      selectedTambon: state.datacompanylc.SubDistrict,
+      zipcode: state.datacompanylc.Zipcode,
+      country: state.datacompanylc.Country,
+      backdrop: false,
+    });
     router.push('/Register');
   }
   const CreateCompany = () => {
@@ -24,6 +36,8 @@ const page = () => {
     }, 1000);
     router.push('/CreateCompany');
   }
+  
+ 
   return (
     <div
       className="h-screen"
@@ -46,7 +60,7 @@ const page = () => {
               />
             </Box>
             <div>
-              <h4>{state.datacompanylc.Companyname}</h4>
+              <h4>{state.datacompanylc?.Companyname}</h4>
             </div>
             <div>
               <svg
@@ -66,7 +80,7 @@ const page = () => {
             </div>
             <div>
               <p className="text-[12px] font-[500]">
-                {state.datacompanylc.Companyname} {state.datacompanylc.Province}, {state.datacompanylc.Zipcode} {state.datacompanylc.Country}.
+                {state.datacompanylc?.Companyname} {state.datacompanylc?.Province}, {state.datacompanylc?.Zipcode} {state.datacompanylc?.Country}.
               </p>
             </div>
           </Box>
@@ -128,4 +142,4 @@ const page = () => {
   );
 };
 
-export default page;
+export default Page;

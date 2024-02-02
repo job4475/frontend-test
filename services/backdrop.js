@@ -4,12 +4,10 @@ import { Backdrop, Box } from '@mui/material'
 import CircularProgress from '@mui/material/CircularProgress'
 import React, { useContext } from 'react'
 
-function backdrop() {
+function Backdrop1() {
   
-  const { state, setState } = useContext(StateContext);
-  const handleClose = () => {
-    setState({...state,backdrop: false})
-  };
+  const { state } = useContext(StateContext);
+
   return (
     <Box>
       <Backdrop sx={{ color: '#fff', zIndex: (theme) => theme.zIndex.drawer + 1 }}
@@ -20,4 +18,4 @@ function backdrop() {
   )
 }
 
-export default backdrop
+export default Backdrop1

@@ -5,8 +5,8 @@ import handlegovelify from "@/handle/Authenticator"
 import { Box, Button } from '@mui/material';
 import QRCode from 'qrcode.react';
 
-function page() {
-  const { state, setState } = useContext(StateContext);
+function Page() {
+  const { state } = useContext(StateContext);
   const HandleLogin = handlegovelify();
   return (
     <Box>
@@ -31,4 +31,4 @@ function page() {
   );
 }
 
-export default page
+export default Page

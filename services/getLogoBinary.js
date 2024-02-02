@@ -3,14 +3,17 @@ import { useRouter } from 'next/navigation';
 import React, { useContext, useEffect } from 'react';
 
 
-function getLogoBinary() {
+function GetLogoBinary() {
     const { state, setState } = useContext(StateContext);
     const router = useRouter();
 
     useEffect(() => {
         if (state.companyID) {
             setState({ ...state, loading: true });
-            fetch(`${process.env.NEXT_PUBLIC_API_ENDPOINT_GET}:${process.env.NEXT_PUBLIC_API_PORT_LOGIN}/api/getLogoBinary/${state.companyID}`)
+            const apiEndpoint = process.env.NEXT_PUBLIC_API_ENDPOINT_GET;
+            const apiPortLogin = process.env.NEXT_PUBLIC_API_PORT_LOGIN || "";
+            const apiUrl = `${apiEndpoint}${apiPortLogin}/api/getLogoBinary/${state.companyID}`;
+            fetch(apiUrl)
                 .then(response => response.blob())
                 .then(blob => {
                     const imageUrl = URL.createObjectURL(blob);
@@ -24,4 +27,4 @@ function getLogoBinary() {
     return null;
 }
 
-export default getLogoBinary;
+export default GetLogoBinary;

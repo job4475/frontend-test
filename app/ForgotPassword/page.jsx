@@ -3,13 +3,11 @@ import React from "react";
 import ForgotPassword from "../ui/login/ForgotPassword/ForgotPassword";
 import Image from "next/image";
 import Chiclogo from "@/assets/assets/images/sigin/chiclogo.png";
-import { useRouter } from "next/navigation";
 
-const page = () => {
-  const router = useRouter();
+const Page = () => {
 
   const backlogin = () => {
-    router.push("/Login");
+    window.location.href="/"
   }
 
   return (
@@ -24,4 +22,4 @@ const page = () => {
   );
 };
 
-export default page;
+export default Page;

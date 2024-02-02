@@ -3,7 +3,7 @@ import React from 'react'
 import arrow from '@/assets/assets/images/register/arrow.png'
 import Image from 'next/image'
 
-function index() {
+function Index() {
   return (
     <Box sx={{mt:2,display:"flex"}}>
         <Box sx={{width: "80px",height: "50px",padding: "5px 60px",border:"1px solid #84BAA1",display:"flex",justifyContent:"center",alignItems:"center",borderRadius:"6px"
@@ -21,4 +21,4 @@ function index() {
   )
 }
 
-export default index
+export default Index

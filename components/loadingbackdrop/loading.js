@@ -4,20 +4,18 @@ import { Backdrop, Box } from '@mui/material'
 import CircularProgress from '@mui/material/CircularProgress'
 import React, { useContext } from 'react'
 
-function loading() {
+function Backdrop1() {
   
   const { state, setState } = useContext(StateContext);
-  const handleClose = () => {
-    setState({...state,loading: false})
-  };
+
   return (
     <Box>
       <Backdrop sx={{ color: '#fff', zIndex: (theme) => theme.zIndex.drawer + 1 }}
-        open={state.loading}>
+        open={state.backdrop}>
         <CircularProgress color="inherit" />
       </Backdrop>
     </Box>
   )
 }
 
-export default loading
+export default Backdrop1

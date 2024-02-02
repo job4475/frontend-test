@@ -1,13 +1,28 @@
 'use client'
 import { StateContext } from '@/context/Context';
 import { Box, FormControlLabel, Switch } from '@mui/material';
-import React, { useContext, useRef, useState,useCallback } from 'react'
+import React, { useContext,useCallback } from 'react'
 import { styled } from '@mui/material/styles';
-import { useRouter } from 'next/navigation';
+import another from '@/assets/assets/images/marco.png'
+import pdf from '@/assets/assets/images/pdficon.png'
+import jpg from '@/assets/assets/images/jpg.png'
+import png from '@/assets/assets/images/png.png'
+import text from '@/assets/assets/images/text.png'
+import ai from '@/assets/assets/images/ai.png'
+import code from '@/assets/assets/images/code.png'
+import doc from '@/assets/assets/images/doc.png'
+import iso from '@/assets/assets/images/iso.png'
+import mp3 from '@/assets/assets/images/mp3.png'
+import mp4 from '@/assets/assets/images/mp4.png'
+import ppt from '@/assets/assets/images/ppt.png'
+import sql from '@/assets/assets/images/sql.png'
+import svg from '@/assets/assets/images/svg.png'
+import ttf from '@/assets/assets/images/ttf.png'
+import xls from '@/assets/assets/images/xls.png'
+import zip from '@/assets/assets/images/zip.png'
 
-function sharedoc(textFieldRef,fileInputRef) {
+function Sharedoc(textFieldRef,fileInputRef) {
   const {state, setState} = useContext(StateContext);
-  const router = useRouter();
 
   const HandleSwitchChange = (label) => {
     setSwitchStates((prevSwitchStates) => ({
@@ -31,6 +46,9 @@ function sharedoc(textFieldRef,fileInputRef) {
   };
   const handlemessageChange = (event) => {
     setState((prevData) => ({ ...prevData,message:event.target.value}));
+  };
+  const handlemessageBodyChange = (event) => {
+    setState((prevData) => ({ ...prevData,messageBody:event.target.value}));
   };
 
   const handleKeyDown = (event) => {
@@ -127,7 +145,7 @@ const handleExit = () => {
   ,No:'',SubDistric:'',Street:'',ZIPCode:'',Country:'',GoogleMaps:'',Newpassword:'',recipient:[],input_recip:"",subject:"",message:"",secure_type:false,selectedFileName:[],
   selectedFile:[],allowconverttooriginalfile: false,allowcopypaste: false,allowprint: false,alloweditsecuredfile: false,allowrunamacro: false,allowconverttobrowserviewfile: false,enableconverttooriginalfile:false,
   timelimitBeforeOri:"",timelimitBefore:"",timeBefore:"",timelimitAfterOri:"",timelimitAfter:"",timeAfter:"",limitDateTime:false,limitViewablePeriod:false,limitNumberFileOpen:false,noLimit:false,
-  periodDays:"",periodHours:"",opensTime:"",loading:false}));
+  periodDays:"",periodHours:"",opensTime:"",loading:false,messageBody:"",screenwatermark:false,watermark:false}));
 };
 
 const handleChangeperiodDays = (event) => {
@@ -149,11 +167,19 @@ const handleSwitchChange = (key, event) => {
       newState.allowprint = false;
       newState.alloweditsecuredfile = false;
       newState.allowrunamacro = false;
+      newState.screenwatermark = false;
+      newState.watermark = false;
     }else if (state.secure_type===true && key === 'allowconverttooriginalfile'){
       newState.allowcopypaste = false;
       newState.allowprint = false;
       newState.alloweditsecuredfile = false;
       newState.allowrunamacro = false;
+      newState.screenwatermark = false;
+      newState.watermark = false;
+    }else if (state.secure_type===false && key === 'allowcopypaste' && event.target.checked){
+      newState.screenwatermark = false;
+    }else if(state.secure_type===true && key === 'allowcopypaste' && event.target.checked){
+      newState.screenwatermark = false;
     }
 
     return newState;
@@ -285,7 +311,8 @@ const SwitchBox = ({ label, checked, onChange }) => (
   <Box sx={{ borderRadius:"7px",background: '#F7F8F9', width: '100%', height: '40px',  display: 'flex', alignItems: 'center', fontSize: '10px', justifyContent: 'space-between', p: 3 }}>
     {label}
     <FormControlLabel
-      disabled={state.secure_type && state.allowconverttooriginalfile && (label === 'Allow copy paste' || label === 'Allow print' || label === 'Allow run a macro' || label === 'Allow edit secured file')}
+      disabled={state.secure_type && state.allowconverttooriginalfile && (label === 'Allow copy paste' || label === 'Allow print' || label === 'Allow run a macro' || label === 'Allow edit secured file'||label === 'Screen Watermark')||
+      !state.secure_type && state.allowcopypaste && (label === 'Screen Watermark')||state.secure_type && state.allowcopypaste && (label === 'Screen Watermark')}
       labelPlacement="start"
       control={
       // <Switch checked={checked} onChange={onChange} sx={{
@@ -299,20 +326,29 @@ const SwitchBox = ({ label, checked, onChange }) => (
   </Box>
 );
 
-  const handleUpload = useCallback(async () => {
-    const uuid = require('uuid');
+const appendCommonFormData = (formdata, orderId, sanitizedFileName, emailText) => {
+  formdata.append("scdact_status", "Pending");
+};
 
-    if (state.selectedFile.length > 0) {
-      setState((prevData) => ({ ...prevData, loading: true }));
+const appendFileData = (formdata, file, orderId, sanitizedFileName, state, index) => {
+  const emailText = state.recipient.map((recipient) => `${recipient}`);
+  formdata.append("scdact_command", `./finalcode_api ${state.secure_type===true?"":"-browserview"} ...`);
+  formdata.append("scdact_binary", file, `/D:/Downloads/${orderId}/${sanitizedFileName}`);
+};
 
-      const formdata = new FormData();
-      const orderId = uuid.v4(); 
-      const currentDate = new Date();
-      const timestampInSeconds = Math.floor(currentDate.getTime() / 1000);
+
+const handleUpload = useCallback(async () => {
+  const uuid = require('uuid');
+  if (state.selectedFile.length > 0) {
+    setState((prevData) => ({ ...prevData, loading: true }));
+    const formdata = new FormData();
+    const orderId = uuid.v4();
+    const currentDate = new Date();
+    const timestampInSeconds = Math.floor(currentDate.getTime() / 1000);
 
       formdata.append("scdact_status", "Pending");
       formdata.append("scdact_reqid", orderId);
-      formdata.append("scdact_name", "wwww");
+      formdata.append("scdact_name", state.messageBody?state.messageBody:"");
       formdata.append("scdact_type", state.secure_type?"FCL":"HTML");
       formdata.append("scdact_starttime", state.timelimitBefore&&state.timeBefore?state.timelimitBefore + state.timeBefore:0);
       formdata.append("scdact_endtime", state.timelimitAfter&&state.timeAfter?state.timelimitAfter + state.timeAfter:0);
@@ -336,7 +372,7 @@ const SwitchBox = ({ label, checked, onChange }) => (
       formdata.append("scdact_reciepient", state.recipient);
       formdata.append("scdact_sender", state.decode_token?state.decode_token.UsernameOriginal:"thananchai@tracthai.com");
       formdata.append("uuid_member", state.decode_token?state.decode_token.ID:"No value");
-      formdata.append("scdact_action", "Request");
+      formdata.append("scdact_action", `${state.watermark?"watermark":""} ${state.screenwatermark?"screenwatermark":""}` );
       formdata.append("scdact_enableconvertoriginal", state.enableconverttooriginalfile?"true":"false");
       formdata.append("scdact_actiontime", timestampInSeconds);
 
@@ -345,7 +381,7 @@ const SwitchBox = ({ label, checked, onChange }) => (
         const sanitizedFileName = file.name.replace(/\s+/g, '-');
         const emailText = state.recipient.map((recipient, index) => `${recipient}`)
 
-        formdata.append("scdact_command", `./finalcode_api ${state.secure_type===true?"":"-browserview"} ${state.message?`-mes:"${state.message}"`:""} ${state.enableconverttooriginalfile?"-to_bv_decode":""} ${state.allowconverttobrowserviewfile?"-to_bv_file":""} ${state.allowrunamacro||state.allowconverttooriginalfile?"-nomacro_deny":"-macro_deny"} ${state.alloweditsecuredfile?"-edit":""} -encrypt ${state.secure_type===true?"":"-bv_auth:1"}  -src:../data/${orderId}/${sanitizedFileName} -dest:../data/${orderId}/${sanitizedFileName}"(${emailText})"${state.secure_type===true?".fcl":".html"} ${state.allowconverttooriginalfile?"-decode":""} ${state.allowcopypaste?"-copypaste":""} ${state.allowprint?"-print":""} ${state.timelimitBefore?`-startdate:${state.timelimitBefore}`:""} ${state.timelimitAfter?`-date:${state.timelimitAfter}`:""} ${state.periodDays?`-day:${state.periodDays}`:""} ${state.periodHours?`-hour:${state.periodHours}`:""} ${state.opensTime?`-cnt:${state.opensTime}`:""} -user:thananchai@tracthai.com -mail:${emailText}`);
+        formdata.append("scdact_command", `./finalcode_api ${state.secure_type===true?"":"-browserview"} ${state.message?`-mes:"${state.message}"`:""} ${state.enableconverttooriginalfile?"-to_bv_decode":""} ${state.allowconverttobrowserviewfile?"-to_bv_file":""} ${state.allowrunamacro||state.allowconverttooriginalfile?"-nomacro_deny":"-macro_deny"} ${state.alloweditsecuredfile?"-edit":""} -encrypt ${state.secure_type===true?"":"-bv_auth:1"}  -src:../data/${orderId}/${sanitizedFileName} -dest:../data/${orderId}/${sanitizedFileName}"(${emailText})"${state.secure_type===true?".fcl":".html"} ${state.allowconverttooriginalfile?"-decode":""} ${state.allowcopypaste?"-copypaste":""} ${state.allowprint?"-print":""} ${state.timelimitBefore?`-startdate:${state.timelimitBefore}`:""} ${state.timelimitAfter?`-date:${state.timelimitAfter}`:""} ${state.periodDays?`-day:${state.periodDays}`:""} ${state.periodHours?`-hour:${state.periodHours}`:""} ${state.opensTime?`-cnt:${state.opensTime}`:""} -user:thananchai@tracthai.com -mail:${emailText} ${state.watermark?"-watermark:2098":""} ${state.screenwatermark?"-scrnwatermark:2096":""}`);
         formdata.append("scdact_binary", file, `/D:/Downloads/${orderId}/${sanitizedFileName}`);
 
         formdata.append("scdact_filename", sanitizedFileName);
@@ -368,26 +404,23 @@ const SwitchBox = ({ label, checked, onChange }) => (
           if (result.Status === "OK") {
             // setData((prevData) => ({ ...prevData, alert: true, alert_text: result.message.finalcode_result, alert_type: "success"}));
             //^delay 3 seconds
-              setState((prevData) => ({ ...prevData, loading: false,titleselect:"",input_last_name:"",input_email:"",input_role:"",
+              setState((prevData) => ({ ...prevData, titleselect:"",input_last_name:"",input_email:"",input_role:"",
               input_firstName:"",input_phone:"",input_jobtitle:"",email:'',Password:'',Alias:'',Province:'',Companyname:'',District:''
               ,No:'',SubDistric:'',Street:'',ZIPCode:'',Country:'',GoogleMaps:'',Newpassword:'',recipient:[],input_recip:"",subject:"",message:"",secure_type:false,selectedFileName:[],
               selectedFile:[],allowconverttooriginalfile: false,allowcopypaste: false,allowprint: false,alloweditsecuredfile: false,allowrunamacro: false,allowconverttobrowserviewfile: false,enableconverttooriginalfile:false,
               timelimitBeforeOri:"",timelimitBefore:"",timeBefore:"",timelimitAfterOri:"",timelimitAfter:"",timeAfter:"",limitDateTime:false,limitViewablePeriod:false,limitNumberFileOpen:false,noLimit:false,
-              periodDays:"",periodHours:"",opensTime:"",loading:false}));
-              router.push('/RequestLisU');
+              periodDays:"",periodHours:"",opensTime:"",loading:false,messageBody:"",watermark:false,screenwatermark:false}));
+              window.location.href = '/RequestLisU'
           } else {
-            // setData((prevData) => ({ ...prevData, loading: false, alert: true, alert_text: result.message.finalcode_result, alert_type: "error" }));
+           
           }
         }
       };
 
       xhr.onerror = () => {
         // Record end time in case of an error
-        const endTime = performance.now();
-        // const elapsedTime = endTime - startTime;
-        // console.error(`API request failed in ${elapsedTime} milliseconds`);
-        // setData((prevData) => ({ ...prevData, alert: true, alert_text: 'An error occurred during the upload', alert_type: "error" }));
-      };
+        
+   };
 
       xhr.send(formdata);
     }
@@ -445,12 +478,87 @@ const SwitchBox = ({ label, checked, onChange }) => (
       },
     }));
 
+    let selectedFileNames = state.selectedFileName; // Assuming multiple files can be selected
+
+  let fileSources = selectedFileNames.map((fileName) => {
+    let filetype = fileName ? fileName.split('.')[1] : '';
+  
+    if (filetype.length > 5) {
+      filetype = filetype.slice(0, 2) + '..';
+    }
+  
+    let src;
+    switch (filetype) {
+      case 'pdf':
+        src = pdf;
+        break;
+      case 'jpg':
+      case 'jpeg':
+        src = jpg;
+        break;
+      case 'txt':
+        src = text;
+        break;
+      case 'png':
+        src = png;
+        break;
+      case 'ai':
+        src = ai;
+        break;
+      case 'py':
+      case 'jsx':
+      case 'go':
+        src = code;
+        break;
+      case 'doc':
+      case 'docx':
+        src = doc;
+        break;
+      case 'iso':
+        src = iso;
+        break;
+      case 'mp3':
+        src = mp3;
+        break;
+      case 'mp4':
+        src = mp4;
+        break;
+      case 'pptx':
+      case 'ppt':
+        src = ppt;
+        break;
+      case 'psd':
+        src = psd;
+        break;
+      case 'sql':
+        src = sql;
+        break;
+      case 'svg':
+        src = svg;
+        break;
+      case 'ttf':
+        src = ttf;
+        break;
+      case 'xlsx':
+      case 'csv':
+        src = xls;
+        break;
+      case 'zip':
+      case 'rar':
+        src = zip;
+        break;
+      default:
+        src = another;
+    }
+    return { fileName, src };
+  });
+
 
 
   return {HandleSwitchChange,handleKeyPress,handleInputChange,handleKeyDown,handleOutsideClick,handlesubjectChange,handlemessageChange,
     handleDragOver,handleDrop,handleDragLeave,handleFileChange,handleFileClick,handleExit,handleSecureType,handleSwitchChange,handleDatetimeChangeBefore,
     handleTimeChangeBefore,handleDatetimeChangeAfter,handleTimeChangeAfter,formatBytes,handleCheckboxChange,SwitchBox,handleChangeopensTime,handleChangeperiodHours,
-    handleChangeperiodDays,handleUpload,IOSSwitch
+    handleChangeperiodDays,handleUpload,IOSSwitch,fileSources,handlemessageBodyChange
   };}
 
-export default sharedoc
+export default Sharedoc

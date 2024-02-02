@@ -2,22 +2,26 @@ import { Box, Button, Dialog } from '@mui/material'
 import Image from 'next/image';
 import React, { useContext } from 'react'
 import { StateContext } from '@/context/Context';
-import { useRouter } from 'next/navigation';
 import MessageFill from '@/assets/assets/images/MessageFill.png'
 import Checked from '@/assets/assets/images/checked.png'
-import Success from '@/assets/assets/images/checked.png'
 import Error from '@/assets/assets/images/cross.png'
+import { useCookies } from 'react-cookie';
 
-function dialod() {
+function Dialog1() {
   const { state, setState } = useContext(StateContext);
-  const router = useRouter();
+  const [cookies, removeCookie] = useCookies(['token']); 
   const handleClose = () => {
+    localStorage.removeItem("ally-supports-cache")
+    localStorage.removeItem("decode_token")
+    localStorage.removeItem("loginTime")
+    localStorage.removeItem("datacompanylc")
+    removeCookie('token',{path: '/'});
     setState({...state,open: false})
+
   };
   const resetpassword = () => {
     setState({...state,resetpassword: false})
     window.location.href="/"
-    // router.push('/Login');
   };
   const registerSuccess = () => {
     setState({...state,registerSuccess: false})
@@ -60,7 +64,7 @@ function dialod() {
           <Dialog open={state.registerSuccess} onClose={registerSuccess} PaperProps={{ style: { borderRadius: '15px' } }}>
             <Box sx={{ width: '430px', height: '480px', display: 'flex', justifyContent: 'center', alignItems: 'center', flexDirection: 'column' }}>
               <Box sx={{ width: '100%', height: '50%', background: '#6BCB77', display: 'flex', justifyContent: 'center', alignItems: 'center' }}>
-                <Image src={Success} alt='Message' width={100}></Image>
+                <Image src={Checked} alt='Message' width={100}></Image>
               </Box>
               <Box sx={{ width: '100%', height: '50%', background: '#ffffff', borderBottomLeftRadius: '10px', borderBottomRightRadius: '10px', display: 'flex', justifyContent: 'center', alignItems: 'center', flexDirection: 'column', px: '45px', rowGap: '10px' }}>
                 <h1 style={{ fontSize: '22px', fontWeight: '700' }}>Success</h1>
@@ -86,4 +90,4 @@ function dialod() {
   )
 }
 
-export default dialod
+export default Dialog1

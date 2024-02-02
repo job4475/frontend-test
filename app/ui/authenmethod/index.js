@@ -9,7 +9,7 @@ import Loading from '@/components/loading'
 
 
 function SelectVerify() {
-  const { state, setState } = useContext(StateContext);
+  const {state, setState} = useContext(StateContext);
 
   const router = useRouter();
 
@@ -31,13 +31,13 @@ function SelectVerify() {
   }
 
   const sendOTPEmail = () => {
-
-    var myHeaders = new Headers();
+    setState({ ...state, loading: true });
+    let myHeaders = new Headers();
     myHeaders.append("Content-Type", "application/json");
-    var otpData = {
+    let otpData = {
       "email": state.email
     };
-    var otpRequestOptions = {
+    let otpRequestOptions = {
       method: 'POST',
       headers: myHeaders,
       body: JSON.stringify(otpData),
@@ -47,10 +47,10 @@ function SelectVerify() {
       .then(response => response.json())
       .then(result => {
         if (result.status === "OK") {
-          setState({ ...state, referenceID: result.referenceID, loading: false });
+          setState({ ...state, referenceID: result.referenceID,loading: false });
           router.push('/OTPverify');
         } else {
-          setState((prevData) => ({ ...prevData, alert: true, alert_text: result.message, alert_type: "error" }));
+          setState((prevData) => ({ ...prevData, loading:false,alert: true, alert_text: result.message, alert_type: "error" }));
           setTimeout(() => {
             window.location.reload();
           }, 2000);
@@ -60,14 +60,14 @@ function SelectVerify() {
   }
 
   const getQR = () => {
-    var myHeaders = new Headers();
+    let myHeaders = new Headers();
     myHeaders.append("Content-Type", "application/json");
 
-    var raw = JSON.stringify({
+    let raw = JSON.stringify({
       "value": 1,
       "accountName": state.email
     });
-    var requestOptions = {
+    let requestOptions = {
       method: 'POST',
       headers: myHeaders,
       body: raw,
@@ -80,10 +80,10 @@ function SelectVerify() {
         if (result.status === "OK") {
           console.log("🚀 ~ getQR ~ result:", result)
           localStorage.setItem("qrcode", JSON.stringify(result.qrCodeURL));
-          setState({ ...state, qrcodeurl: result.qrCodeURL });
+          setState({ ...state, qrcodeurl: result.qrCodeURL,loading:false });
           router.push('/Authenticator');
 
-        } else if (result.statusqr === false && state.qrcode === "") {
+        } else if(result.statusqr===false&&(state.qrcode===""&&state.qrcodeurl==="")) {
           router.push('/Authenverify');
         } else {
           router.push('/Authenticator');
@@ -93,11 +93,9 @@ function SelectVerify() {
   }
   const handlenext = ()=>{
     if (isClickedMail){
-      setState((prevData) => ({ ...prevData,loading: true }));
         router.push('/OTPverify'); 
         sendOTPEmail();
     }else if(isClickedAut){
-      setState((prevData) => ({ ...prevData,loading: true }))
         router.push('/Authenticator');
         getQR();
     }

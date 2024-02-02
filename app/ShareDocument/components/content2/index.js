@@ -1,20 +1,12 @@
 "use client";
-import React, { useContext, useRef, useState } from "react";
-import Image from "next/image";
-import Logotrac from "@/assets/assets/images/logotrac.png";
-import Upfile from '@/assets/assets/images/upfile.png';
-import { Box, Button, Checkbox, Chip, FormControlLabel, FormGroup, Grid, Paper, Switch, TextField, Typography } from "@mui/material";
-import LockIcon from '@mui/icons-material/Lock';
-import { StateContext } from "@/context/Context";
-import EmailIcon from '@mui/icons-material/Email';
+import React, { useContext, useRef } from "react";
+import { Box,  FormControlLabel, Grid, TextField,  } from "@mui/material";
 import HandleShareDoc from '@/handle/sharedoc'
-import UseefOutsideClick from '@/hook/securedoc'
-import SubjectIcon from '@mui/icons-material/Subject';
-import Circle from "@/assets/assets/images/workspace/circle.png";
+import MessageIcon from '@mui/icons-material/Message';
+import { StateContext } from "@/context/Context";
 
-
-function index() {
-    const {state, setState} = useContext(StateContext);
+function Index() {
+    const {state} = useContext(StateContext);
   const fileInputRef = useRef(null);
   const textFieldRef = useRef(null);
   const handleShareDoc = HandleShareDoc(textFieldRef,fileInputRef);
@@ -35,38 +27,46 @@ function index() {
            <Box style={{color:"red"}}>*&nbsp;</Box>{state.secure_type ? " For recipients using the FinalCode." : ` For recipients who do not use the FinalCode.`}
          </Box>
          </Box>
-         <TextField disabled id="outlined-basic" label="Template policy"size="small" variant="outlined" style={{width:"100%",paddingBottom:10}}
+         <TextField id="outlined-basic" value={state.message} onChange={handleShareDoc.handlemessageChange} label="Message Encrypt Files"size="small" variant="outlined" style={{width:"100%",paddingBottom:10}}
          InputProps={{
            startAdornment: (
-             <LockIcon style={{ color: "gray" }} />
+             <MessageIcon style={{ color: "gray" }} />
            ),
          }}/>
          <Box sx={{width: "100%", height: "355px", borderRadius: "10px", backgroundColor: "#FFFFFF", borderWidth: "1px", borderColor: "#ccc", display: 'flex', flexDirection: 'row', justifyContent: 'center', p: 1.5 }}>
       <Box sx={{ flexGrow: 1,m:2 }}>
       <Grid container spacing={{ xs: 1, md: 3 }} columns={{ xs: 2, sm: 4, md: 8 }}>
             {state.secure_type
-             ? ['Allow convert to original file', 'Allow copy paste', 'Allow print', 'Allow edit secured file', 'Allow run a macro', 'Allow convert to browser view file'].map((label, index) => (
+             ? ['Allow convert to original file', 'Allow copy paste','Screen Watermark', 'Allow print', 'Allow edit secured file', 'Allow run a macro', 'Allow convert to browser view file'].map((label, index) => (
               <Grid key={index} item xs={2} sm={4} md={4}>
                 <Box sx={{color:"gray.main",fontWeight:500}}>
                  <handleShareDoc.SwitchBox label={label} checked={state[label.toLowerCase().replace(/ /g, '')]} onChange={(event) => handleShareDoc.handleSwitchChange(label.toLowerCase().replace(/ /g, ''), event)} />
                 </Box>
                  </Grid>
                ))
-             : ['Allow convert to original file', 'Allow copy paste', 'Allow print'].map((label, index) => (
+             : ['Allow convert to original file', 'Allow copy paste','Screen Watermark', 'Allow print'].map((label, index) => (
               <Grid key={index} item xs={2} sm={4} md={4}>
                 <Box sx={{color:"gray.main",fontWeight:500}}>
                  <handleShareDoc.SwitchBox label={label} checked={state[label.toLowerCase().replace(/ /g, '')]} onChange={(event) => handleShareDoc.handleSwitchChange(label.toLowerCase().replace(/ /g, ''), event)} />
                 </Box>
+
                  </Grid>
                ))}
+                {state.allowprint && (
+               <Grid item xs={2} sm={4} md={4}>
+                 <Box sx={{color:"gray.main",fontWeight:500}}>
+                    <handleShareDoc.SwitchBox label="Watermark" checked={state.watermark} onChange={(event) => handleShareDoc.handleSwitchChange('watermark', event)} />
+                 </Box>
+               </Grid>
+                )}
            
-           {state.allowconverttobrowserviewfile && (
-          <Grid item xs={2} sm={4} md={4}>
-            <Box sx={{color:"gray.main",fontWeight:500}}>
-               <handleShareDoc.SwitchBox label="Enable convert to original file" checked={state.enableconverttooriginalfile} onChange={(event) => handleShareDoc.handleSwitchChange('enableconverttooriginalfile', event)} />
-            </Box>
-          </Grid>
-           )}
+                {state.allowconverttobrowserviewfile && (
+               <Grid item xs={2} sm={4} md={4}>
+                 <Box sx={{color:"gray.main",fontWeight:500}}>
+                    <handleShareDoc.SwitchBox label="Enable convert to original file" checked={state.enableconverttooriginalfile} onChange={(event) => handleShareDoc.handleSwitchChange('enableconverttooriginalfile', event)} />
+                 </Box>
+               </Grid>
+                )}
         
             </Grid>
           </Box>
@@ -76,4 +76,4 @@ function index() {
   )
 }
 
-export default index
+export default Index

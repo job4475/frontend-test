@@ -1,12 +1,11 @@
 'use client'
 import { StateContext } from '@/context/Context';
-import { Box, FormControlLabel, Switch } from '@mui/material';
-import React, { useContext, useRef, useState,useCallback } from 'react'
+import React, { useContext } from 'react'
 import { useRouter } from "next/navigation";
-import { createTheme, ThemeProvider, styled } from "@mui/material/styles";
+import { styled } from "@mui/material/styles";
 import Tooltip, { tooltipClasses } from '@mui/material/Tooltip';
 
-function leadlist() {
+function Leadlist() {
   const {state, setState} = useContext(StateContext);
 
     const router = useRouter();
@@ -28,7 +27,7 @@ function leadlist() {
       };
 
       const handleClicktoGetFile = (uuid) => {
-        var requestOptions = {
+        const requestOptions = {
           method: 'GET',
           responseType: 'blob',
           redirect: 'follow'
@@ -99,7 +98,7 @@ function leadlist() {
         return acc;
       }, []);
 
-      const handleBatchApprove = async (uuids,  orderIds, commands,emails,senders,subjects) => {
+      const handleBatchApprove = async (uuids,  orderIds, commands,emails,senders,subjects,bodys) => {
         setState((prevData) => ({ ...prevData, pageloader: true}));
 
         const blobArray = [];
@@ -110,14 +109,14 @@ function leadlist() {
         };
       
         // Fetch files sequentially
-        for (let i = 0; i < uuids.length; i++) {
+        for (const uuid of uuids) {
           try {
-            const response = await fetch(`${process.env.NEXT_PUBLIC_API_ENDPOINT}:${process.env.NEXT_PUBLIC_API_PORT}/api/requestFile/${uuids[i]}`, requestOptions);
+            const response = await fetch(`${process.env.NEXT_PUBLIC_API_ENDPOINT}:${process.env.NEXT_PUBLIC_API_PORT}/api/requestFile/${uuid}`, requestOptions);
             if (response.ok) {
               const blob = await response.blob();
               blobArray.push(blob);
             } else {
-              console.log(`Error fetching file for uuid: ${uuids[i]}, Status: ${response.status}`);
+              console.log(`Error fetching file for uuid: ${uuid}, Status: ${response.status}`);
             }
           } catch (error) {
             console.log('Error:', error);
@@ -151,14 +150,15 @@ function leadlist() {
       
           if (logResult.status === 'OK') {
             console.log("🚀 ~ handleBatchApprove ~ logResult:", logResult)
-            var formdataSendmail = new FormData();
+            const formdataSendmail = new FormData();
             formdataSendmail.append("order_id", orderIds[0]);
             formdataSendmail.append("action", "Approve");
             formdataSendmail.append("email", emails[0]);
             formdataSendmail.append("sender", senders[0]);
             formdataSendmail.append("subject", subjects[0]);
+            formdataSendmail.append("body", bodys[0]);
             
-            var requestOptionsSendmail = {
+            const requestOptionsSendmail = {
               method: 'POST',
               body: formdataSendmail,
               redirect: 'follow'
@@ -198,25 +198,29 @@ function leadlist() {
         const emails = orderGroup.map(order => order.scdact_reciepient);
         const senders = orderGroup.map(order => order.scdact_sender);
         const subjects = orderGroup.map(order => order.scdact_subject);
+        const bodys = orderGroup.map(order => order.scdact_name);
       
-        handleBatchApprove(uuids, orderIds, commands,emails,senders,subjects);
+        handleBatchApprove(uuids, orderIds, commands,emails,senders,subjects,bodys);
       };
 
       const handleReject = (orderGroup,action)=>{
         setState((prevData) => ({ ...prevData, pageloader: true}));
         const orderIds = orderGroup.map(order => order.scdact_reqid);
 
-        var formdata = new FormData();
+        const formdata = new FormData();
         formdata.append("order_id", orderIds[0]);
         formdata.append("action", "Reject");
         
-        var requestOptions = {
+        const requestOptions = {
           method: 'POST',
           body: formdata,
           redirect: 'follow'
         };
         
-        fetch(`${process.env.NEXT_PUBLIC_API_ENDPOINT}:${process.env.NEXT_PUBLIC_API_PORT}/api/reustDoc`, requestOptions)
+        const apiEndpoint = process.env.NEXT_PUBLIC_API_ENDPOINT;
+        const apiPortLogin = process.env.NEXT_PUBLIC_API_PORT_LOGIN || "";
+        const apiUrl = `${apiEndpoint}${apiPortLogin}/api/requestDoc`;
+        fetch(apiUrl, requestOptions)
           .then(response => response.json())
         .then(result => {
           if(result.status === "OK"){
@@ -243,5 +247,5 @@ function leadlist() {
 
 }
 
-export default leadlist
+export default Leadlist
 

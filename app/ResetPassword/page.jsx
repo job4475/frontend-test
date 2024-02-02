@@ -5,12 +5,14 @@ import Image from "next/image";
 import Chiclogo from "@/assets/assets/images/sigin/chiclogo.png";
 import { useRouter } from "next/navigation";
 
-const page = () => {
+const Page = () => {
   const router = useRouter();
 
   const backlogin = () => {
     router.push("/Login");
   }
+  
+ 
 
   return (
     <div className="flex flex-col xl:flex-row bg-[#F7FAFB] h-screen">
@@ -24,4 +26,4 @@ const page = () => {
   );
 };
 
-export default page;
+export default Page;

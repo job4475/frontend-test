@@ -7,7 +7,7 @@ import website from '@/assets/assets/images/register/website.png'
 import tel from '@/assets/assets/images/register/tel.png'
 import map from '@/assets/assets/images/register/location.png'
 
-function index() {
+function Index() {
   return (
     <Box sx={{mt:3}}>
       <Box sx={{fontWeight:600,mb:3}}>{data_register[0].title_content1}</Box>
@@ -47,4 +47,4 @@ function index() {
   )
 }
 
-export default index
+export default Index

@@ -1,17 +1,13 @@
 
 'use client'
-
-import { StateContext } from '@/context/Context';
 import { Box } from '@mui/material';
-import Image from 'next/image';
-import React, { useContext } from 'react'
+import React from 'react'
 import ContentAccount from './components/content_account'
 import ContentCompany from './components/content_company'
 import ContentPersonal from './components/content_personal'
 import Button from './components/button'
-import Map from './components/map'
-function page() {
-  const {state, setState} = useContext(StateContext);
+import Location from './components/map'
+function Page() {
 
   return (
     <Box sx={{background: `linear-gradient(108deg, #84BAA1 0%, #FFFBE2 100%), #F7FAFB`,display:"flex",height:"100vh"}}>
@@ -23,11 +19,11 @@ function page() {
         <Button/>
        </Box>
        <Box>
-        <Map/>
+        <Location/>
        </Box>
       </Box>
     </Box>
   )
 }
 
-export default page
+export default Page

@@ -9,13 +9,17 @@ function ForgetPassword() {
     const router = useRouter();
     const sendMail = () => {
         setState((prevData) => ({ ...prevData,loading: true }));
-        var myHeaders = new Headers();
+        const myHeaders = new Headers();
         myHeaders.append("Content-Type", "application/json");
-        var raw = JSON.stringify({
+        const raw = JSON.stringify({
         "username": state.email
         });
-        var requestOptions = {method: 'POST',headers: myHeaders,body: raw,redirect: 'follow'};
-        fetch(`${process.env.NEXT_PUBLIC_API_ENDPOINT_GET}:${process.env.NEXT_PUBLIC_API_PORT_LOGIN}/api/RequestResetPasswordChicCRM`, requestOptions)
+        const requestOptions = {method: 'POST',headers: myHeaders,body: raw,redirect: 'follow'};
+        const apiEndpoint = process.env.NEXT_PUBLIC_API_ENDPOINT_GET;
+        const apiPortLogin = process.env.NEXT_PUBLIC_API_PORT_LOGIN || "";
+        const apiUrl = `${apiEndpoint}${apiPortLogin ? `:${apiPortLogin}` : ""}/api/RequestResetPasswordChicCRM`;
+
+        fetch(apiUrl, requestOptions)
         .then(response => response.json())
         .then(result => {
             if (result.status === "OK") {

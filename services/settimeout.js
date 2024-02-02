@@ -1,9 +1,9 @@
 
 "use client"
 import { StateContext } from '@/context/Context';
-import React, { useContext, useEffect } from 'react'
+import { useContext, useEffect } from 'react'
 
-function settimeout() {
+function Settimeout() {
   const { state, setState } = useContext(StateContext);
 
   useEffect(() => {
@@ -19,4 +19,4 @@ function settimeout() {
   }, [state, setState]);
   return null;
 }
-export default settimeout;
+export default Settimeout;

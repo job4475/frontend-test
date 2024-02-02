@@ -5,8 +5,8 @@ import React, { useContext } from 'react'
 import accountimg from '@/assets/assets/images/register/account.png'
 import { StateContext } from '@/context/Context'
 
-function index() {
-  const { state, setState } = useContext(StateContext);
+function Index() {
+  const { state } = useContext(StateContext);
 
   return (
     <Box sx={{ display: "flex", alignItems: "center" }}>
@@ -19,4 +19,4 @@ function index() {
   );
 }
 
-export default index;
+export default Index;

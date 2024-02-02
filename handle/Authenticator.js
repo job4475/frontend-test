@@ -8,7 +8,13 @@ function Authenticator() {
     const router = useRouter();
 
     const fetchLogoImage = () => {
-      fetch(`${process.env.NEXT_PUBLIC_API_ENDPOINT_GET}:${process.env.NEXT_PUBLIC_API_PORT_LOGIN}/api/getLogoBinary/${state.decode_token.CompanyID}`)
+      const apiEndpoint = process.env.NEXT_PUBLIC_API_ENDPOINT_GET;
+      const apiPortLogin = process.env.NEXT_PUBLIC_API_PORT_LOGIN || "";
+      const companyId = state.decode_token.CompanyID;
+      const apiUrl = apiEndpoint + (apiPortLogin ? `:${apiPortLogin}` : "") + `/api/getLogoBinary/${companyId}`;
+      
+      fetch(apiUrl)
+        .then(response => response.json())
           .then(response => response.blob())
           .then(blob => {
               const imageUrl = URL.createObjectURL(blob);
@@ -18,19 +24,20 @@ function Authenticator() {
   };
 
   const tryanother=()=>{
+    setState((prevData) => ({ ...prevData,loading: false }))
     router.push('/Mfa'); 
 
   }
 
     const getQR = () =>{
-        var myHeaders = new Headers();
+        const myHeaders = new Headers();
         myHeaders.append("Content-Type", "application/json");
         
-        var raw = JSON.stringify({
+        const raw = JSON.stringify({
           "value": 1,
           "accountName": state.email
         });
-        var requestOptions = {
+        const requestOptions = {
           method: 'POST',
           headers: myHeaders,
           body: raw,

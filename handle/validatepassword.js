@@ -1,8 +1,8 @@
 'use client'
 import { StateContext } from '@/context/Context';
-import React, { useContext } from 'react'
+import { useContext } from 'react'
 
-function validatepassword() {
+function Validatepassword() {
     const {state, setState} = useContext(StateContext);
     const updatePassword = (newPassword) => {
         const validations = {
@@ -23,7 +23,7 @@ function validatepassword() {
         switch (strengthLevels) {
           case 0:
           case 1:
-            setState((prevData) => ({ ...prevData, passwordStrength: "Very Weak" }))
+            setState((prevData) => ({ ...prevData, passwordStrength: "VeryWeak" }))
             break;
           case 2:
             setState((prevData) => ({ ...prevData, passwordStrength: "Weak" }))
@@ -35,7 +35,7 @@ function validatepassword() {
             setState((prevData) => ({ ...prevData, passwordStrength: "Strong" }))
             break;
           case 5:
-            setState((prevData) => ({ ...prevData, passwordStrength: "Very Strong" }))
+            setState((prevData) => ({ ...prevData, passwordStrength: "VeryStrong" }))
             break;
           default:
             setState((prevData) => ({ ...prevData, passwordStrength: "" }))
@@ -44,4 +44,4 @@ function validatepassword() {
   return updatePassword;
 }
 
-export default validatepassword
+export default Validatepassword

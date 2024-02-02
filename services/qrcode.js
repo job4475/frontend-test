@@ -1,8 +1,8 @@
 "use client"
 import { StateContext } from '@/context/Context';
-import React, { useContext, useEffect } from 'react'
+import { useContext, useEffect } from 'react'
 
-function token() {
+function Token() {
     const {state, setState} = useContext(StateContext);
 
     useEffect(() => {
@@ -14,4 +14,4 @@ function token() {
   return null
 }
 
-export default token
+export default Token

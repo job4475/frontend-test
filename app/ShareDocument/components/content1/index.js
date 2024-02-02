@@ -1,36 +1,19 @@
 "use client";
-import React, { useContext, useEffect, useRef, useState } from "react";
+import React, { useContext, useRef } from "react";
 import Image from "next/image";
 import Upfile from '@/assets/assets/images/upfile.png';
-import { Box, Button, Checkbox, Chip, FormControlLabel, FormGroup, Grid, Paper, Switch, TextField, Typography } from "@mui/material";
+import { Box, Button, Chip, Grid, TextField } from "@mui/material";
 import { StateContext } from "@/context/Context";
 import EmailIcon from '@mui/icons-material/Email';
 import HandleShareDoc from '@/handle/sharedoc'
 import SubjectIcon from '@mui/icons-material/Subject';
-import Circle from "@/assets/assets/images/workspace/circle.png";
 import UseefOutsideClick from '@/hook/securedoc'
 
-function index() {
+function Index() {
   const {state, setState} = useContext(StateContext);
   const fileInputRef = useRef(null);
   const textFieldRef = useRef(null);
   const handleShareDoc = HandleShareDoc(textFieldRef,fileInputRef);
-
-  useEffect(() => {
-    let totalSizeInBytes = 0;
-  state.selectedFile.forEach((file, index) => {
-    totalSizeInBytes += file.size;
-  });
-  
-  const totalSizeInMB = totalSizeInBytes / (1024 * 1024);
-  const maxSizeInMB = 25;
-  
-  // คำนวณความคืบหน้าในเลขเปอร์เซ็นต์
-  const progressPercentage = (totalSizeInMB / maxSizeInMB) * 100;
-  setState((prevData) => ({ ...prevData,size_progress: progressPercentage,sumsize:totalSizeInMB.toFixed(2),sumsize_original:totalSizeInBytes}));
-
-  }, [state.selectedFile,setState]);
- 
 
   return (
     <>
@@ -56,7 +39,7 @@ function index() {
             <TextField value={state.subject} onChange={handleShareDoc.handlesubjectChange} id="outlined-basic" label={<Box sx={{color:"gray.main",fontWeight:500}}>Subject</Box>}size="small" variant="outlined" sx={{mt:1.3}} style={{width:"100%",paddingBottom:10}}
               InputProps={{startAdornment: (<><Box sx={{pr:1}}><SubjectIcon style={{ color: 'gray' }} /></Box></>),}}/>
               
-            <TextField value={state.message} multiline rows={4} onChange={handleShareDoc.handlemessageChange} id="outlined-basic" label={<Box sx={{color:"gray.main",fontWeight:500}}>Message</Box>}size="small" variant="outlined"inputProps={{ style: { height: "70px" } }} style={{width:"100%",paddingBottom:10}}
+            <TextField value={state.messageBody} multiline rows={4} onChange={handleShareDoc.handlemessageBodyChange} id="outlined-basic" label={<Box sx={{color:"gray.main",fontWeight:500}}>Message</Box>}size="small" variant="outlined"inputProps={{ style: { height: "70px" } }} style={{width:"100%",paddingBottom:10}}
               InputProps={{startAdornment: (<></>),}}/>
 
             {/* //*&Upload File */}
@@ -79,18 +62,8 @@ function index() {
 
                         <Box sx={{ textAlign: "center", fontSize: "12px", display: "flex", alignItems: "center",justifyContent:"center" }}>
                         <Box sx={{ position: 'relative', display: 'inline-flex' }}>
-                          <Image alt="test" src={Circle} style={{maxWidth:"100px"}}></Image>&nbsp;
+                          <Image alt="test" src={handleShareDoc.fileSources[index].src} style={{maxWidth:"35px"}}></Image>&nbsp;
                           <Box sx={{ top: 0, left: -3, bottom: 0, right: 0, position: 'absolute', display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
-                            <Typography style={{ textTransform: "uppercase", fontSize: "10px", color: "#48846B", fontWeight: 700 }} variant="caption" component="div" color="text.secondary">
-                            {
-                               state.selectedFileName[index] && state.selectedFileName[index].split('.')[1]
-                                 ? (state.selectedFileName[index].split('.')[1].length > 5
-                                     ? state.selectedFileName[index].split('.')[1].slice(0, 2) + '..'
-                                     : state.selectedFileName[index].split('.')[1])
-                                 : ''
-                             }
-
-                            </Typography>
                           </Box>
                         </Box>
                         <Box>
@@ -121,4 +94,4 @@ function index() {
   }
 }
 
-export default index
+export default Index
