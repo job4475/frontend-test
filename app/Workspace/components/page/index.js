@@ -15,6 +15,8 @@ import { useCookies } from "react-cookie";
 const Page = () => {
   const { state, setState } = useContext(StateContext);
   const [removeCookie] = useCookies(['token']);
+  const [loading, setLoading] = useState(true);
+  const [loginTime, setLoginTime] = useState(new Date());
   const isLocalStorageAvailable = typeof window !== 'undefined' && window.localStorage;
 
   const sharedocumentRouter = () => {
@@ -64,7 +66,7 @@ const Page = () => {
         console.error("Element with id 'loginPeriod' not found in the DOM.");
       }
 
-    }, 0);
+    }, 1000);
 
     return () => clearInterval(intervalId);
   }, [isLocalStorageAvailable]);
@@ -77,9 +79,17 @@ const Page = () => {
     return () => clearTimeout(timeoutId);
   }, [setLoading]);
 
+  const handleclicklogout = () => {
+    localStorage.removeItem("ally-supports-cache")
+    localStorage.removeItem("decode_token")
+    localStorage.removeItem("loginTime")
+    window.location.href="/"
+  }
   const Notallowed =()=>{
 
   }
+ 
+
   return (
     <>
     <Backdrop/>
@@ -246,28 +256,23 @@ const Page = () => {
           </div>
 
           <div>
-              <button
-              role="button"
-              tabIndex={0}
-              onClick={handleleaderreview}
-              onKeyDown={(e) => {
-                if (e.key === 'Enter') {
-                  handleleaderreview();
-                }
-              }}
-                className={`font-semibold mr-0 lg:mr-4 my-2 text-center flex flex-col items-center justify-center w-48 h-48 px-6 py-4 border border-gray-300 rounded-lg  transition-colors duration-300 ${(state.memberAuthorization?.orgmbat_feature||state.leadAuthorization?.orgmbat_feature!=="#securedoc")||state.decode_token?.Role==="user"?"bg-gray-100":""}   ${(state.memberAuthorization?.orgmbat_feature||state.leadAuthorization?.orgmbat_feature!=="#securedoc")||state.decode_token?.Role==="user"?"":"cursor-pointer"} ${(state.memberAuthorization?.orgmbat_feature||state.leadAuthorization?.orgmbat_feature!=="#securedoc")||state.decode_token?.Role==="user"?"":"hover:bg-gray-200"} `}
+          {state.memberAuthorization?.orgmbat_feature||state.leadAuthorization?.orgmbat_feature==="#securedoc" ? (
+              <div
+                onClick={state.decode_token?.Role==="user"?Notallowed:sharedocumentRouter}
+                className={`font-semibold mr-0 lg:mr-4 my-2 text-center flex flex-col items-center justify-center w-48 h-48 px-6 py-4 border border-gray-300 rounded-lg  transition-colors duration-300 ${state.decode_token?.Role==="user"?"bg-gray-100":""}   ${state.decode_token?.Role==="user"?"":"cursor-pointer"} ${state.decode_token?.Role==="user"?"":"hover:bg-gray-200"} `}
               >
                 <Image
                   src={UnderReview}
                   alt="logo"
-                  style={{ width: "70px", height: "75px",filter:(state.memberAuthorization?.orgmbat_feature||state.leadAuthorization?.orgmbat_feature!=="#securedoc")||state.decode_token?.Role==="user"?"grayscale(1)":"" }}
+                  style={{ width: "70px", height: "75px",filter:state.decode_token?.Role==="user"?"grayscale(1)":"" }}
                 />
                 <div className="my-3">
                  Under
                   <br />
                   Review
                 </div>
-              </button>
+              </div>
+            ) : null}
           </div> 
         </div>
       </div>

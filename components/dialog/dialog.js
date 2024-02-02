@@ -9,7 +9,7 @@ import { useCookies } from 'react-cookie';
 
 function Dialog1() {
   const { state, setState } = useContext(StateContext);
-  const [ removeCookie] = useCookies(['token'])
+  const [cookies, removeCookie] = useCookies(['token']); 
   const handleClose = () => {
     localStorage.removeItem("ally-supports-cache")
     localStorage.removeItem("decode_token")

@@ -1,18 +1,13 @@
-import { useContext } from 'react';
+import { useContext, useEffect } from 'react';
 import { StateContext } from '@/context/Context';
-import { useCookies } from 'react-cookie'; // Import useCookies
+import { useRouter } from 'next/navigation';
 
-function Otpvelify() {
+function otpvelify() {
     const { state, setState } = useContext(StateContext);
-    const [ setCookie] = useCookies(['token']);
+    const router = useRouter();
  
         const fetchLogoImage = () => {
-            const apiEndpoint = process.env.NEXT_PUBLIC_API_ENDPOINT_GET;
-            const apiPortLogin = process.env.NEXT_PUBLIC_API_PORT_LOGIN || "";
-            const apiPortString = apiPortLogin ? `:${apiPortLogin}` : "";
-            const apiUrl = apiEndpoint + apiPortString + `/api/getLogoBinary/${state.decode_token.CompanyID}`;
-            
-            fetch(apiUrl, requestOptions)
+            fetch(`${process.env.NEXT_PUBLIC_API_ENDPOINT_GET}:${process.env.NEXT_PUBLIC_API_PORT_LOGIN}/api/getLogoBinary/${state.decode_token.CompanyID}`)
                 .then(response => response.blob())
                 .then(blob => {
                     const imageUrl = URL.createObjectURL(blob);
@@ -22,37 +17,32 @@ function Otpvelify() {
         };
         const workspace = () => {
             setState((prevData) => ({ ...prevData,loading: true, alert: false }));
-            const myHeaders = new Headers();
+            
+            var myHeaders = new Headers();
             myHeaders.append("Content-Type", "application/json");
-            const raw = JSON.stringify({
+            var raw = JSON.stringify({
                 "otp": state.input_OTP,
                 "referenceID": state.referenceID,
             });
-            const requestOptions = {
+            var requestOptions = {
                 method: 'POST',
                 headers: myHeaders,
                 body: raw,
                 redirect: 'follow'
             };
-            const apiEndpoint = process.env.NEXT_PUBLIC_API_ENDPOINT_GET;
-            const apiPortLogin = process.env.NEXT_PUBLIC_API_PORT_LOGIN || "";
-            const apiPortString = apiPortLogin ? `:${apiPortLogin}` : "";
-            const apiUrl = apiEndpoint + apiPortString + "/api/validateOTPEmail";
-            
-            fetch(apiUrl, requestOptions)
+            fetch(`${process.env.NEXT_PUBLIC_API_ENDPOINT_GET}:${process.env.NEXT_PUBLIC_API_PORT_LOGIN}/api/validateOTPEmail`, requestOptions)
                 .then(response => response.json())
                 .then(result => {
                     console.log(result);
                     if (result.status === "OK") {
                         fetchLogoImage();
-                        const expirationDate = new Date(state.decode_token.Exp * 1000);
-                        setCookie('token', state.decode_token, { path: '/', expires: expirationDate });
-                        window.location.href = "/Workspace"
+                        router.push('/Workspace');
                     } else {
                         setState((prevData) => ({ ...prevData, alert: true, alert_text: result.message, alert_type: "error",loading: false }));
                         setTimeout(() => {
-                         setState((prevData) => ({ ...prevData, alert: false }));
-                        }, 3000);                    }
+                            setState((prevData) => ({ ...prevData, alert: false}));
+                          }, 2000);
+                    }
                 })
                 .catch(error => console.log('error', error));
         };
@@ -64,4 +54,4 @@ function Otpvelify() {
     };
     return { handleCodeChange,workspace };
 }
-export default Otpvelify;
+export default otpvelify;
