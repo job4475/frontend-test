@@ -1,33 +1,36 @@
 'use client'
 import { StateContext } from '@/context/Context';
-import { useRouter } from 'next/navigation';
 import { useContext, useState } from 'react'
 
 function Addcompany() {
     const {state, setState} = useContext(StateContext);
-    const router = useRouter();
-    const [password, setPassword] = useState('');
+    const [password] = useState('');
     const [showPassword, setShowPassword] = useState(false);
    
     const Confirm = () => {
-        var myHeaders = new Headers();
+      const myHeaders = new Headers();
         myHeaders.append("Content-Type", "application/json");
         myHeaders.append("Authorization", state.confirmlink);
         
-        var raw = JSON.stringify({
+        const raw = JSON.stringify({
           "username": state.email,
           "newpassword": state.password,
           "requires_action": ""
         });
         
-        var requestOptions = {
+        const requestOptions = {
           method: 'PATCH',
           headers: myHeaders,
           body: raw,
           redirect: 'follow'
         };
         
-        fetch(`${process.env.NEXT_PUBLIC_API_ENDPOINT_GET}${process.env.NEXT_PUBLIC_API_PORT_LOGIN?`:${process.env.NEXT_PUBLIC_API_PORT_LOGIN}`:""}/api/InitPasswordChicCRM`, requestOptions)
+        const apiEndpoint = process.env.NEXT_PUBLIC_API_ENDPOINT_GET;
+        const apiPortLogin = process.env.NEXT_PUBLIC_API_PORT_LOGIN || "";
+        const apiPortString = apiPortLogin ? `:${apiPortLogin}` : "";
+        const apiUrl = apiEndpoint + apiPortString + "/api/InitPasswordChicCRM";
+
+        fetch(apiUrl, requestOptions)
           .then(response => response.json())
           .then(result => {
             console.log(result);
@@ -41,23 +44,28 @@ function Addcompany() {
       };
       const Changepassword = () => {
         setState((prevData) => ({ ...prevData,loading: true }));
-        var myHeaders = new Headers();
+        const myHeaders = new Headers();
         myHeaders.append("Content-Type", "application/json");
         myHeaders.append("Authorization", state.confirmlink);
 
-        var raw = JSON.stringify({
+        const raw = JSON.stringify({
           "username": state.email,
           "newpassword": state.password
         });
 
-        var requestOptions = {
+        const requestOptions = {
           method: 'PATCH',
           headers: myHeaders,
           body: raw,
           redirect: 'follow'
         };
 
-        fetch(`${process.env.NEXT_PUBLIC_API_ENDPOINT_GET}:${process.env.NEXT_PUBLIC_API_PORT_LOGIN}/api/ResetPasswordChicCRM`, requestOptions)
+        const apiEndpoint = process.env.NEXT_PUBLIC_API_ENDPOINT_GET;
+        const apiPortLogin = process.env.NEXT_PUBLIC_API_PORT_LOGIN || "";
+        const apiPortString = apiPortLogin ? `:${apiPortLogin}` : "";
+        const apiUrl = apiEndpoint + apiPortString + "/api/ResetPasswordChicCRM";
+
+        fetch(apiUrl, requestOptions)
           .then(response => response.json())
           .then(result => {
             if (result.status === "OK") {

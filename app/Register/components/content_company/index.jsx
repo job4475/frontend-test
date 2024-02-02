@@ -35,22 +35,22 @@ function Index() {
                 <Box sx={{display:"flex",alignItems:"center"}}>
                   <Image alt="website" src={website}/>
                   <Box sx={{ml:2}}>
-                    <a href={state.datacompanylc?.Website} target="_blank" rel="noopener noreferrer">
-                    {state.datacompanylc?.Website }
+                    <a href={state.datacompanylc?.Website || state.webSite} target="_blank" rel="noopener noreferrer">
+                    {state.datacompanylc?.Website || state.webSite }
                   </a>
                   </Box>
                 </Box>
                 <Box sx={{ mt: 1, display: "flex", alignItems: "center" }}>
                   <a href={`tel:${state.phoneNumber || "021019884"}`} onClick={handlePhoneClick} style={{ textDecoration: 'none', display: 'flex', alignItems: 'center' }}>
                     <Image alt="tel" src={tel} sx={{ width: '24px', height: '24px' }} />
-                    <Box sx={{ ml: 2, whiteSpace: 'nowrap' }}>{state.datacompanylc?.CompanyPhone }</Box>
+                    <Box sx={{ ml: 2, whiteSpace: 'nowrap' }}>{state.datacompanylc?.CompanyPhone || state.phoneNumber }</Box>
                   </a>
                 </Box>
                 <Box sx={{mt:1,display:"flex",alignItems:"center"}}>
                   <Image alt="map" src={map}/>
                   <Box sx={{ml:2}}>
-                    <a href={state.datacompanylc?.Geolocation} target="_blank" rel="noopener noreferrer">
-                    {state.datacompanylc?.Geolocation}
+                    <a href={state.datacompanylc?.Geolocation || state.googlemaps } target="_blank" rel="noopener noreferrer">
+                    {state.datacompanylc?.Geolocation || state.googlemaps}
                   </a>
                   </Box>
                 </Box>

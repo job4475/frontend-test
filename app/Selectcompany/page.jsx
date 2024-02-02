@@ -11,10 +11,22 @@ const Page = () => {
   const router = useRouter();
   const { state, setState } = useContext(StateContext);
   const Register = () => {
-    setState({ ...state, backdrop: true });
-    setTimeout(() => {
-      setState((prevData) => ({ ...prevData, backdrop: false }));
-    }, 1000);
+    setState({
+      ...state,
+      datacompany: state.datacompanylc,
+      companyID: state.datacompanylc.CompanyID,
+      companyname: state.datacompanylc.Companyname,
+      alias: state.datacompanylc.CompanyAlias,
+      no: state.datacompanylc.AddressNo,
+      street: state.datacompanylc.Address1En,
+      googlemaps: state.datacompanylc.Geolocation,
+      selectedProvince: state.datacompanylc.Province,
+      selectedAmphoe: state.datacompanylc.District,
+      selectedTambon: state.datacompanylc.SubDistrict,
+      zipcode: state.datacompanylc.Zipcode,
+      country: state.datacompanylc.Country,
+      backdrop: false,
+    });
     router.push('/Register');
   }
   const CreateCompany = () => {

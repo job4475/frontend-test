@@ -33,46 +33,26 @@ const Page = () => {
   );
 
   useEffect(() => {
-    if (isLocalStorageAvailable) {
-      localStorage.setItem('loginTime', loginTime);
-    }
-    
-      const intervalId = setInterval(() => {
+    const loginTime = isLocalStorageAvailable ? localStorage.getItem('loginTime') : null;
+    const initialLoginTime = loginTime ? new Date(loginTime) : new Date();
+    setLoginTime(initialLoginTime);
+
+    const intervalId = setInterval(() => {
       const currentTime = new Date();
-      const elapsedTime = currentTime - loginTime;
+      const elapsedTime = currentTime - initialLoginTime;
       const formattedTime = formatElapsedTime(elapsedTime);
       const loginPeriodElement = document.getElementById('loginPeriod');
 
-       if (loginPeriodElement) {
-         loginPeriodElement.innerText = `Login Period: ${formattedTime}`;
-       } else {
-         console.error("Element with id 'loginPeriod' not found in the DOM.");
-       }
-       
-    }, 0);
+      if (loginPeriodElement) {
+        loginPeriodElement.innerText = `Login Period: ${formattedTime}`;
+      } else {
+        console.error("Element with id 'loginPeriod' not found in the DOM.");
+      }
+
+    }, 1000);
 
     return () => clearInterval(intervalId);
-  }, [loginTime]);
-
-  const formatElapsedTime = (elapsedTime) => {
-    const seconds = Math.floor(elapsedTime / 1000) % 60;
-    const minutes = Math.floor(elapsedTime / (1000 * 60)) % 60;
-    const hours = Math.floor(elapsedTime / (1000 * 60 * 60));
-
-    return `${String(hours).padStart(2, '0')}:${String(minutes).padStart(2, '0')}:${String(seconds).padStart(2, '0')}`;
-  };
-
-  const handleclicklogout = () => {
-    localStorage.removeItem("ally-supports-cache")
-    localStorage.removeItem("decode_token")
-    localStorage.removeItem("loginTime")
-    localStorage.removeItem("datacompanylc")
-    
-    removeCookie('token',{path: '/'});
-    window.location.href="/"
-  }
-
-  const [loading, setLoading] = useState(true);
+  }, [isLocalStorageAvailable]);
 
   useEffect(() => {
     const timeoutId = setTimeout(() => {
@@ -80,7 +60,14 @@ const Page = () => {
     }, 50);
 
     return () => clearTimeout(timeoutId);
-  }, []);
+  }, [setLoading]);
+
+  const handleclicklogout = () => {
+    localStorage.removeItem("ally-supports-cache")
+    localStorage.removeItem("decode_token")
+    localStorage.removeItem("loginTime")
+    window.location.href="/"
+  }
   const Notallowed =()=>{
 
   }
@@ -191,7 +178,7 @@ const Page = () => {
           </div>
 
           <div>
-              <div
+              <button
               role="button"
               tabIndex={0}
               onClick={Notallowed}
@@ -212,12 +199,12 @@ const Page = () => {
                   <br />
                   Support
                 </div>
-              </div>
+              </button>
           </div>
 
 
           <div>
-              <div
+              <button
               role="button"
               tabIndex={0}
               onClick={Notallowed}
@@ -236,11 +223,11 @@ const Page = () => {
                   <br />
                   Opportunity
                 </div>
-              </div>
+              </button>
           </div>
 
           <div>
-              <div
+              <button
               role="button"
               tabIndex={0}
               onClick={Notallowed}
@@ -259,7 +246,7 @@ const Page = () => {
                   <br />
                   Reserve
                 </div>
-              </div>
+              </button>
           </div>
 
           <div>
@@ -277,7 +264,7 @@ const Page = () => {
                 <Image
                   src={UnderReview}
                   alt="logo"
-                  style={{ width: "70px", height: "75px",filter:(state.memberAuthorization?.orgmbat_feature||state.leadAuthorization?.orgmbat_feature!=="#securedoc")||state.decode_token?.Role==="user"?"grayscale(1)":"" }}
+                  style={{ width: "70px", height: "75px",filter:state.decode_token?.Role==="user"?"grayscale(1)":"" }}
                 />
                 <div className="my-3">
                  Under
@@ -285,6 +272,7 @@ const Page = () => {
                   Review
                 </div>
               </div>
+            ) : null}
           </div> 
         </div>
       </div>

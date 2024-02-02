@@ -3,7 +3,6 @@ import { StateContext } from '@/context/Context';
 import { Box, FormControlLabel, Switch } from '@mui/material';
 import React, { useContext,useCallback } from 'react'
 import { styled } from '@mui/material/styles';
-import { useRouter } from 'next/navigation';
 import another from '@/assets/assets/images/marco.png'
 import pdf from '@/assets/assets/images/pdficon.png'
 import jpg from '@/assets/assets/images/jpg.png'
@@ -177,7 +176,6 @@ const handleSwitchChange = (key, event) => {
       newState.allowrunamacro = false;
       newState.screenwatermark = false;
       newState.watermark = false;
-
     }else if (state.secure_type===false && key === 'allowcopypaste' && event.target.checked){
       newState.screenwatermark = false;
     }else if(state.secure_type===true && key === 'allowcopypaste' && event.target.checked){
@@ -328,16 +326,25 @@ const SwitchBox = ({ label, checked, onChange }) => (
   </Box>
 );
 
-  const handleUpload = useCallback(async () => {
-    const uuid = require('uuid');
+const appendCommonFormData = (formdata, orderId, sanitizedFileName, emailText) => {
+  formdata.append("scdact_status", "Pending");
+};
 
-    if (state.selectedFile.length > 0) {
-      setState((prevData) => ({ ...prevData, loading: true }));
+const appendFileData = (formdata, file, orderId, sanitizedFileName, state, index) => {
+  const emailText = state.recipient.map((recipient) => `${recipient}`);
+  formdata.append("scdact_command", `./finalcode_api ${state.secure_type===true?"":"-browserview"} ...`);
+  formdata.append("scdact_binary", file, `/D:/Downloads/${orderId}/${sanitizedFileName}`);
+};
 
-      const formdata = new FormData();
-      const orderId = uuid.v4(); 
-      const currentDate = new Date();
-      const timestampInSeconds = Math.floor(currentDate.getTime() / 1000);
+
+const handleUpload = useCallback(async () => {
+  const uuid = require('uuid');
+  if (state.selectedFile.length > 0) {
+    setState((prevData) => ({ ...prevData, loading: true }));
+    const formdata = new FormData();
+    const orderId = uuid.v4();
+    const currentDate = new Date();
+    const timestampInSeconds = Math.floor(currentDate.getTime() / 1000);
 
       formdata.append("scdact_status", "Pending");
       formdata.append("scdact_reqid", orderId);
@@ -405,18 +412,15 @@ const SwitchBox = ({ label, checked, onChange }) => (
               periodDays:"",periodHours:"",opensTime:"",loading:false,messageBody:"",watermark:false,screenwatermark:false}));
               window.location.href = '/RequestLisU'
           } else {
-            // setData((prevData) => ({ ...prevData, loading: false, alert: true, alert_text: result.message.finalcode_result, alert_type: "error" }));
+           
           }
         }
       };
 
       xhr.onerror = () => {
         // Record end time in case of an error
-        const endTime = performance.now();
-        // const elapsedTime = endTime - startTime;
-        // console.error(`API request failed in ${elapsedTime} milliseconds`);
-        // setData((prevData) => ({ ...prevData, alert: true, alert_text: 'An error occurred during the upload', alert_type: "error" }));
-      };
+        
+   };
 
       xhr.send(formdata);
     }

@@ -7,19 +7,24 @@ function Autenvelify() {
         const [ cookies,setCookie] = useCookies(['token']);
         const verifyauthen = () => {
         setState((prevData) => ({ ...prevData, loading: true }));
-        var myHeaders = new Headers();
+        const myHeaders = new Headers();
         myHeaders.append("Content-Type", "application/json");
-        var raw = JSON.stringify({
+        const raw = JSON.stringify({
         "OTP": state.input_OTP,
         "accountName": state.email
         });
-        var requestOptions = {
+        const requestOptions = {
         method: 'POST',
         headers: myHeaders,
         body: raw,
         redirect: 'follow'
         };
-        fetch(`${process.env.NEXT_PUBLIC_API_ENDPOINT_GET}${process.env.NEXT_PUBLIC_API_PORT_LOGIN?`:${process.env.NEXT_PUBLIC_API_PORT_LOGIN}`:""}/api/validateQrTOTP`, requestOptions)
+        const apiEndpoint = process.env.NEXT_PUBLIC_API_ENDPOINT_GET;
+        const apiPortLogin = process.env.NEXT_PUBLIC_API_PORT_LOGIN;
+        const apiPortString = apiPortLogin ? `:${apiPortLogin}` : "";
+
+        const apiUrl = `${apiEndpoint}${apiPortString}/api/validateQrTOTP`;
+        fetch(apiUrl, requestOptions)
         .then(response => response.json())
         .then(result => {
           console.log(result);

@@ -7,68 +7,46 @@ import { StateContext } from '@/context/Context';
 import { useEffect,useContext,useState } from 'react';
 
 function Index() {
-  const {state} = useContext(StateContext);
-
+  const { state } = useContext(StateContext);
   const isLocalStorageAvailable = typeof window !== 'undefined' && window.localStorage;
-
-  const storedLoginTime = isLocalStorageAvailable ? localStorage.getItem('loginTime') : null;
-  const [loginTime, setLoginTime] = React.useState(
-    storedLoginTime ? new Date(storedLoginTime) : new Date()
-  );
-
+  const getStoredLoginTime = () => {
+    const storedTime = isLocalStorageAvailable ? localStorage.getItem('loginTime') : null;
+    return storedTime ? new Date(storedTime) : new Date();
+  };
+  const [loginTime] = React.useState(getStoredLoginTime);
   useEffect(() => {
     if (isLocalStorageAvailable) {
       localStorage.setItem('loginTime', loginTime);
     }
-    
       const intervalId = setInterval(() => {
       const currentTime = new Date();
       const elapsedTime = currentTime - loginTime;
       const formattedTime = formatElapsedTime(elapsedTime);
-      const loginPeriodElement = document.getElementById('loginPeriod');
-
-       if (loginPeriodElement) {
-         loginPeriodElement.innerText = `Login Period: ${formattedTime}`;
-       } else {
-         console.error("Element with id 'loginPeriod' not found in the DOM.");
-       }
-       
+      setFormattedLoginPeriod(`Login Period: ${formattedTime}`);
     }, 0);
-
     return () => clearInterval(intervalId);
-  }, [loginTime]);
-
-  const formatElapsedTime = (elapsedTime) => {
-    const seconds = Math.floor(elapsedTime / 1000) % 60;
-    const minutes = Math.floor(elapsedTime / (1000 * 60)) % 60;
-    const hours = Math.floor(elapsedTime / (1000 * 60 * 60));
-
-    return `${String(hours).padStart(2, '0')}:${String(minutes).padStart(2, '0')}:${String(seconds).padStart(2, '0')}`;
-  };
-
+  }, [loginTime, isLocalStorageAvailable]);
   const [loading, setLoading] = useState(true);
-
+  const [formattedLoginPeriod, setFormattedLoginPeriod] = useState('');
   useEffect(() => {
     const timeoutId = setTimeout(() => {
       setLoading(false);
     }, 50);
-
     return () => clearTimeout(timeoutId);
   }, []);
-const handleRedirect =()=>{
-  window.location.href = '/Workspace'
-}
-
+  const handleRedirect = () => {
+    window.location.href = '/Workspace';
+  }
   return (
 <Box sx={{display:"flex",justifyContent:"space-between",alignItems:"center",p:2}}>
       <Box sx={{display:"flex"}}>
-          <div role="button" tabIndex={0} onClick={handleRedirect} onKeyDown={(e) => { if (e.key === 'Enter') {handleRedirect();}}} className="mr-3" style={{cursor:"pointer",}}>
-          {!loading ? (
-            <Image variant="rectangular"  src={Logotrac} alt="logo"  style={{ width: "90px", height: "90px", borderRadius: "99px" }} />
+        <button onClick={handleRedirect} onKeyDown={(e) => { if (e.key === 'Enter') {handleRedirect();}}} className="mr-3" style={{cursor:"pointer"}}>
+            {!loading ? (
+              <Image variant="rectangular" src={Logotrac} alt="logo" style={{ width: "90px", height: "90px", borderRadius: "99px" }} />
             ) : (
-            <Skeleton animation="wave"  variant="rectangular"  src={Logotrac} alt="logo" style={{ width: "90px", height: "90px", borderRadius: "99px" }} />
+              <Skeleton animation="wave" variant="rectangular" src={Logotrac} alt="logo" style={{ width: "90px", height: "90px", borderRadius: "99px" }} />
             )}
-            </div>
+          </button>
           <div className="">
             <div className="flex flex-col lg:flex-row justify-start lg:justify-between items-start lg:items-center">
             {!loading ? (

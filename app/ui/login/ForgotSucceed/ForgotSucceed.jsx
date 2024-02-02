@@ -1,9 +1,10 @@
 'use client'
 
-import React, {useState} from "react";
+import React from "react";
 import { Card,CardBody} from "@nextui-org/react";
 
 const ResetPassword = () => {
+
   return (
     <div className="">
       <Card className="max-w-full w-[340px] h-[400px]">

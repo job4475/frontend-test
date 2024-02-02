@@ -7,6 +7,7 @@ import { StateContext } from '@/context/Context'
 import Loading from '@/components/loading'
 import Dialog from '@/components/dialog/dialog'
 
+
 function Index() {
   const { state } = useContext(StateContext);
   const Handleregis = handleregis();

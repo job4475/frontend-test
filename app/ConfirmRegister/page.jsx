@@ -1,7 +1,7 @@
 
 'use client'
 import { Box } from '@mui/material';
-import React, { useContext } from 'react'
+import React from 'react'
 import ContentAccount from './components/content_account'
 import ContentCompany from './components/content_company'
 import ContentPersonal from './components/content_personal'

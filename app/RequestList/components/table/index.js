@@ -1,7 +1,6 @@
 "use client";
 import * as React from 'react';
 import { Box, Button, Paper, Table, TableBody, TableCell, TableContainer, TableHead, TableRow } from '@mui/material'
-import { StateContext } from '@/context/Context';
 import file from '@/assets/assets/images/file.png'
 import recipient from '@/assets/assets/images/recipient.png'
 import dropdown from '@/assets/assets/images/dropdown.png'
@@ -26,29 +25,47 @@ function Index() {
   const handleClose = (index) => {
     setTooltipOpen({ ...tooltipOpen, [index]: false });
   };
-
   const [tooltipOpenRecipient, setTooltipOpenRecipient] = useState({});
   const [tooltipContentRecipient, setTooltipContentRecipient] = useState({});
-
   const handleOpenRecipient = (index, sender) => {
     setTooltipOpenRecipient({ ...tooltipOpenRecipient, [index]: true });
     setTooltipContentRecipient({ ...tooltipContentRecipient, [index]: sender });
   };
-
   const handleCloseRecipient = (index) => {
     setTooltipOpenRecipient({ ...tooltipOpenRecipient, [index]: false });
   };
   const [tooltipOpenPermission, setTooltipOpenPermission] = useState({});
   const [tooltipContentPermission, setTooltipContentPermission] = useState({});
-
   const handleOpenPermission = (index, sender) => {
     setTooltipOpenPermission({ ...tooltipOpenPermission, [index]: true });
     setTooltipContentPermission({ ...tooltipContentPermission, [index]: sender });
   };
-
   const handleClosePermission = (index) => {
     setTooltipOpenPermission({ ...tooltipOpenPermission, [index]: false });
   };
+  const statusColor = row[0].scdact_status === "Approved"
+  ? "green"
+  : row[0].scdact_status === "Rejected"
+  ? "red"
+  : "";
+
+const displayStyle =
+  row[0].scdact_status === "Approved" || row[0].scdact_status === "Rejected"
+    ? "flex"
+    : "none";
+    const getStatusStyle = (status) => {
+      switch (status) {
+        case "Approved":
+          return { fontWeight: 600, color: "#00E700" };
+        case "Rejected":
+          return { fontWeight: 600, color: "#FF0000" };
+        default:
+          return { fontWeight: 600, color: "#0062FF" };
+      }
+    };
+    
+   
+    const statusStyle = getStatusStyle(row[0].scdact_status);
   return (
     <Box sx={{display:'flex',justifyContent:'center',mt:3,pb:3}}>
       <TableContainer id="tablelist" component={Paper} sx={{ width: '90%', maxHeight: '90%' }}>
@@ -68,26 +85,26 @@ function Index() {
       </TableHead>
       <TableBody>
         {handleLeadList.groupedOrders?.map((row,index)=>(
-        <TableRow key={`${index}`}>
+        <TableRow key={row[0].scdact_reqid}>
           <TableCell align="center">{row[0].scdact_reqid}</TableCell>
           <TableCell id="cellheader" align="center">{handleLeadList.convertTimestampToLocalTime(row[0].scdact_timestamp)}</TableCell>
           <TableCell id="bodycell" align="center">
             <div style={{ display: 'flex', justifyContent: 'center', alignItems: 'center' }}>
-            <Box key={index}>
+            <Box key={row[0].scdact_reqid}>
               <handleLeadList.CustomTooltipRecipient
                 open={tooltipOpen[index] || false}
                 title={
-                  <>
+                
                   <Box sx={{ p:1,display: "flex", flexDirection: 'column', justifyContent: 'flex-start', alignItems: 'flex-start' }}>
                     <Box component="h3" sx={{ ml: 1, color: 'gray.main' }}>All Files</Box>
                     {row.map((item, itemIndex) => (
-                      <Button onClick={() => row[0].scdact_status !== 'Approved' && row[0].scdact_status !== 'Rejected' ? handleLeadList.handleClicktoGetFile(item.scdact_id) : ''} key={`button-${itemIndex}`} style={{ textTransform: 'none',display: 'flex', justifyContent: 'space-between', width: '100%' }}>
+                      <Button onClick={() => row[0].scdact_status !== 'Approved' && row[0].scdact_status !== 'Rejected' ? handleLeadList.handleClicktoGetFile(item.scdact_id) : ''}
+                      key={`button-${item.scdact_id}`} style={{ textTransform: 'none', display: 'flex', justifyContent: 'space-between', width: '100%' }}>
                         <Box sx={{ pr: 1}}>{item.scdact_filename}</Box>
                         <Box >{item.scdact_filesize}</Box>
                       </Button>
                     ))}
                   </Box>
-                  </>
                 }
                 onClose={() => handleClose(index)}
               >
@@ -107,12 +124,12 @@ function Index() {
           {/* //*!Permission */}
           <TableCell id="bodycell" className='Permission' align="center">
             <div style={{ display: 'flex', justifyContent: 'center', alignItems: 'center' }}>
-            <Box key={index}>
+            <Box  key={`permission-${rowIndex}`}>
               <handleLeadList.CustomTooltipRecipient
                 open={tooltipOpenPermission[index] || false}
                 title={
                   <>
-                  <Box component="h5" sx={{color: row[0].scdact_status === "Approved" ? "green" : row[0].scdact_status === "Rejected" ? "red" : "",display: row[0].scdact_status === "Approved"||row[0].scdact_status === "Rejected" ?"flex":"none"}}>
+                 <Box component="h5" sx={{ color: statusColor, display: displayStyle }}>
                     {row[0].scdact_status === "Approved"?"Already approved":"Already rejected"}
                   </Box>
                   <Box sx={{ p:1,display: row[0].scdact_status === "Approved"||row[0].scdact_status === "Rejected" ?"none":"flex", flexDirection: 'column', justifyContent: 'flex-start', alignItems: 'flex-start' }}>
@@ -201,14 +218,14 @@ function Index() {
           <TableCell align="center">{row[0].scdact_sender}</TableCell>
           <TableCell id="bodycell" align="center">
           <div style={{ display: 'flex', justifyContent: 'center', alignItems: 'center' }}>
-            <Box key={index}>
+            <Box key={`tooltip-${index}`}>
               <handleLeadList.CustomTooltipRecipient
                 open={tooltipOpenRecipient[index] || false}
                 title={
                   <Box sx={{ p:1,display: "flex", flexDirection: 'column', justifyContent: 'flex-start', alignItems: 'flex-start' }}>
                    <Box component="h3" sx={{ ml: 1, color: 'gray.main' }}>All Recipients</Box>
                    {Array.from(new Set(row.flatMap(item => item.scdact_reciepient.split(',')))).map((recipient, index) => (
-                     <Button key={`button-${index}`} style={{ display: 'flex', justifyContent: 'left', width: '100%' }}>
+                     <Button key={`button-${itemIndex}`} style={{ display: 'flex', justifyContent: 'left', width: '100%' }}>
                        <Box sx={{ textTransform:"lowercase",pr: 1 }}>{`${recipient}`}</Box>
                      </Button>
                    ))}
@@ -231,7 +248,9 @@ function Index() {
             </Box>
             </div>
           </TableCell>
-          <TableCell style={{fontWeight:600,color: row[0].scdact_status === "Approved" ? "#00E700" : row[0].scdact_status === "Rejected" ? "#FF0000" : "#0062FF", textAlign: "center"}} align="center">{row[0].scdact_status}</TableCell>
+          <TableCell style={statusStyle} align="center">
+            {row[0].scdact_status}
+          </TableCell>
           <TableCell align='center'>
           <Box sx={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center',visibility:row[0].scdact_status === "Approved"||row[0].scdact_status === "Rejected" ?"hidden":"visible" }}>
            <Button id="Approve" onClick={()=>{handleLeadList.handleClicktoApprove(row,"Approve")}} sx={{ flexGrow: 1, marginRight: '8px' }} variant="contained" color="approve" style={{ borderRadius: "7px", minWidth: "50%", textTransform: "capitalize", color: "white", fontWeight: 600 }}>Approve</Button>

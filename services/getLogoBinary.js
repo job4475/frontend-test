@@ -10,7 +10,10 @@ function GetLogoBinary() {
     useEffect(() => {
         if (state.companyID) {
             setState({ ...state, loading: true });
-            fetch(`${process.env.NEXT_PUBLIC_API_ENDPOINT_GET}${process.env.NEXT_PUBLIC_API_PORT_LOGIN?`:${process.env.NEXT_PUBLIC_API_PORT_LOGIN}`:""}/api/getLogoBinary/${state.companyID}`)
+            const apiEndpoint = process.env.NEXT_PUBLIC_API_ENDPOINT_GET;
+            const apiPortLogin = process.env.NEXT_PUBLIC_API_PORT_LOGIN || "";
+            const apiUrl = `${apiEndpoint}${apiPortLogin}/api/getLogoBinary/${state.companyID}`;
+            fetch(apiUrl)
                 .then(response => response.blob())
                 .then(blob => {
                     const imageUrl = URL.createObjectURL(blob);

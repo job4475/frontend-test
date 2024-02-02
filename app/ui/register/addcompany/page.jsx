@@ -88,7 +88,8 @@ function Page() {
                     {state.provinces && state.provinces.map((province) => (
                       <MenuItem key={province} value={province}>
                         {province}
-                      </MenuItem>))}
+                      </MenuItem>
+                    ))}
                   </Select>
                 </Box>
               </Box>

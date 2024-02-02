@@ -1,13 +1,13 @@
-import { useContext } from 'react';
+import { useContext, useEffect } from 'react';
 import { StateContext } from '@/context/Context';
-import { useCookies } from 'react-cookie'; // Import useCookies
+import { useRouter } from 'next/navigation';
 
-function Otpvelify() {
+function otpvelify() {
     const { state, setState } = useContext(StateContext);
     const [cookies,setCookie] = useCookies(['token']);
  
         const fetchLogoImage = () => {
-            fetch(`${process.env.NEXT_PUBLIC_API_ENDPOINT_GET}${process.env.NEXT_PUBLIC_API_PORT_LOGIN?`:${process.env.NEXT_PUBLIC_API_PORT_LOGIN}`:""}/api/getLogoBinary/${state.decode_token.CompanyID}`)
+            fetch(`${process.env.NEXT_PUBLIC_API_ENDPOINT_GET}:${process.env.NEXT_PUBLIC_API_PORT_LOGIN}/api/getLogoBinary/${state.decode_token.CompanyID}`)
                 .then(response => response.blob())
                 .then(blob => {
                     const imageUrl = URL.createObjectURL(blob);
@@ -30,7 +30,7 @@ function Otpvelify() {
                 body: raw,
                 redirect: 'follow'
             };
-            fetch(`${process.env.NEXT_PUBLIC_API_ENDPOINT_GET}${process.env.NEXT_PUBLIC_API_PORT_LOGIN?`:${process.env.NEXT_PUBLIC_API_PORT_LOGIN}`:""}/api/validateOTPEmail`, requestOptions)
+            fetch(`${process.env.NEXT_PUBLIC_API_ENDPOINT_GET}:${process.env.NEXT_PUBLIC_API_PORT_LOGIN}/api/validateOTPEmail`, requestOptions)
                 .then(response => response.json())
                 .then(result => {
                     console.log(result);
@@ -42,8 +42,9 @@ function Otpvelify() {
                     } else {
                         setState((prevData) => ({ ...prevData, alert: true, alert_text: result.message, alert_type: "error",loading: false }));
                         setTimeout(() => {
-                         setState((prevData) => ({ ...prevData, alert: false }));
-                        }, 3000);                    }
+                            setState((prevData) => ({ ...prevData, alert: false}));
+                          }, 2000);
+                    }
                 })
                 .catch(error => console.log('error', error));
         };
@@ -55,4 +56,4 @@ function Otpvelify() {
     };
     return { handleCodeChange,workspace };
 }
-export default Otpvelify;
+export default otpvelify;

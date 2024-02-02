@@ -19,30 +19,26 @@ function Index() {
 
   useEffect(() => {
     if (tokenParam) {
-      setState((prevData) => ({...prevData,confirmlink: tokenParam,confirmlink_decode: decodedToken,email: decodedToken.username,}));
+      setState((prevData) => ({
+        ...prevData,
+        confirmlink: tokenParam,
+        confirmlink_decode: decodedToken,
+        email: decodedToken.username,
+      }));
     }
   }, [tokenParam]);
  
   const confirmPassword = (e) => {
-    setState({...state,confirmPassword: e.target.value,});
+    setState({ ...state, confirmPassword: e.target.value });
   };
+
   const handleTogglePassword = () => {
     setShowPassword(!showPassword);
   };
+
   const Confirm = () => {
     setShowPassword(!showPassword);
   };
-  const isPasswordValid = () => {
-    const hasMinLength = state.password.length >= 8;
-    const hasUpperCase = /[A-Z]/.test(state.password);
-    const hasLowerCase = /[a-z]/.test(state.password);
-    const hasNumber = /\d/.test(state.password);
-    return hasMinLength && hasUpperCase && hasLowerCase && hasNumber;
-  };
-  const handlePasswordChange = (e) => {
-    state.password = e.target.value;
-     updatePasswordFunc(state.password);
-   };
   return (
     <Box>
       <Box p={3} sx={{ display: 'flex', flexDirection: 'column', width: '400px', height: '500px', borderRadius: "15px", marginLeft: 'auto', marginRight: 5, marginTop: 1, boxShadow: '0px 0px 10px rgba(0, 0, 0, 0.1)', justifyContent: 'space-between' }}>

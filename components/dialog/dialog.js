@@ -2,16 +2,14 @@ import { Box, Button, Dialog } from '@mui/material'
 import Image from 'next/image';
 import React, { useContext } from 'react'
 import { StateContext } from '@/context/Context';
-import { useRouter } from 'next/navigation';
 import MessageFill from '@/assets/assets/images/MessageFill.png'
 import Checked from '@/assets/assets/images/checked.png'
-import Success from '@/assets/assets/images/checked.png'
 import Error from '@/assets/assets/images/cross.png'
 import { useCookies } from 'react-cookie';
 
 function Dialog1() {
   const { state, setState } = useContext(StateContext);
-  const [ removeCookie] = useCookies(['token'])
+  const [cookies, removeCookie] = useCookies(['token']); 
   const handleClose = () => {
     localStorage.removeItem("ally-supports-cache")
     localStorage.removeItem("decode_token")
@@ -66,7 +64,7 @@ function Dialog1() {
           <Dialog open={state.registerSuccess} onClose={registerSuccess} PaperProps={{ style: { borderRadius: '15px' } }}>
             <Box sx={{ width: '430px', height: '480px', display: 'flex', justifyContent: 'center', alignItems: 'center', flexDirection: 'column' }}>
               <Box sx={{ width: '100%', height: '50%', background: '#6BCB77', display: 'flex', justifyContent: 'center', alignItems: 'center' }}>
-                <Image src={Success} alt='Message' width={100}></Image>
+                <Image src={Checked} alt='Message' width={100}></Image>
               </Box>
               <Box sx={{ width: '100%', height: '50%', background: '#ffffff', borderBottomLeftRadius: '10px', borderBottomRightRadius: '10px', display: 'flex', justifyContent: 'center', alignItems: 'center', flexDirection: 'column', px: '45px', rowGap: '10px' }}>
                 <h1 style={{ fontSize: '22px', fontWeight: '700' }}>Success</h1>

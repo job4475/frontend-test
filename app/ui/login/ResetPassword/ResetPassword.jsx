@@ -12,6 +12,7 @@ import Loading from '@/components/loading'
 
 function Index() {
   const { state, setState } = useContext(StateContext);
+  const { state, setState } = useContext(StateContext);
   const [showPassword, setShowPassword] = useState(false);
   const HandleResetPassword = handleresetpassword();
   const updatePasswordFunc = updatePassword();
@@ -26,20 +27,30 @@ function Index() {
         confirmlink_decode: decodedToken,
         email: decodedToken.username,
       }));
+      setState((prevData) => ({
+        ...prevData,
+        confirmlink: tokenParam,
+        confirmlink_decode: decodedToken,
+        email: decodedToken.username,
+      }));
     }
   }, [tokenParam]);
 
   const confirmPassword = (e) => {
     setState({ ...state, confirmPassword: e.target.value });
+    setState({ ...state, confirmPassword: e.target.value });
   };
+
 
   const handleTogglePassword = () => {
     setShowPassword(!showPassword);
   };
 
+
   const Confirm = () => {
     setShowPassword(!showPassword);
   };
+
 
   const isPasswordValid = () => {
     const hasMinLength = state.password.length >= 8;
@@ -48,6 +59,7 @@ function Index() {
     const hasNumber = /\d/.test(state.password);
     return hasMinLength && hasUpperCase && hasLowerCase && hasNumber;
   };
+
 
   const handlePasswordChange = (e) => {
     setState({ ...state, password: e.target.value });
