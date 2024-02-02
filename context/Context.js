@@ -12,8 +12,8 @@ import Qrcode from '@/services/qrcode'
 import GetLogoBinary from '@/services/getLogoBinary'
 import Timeout from '@/services/settimeout'
 import Checkstatuslogin from '@/services/checkstatuslogin'
-export const StateContext = createContext();
 
+export const StateContext = createContext();
 export const StateProvider = ({children}) => {
     
     const [state, setState] = useState({ titleselect:"",last_name:"",input_email:"",role:"",selectedProvince:'',selectedAmphoe:'',selectedTambon:'',

@@ -4,7 +4,7 @@ import { useContext, useState } from 'react'
 
 function Addcompany() {
     const {state, setState} = useContext(StateContext);
-    const [password] = useState('');
+    const [password ,setPassword] = useState('');
     const [showPassword, setShowPassword] = useState(false);
    
     const Confirm = () => {
@@ -25,12 +25,7 @@ function Addcompany() {
           redirect: 'follow'
         };
         
-        const apiEndpoint = process.env.NEXT_PUBLIC_API_ENDPOINT_GET;
-        const apiPortLogin = process.env.NEXT_PUBLIC_API_PORT_LOGIN || "";
-        const apiPortString = apiPortLogin ? `:${apiPortLogin}` : "";
-        const apiUrl = apiEndpoint + apiPortString + "/api/InitPasswordChicCRM";
-
-        fetch(apiUrl, requestOptions)
+        fetch(`${process.env.NEXT_PUBLIC_API_ENDPOINT_GET}${process.env.NEXT_PUBLIC_API_PORT_LOGIN?`:${process.env.NEXT_PUBLIC_API_PORT_LOGIN}`:""}/api/InitPasswordChicCRM`, requestOptions)
           .then(response => response.json())
           .then(result => {
             console.log(result);

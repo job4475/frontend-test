@@ -1,4 +1,6 @@
-import React from 'react'
+'use client'
+import { useRouter } from 'next/navigation';
+import React, { useState } from 'react'
 
 function Page() {
   return (
@@ -6,4 +8,4 @@ function Page() {
   )
 }
 
-export default Page
+export default Page;
