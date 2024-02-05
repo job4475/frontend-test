@@ -272,7 +272,6 @@ const Page = () => {
                   Review
                 </div>
               </div>
-            ) : null}
           </div> 
         </div>
       </div>
