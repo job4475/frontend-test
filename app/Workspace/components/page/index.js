@@ -1,14 +1,13 @@
 "use client";
 import React, { useEffect, useState, useContext } from "react";
 import Image from "next/image";
-import Logotrac from "@/assets/assets/images/logotrac.png";
 import CarReserve from "@/assets/assets/images/workspace/CarReserve.png";
 import MyOpportunity from "@/assets/assets/images/workspace/MyOpportunity.png";
 import RemoteSupport from "@/assets/assets/images/workspace/RemoteSupport.png";
 import ShareDocument from "@/assets/assets/images/workspace/ShareDocument.png";
 import UnderReview from "@/assets/assets/images/workspace/UnderReview.png";
 import { StateContext } from "@/context/Context";
-import { Button, Box, Skeleton } from "@mui/material";
+
 import Backdrop from '@/components/backdrop/backdrop'
 import Navbar from "@/components/navbar/navbar";
 import { useCookies } from "react-cookie";
@@ -28,27 +27,6 @@ const Page = () => {
     }
   };
 
-  const isLocalStorageAvailable = typeof window !== 'undefined' && window.localStorage;
-
-  const storedLoginTime = isLocalStorageAvailable ? localStorage.getItem('loginTime') : null;
-  const [loginTime] = useState(
-    storedLoginTime ? new Date(storedLoginTime) : new Date()
-  );
-
-  useEffect(() => {
-    const loginTime = isLocalStorageAvailable ? localStorage.getItem('loginTime') : null;
-    const initialLoginTime = loginTime ? new Date(loginTime) : new Date();
-    const intervalId = setInterval(() => {
-      const currentTime = new Date();
-      const elapsedTime = currentTime - initialLoginTime;
-      const loginPeriodElement = document.getElementById('loginPeriod');
-
- 
-
-    }, 1000);
-
-    return () => clearInterval(intervalId);
-  }, [isLocalStorageAvailable]);
 
   useEffect(() => {
     const timeoutId = setTimeout(() => {
@@ -58,12 +36,7 @@ const Page = () => {
     return () => clearTimeout(timeoutId);
   }, [setLoading]);
 
-  const handleclicklogout = () => {
-    localStorage.removeItem("ally-supports-cache")
-    localStorage.removeItem("decode_token")
-    localStorage.removeItem("loginTime")
-    window.location.href = "/"
-  }
+  
   const Notallowed = () => {
 
   }
