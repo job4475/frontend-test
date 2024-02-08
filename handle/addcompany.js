@@ -7,7 +7,7 @@ function Addcompany() {
     const {state, setState} = useContext(StateContext);
     const router = useRouter();
   const Selectcompany = () => {
-    router.back()
+    window.location.href="/Selectcompany"
   }
   const Register = () => {
     router.push('/Register');

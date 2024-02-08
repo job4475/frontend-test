@@ -6,6 +6,7 @@ import { useCookies } from 'react-cookie';
 
 function Checkstatuslogin() {
   const items = JSON.parse(localStorage.getItem('decode_token'));
+    console.log("🚀 ~ Checkstatuslogin ~ items:", items)
     const [cookies,] = useCookies(['token']);
     const router = useRouter();
     useEffect(() => {

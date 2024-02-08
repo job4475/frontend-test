@@ -8,13 +8,22 @@ function Token() {
   useEffect(() => {
     const items = JSON.parse(localStorage.getItem('decode_token'));
     const dataCompany = JSON.parse(localStorage.getItem('datacompanylc'));
+    const userEmail = localStorage.getItem('useremail');
+    
     if (items) {
-      setState({ ...state, decode_token: items });
+      setState(prevState => ({ ...prevState, decode_token: items }));
     }
+    
     if (dataCompany) {
-      setState({ ...state, datacompanylc: dataCompany });
+      setState(prevState => ({ ...prevState, datacompanylc: dataCompany }));
     }
-  }, []);
+    
+    if (userEmail) {
+      setState(prevState => ({ ...prevState, email: userEmail }));
+    }
+  }, []); 
+  
+  
 
   return null;
 }

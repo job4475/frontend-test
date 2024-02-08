@@ -1,6 +1,6 @@
 "use client";
 import React from "react";
-import ResetSucceed from "../ui/login/ResetSucceed/ResetSucceed";
+import ResetSucceed from "../ui/login/ResetSuccess/ResetSucceed";
 import Image from "next/image";
 import Chiclogo from "@/assets/assets/images/sigin/chiclogo.png";
 import { useRouter } from "next/navigation";

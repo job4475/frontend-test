@@ -25,7 +25,9 @@ const Page = () => {
       selectedTambon: state.datacompanylc.SubDistrict,
       zipcode: state.datacompanylc.Zipcode,
       country: state.datacompanylc.Country,
+      webSite:state.datacompanylc.Website,
       backdrop: false,
+      loading: false
     });
     router.push('/Register');
   }
@@ -34,10 +36,8 @@ const Page = () => {
     setTimeout(() => {
       setState((prevData) => ({ ...prevData, backdrop: false }));
     }, 1000);
-    router.push('/CreateCompany');
+    window.location.href="/CreateCompany"
   }
-  
- 
   return (
     <div
       className="h-screen"

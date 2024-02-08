@@ -17,22 +17,23 @@ function Register() {
               "firstname_en": state.first_name,
               "Surname_en": state.last_name,
               "mobile_phone": state.phone_number,
-              "country": state.country,
-              "province": state.selectedProvince?state.selectedProvince:state.datacompany.Province, 
-              "district": state.selectedAmphoe?state.selectedAmphoe:state.datacompany.District,
-              "sub_district": state.selectedTambon?state.selectedTambon:state.datacompany.SubDistrict,
-              "zipcode": state.zipcode,
-              "create_location": state.googlemaps,
+              "country": state.country?state.country:state.datacompanylc.Country, 
+              "province": state.selectedProvince?state.selectedProvince:state.datacompanylc.Province, 
+              "district": state.selectedAmphoe?state.selectedAmphoe:state.datacompanylc.District,
+              "sub_district": state.selectedTambon?state.selectedTambon:state.datacompanylc.SubDistrict,
+              "zipcode": state.zipcode?state.zipcode:state.datacompanylc.Zipcode,
+              "create_location": state.googlemaps?state.googlemaps:state.datacompanylc.Geolocation,
               "url_logo": "https://iconscout.com/free-icon/logo-3446031",
-              "company_name_en": state.companyname,
-              "company_mobile": state.phone_number,
-              "company_alias": state.alias,
-              "company_geolo": state.googlemaps,
-              "address1_en": state.street,
-              "address_no": state.no,
-              "job_title": state.job_title,
+              "company_name_en": state.companyname?state.companyname:state.datacompanylc.Companyname,
+              "company_mobile": state.phone_number?state.phone_number:state.datacompanylc.CompanyPhone,
+              "company_alias": state.alias?state.alias:state.datacompanylc.CompanyAlias,
+              "company_geolo": state.googlemaps?state.googlemaps:state.datacompanylc.Geolocation,
+              "address1_en": state.street?state.street:state.datacompanylc.Address1En,
+              "address_no": state.no?state.no:state.datacompanylc.AddressNo,
+              "job_title": state.jobtitlename,
+              "department":state.departmentname,
               "role": "user",
-              "Website": "www.tracthai.com"
+              "Website": `https://${state.webSite}`,
             });
 
             const requestOptions = {
@@ -41,7 +42,6 @@ function Register() {
               body: raw,
               redirect: 'follow'
             };
-
             const apiEndpoint = process.env.NEXT_PUBLIC_API_ENDPOINT_GET;
             const apiPortLogin = process.env.NEXT_PUBLIC_API_PORT_LOGIN || "";
             const apiPortString = apiPortLogin ? `:${apiPortLogin}` : "";
@@ -52,12 +52,12 @@ function Register() {
                 .then(result => {
                   console.log(result);
                   if (result.status === "OK") {
-                    setState((prevData) => ({ ...prevData, companyID: result.companyID }));
-                    const formdata = new FormData();
-                      formdata.append("file",  state.selectedFile);
-                      formdata.append("organizeID", result.companyID);
-
-                      const uploadRequestOptions = {
+                    setState((prevData) => ({ ...prevData, companyID: result.companyID,loading: false,alert: false }));
+                    
+            const formdata = new FormData();
+            formdata.append("file",  state.selectedFile);
+            formdata.append("organizeID", result.companyID);
+            const uploadRequestOptions = {
             method: 'PATCH',
             body: formdata,
             redirect: 'follow'
@@ -71,7 +71,7 @@ function Register() {
             .then(response => response.json())
             .then(uploadResult => {
               console.log(uploadResult);
-              setState({ ...state, registerSuccess: true })
+              setState({ ...state, registerSuccess: true,alert: false })
             })
             .catch(uploadError => console.log('Upload error', uploadError));
 

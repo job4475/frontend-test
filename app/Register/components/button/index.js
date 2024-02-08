@@ -11,22 +11,22 @@ import Dialog from '@/components/dialog/dialog'
 function Index() {
   const { state } = useContext(StateContext);
   const Handleregis = handleregis();
-  useEffect(() => {
-    const handleBeforeUnload = (event) => {
-      if (state.email !==" ") {
-        const message = "Leaving this page may result in data loss. Are you sure?";
-        event.returnValue = message;
-        return message;
-      }
-    };
+  // useEffect(() => {
+  //   const handleBeforeUnload = (event) => {
+  //     if (state.email !==" ") {
+  //       const message = "Leaving this page may result in data loss. Are you sure?";
+  //       event.returnValue = message;
+  //       return message;
+  //     }
+  //   };
   
-    window.addEventListener("beforeunload", handleBeforeUnload);
+  //   window.addEventListener("beforeunload", handleBeforeUnload);
   
-    return () => {
-      window.removeEventListener("beforeunload", handleBeforeUnload);
-    };
+  //   return () => {
+  //     window.removeEventListener("beforeunload", handleBeforeUnload);
+  //   };
   
-  }, [state.pageloader]);
+  // }, [state.pageloader]);
   return (
     <Box sx={{mt:2, display:"flex", gap:'12px'}}>
         <Button variant="outlined" color="success" onClick={Handleregis.Selectcompany}   sx={{ transition: 'transform 0.3s ease', '&:hover': { transform: 'scale(1.03)'} }} style={{ textTransform: 'capitalize', width: '100px', height: '50px', color: '#84BAA1', borderRadius: '8px' }}>Back</Button>

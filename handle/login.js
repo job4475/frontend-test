@@ -64,14 +64,12 @@ function Login() {
     const raw = JSON.stringify({
       username: state.email,
     });
-
     const requestOptions = {
       method: 'POST',
       headers: myHeaders,
       body: raw,
       redirect: 'follow',
     };
-
     fetch(
       `${process.env.NEXT_PUBLIC_API_ENDPOINT_GET}${process.env.NEXT_PUBLIC_API_PORT_LOGIN ? `:${process.env.NEXT_PUBLIC_API_PORT_LOGIN}` : ''}/api/validateDomainChicCRM`,
       requestOptions
@@ -80,6 +78,7 @@ function Login() {
       .then((result) => {
         if (result.match === true) {
           localStorage.setItem("datacompanylc", JSON.stringify(result.data));
+          localStorage.setItem("useremail", state.email);
           setState((prevData) => ({...prevData,datacompanylc: result.data,loading: false}));
 
           router.push('/Selectcompany');
