@@ -1,6 +1,6 @@
 "use client";
 import React from "react";
-import ResetSucceed from "../ui/login/ResetSuccess/ResetSucceed";
+import ResetSuccess from "../ui/login/ResetSuccess/ResetSucceed";
 import Image from "next/image";
 import Chiclogo from "@/assets/assets/images/sigin/chiclogo.png";
 import { useRouter } from "next/navigation";
@@ -18,7 +18,7 @@ const Page = () => {
       <Image onClick={backlogin} src={Chiclogo} alt="logo" className="absolute w-[80px] h-[auto] top-5 left-5 hover:scale-110 duration-500 cursor-pointer" />
       </div>
       <div className="my-[auto] xl:mt-[auto] basis-1/1 xl:basis-1/3 flex flex-col content-center justify-center items-center">
-        <ResetSucceed />
+        <ResetSuccess />
       </div>
     </div>
   );
