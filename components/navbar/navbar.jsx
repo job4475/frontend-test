@@ -1,10 +1,10 @@
 "use client";
 import { Box, IconButton, Menu, MenuItem } from '@mui/material'
-import React, { useContext, useState } from 'react'
+import React, { useContext, useState,useEffect } from 'react'
 import Logotrac from "@/assets/assets/images/logotrac.png";
 import Image from 'next/image';
 import { StateContext } from "@/context/Context";
-import { useEffect } from 'react';
+
 
 function Navbar() {
     const { state, setState } = useContext(StateContext);
