@@ -91,7 +91,7 @@ function Login() {
           formdata.append('body', 'Please click the link provided below to proceed.');
           formdata.append('body1', 'MODULE: chiCRM');
           formdata.append('body2', 'ADMIN: TRAC-THAI');
-          formdata.append('bodylink', 'http://localhost:3434/CreateCompany');
+          formdata.append('bodylink', `http://localhost:3434/CreateCompany/?email=${state.email}`);
           formdata.append('linkname', 'Registration Link');
 
           const requestOptions = {
