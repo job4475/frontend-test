@@ -1,11 +1,9 @@
 import { StateContext } from '@/context/Context';
-import { useRouter } from 'next/navigation';
 import React, { useContext, useEffect } from 'react';
 
 
 function GetLogoBinary() {
     const { state, setState } = useContext(StateContext);
-    const router = useRouter();
 
     useEffect(() => {
         if (state.companyID) {

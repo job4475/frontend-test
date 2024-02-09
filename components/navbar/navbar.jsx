@@ -1,18 +1,15 @@
 "use client";
 import { Box, IconButton, Menu, MenuItem } from '@mui/material'
-import React, { useContext, useState } from 'react'
+import React, { useContext, useState,useEffect } from 'react'
 import Logotrac from "@/assets/assets/images/logotrac.png";
 import Image from 'next/image';
 import { StateContext } from "@/context/Context";
-import { useRouter } from "next/navigation";
 
-function navbar() {
+function Navbar() {
     const { state, setState } = useContext(StateContext);
     const [anchorEl, setAnchorEl] = useState(null);
     const openMenu = Boolean(anchorEl);
-    const router = useRouter();
     const isLocalStorageAvailable = typeof window !== 'undefined' && window.localStorage;
-
 
     const handleClick = e => {
         setAnchorEl(e.currentTarget);
@@ -32,11 +29,11 @@ function navbar() {
 
     // Use local storage only if it's available
     const storedLoginTime = isLocalStorageAvailable ? localStorage.getItem('loginTime') : null;
-    const [loginTime, setLoginTime] = React.useState(
+    const [loginTime, setLoginTime] = useState(
         storedLoginTime ? new Date(storedLoginTime) : new Date()
     );
 
-    React.useEffect(() => {
+    useEffect(() => {
         if (isLocalStorageAvailable) {
             localStorage.setItem('loginTime', loginTime);
         }
@@ -80,7 +77,7 @@ function navbar() {
                     <MenuItem>Edit Profile</MenuItem>
                     <MenuItem onClick={handleclicklogout}>Logout</MenuItem>
                 </Menu>
-                <Box sx={{ background: '#D9D9D9', overflow: 'hidden', width: '55px', height: '55px', display: 'flex', justifyContent: 'center', alignContent: 'center', borderRadius: '7px', cursor: 'pointer', borderRadius: '100px', ml: '25px' }}>
+                <Box sx={{ background: '#D9D9D9', overflow: 'hidden', width: '55px', height: '55px', display: 'flex', justifyContent: 'center', alignContent: 'center', cursor: 'pointer', borderRadius: '100px', ml: '25px' }}>
                     <Image
                         src={Logotrac}
                         alt=""
@@ -117,4 +114,4 @@ function navbar() {
     )
 }
 
-export default navbar
+export default Navbar
