@@ -5,13 +5,11 @@ import Logotrac from "@/assets/assets/images/logotrac.png";
 import Image from 'next/image';
 import { StateContext } from "@/context/Context";
 
-
 function Navbar() {
     const { state, setState } = useContext(StateContext);
     const [anchorEl, setAnchorEl] = useState(null);
     const openMenu = Boolean(anchorEl);
     const isLocalStorageAvailable = typeof window !== 'undefined' && window.localStorage;
-
 
     const handleClick = e => {
         setAnchorEl(e.currentTarget);
