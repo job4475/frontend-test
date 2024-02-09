@@ -18,7 +18,7 @@ export const StateContext = createContext();
 export const StateProvider = ({children}) => {
     
     const [state, setState] = useState({ titleselect:"",last_name:"",input_email:"",role:"",selectedProvince:'',selectedAmphoe:'',selectedTambon:'',
-    first_name:"",phone_number:"",job_title:"",email:'',password:'',confirmPassword:'',alias:'',province:'',companyname:'',district:''
+    first_name:"",phone_number:"",job_title:"",email:'',emailconfirm:'',password:'',confirmPassword:'',alias:'',province:'',companyname:'',district:''
     ,no:'',subdistric:'',street:'',zipcode:'',country:'',googlemaps:'',newpassword:'',recipient:[],showPassword:false,amphures:[],provinces:[],tambons:[],
     info:0,input_OTP:'',datacompanylc:[],datacompany:[],decode_token:[],input_recip:"",subject:"",message:"",secure_type:false,selectedFileName:[],
     selectedFile:[],watermark:false,screenwatermark:false,allowconverttooriginalfile: false,allowcopypaste: false,allowprint: false,alloweditsecuredfile: false,allowrunamacro: false,allowconverttofcl:false,allowconverttobrowserviewfile: false,enableconverttooriginalfile:false,
