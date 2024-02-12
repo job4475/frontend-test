@@ -12,7 +12,7 @@ function Register() {
             myHeaders.append("Content-Type", "application/json");
 
             const raw = JSON.stringify({
-              "username": state.email,
+              "username": state.emailconfirm?state.emailconfirm : state.email,
               "title": state.titleselect,
               "firstname_en": state.first_name,
               "Surname_en": state.last_name,

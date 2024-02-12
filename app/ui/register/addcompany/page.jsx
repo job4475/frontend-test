@@ -14,9 +14,14 @@ import { useRouter } from 'next/navigation'
 function Page() {
   const { state, setState } = useContext(StateContext);
   const router = useRouter();
-  const urlParams = new URLSearchParams(window.location.search);
-  const emailParam = urlParams.get('email');
-  console.log("🚀 ~ Page ~ emailParam:", emailParam)
+  useEffect(() => {
+    const urlParams = new URLSearchParams(window.location.search);
+    const emailParam = urlParams.get('email');
+    if(emailParam){
+      setState({ ...state, email: emailParam });
+    }
+    
+  }, []);
   const Handlecompany = handlecompany();
   const handleFileChange = (event) => {
     const file = event.target.files[0];
@@ -27,18 +32,14 @@ function Page() {
       };
       reader.readAsDataURL(file);
     }
-  }
-  
-
-
-   
+  }   
   return (
     <Box sx={{ display: 'flex', flexDirection: 'column', justifyContent: 'space-between', alignItems: 'flex-start', p: 3, }}>
       <Box >
         <Box sx={{ display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
           <Image src={Subtract} alt="logo" style={{ width: "80px" }} />
           <Box sx={{ pl: 3 }}>
-            <Box sx={{ fontWeight: '800', fontSize: '18px' }}>Hello good morning {emailParam || state.email} <br></br>Welcome to ChicCRM registration process now you are in</Box>
+            <Box sx={{ fontWeight: '800', fontSize: '18px' }}>Hello good morning {state.emailconfirm || state.email} <br></br>Welcome to ChicCRM registration process now you are in</Box>
             <Box sx={{ fontSize: '13px' }}>After complete all infomation you will received email your password</Box>
           </Box>
         </Box>
@@ -130,8 +131,9 @@ function Page() {
                   <TextField variant="standard" size='small' value={state.zipcode} InputProps={{ readOnly: true, }} sx={{ width: "250px" }} />
                 </Box>
                 <Box sx={{ display: 'flex', alignItems: 'center' }}>
-                  <Box sx={{ pt: 1.5, width: '150px', color: '#1F2939', fontWeight: '500' }}>Phone Number</Box>
-                  <TextField id="standard-basic" variant="standard" value={state.phoneNumber} onChange={Handlecompany.phoneNumber} sx={{ width: "250px" }} />
+                <Box sx={{ pt: 1.5, width: '150px', color: '#1F2939', fontWeight: '500' }}>Phone Number</Box>
+                <TextField  id="standard-basic" variant="standard" value={state.phoneNumber} onChange={Handlecompany.phoneNumber} sx={{ width: "250px" }} inputProps={{
+                        pattern: "[0-9]{10}",title: "Please enter a 10-digit phone number"}}/>
                 </Box>
                 <Box sx={{ display: 'flex', alignItems: 'center' }}>
                   <Box sx={{ pt: 1.5, width: '150px', color: '#1F2939', fontWeight: '500' }}>Google Maps</Box>

@@ -26,13 +26,11 @@ function Navbar() {
         localStorage.removeItem("loginTime")
         window.location.href = "/"
     }
-
     // Use local storage only if it's available
     const storedLoginTime = isLocalStorageAvailable ? localStorage.getItem('loginTime') : null;
     const [loginTime, setLoginTime] = useState(
         storedLoginTime ? new Date(storedLoginTime) : new Date()
     );
-
     useEffect(() => {
         if (isLocalStorageAvailable) {
             localStorage.setItem('loginTime', loginTime);
@@ -55,13 +53,11 @@ function Navbar() {
 
         return `${String(hours).padStart(2, '0')}:${String(minutes).padStart(2, '0')}:${String(seconds).padStart(2, '0')}`;
     };
-
-
     return (
         <Box sx={{ width: '100%', height: '90px', background: '#fff', border: '1px solid #C2CCE1', display: 'flex', px: '50px', justifyContent: 'space-between', alignItems: 'center' }}>
             <Box sx={{ overflow: 'hidden', width: '55px', height: '55px', display: 'flex', justifyContent: 'center', alignContent: 'center', borderRadius: '7px', cursor: 'pointer' }}>
                 <Image
-                    src={state.decode_token.CompanyLogoOriginal ? state.decode_token?.CompanyLogoOriginal : Logotrac}
+                    src={state.logoImage ? state.logoImage : Logotrac}
                     alt="logo"
                     width={100}
                     height={100}

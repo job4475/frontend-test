@@ -7,7 +7,6 @@ import { StateContext } from "@/context/Context";
 import Backdrop from '@/components/backdrop/backdrop'
 
 const Page = () => {
-
   const router = useRouter();
   const { state, setState } = useContext(StateContext);
   const Register = () => {
@@ -75,7 +74,7 @@ const Page = () => {
             <Box sx={{ transition: 'transform 0.3s ease', '&:hover': { transform: 'scale(1.03)' } }}>
               {state.showContent ? (
                 <Image
-                  src={state.datacompanylc?.CompanyLogo}
+                  src={state.logoImage}
                   alt="logo"
                   width={90}
                   height={90}
