@@ -7,6 +7,9 @@ function Token() {
 
   useEffect(() => {
     const items = JSON.parse(localStorage.getItem('decode_token'));
+    console.log("🚀 ~ useEffect ~ items:", items)
+    setState({ ...state, decode_token: "test" });
+
     const dataCompany = JSON.parse(localStorage.getItem('datacompanylc'));
     if (items) {
       setState({ ...state, decode_token: items });

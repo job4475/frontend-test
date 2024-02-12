@@ -1,6 +1,6 @@
 'use client'
 import React, { useContext } from 'react'
-import VerificationCodeInput from './VerificationCodeInput'
+import VerificationCodeInput from './VerificationCodeotp'
 import { Box, Button } from '@mui/material';
 import handleotp from "@/handle/otpvelify"
 import handleqrcode from "@/handle/Authenticator"

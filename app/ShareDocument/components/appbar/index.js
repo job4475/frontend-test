@@ -12,7 +12,7 @@ function Index() {
   const isLocalStorageAvailable = typeof window !== 'undefined' && window.localStorage;
 
   const storedLoginTime = isLocalStorageAvailable ? localStorage.getItem('loginTime') : null;
-  const [loginTime, setLoginTime] = useState(initialValue)(
+  const [loginTime] = useState(
     storedLoginTime ? new Date(storedLoginTime) : new Date()
   );
 

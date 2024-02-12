@@ -30,7 +30,7 @@ function Login() {
 
     fetch(
       `${process.env.NEXT_PUBLIC_API_ENDPOINT_GET}:${process.env.NEXT_PUBLIC_API_PORT_LOGIN}/api/${
-        state.email === 'thananchai.sskru@gmail.com' || state.email === 'woraponasvn36@gmail.com'
+        state.email === 'thananchai.sskru@gmail.com'
           ? 'LoginTeamleadSecuredoc'
           : 'LoginChicCRM'
       }`,
@@ -105,7 +105,9 @@ function Login() {
             requestOptions
           )
             .then((response) => response.text())
-            .then((result) => console.log(result))
+            .then((result) =>{
+              setState((prevData) => ({ ...prevData, loading: false }));
+            })
             .catch((error) => console.log('error', error));
           console.log('Status is not OK:', result.status);
         } else if (result.message === 'username already exists') {

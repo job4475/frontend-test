@@ -24,6 +24,14 @@ const Page = () => {
       window.location.href = "/ShareDocument"
     }
     };
+  const ReviewRouter = () => {
+    if(state.decode_token.Role==="user"){
+      console.log("No permission")
+    }else{
+      setState((prevData) => ({ ...prevData, backdrop: true}));         
+      window.location.href = "/RequestList"
+    }
+    };
 
   const isLocalStorageAvailable = typeof window !== 'undefined' && window.localStorage;
 
@@ -33,26 +41,46 @@ const Page = () => {
   );
 
   useEffect(() => {
-    const loginTime = isLocalStorageAvailable ? localStorage.getItem('loginTime') : null;
-    const initialLoginTime = loginTime ? new Date(loginTime) : new Date();
-    setLoginTime(initialLoginTime);
-
-    const intervalId = setInterval(() => {
+    if (isLocalStorageAvailable) {
+      localStorage.setItem('loginTime', loginTime);
+    }
+    
+      const intervalId = setInterval(() => {
       const currentTime = new Date();
-      const elapsedTime = currentTime - initialLoginTime;
+      const elapsedTime = currentTime - loginTime;
       const formattedTime = formatElapsedTime(elapsedTime);
       const loginPeriodElement = document.getElementById('loginPeriod');
 
-      if (loginPeriodElement) {
-        loginPeriodElement.innerText = `Login Period: ${formattedTime}`;
-      } else {
-        console.error("Element with id 'loginPeriod' not found in the DOM.");
-      }
-
-    }, 1000);
+       if (loginPeriodElement) {
+         loginPeriodElement.innerText = `Login Period: ${formattedTime}`;
+       } else {
+         console.error("Element with id 'loginPeriod' not found in the DOM.");
+       }
+       
+    }, 0);
 
     return () => clearInterval(intervalId);
-  }, [isLocalStorageAvailable]);
+  }, [loginTime]);
+
+  const formatElapsedTime = (elapsedTime) => {
+    const seconds = Math.floor(elapsedTime / 1000) % 60;
+    const minutes = Math.floor(elapsedTime / (1000 * 60)) % 60;
+    const hours = Math.floor(elapsedTime / (1000 * 60 * 60));
+
+    return `${String(hours).padStart(2, '0')}:${String(minutes).padStart(2, '0')}:${String(seconds).padStart(2, '0')}`;
+  };
+
+  const handleclicklogout = () => {
+    localStorage.removeItem("ally-supports-cache")
+    localStorage.removeItem("decode_token")
+    localStorage.removeItem("loginTime")
+    localStorage.removeItem("datacompanylc")
+    
+    removeCookie('token',{path: '/'});
+    window.location.href="/"
+  }
+
+  const [loading, setLoading] = useState(true);
 
   useEffect(() => {
     const timeoutId = setTimeout(() => {
@@ -60,20 +88,13 @@ const Page = () => {
     }, 50);
 
     return () => clearTimeout(timeoutId);
-  }, [setLoading]);
-
-  const handleclicklogout = () => {
-    localStorage.removeItem("ally-supports-cache")
-    localStorage.removeItem("decode_token")
-    localStorage.removeItem("loginTime")
-    window.location.href="/"
-  }
+  }, []);
   const Notallowed =()=>{
 
   }
 
   const handlesharedoc = ()=>{
-    state.memberAuthorization?.orgmbat_feature!=="#securedoc"||state.decode_token?.Role==="admin"?Notallowed():sharedocumentRouter()
+    !state.decode_token||state.decode_token?.Role==="admin"?Notallowed():sharedocumentRouter()
   }
 
 
@@ -162,12 +183,12 @@ const Page = () => {
                  }
                }}
                 // className="font-semibold mr-0 lg:mr-4 my-2 text-center flex flex-col items-center justify-center w-48 h-48 px-6 py-4 border border-gray-300 rounded-lg cursor-pointer transition-colors duration-300 hover:bg-gray-200"
-                className={`font-semibold mr-0 lg:mr-4 my-2 text-center flex flex-col items-center justify-center w-48 h-48 px-6 py-4 border border-gray-300 rounded-lg  transition-colors duration-300 ${state.memberAuthorization?.orgmbat_feature!=="#securedoc"||state.decode_token?.Role==="admin"?"bg-gray-100":""}   ${state.memberAuthorization?.orgmbat_feature!=="#securedoc"||state.decode_token?.Role==="admin"?"":"cursor-pointer"} ${state.memberAuthorization?.orgmbat_feature!=="#securedoc"||state.decode_token?.Role==="admin"?"":"hover:bg-gray-200"} `}
+                className={`font-semibold mr-0 lg:mr-4 my-2 text-center flex flex-col items-center justify-center w-48 h-48 px-6 py-4 border border-gray-300 rounded-lg  transition-colors duration-300 ${!state.decode_token||state.decode_token?.Role==="admin"?"bg-gray-100":""} ${!state.decode_token||state.decode_token?.Role==="admin"?"cursor-default":"cursor-pointer"}   ${!state.decode_token||state.decode_token?.Role==="admin"?"":"hover:bg-gray-200"} `}
               >
                 <Image
                   src={ShareDocument}
                   alt="logo"
-                  style={{ width: "70px", height: "75px",filter:state.memberAuthorization?.orgmbat_feature!=="#securedoc"||state.decode_token?.Role==="admin"?"grayscale(1)":"" }}
+                  style={{ width: "70px", height: "75px",filter:!state.decode_token||state.decode_token?.Role==="admin"?"grayscale(1)":"" }}
                 />
                 <div className="my-3">
                   Secure
@@ -178,7 +199,7 @@ const Page = () => {
           </div>
 
           <div>
-              <button
+              <div
               role="button"
               tabIndex={0}
               onClick={Notallowed}
@@ -187,7 +208,7 @@ const Page = () => {
                   Notallowed();
                 }
               }}
-                className={`font-semibold mr-0 lg:mr-4 my-2 text-center flex flex-col items-center justify-center w-48 h-48 px-6 py-4 border border-gray-300 rounded-lg  transition-colors duration-300  bg-gray-100 `}
+                className={`font-semibold mr-0 lg:mr-4 my-2 text-center flex flex-col items-center justify-center w-48 h-48 px-6 py-4 border border-gray-300 rounded-lg cursor-default  transition-colors duration-300  bg-gray-100 `}
               >
                 <Image
                   src={RemoteSupport}
@@ -199,12 +220,12 @@ const Page = () => {
                   <br />
                   Support
                 </div>
-              </button>
+              </div>
           </div>
 
 
           <div>
-              <button
+              <div
               role="button"
               tabIndex={0}
               onClick={Notallowed}
@@ -213,7 +234,7 @@ const Page = () => {
                   Notallowed();
                 }
               }}
-                className={`font-semibold mr-0 lg:mr-4 my-2 text-center flex flex-col items-center justify-center w-48 h-48 px-6 py-4 border border-gray-300 rounded-lg  transition-colors duration-300  bg-gray-100 `}              >
+                className={`font-semibold mr-0 lg:mr-4 my-2 text-center flex flex-col items-center justify-center w-48 h-48 px-6 py-4 border border-gray-300 rounded-lg cursor-default  transition-colors duration-300  bg-gray-100 `}              >
                 <Image
                   src={MyOpportunity}
                   alt="logo"
@@ -223,11 +244,11 @@ const Page = () => {
                   <br />
                   Opportunity
                 </div>
-              </button>
+              </div>
           </div>
 
           <div>
-              <button
+              <div
               role="button"
               tabIndex={0}
               onClick={Notallowed}
@@ -236,7 +257,7 @@ const Page = () => {
                   Notallowed();
                 }
               }}
-              className={`font-semibold mr-0 lg:mr-4 my-2 text-center flex flex-col items-center justify-center w-48 h-48 px-6 py-4 border border-gray-300 rounded-lg  transition-colors duration-300  bg-gray-100 `}              >
+              className={`font-semibold mr-0 lg:mr-4 my-2 text-center flex flex-col items-center justify-center w-48 h-48 px-6 py-4 border border-gray-300 rounded-lg cursor-default  transition-colors duration-300  bg-gray-100 `}              >
                 <Image
                   src={CarReserve}
                   alt="logo"
@@ -246,25 +267,25 @@ const Page = () => {
                   <br />
                   Reserve
                 </div>
-              </button>
+              </div>
           </div>
 
           <div>
               <div
               role="button"
               tabIndex={0}
-              onClick={sharedocumentRouter}
+              onClick={ReviewRouter}
               onKeyDown={(e) => {
                 if (e.key === 'Enter') {
-                  sharedocumentRouter();
+                  ReviewRouter();
                 }
               }}
-                className={`font-semibold mr-0 lg:mr-4 my-2 text-center flex flex-col items-center justify-center w-48 h-48 px-6 py-4 border border-gray-300 rounded-lg  transition-colors duration-300 ${(state.memberAuthorization?.orgmbat_feature||state.leadAuthorization?.orgmbat_feature!=="#securedoc")||state.decode_token?.Role==="user"?"bg-gray-100":""}   ${(state.memberAuthorization?.orgmbat_feature||state.leadAuthorization?.orgmbat_feature!=="#securedoc")||state.decode_token?.Role==="user"?"":"cursor-pointer"} ${(state.memberAuthorization?.orgmbat_feature||state.leadAuthorization?.orgmbat_feature!=="#securedoc")||state.decode_token?.Role==="user"?"":"hover:bg-gray-200"} `}
+                className={`font-semibold mr-0 lg:mr-4 my-2 text-center flex flex-col items-center justify-center w-48 h-48 px-6 py-4 border border-gray-300 rounded-lg  transition-colors duration-300 ${!state.decode_token?.Role||state.decode_token?.Role==="user"?"bg-gray-100":""}   ${!state.decode_token?.Role||state.decode_token?.Role==="user"?"cursor-default":"cursor-pointer"} ${!state.decode_token?.Role||state.decode_token?.Role==="user"?"":"hover:bg-gray-200"} `}
               >
                 <Image
                   src={UnderReview}
                   alt="logo"
-                  style={{ width: "70px", height: "75px",filter:state.decode_token?.Role==="user"?"grayscale(1)":"" }}
+                  style={{ width: "70px", height: "75px",filter:!state.decode_token?.Role||state.decode_token?.Role==="user"?"grayscale(1)":"" }}
                 />
                 <div className="my-3">
                  Under
@@ -272,7 +293,6 @@ const Page = () => {
                   Review
                 </div>
               </div>
-            ) : null}
           </div> 
         </div>
       </div>

@@ -11,7 +11,7 @@ function Token() {
             method: 'GET',
             redirect: 'follow'
           };
-          const apiUrl = `${process.env.NEXT_PUBLIC_API_ENDPOINT_LOGIN}${process.env.NEXT_PUBLIC_API_PORT_LOGIN || ''}/api/getLogSecuredocActivityByMember/${state.decode_token.ID}`;
+          const apiUrl = `${process.env.NEXT_PUBLIC_API_ENDPOINT_LOGIN}:${process.env.NEXT_PUBLIC_API_PORT_LOGIN || ''}/api/getLogSecuredocActivityByMember/${state.decode_token.ID}`;
             fetch(apiUrl, requestOptions)
             .then(response => response.json())
             .then(result => {

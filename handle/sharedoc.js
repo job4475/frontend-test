@@ -360,8 +360,8 @@ const handleUpload = useCallback(async () => {
       formdata.append("scdact_edit", state.alloweditsecuredfile?"true":"false");
       formdata.append("scdact_print", state.allowprint?"true":"false");
       formdata.append("scdact_copy", state.allowcopypaste?"true":"false");
-      formdata.append("scdact_scrwatermark", "true");
-      formdata.append("scdact_watermark", "true");
+      formdata.append("scdact_scrwatermark", state.screenwatermark?"true":"false");
+      formdata.append("scdact_watermark", state.watermark?"true":"false");
       formdata.append("scdact_cvthtml", state.allowconverttobrowserviewfile?"true":"false");
       formdata.append("scdact_cvtfcl", state.allowconverttofcl?"true":"false"); 
       formdata.append("scdact_marcro", state.allowrunamacro?"true":"false");
@@ -372,9 +372,11 @@ const handleUpload = useCallback(async () => {
       formdata.append("scdact_reciepient", state.recipient);
       formdata.append("scdact_sender", state.decode_token?state.decode_token.UsernameOriginal:"thananchai@tracthai.com");
       formdata.append("uuid_member", state.decode_token?state.decode_token.ID:"No value");
-      formdata.append("scdact_action", `${state.watermark?"watermark":""} ${state.screenwatermark?"screenwatermark":""}` );
+      formdata.append("scdact_action", "Request" );
       formdata.append("scdact_enableconvertoriginal", state.enableconverttooriginalfile?"true":"false");
       formdata.append("scdact_actiontime", timestampInSeconds);
+      formdata.append("scdact_timestamp", timestampInSeconds);
+      formdata.append("scdact_departmentID", state.decode_token?state.decode_token.DepartmentID:"");
 
       for (let i = 0; i < state.selectedFile.length; i++) {
         const file = state.selectedFile[i];
@@ -402,8 +404,6 @@ const handleUpload = useCallback(async () => {
           const result = JSON.parse(xhr.responseText);
           console.log("🚀 ~ file: Upload.js:67 ~ handleUpload ~ result:", result)
           if (result.Status === "OK") {
-            // setData((prevData) => ({ ...prevData, alert: true, alert_text: result.message.finalcode_result, alert_type: "success"}));
-            //^delay 3 seconds
               setState((prevData) => ({ ...prevData, titleselect:"",input_last_name:"",input_email:"",input_role:"",
               input_firstName:"",input_phone:"",input_jobtitle:"",email:'',Password:'',Alias:'',Province:'',Companyname:'',District:''
               ,No:'',SubDistric:'',Street:'',ZIPCode:'',Country:'',GoogleMaps:'',Newpassword:'',recipient:[],input_recip:"",subject:"",message:"",secure_type:false,selectedFileName:[],
