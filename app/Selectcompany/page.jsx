@@ -41,8 +41,11 @@ const Page = () => {
 
   useEffect(() => {
     const timer = setTimeout(() => { setState({ ...state, showContent: true }); }, 1000);
-    return () => clearTimeout(timer);
-  }, []);
+    return () => {
+        clearTimeout(timer);
+        setState({ ...state, showContent: false });
+    };
+}, []);
 
   return (
     <div
