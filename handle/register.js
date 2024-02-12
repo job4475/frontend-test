@@ -23,7 +23,7 @@ function Register() {
               "sub_district": state.selectedTambon?state.selectedTambon:state.datacompanylc.SubDistrict,
               "zipcode": state.zipcode?state.zipcode:state.datacompanylc.Zipcode,
               "create_location": state.googlemaps?state.googlemaps:state.datacompanylc.Geolocation,
-              "url_logo": "https://iconscout.com/free-icon/logo-3446031",
+              "url_logo": "",
               "company_name_en": state.companyname?state.companyname:state.datacompanylc.Companyname,
               "company_mobile": state.phone_number?state.phone_number:state.datacompanylc.CompanyPhone,
               "company_alias": state.alias?state.alias:state.datacompanylc.CompanyAlias,

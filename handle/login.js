@@ -89,8 +89,7 @@ function Login() {
           formdata.append('subject', 'Registration');
           formdata.append('fromEmail', 'worapon@tracthai.com');
           formdata.append('body', 'Please click the link provided below to proceed.');
-          formdata.append('body1', 'MODULE: chiCRM');
-          formdata.append('body2', 'ADMIN: TRAC-THAI');
+          formdata.append('body1', 'Platform: chiCRM');
           formdata.append('bodylink', `http://localhost:3434/CreateCompany/?email=${state.email}`);
           formdata.append('linkname', 'Registration Link');
 
