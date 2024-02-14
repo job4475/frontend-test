@@ -1,12 +1,15 @@
 "use client";
 import { Box, IconButton, Menu, MenuItem } from '@mui/material'
-import React, { useContext, useState,useEffect } from 'react'
+import React, { useContext, useState, useEffect } from 'react'
 import Logotrac from "@/assets/assets/images/logotrac.png";
 import Image from 'next/image';
 import { StateContext } from "@/context/Context";
+import { useRouter } from 'next/navigation';
+import handleUserlist from '@/handle/workspace'
 
 function Navbar() {
     const { state, setState } = useContext(StateContext);
+    const HandleUserlist = handleUserlist ();
     const [anchorEl, setAnchorEl] = useState(null);
     const openMenu = Boolean(anchorEl);
     const isLocalStorageAvailable = typeof window !== 'undefined' && window.localStorage;
@@ -19,13 +22,6 @@ function Navbar() {
     const handleClose = () => {
         setAnchorEl(null);
     };
-
-    const handleclicklogout = () => {
-        localStorage.removeItem("ally-supports-cache")
-        localStorage.removeItem("decode_token")
-        localStorage.removeItem("loginTime")
-        window.location.href = "/"
-    }
 
     // Use local storage only if it's available
     const storedLoginTime = isLocalStorageAvailable ? localStorage.getItem('loginTime') : null;
@@ -56,7 +52,6 @@ function Navbar() {
         return `${String(hours).padStart(2, '0')}:${String(minutes).padStart(2, '0')}:${String(seconds).padStart(2, '0')}`;
     };
 
-
     return (
         <Box sx={{ width: '100%', height: '90px', background: '#fff', border: '1px solid #C2CCE1', display: 'flex', px: '50px', justifyContent: 'space-between', alignItems: 'center' }}>
             <Box sx={{ overflow: 'hidden', width: '55px', height: '55px', display: 'flex', justifyContent: 'center', alignContent: 'center', borderRadius: '7px', cursor: 'pointer' }}>
@@ -75,7 +70,8 @@ function Navbar() {
                 </IconButton>
                 <Menu id="basic-menu" anchorEl={anchorEl} open={openMenu} onClose={handleClose}>
                     <MenuItem>Edit Profile</MenuItem>
-                    <MenuItem onClick={handleclicklogout}>Logout</MenuItem>
+                    <MenuItem onClick={HandleUserlist.handleToUserlist}>Administrator</MenuItem>
+                    <MenuItem onClick={HandleUserlist.handleclicklogout}>Logout</MenuItem>
                 </Menu>
                 <Box sx={{ background: '#D9D9D9', overflow: 'hidden', width: '55px', height: '55px', display: 'flex', justifyContent: 'center', alignContent: 'center', cursor: 'pointer', borderRadius: '100px', ml: '25px' }}>
                     <Image
