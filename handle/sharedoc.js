@@ -374,13 +374,13 @@ const handleUpload = useCallback(async () => {
       formdata.append("scdact_reciepient", state.recipient);
       formdata.append("scdact_sender", state.decode_token?state.decode_token.UsernameOriginal:"thananchai@tracthai.com");
       // formdata.append("uuid_member", state.decode_token?state.decode_token.ID:"No value");
-      formdata.append("uuid_member", "97c922b4-81c6-49ee-b470-a6cb067fe510");
+      formdata.append("uuid_member", state.decode_token?state.decode_token.ID:"No value");
       formdata.append("scdact_action", "Request" );
       formdata.append("scdact_enableconvertoriginal", state.enableconverttooriginalfile?"true":"false");
       formdata.append("scdact_actiontime", timestampInSeconds);
       formdata.append("scdact_timestamp", timestampInSeconds);
       // formdata.append("scdact_departmentID", state.decode_token?state.decode_token.DepartmentID:"");
-      formdata.append("scdact_departmentID", "e4898ec1-c2ed-4573-8e6b-bbe5b83968d7");
+      formdata.append("scdact_departmentID", state.decode_token?state.decode_token.DepartmentID:"No value");
 
       for (let i = 0; i < state.selectedFile.length; i++) {
         const file = state.selectedFile[i];
@@ -388,7 +388,7 @@ const handleUpload = useCallback(async () => {
         const emailText = state.recipient.map((recipient, index) => `${recipient}`)
         const id = uuid.v4();
 
-        formdata.append("scdact_command", `finalcode_api ${state.secure_type===true?"":"-browserview"} ${state.message?`-mes:"${state.message}"`:""} ${state.enableconverttooriginalfile?"-to_bv_decode":""} ${state.allowconverttobrowserviewfile?"-to_bv_file":""} ${state.allowrunamacro||state.allowconverttooriginalfile?"-nomacro_deny":"-macro_deny"} ${state.alloweditsecuredfile?"-edit":""} -encrypt ${state.secure_type===true?"":"-bv_auth:1"}  -src:../data/${orderId}/${sanitizedFileName} -dest:../data/${orderId}/${sanitizedFileName}"(${emailText})"${state.secure_type===true?".fcl":".html"} ${state.allowconverttooriginalfile?"-decode":""} ${state.allowcopypaste?"-copypaste":""} ${state.allowprint?"-print":""} ${state.timelimitBefore?`-startdate:${state.timelimitBefore}`:""} ${state.timelimitAfter?`-date:${state.timelimitAfter}`:""} ${state.periodDays?`-day:${state.periodDays}`:""} ${state.periodHours?`-hour:${state.periodHours}`:""} ${state.opensTime?`-cnt:${state.opensTime}`:""} -user:thananchai@tracthai.com -mail:${emailText} ${state.watermark?"-watermark:2098":""} ${state.screenwatermark?"-scrnwatermark:2096":""}`);
+        formdata.append("scdact_command", `./finalcode_api ${state.secure_type===true?"":"-browserview"} ${state.message?`-mes:"${state.message}"`:""} ${state.enableconverttooriginalfile?"-to_bv_decode":""} ${state.allowconverttobrowserviewfile?"-to_bv_file":""} ${state.allowrunamacro||state.allowconverttooriginalfile?"-nomacro_deny":"-macro_deny"} ${state.alloweditsecuredfile?"-edit":""} -encrypt ${state.secure_type===true?"":"-bv_auth:1"}  -src:../data/${orderId}/${sanitizedFileName} -dest:../data/${orderId}/${sanitizedFileName}"(${emailText})"${state.secure_type===true?".fcl":".html"} ${state.allowconverttooriginalfile?"-decode":""} ${state.allowcopypaste?"-copypaste":""} ${state.allowprint?"-print":""} ${state.timelimitBefore?`-startdate:${state.timelimitBefore}`:""} ${state.timelimitAfter?`-date:${state.timelimitAfter}`:""} ${state.periodDays?`-day:${state.periodDays}`:""} ${state.periodHours?`-hour:${state.periodHours}`:""} ${state.opensTime?`-cnt:${state.opensTime}`:""} -user:thananchai@tracthai.com -mail:${emailText} ${state.watermark?"-watermark:2098":""} ${state.screenwatermark?"-scrnwatermark:2096":""}`);
         formdata.append("scdact_binary", file, `/D:/Downloads/${orderId}/${sanitizedFileName}`);
 
         formdata.append("scdact_id", id);

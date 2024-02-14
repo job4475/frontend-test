@@ -36,7 +36,7 @@ function Token() {
     const {state, setState} = useContext(StateContext);
 
     useEffect(() => {
-      const socket = new WebSocket('ws://192.168.5.76:8888/ws');
+      const socket = new WebSocket('ws://192.168.3.113:7777/ws');
   
       socket.onopen = () => {
         console.log('WebSocket connection opened');
@@ -51,7 +51,7 @@ function Token() {
           delete newData.OrgmbatOrgmbid;
       }
         setState((prevState) => {
-          const updatedAllOrder = [...prevState.allorder, newData];
+          const updatedAllOrder = [...(prevState.allleadorder || []), newData];
           return { ...prevState, allleadorder: updatedAllOrder };
         });
       };
@@ -81,7 +81,7 @@ function Token() {
           const apiEndpoint = process.env.NEXT_PUBLIC_API_ENDPOINT_LOGIN;
           const apiPortLogin = process.env.NEXT_PUBLIC_API_PORT_LOGIN || "";
           const teamleadID = state.decode_token.ID;
-          const apiUrl = `${apiEndpoint}:${apiPortLogin}/api/getlogSecuredocActivityByTeamlead/97c922b4-81c6-49ee-b470-a6cb067fe510`;
+          const apiUrl = `${apiEndpoint}:${apiPortLogin}/api/getlogSecuredocActivityByTeamlead/${teamleadID}`;
           fetch(apiUrl, requestOptions)
             .then(response => response.json())
             .then(result => {

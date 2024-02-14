@@ -9,7 +9,7 @@ function GetLogoBinary() {
         if (state.decode_token.CompanyID) {
             const apiEndpoint = process.env.NEXT_PUBLIC_API_ENDPOINT_GET;
             const apiPortLogin = process.env.NEXT_PUBLIC_API_PORT_LOGIN || "";
-            const apiUrl = `${apiEndpoint}${apiPortLogin}/api/getLogoBinary/${state.decode_token.CompanyID}`;
+            const apiUrl = `${apiEndpoint}:${apiPortLogin}/api/getLogoBinary/${state.decode_token.CompanyID}`;
             fetch(apiUrl)
                 .then(response => response.blob())
                 .then(blob => {

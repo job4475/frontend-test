@@ -29,11 +29,7 @@ function Login() {
     };
 
     fetch(
-      `${process.env.NEXT_PUBLIC_API_ENDPOINT_GET}:${process.env.NEXT_PUBLIC_API_PORT_LOGIN}/api/${
-        state.email === 'thananchai.sskru@gmail.com' || state.email === 'woraponasvn36@gmail.com'
-          ? 'LoginTeamleadSecuredoc'
-          : 'LoginChicCRM'
-      }`,
+      `${process.env.NEXT_PUBLIC_API_ENDPOINT_GET}:${process.env.NEXT_PUBLIC_API_PORT_LOGIN}/api/LoginChicCRM`,
       requestOptions
     )
       .then((response) => response.json())
