@@ -59,11 +59,9 @@ function Index() {
           <TableCell id="cellheader" align="center">ID</TableCell>
           <TableCell id="cellheader" align="center">Date/time</TableCell>
           <TableCell id="cellheader" align="center">File</TableCell>
-          <TableCell id="cellheader" align="center">Permission</TableCell>
           <TableCell id="cellheader" align="center">Sender</TableCell>
           <TableCell id="cellheader" align="center">Recipient</TableCell>
           <TableCell id="cellheader" align="center">Status</TableCell>
-          <TableCell id="cellheader" align="center">Action</TableCell>
         </TableRow>
       </TableHead>
       <TableBody>
@@ -80,12 +78,52 @@ function Index() {
                   <>
                   <Box sx={{ p:1,display: "flex", flexDirection: 'column', justifyContent: 'flex-start', alignItems: 'flex-start' }}>
                     <Box component="h3" sx={{ ml: 1, color: 'gray.main' }}>All Files</Box>
-                    {row.map((item, itemIndex) => (
-                      <Button onClick={() => row[0].scdact_status !== 'Approved' && row[0].scdact_status !== 'Rejected' ? handleLeadList.handleClicktoGetFile(item.scdact_id) : ''} key={`button-${itemIndex}`} style={{ textTransform: 'none',display: 'flex', justifyContent: 'space-between', width: '100%' }}>
-                        <Box sx={{ pr: 1}}>{item.scdact_filename}</Box>
-                        <Box >{item.scdact_filesize}</Box>
-                      </Button>
-                    ))}
+                    {/* <Box>{console.log("name",row)}</Box> */}
+                    {Array.isArray(row[0].scdact_filename) ? 
+  row[0].scdact_filename.map((item, itemIndex) => (
+    <Button  
+      onClick={() => 
+        Array.isArray(row[0].scdact_id) && 
+        itemIndex >= 0 && 
+        itemIndex < row[0].scdact_id.length && 
+        row[0].scdact_status !== 'Approved' && 
+        row[0].scdact_status !== 'Rejected' ? 
+        handleLeadList.handleClicktoGetFile(row[0].scdact_id[itemIndex]) 
+        : 
+        handleLeadList.handleClicktoGetFile(row[itemIndex].scdact_id)} 
+      key={`button-${itemIndex}`} 
+      style={{ textTransform: 'none', display: 'flex', justifyContent: 'space-between', width: '100%' }}>
+      <Box sx={{ pr: 1 }}>{item}</Box>
+      <Box >{Array.isArray(row[0].scdact_filesize) ? row[0].scdact_filesize[itemIndex] : item.scdact_filesize}</Box>
+
+      {/* You can add the filesize here if needed */}
+    </Button>
+  ))
+:
+  row.map((item, itemIndex) => (
+    <Button  
+      onClick={() => 
+        Array.isArray(row[0].scdact_id) && 
+        itemIndex >= 0 && 
+        itemIndex < row[0].scdact_id.length && 
+        row[0].scdact_status !== 'Approved' && 
+        row[0].scdact_status !== 'Rejected' ? 
+        handleLeadList.handleClicktoGetFile(row[0].scdact_id[itemIndex]) 
+        : 
+        handleLeadList.handleClicktoGetFile(row[itemIndex].scdact_id)} 
+      key={`button-${itemIndex}`} 
+      style={{ textTransform: 'none', display: 'flex', justifyContent: 'space-between', width: '100%' }}>
+      <Box sx={{ pr: 1 }}>{Array.isArray(row[0].scdact_filename) ? row[0].scdact_filename[itemIndex] : item.scdact_filename}</Box>
+      <Box >{Array.isArray(row[0].scdact_filesize) ? row[0].scdact_filesize[itemIndex] : item.scdact_filesize}</Box>
+      {/* You can add the filesize here if needed */}
+    </Button>
+  ))
+}
+
+
+
+
+
                   </Box>
                   </>
                 }
@@ -94,7 +132,7 @@ function Index() {
                 <Box sx={{ display: 'flex', alignItems: 'center' }} onClick={() => handleOpen(index)}>
                   <Button sx={{ display: 'flex', backgroundColor: 'rgba(119, 130, 150, 0.13)', borderRadius: '10px', justifyContent: 'space-around', alignItems: 'center' }}>
                     <Image src={file} alt="file" />
-                    <Box sx={{ color: 'gray.main' }}>{row.length}</Box>
+                    <Box sx={{ color: 'gray.main' }}>{Array.isArray(row[0].scdact_filename) ? row[0].scdact_filename.length : row.length}</Box>
                   </Button>
                   <Box sx={{ ml: 0.5, cursor: 'pointer' }}>
                     <Image alt="dropdown" style={{ width:"15px",height:"auto",transform: tooltipOpen[index] ? 'rotate(180deg)' : 'rotate(0)' }} src={dropdown}></Image>
@@ -104,100 +142,6 @@ function Index() {
             </Box>
             </div>
           </TableCell>
-          {/* //*!Permission */}
-          <TableCell id="bodycell" className='Permission' align="center">
-            <div style={{ display: 'flex', justifyContent: 'center', alignItems: 'center' }}>
-            <Box key={index}>
-              <handleLeadList.CustomTooltipRecipient
-                open={tooltipOpenPermission[index] || false}
-                title={
-                  <>
-                  <Box component="h5" sx={{color: row[0].scdact_status === "Approved" ? "green" : row[0].scdact_status === "Rejected" ? "red" : "",display: row[0].scdact_status === "Approved"||row[0].scdact_status === "Rejected" ?"flex":"none"}}>
-                    {row[0].scdact_status === "Approved"?"Already approved":"Already rejected"}
-                  </Box>
-                  <Box sx={{ p:1,display: row[0].scdact_status === "Approved"||row[0].scdact_status === "Rejected" ?"none":"flex", flexDirection: 'column', justifyContent: 'flex-start', alignItems: 'flex-start' }}>
-                    <Box component="h3" sx={{ ml: 1, color: 'gray.main' }}>All Permission</Box>
-                    <Box sx={{display:row[0].scdact_type==="HTML"?"flex":"none",flexDirection:"column"}}>
-                          <Button style={{ textTransform: 'none',display: 'flex', justifyContent: 'space-between', width: '100%' }}>
-                            <Box sx={{ pr: 1}}>Allow convert to original file</Box>
-                            <Box sx={{display:"flex",alignItems:"center"}}>{row[0].scdact_cvtoriginal===true?<CheckIcon sx={{fontSize:"20px"}} color="approve"/>:<CloseIcon sx={{fontSize:"20px"}} color="reject"/>}</Box>
-                          </Button>
-                          <Button style={{ textTransform: 'none',display: 'flex', justifyContent: 'space-between', width: '100%' }}>
-                            <Box sx={{ pr: 1}}>Allow copy paste</Box>
-                            <Box sx={{display:"flex",alignItems:"center"}}>{row[0].scdact_copy===true?<CheckIcon sx={{fontSize:"20px"}} color="approve"/>:<CloseIcon sx={{fontSize:"20px"}} color="reject"/>}</Box>
-                          </Button>
-                          <Button style={{ textTransform: 'none',display: 'flex', justifyContent: 'space-between', width: '100%' }}>
-                            <Box sx={{ pr: 1}}>Allow print</Box>
-                            <Box sx={{display:"flex",alignItems:"center"}}>{row[0].scdact_print===true?<CheckIcon sx={{fontSize:"20px"}} color="approve"/>:<CloseIcon sx={{fontSize:"20px"}} color="reject"/>}</Box>
-                          </Button>
-                          <Button style={{ textTransform: 'none',display: 'flex', justifyContent: 'space-between', width: '100%' }}>
-                            <Box sx={{ pr: 1}}>Allow Screen Watermark</Box>
-                            <Box sx={{display:"flex",alignItems:"center"}}>{row[0].scdact_action==="watermark screenwatermark"||row[0].scdact_action===" screenwatermark"?<CheckIcon sx={{fontSize:"20px"}} color="approve"/>:<CloseIcon sx={{fontSize:"20px"}} color="reject"/>}</Box>
-                          </Button>
-                          <Button style={{ textTransform: 'none',display: 'flex', justifyContent: 'space-between', width: '100%' }}>
-                            <Box sx={{ pr: 1}}>Allow Watermark</Box>
-                            <Box sx={{display:"flex",alignItems:"center"}}>{row[0].scdact_action==="watermark screenwatermark"||row[0].scdact_action==="watermark "?<CheckIcon sx={{fontSize:"20px"}} color="approve"/>:<CloseIcon sx={{fontSize:"20px"}} color="reject"/>}</Box>
-                          </Button>
-                     </Box>
-
-                     <Box sx={{display:row[0].scdact_type==="FCL"?"flex":"none",flexDirection:"column"}}>
-                          <Button style={{ textTransform: 'none',display: 'flex', justifyContent: 'space-between', width: '100%' }}>
-                            <Box sx={{ pr: 1}}>Allow convert to original file</Box>
-                            <Box sx={{display:"flex",alignItems:"center"}}>{row[0].scdact_cvtoriginal===true?<CheckIcon sx={{fontSize:"20px"}} color="approve"/>:<CloseIcon sx={{fontSize:"20px"}} color="reject"/>}</Box>
-                          </Button>
-                          <Button style={{ textTransform: 'none',display: 'flex', justifyContent: 'space-between', width: '100%' }}>
-                            <Box sx={{ pr: 1}}>Allow copy paste</Box>
-                            <Box sx={{display:"flex",alignItems:"center"}}>{row[0].scdact_copy===true?<CheckIcon sx={{fontSize:"20px"}} color="approve"/>:<CloseIcon sx={{fontSize:"20px"}} color="reject"/>}</Box>
-                          </Button>
-                          <Button style={{ textTransform: 'none',display: 'flex', justifyContent: 'space-between', width: '100%' }}>
-                            <Box sx={{ pr: 1}}>Allow print</Box>
-                            <Box sx={{display:"flex",alignItems:"center"}}>{row[0].scdact_print===true?<CheckIcon sx={{fontSize:"20px"}} color="approve"/>:<CloseIcon sx={{fontSize:"20px"}} color="reject"/>}</Box>
-                          </Button>
-                          <Button style={{ textTransform: 'none',display: 'flex', justifyContent: 'space-between', width: '100%' }}>
-                            <Box sx={{ pr: 1}}>Allow edit secured file</Box>
-                            <Box sx={{display:"flex",alignItems:"center"}}>{row[0].scdact_edit===true?<CheckIcon sx={{fontSize:"20px"}} color="approve"/>:<CloseIcon sx={{fontSize:"20px"}} color="reject"/>}</Box>
-                          </Button>
-                          <Button style={{ textTransform: 'none',display: 'flex', justifyContent: 'space-between', width: '100%' }}>
-                            <Box sx={{ pr: 1}}>Allow run a macro</Box>
-                            <Box sx={{display:"flex",alignItems:"center"}}>{row[0].scdact_marcro===true?<CheckIcon sx={{fontSize:"20px"}} color="approve"/>:<CloseIcon sx={{fontSize:"20px"}} color="reject"/>}</Box>
-                          </Button>
-                          <Button style={{ textTransform: 'none',display: 'flex', justifyContent: 'space-between', width: '100%' }}>
-                            <Box sx={{ pr: 1}}>Allow convert to browser view file</Box>
-                            <Box sx={{display:"flex",alignItems:"center"}}>{row[0].scdact_cvtoriginal===true?<CheckIcon sx={{fontSize:"20px"}} color="approve"/>:<CloseIcon sx={{fontSize:"20px"}} color="reject"/>}</Box>
-                          </Button>
-                          <Button style={{ textTransform: 'none',display: 'flex', justifyContent: 'space-between', width: '100%' }}>
-                            <Box sx={{ pr: 1}}>Enable convert to original file</Box>
-                            <Box sx={{display:"flex",alignItems:"center"}}>{row[0].scdact_cvtoriginal===true?<CheckIcon sx={{fontSize:"20px"}} color="approve"/>:<CloseIcon sx={{fontSize:"20px"}} color="reject"/>}</Box>
-                          </Button>
-                          <Button style={{ textTransform: 'none',display: 'flex', justifyContent: 'space-between', width: '100%' }}>
-                            <Box sx={{ pr: 1}}>Allow Screen Watermark</Box>
-                            <Box sx={{display:"flex",alignItems:"center"}}>{row[0].scdact_action==="watermark screenwatermark"||row[0].scdact_action===" screenwatermark"?<CheckIcon sx={{fontSize:"20px"}} color="approve"/>:<CloseIcon sx={{fontSize:"20px"}} color="reject"/>}</Box>
-                          </Button>
-                          <Button style={{ textTransform: 'none',display: 'flex', justifyContent: 'space-between', width: '100%' }}>
-                            <Box sx={{ pr: 1}}>Allow Watermark</Box>
-                            <Box sx={{display:"flex",alignItems:"center"}}>{row[0].scdact_action==="watermark screenwatermark"||row[0].scdact_action==="watermark "?<CheckIcon sx={{fontSize:"20px"}} color="approve"/>:<CloseIcon sx={{fontSize:"20px"}} color="reject"/>}</Box>
-                          </Button>
-                        </Box>
-                  </Box>
-                  </>
-                }
-                onClose={() => handleClosePermission(index)}
-              >
-                <Box sx={{ display: 'flex', alignItems: 'center' }} onClick={() => handleOpenPermission(index)}>
-                  <Button sx={{ display: 'flex', backgroundColor: 'rgba(119, 130, 150, 0.13)', borderRadius: '10px', justifyContent: 'space-around', alignItems: 'center' }}>
-                      <Box sx={{pt:0,pb:0}}>
-                       <SecurityIcon color="gray" style={{fontSize:"20px"}}/>
-                      </Box>
-                  </Button>
-                  <Box sx={{ ml: 0.5, cursor: 'pointer' }}>
-                    <Image alt="dropdown" style={{ width:"15px",height:"auto",transform: tooltipOpenPermission[index] ? 'rotate(180deg)' : 'rotate(0)' }} src={dropdown}></Image>
-                  </Box>
-                </Box>
-              </handleLeadList.CustomTooltipRecipient>
-            </Box>
-            </div>
-          </TableCell>
-          {/* //*!Permission */}
           <TableCell align="center">{row[0].scdact_sender}</TableCell>
           <TableCell id="bodycell" align="center">
           <div style={{ display: 'flex', justifyContent: 'center', alignItems: 'center' }}>
@@ -213,8 +157,7 @@ function Index() {
                      </Button>
                    ))}
                  </Box>
-
-                }                
+                }
                 onClose={() => handleCloseRecipient(index)}
               >
                 <Box sx={{ display: 'flex', alignItems: 'center' }} onClick={() => handleOpenRecipient(index)}>
@@ -232,12 +175,6 @@ function Index() {
             </div>
           </TableCell>
           <TableCell style={{fontWeight:600,color: row[0].scdact_status === "Approved" ? "#00E700" : row[0].scdact_status === "Rejected" ? "#FF0000" : "#0062FF", textAlign: "center"}} align="center">{row[0].scdact_status}</TableCell>
-          <TableCell align='center'>
-          <Box sx={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center',visibility:row[0].scdact_status === "Approved"||row[0].scdact_status === "Rejected" ?"hidden":"visible" }}>
-           <Button id="Approve" onClick={()=>{handleLeadList.handleClicktoApprove(row,"Approve")}} sx={{ flexGrow: 1, marginRight: '8px' }} variant="contained" color="approve" style={{ borderRadius: "7px", minWidth: "50%", textTransform: "capitalize", color: "white", fontWeight: 600 }}>Approve</Button>
-           <Button id="Reject" onClick={()=>{handleLeadList.handleReject(row,"Reject")}} variant="contained" color="reject" style={{ borderRadius: "7px", minWidth: "50%", textTransform: "capitalize", color: "white", fontWeight: 600 }}>Reject</Button>
-          </Box>
-          </TableCell>
         </TableRow>
         ))}
       </TableBody>

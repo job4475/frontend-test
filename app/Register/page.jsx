@@ -10,7 +10,7 @@ import Button from './components/button'
 import Map from './components/map'
 
 function Page() {
-  const {state} = useContext(StateContext);
+  const {state ,setState} = useContext(StateContext);
   useEffect(() => {
     const handleBeforeUnload = (event) => {
       if (state.pageloader) {

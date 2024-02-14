@@ -1,7 +1,7 @@
 "use client";
 import * as React from 'react';
 import { Box } from '@mui/material'
-import AppBar from './components/appbar'
+import Navbar from "@/components/navbar/navbar";
 import Title from './components/title'
 import TableList from './components/table'
 import GetLeadOrder from '@/services/getleadorder'
@@ -30,7 +30,7 @@ function Page() {
   return (
     <Box style={{ filter: state.pageloader ? 'blur(4px)' : 'none', pointerEvents: state.pageloader ? 'none' : 'auto' }}>
       <GetLeadOrder/>
-      <AppBar />
+      <Navbar />
       <Title />
       <TableList />
       {/* <BtNewReq/> */}

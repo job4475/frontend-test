@@ -33,7 +33,7 @@ function Index() {
              <MessageIcon style={{ color: "gray" }} />
            ),
          }}/>
-         <Box sx={{width: "100%", height: "355px", borderRadius: "10px", backgroundColor: "#FFFFFF", borderWidth: "1px", borderColor: "#ccc", display: 'flex', flexDirection: 'row', justifyContent: 'center', p: 1.5 }}>
+         <Box sx={{width: "100%", height: "375px", borderRadius: "10px", backgroundColor: "#FFFFFF", borderWidth: "1px", borderColor: "#ccc", display: 'flex', flexDirection: 'row', justifyContent: 'center', p: 1.5 }}>
       <Box sx={{ flexGrow: 1,m:2 }}>
       <Grid container spacing={{ xs: 1, md: 3 }} columns={{ xs: 2, sm: 4, md: 8 }}>
             {state.secure_type

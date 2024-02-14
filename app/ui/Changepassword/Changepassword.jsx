@@ -33,16 +33,18 @@ function Index() {
     setShowPassword(!showPassword);
   };
   const isPasswordValid = () => {
-    const hasMinLength = state.password.length >= 8;
-    const hasUpperCase = /[A-Z]/.test(state.password);
-    const hasLowerCase = /[a-z]/.test(state.password);
-    const hasNumber = /\d/.test(state.password);
+    const password = state.password;
+    const hasMinLength = password.length >= 8;
+    const hasUpperCase = /[A-Z]/.test(password);
+    const hasLowerCase = /[a-z]/.test(password);
+    const hasNumber = /\d/.test(password);
     return hasMinLength && hasUpperCase && hasLowerCase && hasNumber;
   };
   const handlePasswordChange = (e) => {
-    state.password = e.target.value;
-     updatePasswordFunc(state.password);
-   };
+    const newPassword = e.target.value;
+    state.password = newPassword;
+    updatePasswordFunc(newPassword);
+  };
   return (
     <Box>
       <Box p={3} sx={{ display: 'flex', flexDirection: 'column', width: '400px', height: '500px', borderRadius: "15px", marginLeft: 'auto', marginRight: 5, marginTop: 1, boxShadow: '0px 0px 10px rgba(0, 0, 0, 0.1)', justifyContent: 'space-between' }}>

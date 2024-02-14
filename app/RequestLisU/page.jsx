@@ -1,7 +1,7 @@
 "use client";
 import * as React from 'react';
 import { Box } from '@mui/material'
-import AppBar from './components/appbar'
+import Navbar from "@/components/navbar/navbar";
 import Title from './components/title'
 import TableList from './components/table'
 import BtNewReq from './components/button'
@@ -18,7 +18,7 @@ function Page() {
   return (
     <Box>
       <GetAllOrder/>
-      <AppBar/>
+      <Navbar/>
       <Title/>
       <TableList/>
       <BtNewReq/>

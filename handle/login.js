@@ -30,7 +30,7 @@ function Login() {
 
     fetch(
       `${process.env.NEXT_PUBLIC_API_ENDPOINT_GET}:${process.env.NEXT_PUBLIC_API_PORT_LOGIN}/api/${
-        state.email === 'thananchai.sskru@gmail.com'
+        state.email === 'thananchai.sskru@gmail.com' || state.email === 'woraponasvn36@gmail.com'
           ? 'LoginTeamleadSecuredoc'
           : 'LoginChicCRM'
       }`,
@@ -50,7 +50,6 @@ function Login() {
             window.location.reload();
           }, 3000);          
         }
-        console.log("🚀 ~ handleSignInClick ~ result:", result)
       })
       .catch(error => console.log('error', error));
   };
@@ -64,14 +63,12 @@ function Login() {
     const raw = JSON.stringify({
       username: state.email,
     });
-
     const requestOptions = {
       method: 'POST',
       headers: myHeaders,
       body: raw,
       redirect: 'follow',
     };
-
     fetch(
       `${process.env.NEXT_PUBLIC_API_ENDPOINT_GET}${process.env.NEXT_PUBLIC_API_PORT_LOGIN ? `:${process.env.NEXT_PUBLIC_API_PORT_LOGIN}` : ''}/api/validateDomainChicCRM`,
       requestOptions
@@ -80,6 +77,7 @@ function Login() {
       .then((result) => {
         if (result.match === true) {
           localStorage.setItem("datacompanylc", JSON.stringify(result.data));
+          localStorage.setItem("useremail", state.email);
           setState((prevData) => ({...prevData,datacompanylc: result.data,loading: false}));
 
           router.push('/Selectcompany');
@@ -92,7 +90,7 @@ function Login() {
           formdata.append('body', 'Please click the link provided below to proceed.');
           formdata.append('body1', 'MODULE: chiCRM');
           formdata.append('body2', 'ADMIN: TRAC-THAI');
-          formdata.append('bodylink', 'http://localhost:3434/CreateCompany');
+          formdata.append('bodylink', `http://localhost:3434/CreateCompany/?email=${state.email}`);
           formdata.append('linkname', 'Registration Link');
 
           const requestOptions = {
@@ -105,9 +103,7 @@ function Login() {
             requestOptions
           )
             .then((response) => response.text())
-            .then((result) =>{
-              setState((prevData) => ({ ...prevData, loading: false }));
-            })
+            .then((result) => console.log(result))
             .catch((error) => console.log('error', error));
           console.log('Status is not OK:', result.status);
         } else if (result.message === 'username already exists') {

@@ -3,13 +3,17 @@ import { StateContext } from '@/context/Context';
 import React, { useContext } from 'react'
 import { styled } from "@mui/material/styles";
 import Tooltip, { tooltipClasses } from '@mui/material/Tooltip';
+import { useRouter } from 'next/navigation';
 
 function Userlist() {
   const {state, setState} = useContext(StateContext);
+  const router = useRouter();
 
     const handleNewRequest = ()=>{
-      setState((prevData) => ({ ...prevData, loading: true}));
-      window.location.href = '/ShareDocument'
+      // setState((prevData) => ({ ...prevData, loading: true}));
+      // window.location.href = '/ShareDocument'
+      router.push('/ShareDocument');
+
       }
     
       const handleTooltipOpen = () => {
@@ -26,6 +30,7 @@ function Userlist() {
       };
 
       const handleClicktoGetFile = (uuid) => {
+        console.log("🚀 ~ handleClicktoGetFile ~ uuid:", uuid)
         const requestOptions = {
           method: 'GET',
           responseType: 'blob',

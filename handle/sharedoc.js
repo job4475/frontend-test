@@ -20,9 +20,11 @@ import svg from '@/assets/assets/images/svg.png'
 import ttf from '@/assets/assets/images/ttf.png'
 import xls from '@/assets/assets/images/xls.png'
 import zip from '@/assets/assets/images/zip.png'
+import { useRouter } from 'next/navigation';
 
 function Sharedoc(textFieldRef,fileInputRef) {
   const {state, setState} = useContext(StateContext);
+  const router = useRouter();
 
   const HandleSwitchChange = (label) => {
     setSwitchStates((prevSwitchStates) => ({
@@ -371,21 +373,25 @@ const handleUpload = useCallback(async () => {
       formdata.append("scdact_updatelocation", "สำเร็จ");
       formdata.append("scdact_reciepient", state.recipient);
       formdata.append("scdact_sender", state.decode_token?state.decode_token.UsernameOriginal:"thananchai@tracthai.com");
-      formdata.append("uuid_member", state.decode_token?state.decode_token.ID:"No value");
+      // formdata.append("uuid_member", state.decode_token?state.decode_token.ID:"No value");
+      formdata.append("uuid_member", "97c922b4-81c6-49ee-b470-a6cb067fe510");
       formdata.append("scdact_action", "Request" );
       formdata.append("scdact_enableconvertoriginal", state.enableconverttooriginalfile?"true":"false");
       formdata.append("scdact_actiontime", timestampInSeconds);
       formdata.append("scdact_timestamp", timestampInSeconds);
-      formdata.append("scdact_departmentID", state.decode_token?state.decode_token.DepartmentID:"");
+      // formdata.append("scdact_departmentID", state.decode_token?state.decode_token.DepartmentID:"");
+      formdata.append("scdact_departmentID", "e4898ec1-c2ed-4573-8e6b-bbe5b83968d7");
 
       for (let i = 0; i < state.selectedFile.length; i++) {
         const file = state.selectedFile[i];
         const sanitizedFileName = file.name.replace(/\s+/g, '-');
         const emailText = state.recipient.map((recipient, index) => `${recipient}`)
+        const id = uuid.v4();
 
-        formdata.append("scdact_command", `./finalcode_api ${state.secure_type===true?"":"-browserview"} ${state.message?`-mes:"${state.message}"`:""} ${state.enableconverttooriginalfile?"-to_bv_decode":""} ${state.allowconverttobrowserviewfile?"-to_bv_file":""} ${state.allowrunamacro||state.allowconverttooriginalfile?"-nomacro_deny":"-macro_deny"} ${state.alloweditsecuredfile?"-edit":""} -encrypt ${state.secure_type===true?"":"-bv_auth:1"}  -src:../data/${orderId}/${sanitizedFileName} -dest:../data/${orderId}/${sanitizedFileName}"(${emailText})"${state.secure_type===true?".fcl":".html"} ${state.allowconverttooriginalfile?"-decode":""} ${state.allowcopypaste?"-copypaste":""} ${state.allowprint?"-print":""} ${state.timelimitBefore?`-startdate:${state.timelimitBefore}`:""} ${state.timelimitAfter?`-date:${state.timelimitAfter}`:""} ${state.periodDays?`-day:${state.periodDays}`:""} ${state.periodHours?`-hour:${state.periodHours}`:""} ${state.opensTime?`-cnt:${state.opensTime}`:""} -user:thananchai@tracthai.com -mail:${emailText} ${state.watermark?"-watermark:2098":""} ${state.screenwatermark?"-scrnwatermark:2096":""}`);
+        formdata.append("scdact_command", `finalcode_api ${state.secure_type===true?"":"-browserview"} ${state.message?`-mes:"${state.message}"`:""} ${state.enableconverttooriginalfile?"-to_bv_decode":""} ${state.allowconverttobrowserviewfile?"-to_bv_file":""} ${state.allowrunamacro||state.allowconverttooriginalfile?"-nomacro_deny":"-macro_deny"} ${state.alloweditsecuredfile?"-edit":""} -encrypt ${state.secure_type===true?"":"-bv_auth:1"}  -src:../data/${orderId}/${sanitizedFileName} -dest:../data/${orderId}/${sanitizedFileName}"(${emailText})"${state.secure_type===true?".fcl":".html"} ${state.allowconverttooriginalfile?"-decode":""} ${state.allowcopypaste?"-copypaste":""} ${state.allowprint?"-print":""} ${state.timelimitBefore?`-startdate:${state.timelimitBefore}`:""} ${state.timelimitAfter?`-date:${state.timelimitAfter}`:""} ${state.periodDays?`-day:${state.periodDays}`:""} ${state.periodHours?`-hour:${state.periodHours}`:""} ${state.opensTime?`-cnt:${state.opensTime}`:""} -user:thananchai@tracthai.com -mail:${emailText} ${state.watermark?"-watermark:2098":""} ${state.screenwatermark?"-scrnwatermark:2096":""}`);
         formdata.append("scdact_binary", file, `/D:/Downloads/${orderId}/${sanitizedFileName}`);
 
+        formdata.append("scdact_id", id);
         formdata.append("scdact_filename", sanitizedFileName);
         formdata.append("scdact_filetype", state.selectedFileName[i].split('.')[1]);
         formdata.append("scdact_filehash", "A");
@@ -402,7 +408,6 @@ const handleUpload = useCallback(async () => {
 
         if (xhr.status === 200) {
           const result = JSON.parse(xhr.responseText);
-          console.log("🚀 ~ file: Upload.js:67 ~ handleUpload ~ result:", result)
           if (result.Status === "OK") {
               setState((prevData) => ({ ...prevData, titleselect:"",input_last_name:"",input_email:"",input_role:"",
               input_firstName:"",input_phone:"",input_jobtitle:"",email:'',Password:'',Alias:'',Province:'',Companyname:'',District:''
@@ -410,15 +415,15 @@ const handleUpload = useCallback(async () => {
               selectedFile:[],allowconverttooriginalfile: false,allowcopypaste: false,allowprint: false,alloweditsecuredfile: false,allowrunamacro: false,allowconverttobrowserviewfile: false,enableconverttooriginalfile:false,
               timelimitBeforeOri:"",timelimitBefore:"",timeBefore:"",timelimitAfterOri:"",timelimitAfter:"",timeAfter:"",limitDateTime:false,limitViewablePeriod:false,limitNumberFileOpen:false,noLimit:false,
               periodDays:"",periodHours:"",opensTime:"",loading:false,messageBody:"",watermark:false,screenwatermark:false}));
-              window.location.href = '/RequestLisU'
+              // window.location.href = '/RequestLisU'
+              router.push('/RequestLisU');
+
           } else {
-           
           }
         }
       };
 
       xhr.onerror = () => {
-        // Record end time in case of an error
         
    };
 
@@ -482,11 +487,9 @@ const handleUpload = useCallback(async () => {
 
   let fileSources = selectedFileNames.map((fileName) => {
     let filetype = fileName ? fileName.split('.')[1] : '';
-  
     if (filetype.length > 5) {
       filetype = filetype.slice(0, 2) + '..';
     }
-  
     let src;
     switch (filetype) {
       case 'pdf':
@@ -515,7 +518,7 @@ const handleUpload = useCallback(async () => {
         src = doc;
         break;
       case 'iso':
-        src = iso;
+        src = iso; 
         break;
       case 'mp3':
         src = mp3;
