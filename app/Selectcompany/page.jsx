@@ -19,26 +19,26 @@ const Page = () => {
     }, 1000);
     window.location.href = "/CreateCompany"
   }
-  useEffect(() => {
-      if (state.decode_token) {
-        fetch(`${process.env.NEXT_PUBLIC_API_ENDPOINT_GET}${process.env.NEXT_PUBLIC_API_PORT_LOGIN ? `:${process.env.NEXT_PUBLIC_API_PORT_LOGIN}` : ''}/api/getLogoBinary/${state.decode_token.CompanyID}`,)
-            .then(response => response.blob())
-            .then(blob => {
-                const imageUrl = URL.createObjectURL(blob);
-                localStorage.setItem("logoImage", imageUrl);
-                setState((prevData) => ({ ...prevData, logoImage: imageUrl, loading: false }));
-            })
-            .catch(error => console.error("Error fetching binary data:", error));
-            }
+  // useEffect(() => {
+  //     if (state.datacompanylc) {
+  //       fetch(`${process.env.NEXT_PUBLIC_API_ENDPOINT_GET}${process.env.NEXT_PUBLIC_API_PORT_LOGIN ? `:${process.env.NEXT_PUBLIC_API_PORT_LOGIN}` : ''}/api/getLogoBinary/${state.datacompanylc.CompanyID}`,)
+  //           .then(response => response.blob())
+  //           .then(blob => {
+  //               const imageUrl = URL.createObjectURL(blob);
+  //               localStorage.setItem("logoImage", imageUrl);
+  //               setState((prevData) => ({ ...prevData, logoImage: imageUrl, loading: false }));
+  //           })
+  //           .catch(error => console.error("Error fetching binary data:", error));
+  //           }
     
-          }, []);
-          useEffect(() => {
-            if(state.decode_token){
-              setState(prevState => ({ ...prevState, showContent: true }));
-            }else{
-              setState(prevState => ({ ...prevState, showContent: false }));
-            }
-          }, []);
+  //         }, []);
+          // useEffect(() => {
+          //   if(state.logoImage){
+          //     setState(prevState => ({ ...prevState, showContent: true }));
+          //   }else{
+          //     setState(prevState => ({ ...prevState, showContent: false }));
+          //   }
+          // }, []);
   return (
     <div
       className="h-screen"
@@ -73,7 +73,7 @@ const Page = () => {
             </Box>
             <div>
               {state.showContent ? (
-                <h4>{state.decode_token?.Companyname}</h4>
+                <h4>{state.datacompanylc?.Companyname}</h4>
               ) : (
                 <Skeleton variant="text" width={250} height={40} />
               )}
@@ -90,7 +90,7 @@ const Page = () => {
             <div>
               {state.showContent ? (
                 <p className="text-[12px] font-[500]">
-                  {state.decode_token?.Companyname} {state.decode_token?.Province}, {state.decode_token?.Zipcode} {state.decode_token?.Country}.
+                  {state.datacompanylc?.Companyname} {state.datacompanylc?.Province}, {state.datacompanylc?.Zipcode} {state.datacompanylc?.Country}.
                 </p>
               ) : (
                 <Skeleton variant="text" width={250} height={40} />
