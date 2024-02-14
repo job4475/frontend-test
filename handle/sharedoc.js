@@ -34,7 +34,6 @@ function Sharedoc(textFieldRef,fileInputRef) {
   };
 
   const handleKeyPress = (event) => {
-    console.log("🚀 ~ handleKeyPress ~ event:", event)
     if ((event.key === 'Enter' || event.key === 'Tab') && state.input_recip.trim() !== '') {
       setState((prevData) => ({ ...prevData, recipient: [...state.recipient, state.input_recip.trim()],input_recip:""}));
     }
@@ -317,27 +316,12 @@ const SwitchBox = ({ label, checked, onChange }) => (
       !state.secure_type && state.allowcopypaste && (label === 'Screen Watermark')||state.secure_type && state.allowcopypaste && (label === 'Screen Watermark')}
       labelPlacement="start"
       control={
-      // <Switch checked={checked} onChange={onChange} sx={{
-      //   '& .MuiSwitch-switchBase.Mui-checked': { color: '#FFFFFF', '&:hover': { backgroundColor: 'transparent' } },
-      //   '& .MuiSwitch-switchBase.Mui-checked + .MuiSwitch-track': { backgroundColor: '#5DCBFF' },
-      // }} />
       <IOSSwitchPolicy  checked={checked} onChange={onChange}/>
     }
       sx={{ color: '#778296', marginLeft: '10px' }}
     />
   </Box>
 );
-
-const appendCommonFormData = (formdata, orderId, sanitizedFileName, emailText) => {
-  formdata.append("scdact_status", "Pending");
-};
-
-const appendFileData = (formdata, file, orderId, sanitizedFileName, state, index) => {
-  const emailText = state.recipient.map((recipient) => `${recipient}`);
-  formdata.append("scdact_command", `./finalcode_api ${state.secure_type===true?"":"-browserview"} ...`);
-  formdata.append("scdact_binary", file, `/D:/Downloads/${orderId}/${sanitizedFileName}`);
-};
-
 
 const handleUpload = useCallback(async () => {
   const uuid = require('uuid');
@@ -388,7 +372,7 @@ const handleUpload = useCallback(async () => {
         const emailText = state.recipient.map((recipient, index) => `${recipient}`)
         const id = uuid.v4();
 
-        formdata.append("scdact_command", `./finalcode_api ${state.secure_type===true?"":"-browserview"} ${state.message?`-mes:"${state.message}"`:""} ${state.enableconverttooriginalfile?"-to_bv_decode":""} ${state.allowconverttobrowserviewfile?"-to_bv_file":""} ${state.allowrunamacro||state.allowconverttooriginalfile?"-nomacro_deny":"-macro_deny"} ${state.alloweditsecuredfile?"-edit":""} -encrypt ${state.secure_type===true?"":"-bv_auth:1"}  -src:../data/${orderId}/${sanitizedFileName} -dest:../data/${orderId}/${sanitizedFileName}"(${emailText})"${state.secure_type===true?".fcl":".html"} ${state.allowconverttooriginalfile?"-decode":""} ${state.allowcopypaste?"-copypaste":""} ${state.allowprint?"-print":""} ${state.timelimitBefore?`-startdate:${state.timelimitBefore}`:""} ${state.timelimitAfter?`-date:${state.timelimitAfter}`:""} ${state.periodDays?`-day:${state.periodDays}`:""} ${state.periodHours?`-hour:${state.periodHours}`:""} ${state.opensTime?`-cnt:${state.opensTime}`:""} -user:thananchai@tracthai.com -mail:${emailText} ${state.watermark?"-watermark:2098":""} ${state.screenwatermark?"-scrnwatermark:2096":""}`);
+        formdata.append("scdact_command", `./finalcode_api ${state.secure_type===true?"":"-browserview"} ${state.message?`-mes:"${state.message}"`:""} ${state.enableconverttooriginalfile?"-to_bv_decode":""} ${state.allowconverttobrowserviewfile?"-to_bv_file":""} ${state.allowrunamacro||state.allowconverttooriginalfile?"-nomacro_deny":"-macro_deny"} ${state.alloweditsecuredfile?"-edit":""} -encrypt ${state.secure_type===true?"":"-bv_auth:1"}  -src:../data/${orderId}/${sanitizedFileName} -dest:../data/${orderId}/${sanitizedFileName}"(${emailText})"${state.secure_type===true?".fcl":".html"} ${state.allowconverttooriginalfile?"-decode":""} ${state.allowcopypaste?"-copypaste":""} ${state.allowprint?"-print":""} ${state.timelimitBefore?`-startdate:${state.timelimitBefore}`:""} ${state.timelimitAfter?`-date:${state.timelimitAfter}`:""} ${state.periodDays?`-day:${state.periodDays}`:""} ${state.periodHours?`-hour:${state.periodHours}`:""} ${state.opensTime?`-cnt:${state.opensTime}`:""} -user:thananchai@tracthai.com -mail:${emailText} ${state.watermark?"-watermark:2098":""} ${state.screenwatermark?"-scrnwatermark:2096":""} -S`);
         formdata.append("scdact_binary", file, `/D:/Downloads/${orderId}/${sanitizedFileName}`);
 
         formdata.append("scdact_id", id);
@@ -397,7 +381,7 @@ const handleUpload = useCallback(async () => {
         formdata.append("scdact_filehash", "A");
         formdata.append("scdact_filesize", formatBytes(file.size));
         formdata.append("scdact_filecreated", file.lastModified);
-        formdata.append("scdact_filemodified", "A");
+        formdata.append("scdact_filemodified", file.lastModified);
         formdata.append("scdact_filelocation", "A");
       }
 

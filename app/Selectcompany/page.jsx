@@ -39,13 +39,13 @@ const Page = () => {
     window.location.href = "/CreateCompany"
   }
 
-  useEffect(() => {
-    const timer = setTimeout(() => { setState({ ...state, showContent: true }); }, 1000);
-    return () => {
-        clearTimeout(timer);
-        setState({ ...state, showContent: false });
-    };
-}, []);
+//   useEffect(() => {
+//     const timer = setTimeout(() => { setState({ ...state, showContent: true }); }, 1000);
+//     return () => {
+//         clearTimeout(timer);
+//         setState({ ...state, showContent: false });
+//     };
+// }, []);
 
   return (
     <div
@@ -57,14 +57,14 @@ const Page = () => {
       {state.backdrop ? <Backdrop /> : ""}
       <div className="bg-white h-screen w-4/5 p-16">
         <h2>
-          {state.showContent ? (
+          {state.logoImage ? (
             "Hi, Is this the company you work ?"
           ) : (
             <Skeleton variant="text" width={400} height={50} />
           )}
         </h2>
         <p>
-          {state.showContent ? (
+          {state.logoImage ? (
             "Please select your company."
           ) : (
             <Skeleton variant="text" width={250} height={30} />
@@ -73,7 +73,7 @@ const Page = () => {
         <div className="flex lg:flex-row flex-col items-center content-center">
           <Box onClick={Register} sx={{ display: 'flex', justifyContent: 'space-between', cursor: "pointer", transition: "background-color 0.3s ease", "&:hover": { backgroundColor: "#f4f9f6" } }} className="basis-2/6 rounded-[10px] border border-[#C2CCE1] w-[300px] h-[370px] mr-3 mt-2 lg:mt-4 flex flex-col  items-center py-[42px] px-[40px] text-center" >
             <Box sx={{ transition: 'transform 0.3s ease', '&:hover': { transform: 'scale(1.03)' } }}>
-              {state.showContent ? (
+              {state.logoImage ? (
                 <Image
                   src={state.datacompanylc?.CompanyLogo}
                   alt="logo"
@@ -85,14 +85,14 @@ const Page = () => {
               )}
             </Box>
             <div>
-              {state.showContent ? (
+              {state.logoImage ? (
                 <h4>{state.datacompanylc?.Companyname}</h4>
               ) : (
                 <Skeleton variant="text" width={250} height={40} />
               )}
             </div>
             <div>
-              {state.showContent ? (
+              {state.logoImage ? (
                 <svg
                   xmlns="http://www.w3.org/2000/svg"
                   width="52"
@@ -112,7 +112,7 @@ const Page = () => {
               )}
             </div>
             <div>
-              {state.showContent ? (
+              {state.logoImage ? (
                 <p className="text-[12px] font-[500]">
                   {state.datacompanylc?.Companyname} {state.datacompanylc?.Province}, {state.datacompanylc?.Zipcode} {state.datacompanylc?.Country}.
                 </p>
@@ -125,7 +125,7 @@ const Page = () => {
           <Box onClick={CreateCompany} sx={{ display: 'flex', justifyContent: 'space-between', cursor: "pointer", transition: "background-color 0.3s ease", "&:hover": { backgroundColor: "#f4f9f6" } }} className="basis-2/6 rounded-[10px] border border-[#C2CCE1] w-[250px] h-[370px] mr-3 mt-2 lg:mt-4 flex flex-col  items-center py-[42px] px-[40px] text-center" >
             <Box sx={{ transition: 'transform 0.3s ease', '&:hover': { transform: 'scale(1.3)' } }}>
               <Box sx={{ width: '90px', height: '90px', display: 'flex', justifyContent: 'center', alignItems: 'center' }}>
-                {state.showContent ? (
+                {state.logoImage ? (
                   <svg
                     xmlns="http://www.w3.org/2000/svg"
                     width="41"
@@ -152,14 +152,14 @@ const Page = () => {
               </Box>
             </Box>
             <div>
-              {state.showContent ? (
+              {state.logoImage ? (
                 <h4>Add new your company</h4>
               ) : (
                 <Skeleton variant="text" width={250} height={40} />
               )}
             </div>
             <div>
-              {state.showContent ? (
+              {state.logoImage ? (
                 <svg
                   xmlns="http://www.w3.org/2000/svg"
                   width="52"
@@ -179,7 +179,7 @@ const Page = () => {
               )}
             </div>
             <div>
-              {state.showContent ? (
+              {state.logoImage ? (
                 <p className="text-[12px] font-[500]">
                   For users who do not have a company listed in the options.
                 </p>
