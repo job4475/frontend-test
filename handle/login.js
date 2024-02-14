@@ -79,7 +79,7 @@ function Login() {
         if (result.match === true) {
           localStorage.setItem("datacompanylc", JSON.stringify(result.data));
           localStorage.setItem("useremail", state.email);
-          setState((prevData) => ({...prevData,datacompanylc: result.data,loading: false}));
+          setState((prevData) => ({...prevData,datacompanylc: result.data  ,loading: false}));
 
           router.push('/Selectcompany');
         } else if (result.message === 'domain does not match. To proceed, please check your email') {

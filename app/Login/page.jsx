@@ -12,13 +12,9 @@ const Page = () => {
     window.location.href="/"
   };
   useEffect(() => {
-    const interval = setInterval(() => {
-        setState({ ...state, showContent: false });
-        clearInterval(interval); 
-    }, 1000);
-
-    return () => clearInterval(interval);
-}, []);
+    const timer = setTimeout(() => {setState({ ...state, showContent: true });}, 1000);
+    return () => clearTimeout(timer);
+  }, []);
   return (
     <div className="flex flex-col xl:flex-row bg-[#F7FAFB] h-screen">
       <div className="basis-2/3 hidden xl:block">

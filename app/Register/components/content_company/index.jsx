@@ -17,40 +17,40 @@ function Index() {
       <Box sx={{fontWeight:600,mb:3}}>{data_register[0].title_content1}</Box>
       <Box sx={{display:"flex"}}>
       <Box sx={{mr:1,width:'100px'}} >
-        {state.logoImage|| state.selectedImage ? (
+        {state.logoImage || state.selectedImage ? (
           <Image width={100} height={100} alt="logo" src={state.selectedImage ||  state.logoImage}></Image>
         ) : (
           <p>""</p>
         )}
       </Box>
         <Box sx={{display:"flex",flexDirection:"column",alignItems:"left",ml:2}}>
-           <Box sx={{fontWeight:600,textTransform:'capitalize'}}>{state.companyname || state.datacompanylc?.Companyname}</Box>
+           <Box sx={{fontWeight:600,textTransform:'capitalize'}}>{state.companyname ||state.decode_token?.Companyname}</Box>
               <Box sx={{display:"flex",mt:1}}>
               <Box sx={{width:"300px"}}>
-              <div dangerouslySetInnerHTML={{ __html: `${state.no||state.datacompanylc?.AddressNo} ${state.street || state.datacompanylc?.Address1En}<br>
-              ${state.selectedAmphoe ||state.datacompanylc?.District } ${state.selectedTambon ||state.datacompanylc?.SubDistrict}<br>
-              ${state.selectedProvince ||state.datacompanylc?.Province} ${state.zipcode ||state.datacompanylc?.Zipcode}<br> ${state.country || state.datacompanylc?.Country}` }} />
+              <div dangerouslySetInnerHTML={{ __html: `${state.no||state.decode_token?.AddressNo} ${state.street || state.decode_token?.Address1En}<br>
+              ${state.selectedAmphoe ||state.decode_token?.District } ${state.selectedTambon ||state.decode_token?.SubDistrict}<br>
+              ${state.selectedProvince ||state.decode_token?.Province} ${state.zipcode ||state.decode_token?.Zipcode}<br> ${state.country || state.decode_token?.Country}` }} />
               </Box>
               <Box sx={{ml:1}}>
                 <Box sx={{display:"flex",alignItems:"center"}}>
                   <Image alt="website" src={website}/>
                   <Box sx={{ml:2}}>
-                    <a href={state.webSite || state.datacompanylc?.Website} target="_blank" rel="noopener noreferrer">
-                    {state.webSite || state.datacompanylc?.Website  }
+                    <a href={state.webSite || state.decode_token?.Website} target="_blank" rel="noopener noreferrer">
+                    {state.webSite || state.decode_token?.Website  }
                   </a>
                   </Box>
                 </Box>
                 <Box sx={{ mt: 1, display: "flex", alignItems: "center" }}>
                   <a href={`tel:${state.phoneNumber || "021019884"}`} onClick={handlePhoneClick} style={{ textDecoration: 'none', display: 'flex', alignItems: 'center' }}>
                     <Image alt="tel" src={tel} sx={{ width: '24px', height: '24px' }} />
-                    <Box sx={{ ml: 2, whiteSpace: 'nowrap' }}>{ state.phoneNumber||  state.datacompanylc?.CompanyPhone}</Box>
+                    <Box sx={{ ml: 2, whiteSpace: 'nowrap' }}>{ state.phoneNumber||  state.decode_token?.CompanyPhone}</Box>
                   </a>
                 </Box>
                 <Box sx={{mt:1,display:"flex",alignItems:"center"}}>
                   <Image alt="map" src={map}/>
                   <Box sx={{ml:2}}>
-                    <a href={state.datacompanylc?.Geolocation || state.googlemaps } target="_blank" rel="noopener noreferrer">
-                    {state.googlemaps ||  state.datacompanylc?.Geolocation}
+                    <a href={state.decode_token?.Geolocation || state.googlemaps } target="_blank" rel="noopener noreferrer">
+                    {state.googlemaps ||  state.decode_token?.Geolocation}
                   </a>
                   </Box>
                 </Box>

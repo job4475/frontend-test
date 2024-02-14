@@ -24,6 +24,8 @@ function Navbar() {
         localStorage.removeItem("ally-supports-cache")
         localStorage.removeItem("decode_token")
         localStorage.removeItem("loginTime")
+        localStorage.removeItem("datacompanylc")
+        localStorage.removeItem("logoImage")
         window.location.href = "/"
     }
     // Use local storage only if it's available
@@ -56,8 +58,8 @@ function Navbar() {
     return (
         <Box sx={{ width: '100%', height: '90px', background: '#fff', border: '1px solid #C2CCE1', display: 'flex', px: '50px', justifyContent: 'space-between', alignItems: 'center' }}>
             <Box sx={{ overflow: 'hidden', width: '55px', height: '55px', display: 'flex', justifyContent: 'center', alignContent: 'center', borderRadius: '7px', cursor: 'pointer' }}>
-                <Image
-                    src={state.logoImage ? state.logoImage : Logotrac}
+                <img
+                    src={ state.logoImage }
                     alt="logo"
                     width={100}
                     height={100}

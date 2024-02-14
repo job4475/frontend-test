@@ -17,10 +17,6 @@ function Token() {
     if (dataCompany) {
       setState(prevState => ({ ...prevState, datacompanylc: dataCompany }));
     }
-    
-    if (userEmail) {
-      setState(prevState => ({ ...prevState, email: userEmail }));
-    }
   }, []); 
   
   

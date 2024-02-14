@@ -10,24 +10,6 @@ const Page = () => {
   const router = useRouter();
   const { state, setState } = useContext(StateContext);
   const Register = () => {
-    setState({
-      ...state,
-      datacompany: state.datacompanylc,
-      companyID: state.datacompanylc.CompanyID,
-      companyname: state.datacompanylc.Companyname,
-      alias: state.datacompanylc.CompanyAlias,
-      no: state.datacompanylc.AddressNo,
-      street: state.datacompanylc.Address1En,
-      googlemaps: state.datacompanylc.Geolocation,
-      selectedProvince: state.datacompanylc.Province,
-      selectedAmphoe: state.datacompanylc.District,
-      selectedTambon: state.datacompanylc.SubDistrict,
-      zipcode: state.datacompanylc.Zipcode,
-      country: state.datacompanylc.Country,
-      webSite: state.datacompanylc.Website,
-      backdrop: false,
-      loading: false
-    });
     router.push('/Register');
   }
   const CreateCompany = () => {
@@ -37,15 +19,26 @@ const Page = () => {
     }, 1000);
     window.location.href = "/CreateCompany"
   }
-
   useEffect(() => {
-    const timer = setTimeout(() => { setState({ ...state, showContent: true }); }, 1000);
-    return () => {
-        clearTimeout(timer);
-        setState({ ...state, showContent: false });
-    };
-}, []);
-
+      if (state.decode_token) {
+        fetch(`${process.env.NEXT_PUBLIC_API_ENDPOINT_GET}${process.env.NEXT_PUBLIC_API_PORT_LOGIN ? `:${process.env.NEXT_PUBLIC_API_PORT_LOGIN}` : ''}/api/getLogoBinary/${state.decode_token.CompanyID}`,)
+            .then(response => response.blob())
+            .then(blob => {
+                const imageUrl = URL.createObjectURL(blob);
+                localStorage.setItem("logoImage", imageUrl);
+                setState((prevData) => ({ ...prevData, logoImage: imageUrl, loading: false }));
+            })
+            .catch(error => console.error("Error fetching binary data:", error));
+            }
+    
+          }, []);
+          useEffect(() => {
+            if(state.decode_token){
+              setState(prevState => ({ ...prevState, showContent: true }));
+            }else{
+              setState(prevState => ({ ...prevState, showContent: false }));
+            }
+          }, []);
   return (
     <div
       className="h-screen"
@@ -73,38 +66,22 @@ const Page = () => {
           <Box onClick={Register} sx={{ display: 'flex', justifyContent: 'space-between', cursor: "pointer", transition: "background-color 0.3s ease", "&:hover": { backgroundColor: "#f4f9f6" } }} className="basis-2/6 rounded-[10px] border border-[#C2CCE1] w-[300px] h-[370px] mr-3 mt-2 lg:mt-4 flex flex-col  items-center py-[42px] px-[40px] text-center" >
             <Box sx={{ transition: 'transform 0.3s ease', '&:hover': { transform: 'scale(1.03)' } }}>
               {state.showContent ? (
-                <Image
-                  src={state.logoImage}
-                  alt="logo"
-                  width={90}
-                  height={90}
-                />
+                <Image src={state.logoImage} alt="logo" width={90} height={90} />
               ) : (
                 <Skeleton variant="rectangular" width={90} height={90} style={{ borderRadius: '6px' }} />
               )}
             </Box>
             <div>
               {state.showContent ? (
-                <h4>{state.datacompanylc?.Companyname}</h4>
+                <h4>{state.decode_token?.Companyname}</h4>
               ) : (
                 <Skeleton variant="text" width={250} height={40} />
               )}
             </div>
             <div>
               {state.showContent ? (
-                <svg
-                  xmlns="http://www.w3.org/2000/svg"
-                  width="52"
-                  height="4"
-                  viewBox="0 0 52 4"
-                  fill="none"
-                >
-                  <path
-                    d="M2 2H50"
-                    stroke="#9FDBD6"
-                    strokeWidth="3"
-                    strokeLinecap="round"
-                  />
+                <svg xmlns="http://www.w3.org/2000/svg" width="52" height="4" viewBox="0 0 52 4" fill="none">
+                  <path d="M2 2H50" stroke="#9FDBD6" strokeWidth="3" strokeLinecap="round"/>
                 </svg>
               ) : (
                 <Skeleton variant="rectangular" width={60} height={10} style={{ borderRadius: '6px' }} />
@@ -113,7 +90,7 @@ const Page = () => {
             <div>
               {state.showContent ? (
                 <p className="text-[12px] font-[500]">
-                  {state.datacompanylc?.Companyname} {state.datacompanylc?.Province}, {state.datacompanylc?.Zipcode} {state.datacompanylc?.Country}.
+                  {state.decode_token?.Companyname} {state.decode_token?.Province}, {state.decode_token?.Zipcode} {state.decode_token?.Country}.
                 </p>
               ) : (
                 <Skeleton variant="text" width={250} height={40} />
@@ -125,25 +102,9 @@ const Page = () => {
             <Box sx={{ transition: 'transform 0.3s ease', '&:hover': { transform: 'scale(1.3)' } }}>
               <Box sx={{ width: '90px', height: '90px', display: 'flex', justifyContent: 'center', alignItems: 'center' }}>
                 {state.showContent ? (
-                  <svg
-                    xmlns="http://www.w3.org/2000/svg"
-                    width="41"
-                    height="41"
-                    viewBox="0 0 41 41"
-                    fill="none"
-                  >
-                    <path
-                      d="M19.9167 3V38"
-                      stroke="#84BAA1"
-                      strokeWidth="5"
-                      strokeLinecap="round"
-                    />
-                    <path
-                      d="M3 20.5L38 20.5"
-                      stroke="#84BAA1"
-                      strokeWidth="5"
-                      strokeLinecap="round"
-                    />
+                  <svg xmlns="http://www.w3.org/2000/svg" width="41" height="41" viewBox="0 0 41 41" fill="none">
+                    <path d="M19.9167 3V38" stroke="#84BAA1" strokeWidth="5" strokeLinecap="round" />
+                    <path d="M3 20.5L38 20.5" stroke="#84BAA1" strokeWidth="5" strokeLinecap="round"/>
                   </svg>
                 ) : (
                   <Skeleton variant="rectangular" width={90} height={90} style={{ borderRadius: '6px' }} />
@@ -159,19 +120,8 @@ const Page = () => {
             </div>
             <div>
               {state.showContent ? (
-                <svg
-                  xmlns="http://www.w3.org/2000/svg"
-                  width="52"
-                  height="4"
-                  viewBox="0 0 52 4"
-                  fill="none"
-                >
-                  <path
-                    d="M2 2H50"
-                    stroke="#9FDBD6"
-                    strokeWidth="3"
-                    strokeLinecap="round"
-                  />
+                <svg xmlns="http://www.w3.org/2000/svg" width="52" height="4" viewBox="0 0 52 4" fill="none">
+                  <path d="M2 2H50"stroke="#9FDBD6" strokeWidth="3" strokeLinecap="round"/>
                 </svg>
               ) : (
                 <Skeleton variant="rectangular" width={60} height={10} style={{ borderRadius: '6px' }} />
@@ -185,10 +135,8 @@ const Page = () => {
               ) : (
                 <Skeleton variant="text" width={250} height={40} />
               )}
-
             </div>
           </Box>
-
         </div>
       </div>
     </div>

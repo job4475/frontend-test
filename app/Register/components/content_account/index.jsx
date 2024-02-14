@@ -12,7 +12,7 @@ function Index() {
     <Box sx={{ display: "flex", alignItems: "center" }}>
       <Image alt="account" src={accountimg} />
       <Box sx={{ ml: 5 }}>
-      <Box sx={{ fontWeight: 600 }} dangerouslySetInnerHTML={{ __html: `Hello good morning ${state.emailconfirm ? state.emailconfirm : state.email} <br/> Welcome to ChicCRM registration process now you are in` }} />
+        <Box sx={{ fontWeight: 600 }} dangerouslySetInnerHTML={{ __html: `Hello good morning ${state.email} <br/> Welcome to ChicCRM registration process now you are in` }} />
         <Box sx={{ fontSize: "12px", mt: 0.5 }} dangerouslySetInnerHTML={{ __html: data_register[0].detail_msg }} />
       </Box>
     </Box>

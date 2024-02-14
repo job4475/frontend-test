@@ -35,15 +35,23 @@ const Page = () => {
 
     return () => clearTimeout(timeoutId);
   }, [setLoading]);
+
+  
   const Notallowed = () => {
+
   }
+
   const handlesharedoc = () => {
     state.memberAuthorization?.orgmbat_feature !== "#securedoc" || state.decode_token?.Role === "admin" ? Notallowed() : sharedocumentRouter()
   }
+
+
   return (
     <>
       <Backdrop />
       <Navbar />
+
+
       <div className="max-w-screen-xl p-2 container mx-auto my-2 lg:my-12">
         <h3 className="my-2 lg:my-5">My work space</h3>
         <div className="flex flex-col lg:flex-row">
