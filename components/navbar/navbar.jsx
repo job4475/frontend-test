@@ -1,12 +1,15 @@
 "use client";
 import { Box, IconButton, Menu, MenuItem } from '@mui/material'
-import React, { useContext, useState,useEffect } from 'react'
+import React, { useContext, useState, useEffect } from 'react'
 import Logotrac from "@/assets/assets/images/logotrac.png";
 import Image from 'next/image';
 import { StateContext } from "@/context/Context";
+import { useRouter } from 'next/navigation';
+import handleUserlist from '@/handle/workspace'
 
 function Navbar() {
     const { state, setState } = useContext(StateContext);
+    const HandleUserlist = handleUserlist ();
     const [anchorEl, setAnchorEl] = useState(null);
     const openMenu = Boolean(anchorEl);
     const isLocalStorageAvailable = typeof window !== 'undefined' && window.localStorage;
@@ -73,7 +76,8 @@ function Navbar() {
                 </IconButton>
                 <Menu id="basic-menu" anchorEl={anchorEl} open={openMenu} onClose={handleClose}>
                     <MenuItem>Edit Profile</MenuItem>
-                    <MenuItem onClick={handleclicklogout}>Logout</MenuItem>
+                    <MenuItem onClick={HandleUserlist.handleToUserlist}>Administrator</MenuItem>
+                    <MenuItem onClick={HandleUserlist.handleclicklogout}>Logout</MenuItem>
                 </Menu>
                 <Box sx={{ background: '#D9D9D9', overflow: 'hidden', width: '55px', height: '55px', display: 'flex', justifyContent: 'center', alignContent: 'center', cursor: 'pointer', borderRadius: '100px', ml: '25px' }}>
                     <Image
