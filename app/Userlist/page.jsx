@@ -5,8 +5,8 @@ import Navbar from "@/components/navbar/navbar";
 import { TabContext, TabList, TabPanel } from '@mui/lab';
 import AccountCircleRoundedIcon from '@material-ui/icons/AccountCircleRounded';
 import PersonAddRoundedIcon from '@material-ui/icons/PersonAddRounded';
-import TableUserList from "@/components/TableUserList/TableUserList";
-import TableUserPending from "@/components/TableUserList/UserPending";
+import TableUserList from "./components/TableUserList/TableUserList";
+import TableUserPending from "./components/UserPending/UserPending";
 
 function Userlist() {
 
