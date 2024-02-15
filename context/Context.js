@@ -35,7 +35,7 @@ export const StateProvider = ({children}) => {
             {/* <Checkstatuslogin/> */}
             <Department/>
             <Timeout/>
-            <GetLogoBinary/>
+            {/* <GetLogoBinary/> */}
             <Feature/>
             <Address/>
             <PageLoader/>

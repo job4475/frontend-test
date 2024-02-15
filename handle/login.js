@@ -81,8 +81,10 @@ function Login() {
       if (result.match === true) {
         localStorage.setItem("datacompanylc", JSON.stringify(result.data));
         localStorage.setItem("useremail", state.email);
-        await setState((prevData) => ({ ...prevData, datacompanylc: result.data, loading: false }));
-        await getbinary();
+        setState((prevData) => ({ ...prevData, datacompanylc: result.data, loading: false }));
+        setTimeout(() => {
+           getbinary();
+        }, 5000);
         
   
         router.push('/Selectcompany');
@@ -142,7 +144,7 @@ function Login() {
   };
   const getbinary = () =>{
     
-      fetch(`${process.env.NEXT_PUBLIC_API_ENDPOINT_GET}${process.env.NEXT_PUBLIC_API_PORT_LOGIN ? `:${process.env.NEXT_PUBLIC_API_PORT_LOGIN}` : ''}/api/getLogoBinary/${state.datacompanylc.CompanyID}`,)
+      fetch(`${process.env.NEXT_PUBLIC_API_ENDPOINT_GET}${process.env.NEXT_PUBLIC_API_PORT_LOGIN ? `:${process.env.NEXT_PUBLIC_API_PORT_LOGIN}` : ''}/api/getLogoBinary/${state.datacompanylc?.CompanyID}`,)
           .then(response => response.blob())
           .then(blob => {
               const imageUrl = URL.createObjectURL(blob);

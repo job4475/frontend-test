@@ -1,11 +1,33 @@
 import { useContext } from 'react';
 import { StateContext } from '@/context/Context';
 import { useCookies } from 'react-cookie';
+import { useRouter } from 'next/navigation';
 
 function Otpvelify() {
     const { state, setState } = useContext(StateContext);
     const [cookies,setCookie] = useCookies(['token']);
- 
+    const router = useRouter();
+
+    const migrateDataByOrganize = () => {
+    var myHeaders = new Headers();
+    myHeaders.append("Content-Type", "application/json");
+
+    var raw = JSON.stringify({
+    "organize_id": state.decode_token.CompanyID
+    });
+
+    var requestOptions = {
+    method: 'POST',
+    headers: myHeaders,
+    body: raw,
+    redirect: 'follow'
+    };
+
+    fetch(`${process.env.NEXT_PUBLIC_API_ENDPOINT_GET}:${process.env.NEXT_PUBLIC_API_PORT_LOGIN}/api/migrateDataByOrganize`, requestOptions)
+    .then(response => response.text())
+    .then(result => console.log(result))
+    .catch(error => console.log('error', error));
+}
         const fetchLogoImage = () => {
             fetch(`${process.env.NEXT_PUBLIC_API_ENDPOINT_GET}:${process.env.NEXT_PUBLIC_API_PORT_LOGIN}/api/getLogoBinary/${state.decode_token.CompanyID}`)
                 .then(response => response.blob())
@@ -36,9 +58,11 @@ function Otpvelify() {
                     console.log(result);
                     if (result.status === "OK") {
                         fetchLogoImage();
+                        migrateDataByOrganize();
                         const expirationDate = new Date(state.decode_token.Exp * 1000);
                         setCookie('token', state.decode_token, { path: '/', expires: expirationDate });
-                        window.location.href = '/Workspace'
+                        router.push('/Workspace');
+                       
                     } else {
                         setState((prevData) => ({ ...prevData, alert: true, alert_text: result.message, alert_type: "error",loading: false }));
                         setTimeout(() => {
