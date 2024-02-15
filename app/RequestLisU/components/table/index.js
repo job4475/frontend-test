@@ -1,15 +1,11 @@
 "use client";
 import * as React from 'react';
 import { Box, Button, Paper, Table, TableBody, TableCell, TableContainer, TableHead, TableRow } from '@mui/material'
-import { StateContext } from '@/context/Context';
 import file from '@/assets/assets/images/file.png'
 import recipient from '@/assets/assets/images/recipient.png'
 import dropdown from '@/assets/assets/images/dropdown.png'
 import Image from 'next/image';
 import HandleLeadList from '@/handle/userlist'
-import CheckIcon from '@mui/icons-material/Check';
-import CloseIcon from '@mui/icons-material/Close';
-import SecurityIcon from '@mui/icons-material/Security';
 import { useState } from 'react';
 
 function Index() {
@@ -38,17 +34,8 @@ function Index() {
   const handleCloseRecipient = (index) => {
     setTooltipOpenRecipient({ ...tooltipOpenRecipient, [index]: false });
   };
-  const [tooltipOpenPermission, setTooltipOpenPermission] = useState({});
-  const [tooltipContentPermission, setTooltipContentPermission] = useState({});
 
-  const handleOpenPermission = (index, sender) => {
-    setTooltipOpenPermission({ ...tooltipOpenPermission, [index]: true });
-    setTooltipContentPermission({ ...tooltipContentPermission, [index]: sender });
-  };
 
-  const handleClosePermission = (index) => {
-    setTooltipOpenPermission({ ...tooltipOpenPermission, [index]: false });
-  };
   return (
     <Box sx={{display:'flex',justifyContent:'center',mt:3,pb:3}}>
       <TableContainer id="tablelist" component={Paper} sx={{ width: '90%', maxHeight: '90%' }}>
@@ -66,7 +53,7 @@ function Index() {
       </TableHead>
       <TableBody>
         {handleLeadList.groupedOrders?.map((row,index)=>(
-        <TableRow key={`${index}`}>
+        <TableRow key={`${row.scdact_reqid}`}>
           <TableCell align="center">{row[0].scdact_reqid}</TableCell>
           <TableCell id="cellheader" align="center">{handleLeadList.convertTimestampToLocalTime(row[0].scdact_timestamp)}</TableCell>
           <TableCell id="bodycell" align="center">

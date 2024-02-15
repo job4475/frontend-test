@@ -1,16 +1,11 @@
 import { StateContext } from '@/context/Context';
-import { useRouter } from 'next/navigation';
-import React from 'react'
-import { useContext } from 'react';
+import React, { useContext, useEffect } from 'react'
 
-function workspace() {
+function ManagerAdmin() {
+        const { state, setState } = useContext(StateContext);
 
-    const {state,setState} = useContext(StateContext);
-
-        const router = useRouter();
-
-        const handleToUserlist = () => {
-
+        useEffect(() => {
+            if(state.token){
             const myHeaders = new Headers();
             myHeaders.append("Authorization", `Bearer ${state.token}`);
             
@@ -31,20 +26,10 @@ function workspace() {
                 setState((prevData) => ({ ...prevData, allmanageradmin: result }));
               })
               .catch((error) => console.error(error));
-            router.push('/Userlist')
-        }
+            }
+        }, [state.token])
+        
+  return null
+}
 
-        const handleclicklogout = () => {
-            localStorage.removeItem("ally-supports-cache")
-            localStorage.removeItem("decode_token")
-            localStorage.removeItem("loginTime")
-            window.location.href = "/"
-        }
-
-
-
-
-        return { handleToUserlist, handleclicklogout }
-    }
-
-export default workspace
+export default ManagerAdmin
