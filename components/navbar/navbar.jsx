@@ -4,9 +4,11 @@ import React, { useContext, useState,useEffect } from 'react'
 import Image from 'next/image';
 import { StateContext } from "@/context/Context";
 import { useRouter } from 'next/navigation';
+import handleUserlist from '@/handle/workspace'
 
 function Navbar() {
     const { state, setState } = useContext(StateContext);
+    const HandleUserlist = handleUserlist ();
     const [anchorEl, setAnchorEl] = useState(null);
     const router = useRouter();
 
@@ -26,15 +28,15 @@ function Navbar() {
         localStorage.removeItem("ally-supports-cache")
         localStorage.removeItem("decode_token")
         localStorage.removeItem("loginTime")
+        localStorage.removeItem("datacompanylc")
+        localStorage.removeItem("logoImage")
         window.location.href = "/"
     }
-
     // Use local storage only if it's available
     const storedLoginTime = isLocalStorageAvailable ? localStorage.getItem('loginTime') : null;
     const [loginTime, setLoginTime] = useState(
         storedLoginTime ? new Date(storedLoginTime) : new Date()
     );
-
     useEffect(() => {
         if (isLocalStorageAvailable) {
             localStorage.setItem('loginTime', loginTime);
@@ -60,7 +62,6 @@ function Navbar() {
 
     const GetHome = () =>{
         if(state.decode_token){
-            // window.location.href = "/Workspace"
             router.push('/Workspace');
 
         }else{
@@ -72,8 +73,8 @@ function Navbar() {
 
     return (
         <Box sx={{ width: '100%', height: '90px', background: '#fff', border: '1px solid #C2CCE1', display: 'flex', px: '50px', justifyContent: 'space-between', alignItems: 'center' }}>
-            <Box onClick={GetHome}  sx={{ overflow: 'hidden', width: '55px', height: '55px', display: 'flex', justifyContent: 'center', alignContent: 'center', borderRadius: '7px', cursor: 'pointer' }}>
-                {state.logoImage ?
+            <Box onClick={GetHome} sx={{ overflow: 'hidden', width: '55px', height: '55px', display: 'flex', justifyContent: 'center', alignContent: 'center', borderRadius: '7px', cursor: 'pointer' }}>
+                 {state.logoImage ?
                       (
                         <Image
                           src={state.logoImage ? state.logoImage : ""}
@@ -94,7 +95,8 @@ function Navbar() {
                 </IconButton>
                 <Menu id="basic-menu" anchorEl={anchorEl} open={openMenu} onClose={handleClose}>
                     <MenuItem>Edit Profile</MenuItem>
-                    <MenuItem onClick={handleclicklogout}>Logout</MenuItem>
+                    <MenuItem onClick={HandleUserlist.handleToUserlist}>Administrator</MenuItem>
+                    <MenuItem onClick={HandleUserlist.handleclicklogout}>Logout</MenuItem>
                 </Menu>
                 <Box sx={{ background: '#D9D9D9', overflow: 'hidden', width: '55px', height: '55px', display: 'flex', justifyContent: 'center', alignContent: 'center', cursor: 'pointer', borderRadius: '100px', ml: '25px' }}>
                     

@@ -7,28 +7,9 @@ import { StateContext } from "@/context/Context";
 import Backdrop from '@/components/backdrop/backdrop'
 
 const Page = () => {
-
   const router = useRouter();
   const { state, setState } = useContext(StateContext);
   const Register = () => {
-    setState({
-      ...state,
-      datacompany: state.datacompanylc,
-      companyID: state.datacompanylc.CompanyID,
-      companyname: state.datacompanylc.Companyname,
-      alias: state.datacompanylc.CompanyAlias,
-      no: state.datacompanylc.AddressNo,
-      street: state.datacompanylc.Address1En,
-      googlemaps: state.datacompanylc.Geolocation,
-      selectedProvince: state.datacompanylc.Province,
-      selectedAmphoe: state.datacompanylc.District,
-      selectedTambon: state.datacompanylc.SubDistrict,
-      zipcode: state.datacompanylc.Zipcode,
-      country: state.datacompanylc.Country,
-      webSite: state.datacompanylc.Website,
-      backdrop: false,
-      loading: false
-    });
     router.push('/Register');
   }
   const CreateCompany = () => {
@@ -186,10 +167,8 @@ const Page = () => {
               ) : (
                 <Skeleton variant="text" width={250} height={40} />
               )}
-
             </div>
           </Box>
-
         </div>
       </div>
     </div>

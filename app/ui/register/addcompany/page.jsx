@@ -1,22 +1,15 @@
 'use client'
 import { Box, Button, Grid, IconButton, MenuItem, Select, TextField, Typography } from '@mui/material'
-import React, { useContext, useEffect, useState } from 'react'
+import React, { useContext } from 'react'
 import Image from 'next/image'
 import Subtract from '@/assets/assets/images/Subtract.png'
 import Arrow from '@mui/icons-material/NorthRounded';
 import { StateContext } from '@/context/Context';
 import handlecompany from "@/handle/addcompany"
 import AddAPhotoIcon from '@mui/icons-material/AddAPhoto';
-import { useRouter } from 'next/navigation'
-
-
 
 function Page() {
   const { state, setState } = useContext(StateContext);
-  const router = useRouter();
-  const urlParams = new URLSearchParams(window.location.search);
-  const emailParam = urlParams.get('email');
-  console.log("🚀 ~ Page ~ emailParam:", emailParam)
   const Handlecompany = handlecompany();
   const handleFileChange = (event) => {
     const file = event.target.files[0];
@@ -27,18 +20,14 @@ function Page() {
       };
       reader.readAsDataURL(file);
     }
-  }
-  
-
-
-   
+  };
   return (
     <Box sx={{ display: 'flex', flexDirection: 'column', justifyContent: 'space-between', alignItems: 'flex-start', p: 3, }}>
       <Box >
         <Box sx={{ display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
           <Image src={Subtract} alt="logo" style={{ width: "80px" }} />
           <Box sx={{ pl: 3 }}>
-            <Box sx={{ fontWeight: '800', fontSize: '18px' }}>Hello good morning {emailParam || state.email} <br></br>Welcome to ChicCRM registration process now you are in</Box>
+            <Box sx={{ fontWeight: '800', fontSize: '18px' }}>Hello good morning {state.email} <br></br>Welcome to ChicCRM registration process now you are in</Box>
             <Box sx={{ fontSize: '13px' }}>After complete all infomation you will received email your password</Box>
           </Box>
         </Box>

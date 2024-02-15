@@ -17,14 +17,14 @@ function Index() {
       <Box sx={{fontWeight:600,mb:3}}>{data_register[0].title_content1}</Box>
       <Box sx={{display:"flex"}}>
       <Box sx={{mr:1,width:'100px'}} >
-        {state.datacompanylc?.CompanyLogo || state.selectedImage ? (
-          <Image width={100} height={100} alt="logo" src={state.selectedImage ||  state.datacompanylc?.CompanyLogo}></Image>
+        {state.logoImage || state.selectedImage ? (
+          <Image width={100} height={100} alt="logo" src={state.selectedImage ||  state.logoImage}></Image>
         ) : (
           <p>""</p>
         )}
       </Box>
         <Box sx={{display:"flex",flexDirection:"column",alignItems:"left",ml:2}}>
-           <Box sx={{fontWeight:600,textTransform:'capitalize'}}>{state.datacompanylc?.Companyname}</Box>
+           <Box sx={{fontWeight:600,textTransform:'capitalize'}}>{state.companyname ||state.datacompanylc?.Companyname}</Box>
               <Box sx={{display:"flex",mt:1}}>
               <Box sx={{width:"300px"}}>
               <div dangerouslySetInnerHTML={{ __html: `${state.no||state.datacompanylc?.AddressNo} ${state.street || state.datacompanylc?.Address1En}<br>

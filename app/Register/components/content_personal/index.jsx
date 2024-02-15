@@ -32,7 +32,7 @@ function Index() {
   return (
     <Box>
       <Box sx={{ fontWeight: 600, mb: 3 }}>{data_register[0].title_content2}</Box>
-      <Grid container spacing={1}>
+      <Grid container spacing={0}>
         {input_data.map((item, index) => {
           let marginLeftValue = "";
 
