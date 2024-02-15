@@ -32,7 +32,7 @@ function Addcompany() {
   const handleProvinceChange = (event) => {
     const selectedProvince = event.target.value;
     setState(prev => ({ ...prev, selectedProvince }));
-    const amphoesData = state.data.provinceAmphoeTambonZipcode
+    const amphoesData = state.data.dataResponse.provinceAmphoeTambonZipcode
       .filter(item => item.ProvinceEng === selectedProvince)
       .map(item => item.DistrictEng);
     setState(prev => ({
@@ -46,7 +46,7 @@ function Addcompany() {
   const handleAmphoeChange = (event) => {
     const selectedAmphoe = event.target.value;
     setState(prev => ({ ...prev, selectedAmphoe }));
-    const tambonsData = state.data.provinceAmphoeTambonZipcode
+    const tambonsData = state.data.dataResponse.provinceAmphoeTambonZipcode
       .filter(item => item.DistrictEng === selectedAmphoe)
       .map(item => item.TambonEng);
     setState(prev => ({
@@ -59,7 +59,7 @@ function Addcompany() {
   const handleTambonChange = (event) => {
     const selectedTambon = event.target.value;
     setState(prev => ({ ...prev, selectedTambon }));
-    const tambonData = state.data.provinceAmphoeTambonZipcode.find(item => item.TambonEng === selectedTambon);
+    const tambonData = state.data.dataResponse.provinceAmphoeTambonZipcode.find(item => item.TambonEng === selectedTambon);
     if (tambonData) {
       setState(prev => ({ ...prev, zipcode: tambonData.PostCodeMain }));
     }
