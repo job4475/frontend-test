@@ -8,6 +8,7 @@ function Register() {
             const router = useRouter();
             const handleRegister = () => {
               setState((prevData) => ({ ...prevData,loading: true,alert: false}));
+              const role = state.AdminExists ? "user" : "admin";
               const myHeaders = new Headers();
             myHeaders.append("Content-Type", "application/json");
 
@@ -32,10 +33,9 @@ function Register() {
               "address_no": state.no?state.no:state.datacompanylc.AddressNo,
               "job_title": state.jobtitlename,
               "department":state.departmentname,
-              "role": "user",
+              "role": role,
               "Website": `https://${state.webSite}`,
             });
-
             const requestOptions = {
               method: 'POST',
               headers: myHeaders,
