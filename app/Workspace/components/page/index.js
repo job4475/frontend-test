@@ -21,16 +21,26 @@ const Page = () => {
   const [loading, setLoading] = useState(true);
   const [cookies, removeCookie] = useCookies(['token']);
 
-  const sharedocumentRouter = () => {
-    // setState((prevData) => ({ ...prevData, backdrop: true }));
+  const sharedocumentRouter = async () => {
     if (state.decode_token.Role === "admin") {
-      // window.location.href = "/RequestList"
-      router.push('/RequestList');
+        setState({ ...state, backdrop: true });
+        setTimeout(() => {
+            setState((prevData) => ({ ...prevData, backdrop: false }));
+        }, 1000);
+        await router.push('/RequestList'); // เรียกใช้ await เพื่อรอให้ router.push เสร็จสิ้นก่อนที่จะดำเนินการต่อ
     } else {
-      router.push('/ShareDocument');
-      // window.location.href = "/ShareDocument"
+        setState({ ...state, backdrop: true });
+        setTimeout(() => {
+            setState((prevData) => ({ ...prevData, backdrop: false }));
+        }, 1000);
+        await router.push('/ShareDocument'); // เรียกใช้ await เพื่อรอให้ router.push เสร็จสิ้นก่อนที่จะดำเนินการต่อ
     }
-  };
+    
+    // เมื่อทำการ push สำเร็จแล้ว คุณสามารถตรวจสอบว่าการ push เสร็จสมบูรณ์โดยตรงหรือไม่
+    console.log("Router pushed successfully");
+};
+
+
 
   useEffect(() => {
     const timeoutId = setTimeout(() => {

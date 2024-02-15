@@ -9,12 +9,14 @@ function Userlist() {
   const {state, setState} = useContext(StateContext);
   const router = useRouter();
 
-    const handleNewRequest = ()=>{
-      // setState((prevData) => ({ ...prevData, loading: true}));
-      // window.location.href = '/ShareDocument'
-      router.push('/ShareDocument');
-
-      }
+    const handleNewRequest =async () => {
+      setState({ ...state, backdrop: true });
+        setTimeout(() => {
+          setState((prevData) => ({ ...prevData, backdrop: false }));
+      }, 1000);
+      await router.push('/ShareDocument');
+    };
+    
     
       const handleTooltipOpen = () => {
           setState((prevData) => ({ ...prevData, viewfile: !state.viewfile}));

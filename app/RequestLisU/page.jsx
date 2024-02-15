@@ -8,6 +8,7 @@ import BtNewReq from './components/button'
 import GetAllOrder from '@/services/getorder'
 import { StateContext } from '@/context/Context';
 import { useContext,useEffect } from 'react';
+import Backdrop from '@/components/backdrop/backdrop'
 
 function Page() {
   const {setState} = useContext(StateContext);
@@ -17,6 +18,7 @@ function Page() {
   
   return (
     <Box>
+      <Backdrop />
       <GetAllOrder/>
       <Navbar/>
       <Title/>

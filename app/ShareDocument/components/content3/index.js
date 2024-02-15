@@ -7,11 +7,19 @@ import Loading from '@/components/loading'
 import { useRouter } from 'next/navigation';
 
 function Index() {
-    const {state} = useContext(StateContext);
+    const {state,setState} = useContext(StateContext);
     const router = useRouter();
     const fileInputRef = useRef(null);
     const textFieldRef = useRef(null);
     const handleShareDoc = HandleShareDoc(textFieldRef,fileInputRef);
+
+    const Myrequest = async () => {
+          setState({ ...state, backdrop: true });
+          setTimeout(() => {
+            setState((prevData) => ({ ...prevData, backdrop: false }));
+        }, 1000);
+          await router.push('/RequestLisU'); 
+        };
   return (
     <Box>
          <Box sx={{p:3,width: "100%",height: "415px",borderRadius: "10px",backgroundColor: "#FFFFFF",borderWidth: "1px",
@@ -67,9 +75,7 @@ function Index() {
          </Box>
          </Box>
              <Box display="flex" justifyContent="flex-end" >
-           <Button variant="outlined"size="large" onClick={()=>{
-                    router.push('/RequestLisU');
-          }} style={{borderColor:"#84BAA1",color:"#84BAA1", marginRight: "10px",textTransform:'capitalize' }}>My Requests</Button>
+           <Button variant="outlined"size="large" onClick={Myrequest} style={{borderColor:"#84BAA1",color:"#84BAA1", marginRight: "10px",textTransform:'capitalize' }}>My Requests</Button>
            <Button onClick={handleShareDoc.handleUpload} disabled={state.recipient.length >0&&state.subject&&state.messageBody&&state.selectedFile.length>0?false:true}  variant="contained" size="large" color="btncolor" style={{color:"white", marginRight: "10px",textTransform:'capitalize' }}>{state.loading?<Loading/>:"Send File"}</Button>
          </Box>
          </Box>

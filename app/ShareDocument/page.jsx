@@ -9,11 +9,14 @@ import Content3 from './components/content3'
 import Progress from '@/components/progress'
 import { StateContext } from "@/context/Context";
 import SizeProgress from '@/services/sizeprogress'
+import Backdrop from '@/components/backdrop/backdrop'
+
 const Page = () => {
   const {state} = useContext(StateContext);
   
   return (
     <>
+      <Backdrop />
       <Navbar/>
       <Title/>
       <Box sx={{ flexGrow: 1,m:3 }}>
