@@ -43,7 +43,7 @@ function Page() {
         <Box sx={{ display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
           <Image src={Subtract} alt="logo" style={{ width: "80px" }} />
           <Box sx={{ pl: 3 }}>
-            <Box sx={{  fontSize: '18px' }}>Hello good morning {state.emailconfirm?state.emailconfirm: state.email} <br></br>Welcome to ChicCRM registration process now you are in</Box>
+            <Box sx={{  fontSize: '18px' }}>Hello good morning <b>{state.emailconfirm?state.emailconfirm: state.email}</b> <br></br>Welcome to ChicCRM registration process now you are in</Box>
             <Box sx={{ fontSize: '13px' }}>After complete all infomation you will received email your password</Box>
           </Box>
         </Box>

@@ -91,7 +91,7 @@ function Index() {
             </Grid>
             <Grid item xs={12}>
               <Box sx={{ display: 'flex', alignItems: 'center' }}>
-              Department
+              Jobtitle
                 <Box sx={{   ml: 2.8 }}>
                 <FormControl variant="standard" sx={{  minWidth: 220 }}>
                     <Select name="additionalSelect2" value={state.additionalSelect2} onChange={changejobtitle} sx={{ width: '100%' }}>

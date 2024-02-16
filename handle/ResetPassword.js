@@ -32,7 +32,10 @@ function Addcompany() {
             if (result.status === "OK") {
               setState({...state,resetpassword: true})
             } else {
-              console.log('Unexpected result status:', result.status);
+              setState((prevData) => ({ ...prevData, alert: true, alert_text: result.message, alert_type: 'error', loading: false }));
+              setTimeout(() => {
+                setState((prevData) => ({ ...prevData, alert: false }));
+              }, 2000);
             }
           })
           .catch(error => console.error('Error:', error));
