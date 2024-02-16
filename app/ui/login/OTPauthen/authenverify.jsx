@@ -24,7 +24,7 @@ function Authenverify() {
     <VerificationCodeInput onChange={HandleOTP.handleCodeChange} />
     </Box>
     <Box sx={{display:'flex',justifyContent:'center'}}>
-    <Button variant="contained" onClick={HandleQRCode.verifyauthen} style={{background:'#84BAA1',width:'90%',textTransform:'capitalize'}}>{state.loading?(<Loading/>):"Next"}</Button>
+    <Button variant="contained" onClick={HandleQRCode.verifyauthen} sx={{ transition: 'transform 0.3s ease', '&:hover': { transform: 'scale(1.03)', }, }} style={{ background: state.loading ? '#e5e5e5' : '#84BAA1' , width: '100%', height: '44px', textTransform: 'capitalize', marginTop: 10, boxShadow: '0px 0px 0px', borderRadius: '8px', fontWeight: '600', cursor: state.loading ? 'not-allowed' : 'pointer',  }} disabled={state.loading}>{state.loading?(<Loading/>):"Next"}</Button>
     </Box>
   </Box>
   )

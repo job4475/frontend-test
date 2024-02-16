@@ -29,6 +29,7 @@ function Index() {
 
   const onClickHandler = state.info === 0 ? HandleLogin.handleSignInClick : HandleLogin.handleSignUpClick;
   const buttonText = state.loading ? <Loading /> : state.info === 0 ? 'Sign In' : 'Next';
+
   return (
     <Box>
       <Box sx={{
@@ -90,7 +91,7 @@ function Index() {
         }
          {showContent ? (
           <Box sx={{ display: 'flex', justifyContent: 'center' }}>
-          <Button variant="contained" onClick={onClickHandler} sx={{ transition: 'transform 0.3s ease', '&:hover': { transform: 'scale(1.03)', }, }} style={{ background: '#84BAA1', width: '90%', height: '44px', textTransform: 'capitalize', marginTop: 10, boxShadow: '0px 0px 0px', borderRadius: '8px', fontWeight: '600' }}>
+          <Button variant="contained" onClick={onClickHandler} sx={{ transition: 'transform 0.3s ease', '&:hover': { transform: 'scale(1.03)', }, }} style={{ background: state.loading ? '#e5e5e5' : '#84BAA1' , width: '90%', height: '44px', textTransform: 'capitalize', marginTop: 10, boxShadow: '0px 0px 0px', borderRadius: '8px', fontWeight: '600', cursor: state.loading ? 'not-allowed' : 'pointer',  }} disabled={state.loading}>
              {buttonText}
           </Button>
           {state.open ? <Dialog /> : ""}

@@ -5,8 +5,9 @@ import Navbar from "@/components/navbar/navbar";
 import { TabContext, TabList, TabPanel } from '@mui/lab';
 import AccountCircleRoundedIcon from '@material-ui/icons/AccountCircleRounded';
 import PersonAddRoundedIcon from '@material-ui/icons/PersonAddRounded';
-import TableUserList from "@/components/TableUserList/TableUserList";
-import TableUserPending from "@/components/TableUserList/UserPending";
+import TableUserList from "./components/TableUserList/TableUserList";
+import TableUserPending from "./components/UserPending/UserPending";
+import EditUser  from "./components/EditUser/page"
 
 function Userlist() {
 
@@ -18,7 +19,8 @@ function Userlist() {
 
     return (
         <Box sx={{ width: '100%', height: '100%' }}>
-            <Navbar />
+            <EditUser/>
+            {/* <Navbar />
             <Box sx={{ width: '100%', height: '100%', padding: '30px' }}>
                 <TabContext value={value}>
                     <Box sx={{ width: '100%', height: '90px', borderRadius: '12px 12px 0px 0px', border: 'solid 1px #C2CCE1', display: 'flex', alignItems: 'center', px: '30px' }}>
@@ -34,7 +36,7 @@ function Userlist() {
                         <TableUserPending/>
                     </TabPanel>
                 </TabContext>
-            </Box>
+            </Box> */}
         </Box >
     )
 }
