@@ -9,7 +9,6 @@ function Register() {
             const router = useRouter();
             const handleRegister = () => {
               setState((prevData) => ({ ...prevData,loading: true,alert: false}));
-              const role = state.AdminExists ? "user" : "admin";
               const myHeaders = new Headers();
             myHeaders.append("Content-Type", "application/json");
 
@@ -91,7 +90,20 @@ function Register() {
             const  handlechangeinput =(e, fieldName)=>{
               setState((prevData) => ({ ...prevData, [fieldName]: e.target.value }));
           }
-            return {handlechangeTitle,handlechangeinput,Selectcompany,handleRegister};
+          const  first_name =(e)=>{
+            e.target.value = e.target.value.replace(/[^a-zA-Z]/g, '');
+            setState((prevData) => ({ ...prevData, first_name: e.target.value }))
+          }
+          const  last_name =(e)=>{
+            e.target.value = e.target.value.replace(/[^a-zA-Z]/g, '');
+            setState((prevData) => ({ ...prevData, last_name: e.target.value }))
+          }
+          const  phone_number =(e)=>{
+            e.target.value = e.target.value.replace(/\D/g, '');
+            setState((prevData) => ({ ...prevData, phone_number: e.target.value }))
+            
+          }
+            return {handlechangeTitle,handlechangeinput,Selectcompany,handleRegister,first_name,last_name,phone_number};
           }
           export default Register
 
