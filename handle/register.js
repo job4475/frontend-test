@@ -4,6 +4,7 @@ import { useRouter } from 'next/navigation';
 import { useContext } from 'react'
 
 function Register() {
+
             const {state, setState} = useContext(StateContext);
             const router = useRouter();
             const handleRegister = () => {
@@ -53,7 +54,6 @@ function Register() {
                   console.log(result);
                   if (result.status === "OK") {
                     setState((prevData) => ({ ...prevData, companyID: result.companyID,loading: false,alert: false }));
-                    
             const formdata = new FormData();
             formdata.append("file",  state.selectedFile);
             formdata.append("organizeID", result.companyID);
@@ -81,17 +81,17 @@ function Register() {
       }
     })
     .catch(error => console.log('error', error));
-};
-  const Selectcompany = () => {
-    router.back()
-  }
-  const  handlechangeTitle =(e)=>{
-    setState((prevData) => ({ ...prevData, titleselect: e.target.value }))
-  }
-  const  handlechangeinput =(e, fieldName)=>{
-    setState((prevData) => ({ ...prevData, [fieldName]: e.target.value }));
-}
-  return {handlechangeTitle,handlechangeinput,Selectcompany,handleRegister};
-}
-export default Register
+      };
+            const Selectcompany = () => {
+              router.back()
+            }
+            const  handlechangeTitle =(e)=>{
+              setState((prevData) => ({ ...prevData, titleselect: e.target.value }))
+            }
+            const  handlechangeinput =(e, fieldName)=>{
+              setState((prevData) => ({ ...prevData, [fieldName]: e.target.value }));
+          }
+            return {handlechangeTitle,handlechangeinput,Selectcompany,handleRegister};
+          }
+          export default Register
 

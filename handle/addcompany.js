@@ -71,8 +71,9 @@ function Addcompany() {
     setState({...state,googlemaps: e.target.value,});
   };
   const phoneNumber = (e) => {
-    setState({...state,phoneNumber: e.target.value,});
-  };
+    e.target.value = e.target.value.replace(/\D/, '');
+    setState({ ...state, phoneNumber: e.target.value });
+  };  
   const webSite = (e) => {
     setState({...state,webSite: e.target.value,});
   };
