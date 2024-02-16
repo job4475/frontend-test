@@ -1,6 +1,6 @@
 'use client'
 import React, { useState } from 'react';
-import EditUser from './Dialog/page';
+import EditUser from './DialogUser/page';
 import Button from '@mui/material/Button';
 import { Box } from '@mui/material';
 

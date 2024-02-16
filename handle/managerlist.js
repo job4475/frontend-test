@@ -84,7 +84,7 @@ function Managerlist() {
       const raw = JSON.stringify({
         "departmentID": user.departmentID,
         "managerID": user.managerID,
-        "action": "Disabled"
+        "action": "Inactive"
       });
       
       const requestOptions = {
@@ -127,8 +127,13 @@ function Managerlist() {
         .catch((error) => console.error(error));
     }
 
+    const handleClicktoEdit =(user) => {
+      setState((prevData) => ({ ...prevData, dialoguser: true,prepareedit:user,departmentid:user.orgdp_name_en==="Product Management"?1:user.orgdp_name_en==="Sales"?2:user.orgdp_name_en==="Consultation and Operation"?3:user.orgdp_name_en==="Development & BI"?4:user.orgdp_name_en==="Founder"?5:"" }));
+      
+    }
 
-  return {handleNewRequest,handleClicktoApprove,handleReject};}
+
+  return {handleNewRequest,handleClicktoApprove,handleClicktoEdit,handleReject};}
 
 export default Managerlist
 

@@ -82,33 +82,35 @@ export default function StickyHeadTable() {
           </TableHead>
           <TableBody>
          {state.allmanageradmin?.map((user,index) => (
-           <TableRow key={`${index}`} hover role="checkbox" tabIndex={-1}>
-             <TableCell style={{textTransform:"capitalize",fontWeight:500}}>{user.firstname} {user.surname}</TableCell>
-             <TableCell style={{fontWeight:500}}>{user.username}</TableCell>
-             <TableCell align='center' style={{fontWeight:500}}>{user.department}</TableCell>
-             <TableCell align='center' style={{fontWeight:500}}>{user.jobtitle}</TableCell>
-             <TableCell align='center' style={{fontWeight:500,color:user.status==="Active"?"green":user.status==="Pending"?"orange":user.status==="Disabled"?"red":""}}>
-              {user.status} 
-              {user.status==="Active"?(
-                <StyledBadge sx={{ml:1}} overlap="circular"  variant="dot"></StyledBadge>
-              ):null}
+           user.status === "Pending" ? (
+            <TableRow key={`${index}`} hover role="checkbox" tabIndex={-1}>
+              <TableCell style={{textTransform:"capitalize",fontWeight:500}}>{user.firstname} {user.surname}</TableCell>
+              <TableCell style={{fontWeight:500}}>{user.username}</TableCell>
+              <TableCell align='center' style={{fontWeight:500}}>{user.department}</TableCell>
+              <TableCell align='center' style={{fontWeight:500}}>{user.jobtitle}</TableCell>
+              <TableCell align='center' style={{fontWeight:500,color:user.status==="Active"?"green":user.status==="Pending"?"orange":user.status==="Inactive"?"red":""}}>
+               {user.status} 
+               {user.status==="Active"?(
+                 <StyledBadge sx={{ml:1}} overlap="circular"  variant="dot"></StyledBadge>
+               ):null}
+               </TableCell>
+              <TableCell align='center' style={{fontWeight:500}}>
+              <Box sx={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center',visibility:user.status==="Active"||user.status==="Inactive"? "hidden":"visible" }}>
+               <Button id="Approve" onClick={()=>{handleManagerList.handleClicktoApprove(user,"Active")}} sx={{ flexGrow: 1, marginRight: '8px' }} variant="contained" color="adminapprove" style={{ borderRadius: "7px", minWidth: "50%", textTransform: "capitalize", color: "white", fontWeight: 600 }}>Approve</Button>
+               <Button id="Reject" onClick={()=>{handleManagerList.handleReject(user,"Inactive")}} variant="contained" color="adminreject" style={{ borderRadius: "7px", minWidth: "50%", textTransform: "capitalize", color: "white", fontWeight: 600 }}>Reject</Button>
+              </Box>
               </TableCell>
-             <TableCell align='center' style={{fontWeight:500}}>
-             <Box sx={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center',visibility:user.status==="Active"||user.status==="Disabled"? "hidden":"visible" }}>
-              <Button id="Approve" onClick={()=>{handleManagerList.handleClicktoApprove(user,"Active")}} sx={{ flexGrow: 1, marginRight: '8px' }} variant="contained" color="adminapprove" style={{ borderRadius: "7px", minWidth: "50%", textTransform: "capitalize", color: "white", fontWeight: 600 }}>Approve</Button>
-              <Button id="Reject" onClick={()=>{handleManagerList.handleReject(user,"Disabled")}} variant="contained" color="adminreject" style={{ borderRadius: "7px", minWidth: "50%", textTransform: "capitalize", color: "white", fontWeight: 600 }}>Reject</Button>
-             </Box>
-             </TableCell>
-           </TableRow>
+            </TableRow>
+           ):(null)
          ))}
        </TableBody>
         </Table>
       </TableContainer>
       <TablePagination
-          rowsPerPageOptions={[5, 10, 25]}
+          rowsPerPageOptions={[5, 10, 25, { label: 'All', value: -1 }]}
           component="div"
-          count={state.alluser?.length || 0}
-          rowsPerPage={state.alluser?.length || 0}
+          count={state.allmanageradmin?.length || 0}
+          rowsPerPage={rowsPerPage}
           page={page}
           onPageChange={handleChangePage}
           onRowsPerPageChange={handleChangeRowsPerPage}

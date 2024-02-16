@@ -11,6 +11,8 @@ import PersonAddIcon from '@mui/icons-material/PersonAdd';
 import TableUserList from "@/components/TableUserList/TableUserList";
 import TableUserPending from "@/components/TableUserList/UserPending";
 import { StateContext } from '@/context/Context';
+import Backdrop from '@/components/backdrop/backdrop'
+import EditUser from '@/components/DialogUser/page';
 
 function Userlist() {
     const { state, setState } = useContext(StateContext);
@@ -26,7 +28,9 @@ function Userlist() {
 
 
     return (
-        <Box sx={{ width: '100%', height: 'auto' }}>
+        <>
+        <Box sx={{ width: '100%', height: 'auto',filter: state.dialoguser ? 'blur(4px)' : 'none', pointerEvents: state.dialoguser ? 'none' : 'auto' }}>
+            <Backdrop />
             <Navbar />
             <Box sx={{ padding: '30px' }}>
             <Box sx={{ width: '100%', height: '90px', borderRadius: '12px 12px 0px 0px', border: 'solid 1px #C2CCE1', display: 'flex', alignItems: 'center', px: '30px' }}>
@@ -36,7 +40,7 @@ function Userlist() {
                     </Badge>
                 </Box>
                 <Box onClick={handlepending} sx={{cursor:"pointer", ml:2,height: '30px', display: 'flex', alignItems: 'center' }}>
-                  <Badge badgeContent={state.allmanageradmin.filter(item => item.status === "Pending").length} color="error">
+                  <Badge badgeContent={state && state.allmanageradmin ? state.allmanageradmin.filter(item => item.status === "Pending").length:0} color="error">
                     <Box sx={{ p:2,background: value===2?'#285449':'#D9EEE6', color: value===2?'#fff':'#285449', fontWeight: '600', borderRadius: '10px', }}><PersonAddIcon /> USER PENDING</Box>
                   </Badge>
                 </Box>
@@ -44,6 +48,10 @@ function Userlist() {
             {value===1?(<TableUserList />):(<TableUserPending/>)}
             </Box>
         </Box >
+        <Box className={open ? 'editUserVisible' : 'editUserHidden'} > 
+         <EditUser />
+        </Box>
+        </>
 
     )
 }
