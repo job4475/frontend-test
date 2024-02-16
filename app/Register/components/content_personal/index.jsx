@@ -56,7 +56,6 @@ function Index() {
                 <Box>{item.form_title}</Box>
                 <Box sx={{ ml: marginLeftValue }}>
                   <FormControl variant="standard" sx={{ m: 1, minWidth: 220 }}>
-                    {item.form_title === "Title" ? (
                       <Box sx={{ width: 202 }}>
                         <Select name="titleselect" value={state.titleselect} onChange={HandleChangeTitle} sx={{ width: '110%' }}>
                           <MenuItem value="Miss.">Miss.</MenuItem>
@@ -64,9 +63,6 @@ function Index() {
                           <MenuItem value="Ms.">Mr.</MenuItem>
                         </Select>
                       </Box>
-                    ) : (
-                      <Input name={item.form_title.toLowerCase().replace(' ', '_')} onChange={HandleChange}></Input>
-                    )}
                   </FormControl>
                 </Box>
               </Box>
