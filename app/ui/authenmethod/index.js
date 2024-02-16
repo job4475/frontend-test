@@ -130,7 +130,7 @@ function SelectVerify() {
         </Box>
       </Box>
       <Box sx={{ display: 'flex', justifyContent: 'center' }}>
-        <Button onClick={handlenext} variant="contained" sx={{ transition: 'transform 0.3s ease', '&:hover': { transform: 'scale(1.03)', }, }} style={{ background: '#84BAA1', width: '90%', height: '44px', textTransform: 'capitalize', marginTop: 10, boxShadow: '0px 0px 0px', borderRadius: '8px', fontWeight: '600' }}> {state.loading ? <Loading /> : "Next"}</Button>
+        <Button onClick={handlenext} variant="contained" sx={{ transition: 'transform 0.3s ease', '&:hover': { transform: 'scale(1.03)', }, }} style={{ background: state.loading ? '#e5e5e5' : '#84BAA1' , width: '100%', height: '44px', textTransform: 'capitalize', marginTop: 10, boxShadow: '0px 0px 0px', borderRadius: '8px', fontWeight: '600', cursor: state.loading ? 'not-allowed' : 'pointer',  }} disabled={state.loading}> {state.loading ? <Loading /> : "Next"}</Button>
       </Box>
     </Box>
   )
