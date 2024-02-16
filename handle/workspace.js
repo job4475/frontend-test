@@ -11,7 +11,7 @@ function workspace() {
 
     const handleToUserlist = () => {
 
-        fetch('${process.env.NEXT_PUBLIC_API_ENDPOINT_GET}${process.env.NEXT_PUBLIC_API_PORT_LOGIN?`:${process.env.NEXT_PUBLIC_API_PORT_LOGIN}`:""}/api/admin/getAllMembers/c8122e61-6bc3-46af-82ed-3a4d5ae9560a')
+        fetch(`${process.env.NEXT_PUBLIC_API_ENDPOINT_GET}${process.env.NEXT_PUBLIC_API_PORT_LOGIN?`:${process.env.NEXT_PUBLIC_API_PORT_LOGIN}`:""}/api/admin/getAllMembers/c8122e61-6bc3-46af-82ed-3a4d5ae9560a`)
             .then((response) => response.json())
             .then((result) => {
                 if (result.status === 'OK') {
