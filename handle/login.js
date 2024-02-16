@@ -121,8 +121,6 @@ function Login() {
       console.error('Error fetching data:', error);
     }
   };
-  
-
   const ForgotPassword = () => {
     setState({ ...state, backdrop: true });
     setTimeout(() => {

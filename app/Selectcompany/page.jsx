@@ -18,16 +18,7 @@ const Page = () => {
       setState((prevData) => ({ ...prevData, backdrop: false }));
     }, 1000);
     window.location.href = "/CreateCompany"
-  }
-
-//   useEffect(() => {
-//     const timer = setTimeout(() => { setState({ ...state, showContent: true }); }, 1000);
-//     return () => {
-//         clearTimeout(timer);
-//         setState({ ...state, showContent: false });
-//     };
-// }, []);
-
+  } 
   return (
     <div
       className="h-screen"
