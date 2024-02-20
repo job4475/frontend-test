@@ -26,7 +26,8 @@ export const StateProvider = ({children}) => {
     periodDays:"",periodHours:"",opensTime:"",loading:false,allorder:[],viewfile:false,viewRecipient:false,allleadorder:[],pageloader:false,alert:false,alert_text:"",alert_type:"",
     confirmlink:'',latitude:'',longitude:'',selectedImage:null,countries:["Thailand"],data:[],companyID:'',referenceID:'',logoImage:'',memberAuthorization:[],dragover:false,sumsize:0,size_progress:0,
     sumsize_original:0,leadAuthorization:[],memberfeature:[],securedoc:false,open:false,resetpassword:false,registerSuccess:false,qrcodeurl:'',status:'',error:false,qrcode:"",phoneNumber:'',
-    passwordStrength:'',confirmpassword:"",passwordsMatch:'',backdrop:false,webSite:'',messageBody:"",timer:0,showContent:false,department:[],departmentname:'',departmentid:'',jobtitle:[],jobtitlename:'',jobtitlenid:'',userdata:[]
+    passwordStrength:'',confirmpassword:"",passwordsMatch:'',backdrop:false,webSite:'',messageBody:"",timer:0,showContent:false,department:[],departmentname:'',departmentid:'',jobtitle:[],jobtitlename:'',jobtitlenid:'',userdata:[],
+    checktoken:false
     });
     console.log("🚀 ~ StateProvider ~ state:", state)
     return (

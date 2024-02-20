@@ -47,7 +47,7 @@ const Page = () => {
             <Box sx={{ transition: 'transform 0.3s ease', '&:hover': { transform: 'scale(1.03)' } }}>
               {state.logoImage ? (
                 <Image
-                  src={state.logoImage }
+                  src={state.logoImage?state.logoImage:"" }
                   alt="logo"
                   width={90}
                   height={90}
