@@ -1,3 +1,4 @@
+"use client" 
 import { Box, Button, Dialog } from '@mui/material'
 import Image from 'next/image';
 import React, { useContext } from 'react'
@@ -54,7 +55,7 @@ function Dialog1() {
                 <Image src={Checked} alt='Checked' width={100}></Image>
               </Box>
               <Box sx={{ width: '100%', height: '50%', background: '#ffffff', borderBottomLeftRadius: '10px', borderBottomRightRadius: '10px', display: 'flex', justifyContent: 'center', alignItems: 'center', flexDirection: 'column', px: '45px', rowGap: '10px' }}>
-                <h1 style={{ fontSize: '22px', fontWeight: '700' }}>Reset Password successfuliy</h1>
+                <h1 style={{ fontSize: '22px', fontWeight: '700' }}>Reset Password successfully</h1>
                 <p style={{ fontSize: '14px', textAlign: 'center' }}>Password reset successful. You can now sign in using your new password.</p>
                 <Button variant='outline' onClick={resetpassword} sx={{ border: 'solid 1px #CECECE', borderRadius: '30px', px: '70px', py: '8px' }} style={{ color: '#CECECE', fontWeight: '400' }}>Close</Button>
               </Box>
@@ -67,7 +68,7 @@ function Dialog1() {
                 <Image src={Checked} alt='Message' width={100}></Image>
               </Box>
               <Box sx={{ width: '100%', height: '50%', background: '#ffffff', borderBottomLeftRadius: '10px', borderBottomRightRadius: '10px', display: 'flex', justifyContent: 'center', alignItems: 'center', flexDirection: 'column', px: '45px', rowGap: '10px' }}>
-                <h1 style={{ fontSize: '22px', fontWeight: '700' }}>Success</h1>
+                <h1 style={{ fontSize: '22px', fontWeight: '700' }}>Successfully</h1>
                 <p style={{ fontSize: '14px', textAlign: 'center' }}>Please check your email  to proceed</p>
                 <Button variant='outline' onClick={registerSuccess} sx={{ border: 'solid 1px #CECECE', borderRadius: '30px', px: '70px', py: '8px' }} style={{ color: '#CECECE', fontWeight: '400' }}>Close</Button>
               </Box>

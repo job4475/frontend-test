@@ -1,16 +1,29 @@
 'use client'
 import { Box, Button, Grid, IconButton, MenuItem, Select, TextField, Typography } from '@mui/material'
-import React, { useContext } from 'react'
+import React, { useContext, useEffect } from 'react'
 import Image from 'next/image'
 import Subtract from '@/assets/assets/images/Subtract.png'
 import Arrow from '@mui/icons-material/NorthRounded';
 import { StateContext } from '@/context/Context';
 import handlecompany from "@/handle/addcompany"
 import AddAPhotoIcon from '@mui/icons-material/AddAPhoto';
+import { useRouter } from 'next/navigation'
 
 function Page() {
   const { state, setState } = useContext(StateContext);
   const Handlecompany = handlecompany();
+  const router = useRouter();
+  const urlParams = new URLSearchParams(window.location.search);
+  const emailParam = urlParams.get('email');
+  console.log("🚀 ~ Page ~ emailParam:", emailParam)
+  useEffect(() => {
+    const urlParams = new URLSearchParams(window.location.search);
+    const emailParam = urlParams.get('email');
+    if(emailParam){
+      setState({ ...state, email: emailParam });
+    }
+
+  }, []);
   const handleFileChange = (event) => {
     const file = event.target.files[0];
     if (file) {
@@ -21,13 +34,16 @@ function Page() {
       reader.readAsDataURL(file);
     }
   };
+  const handleInput = (event) => {
+    event.target.value = event.target.value.replace(/\D/, '');
+  };
   return (
     <Box sx={{ display: 'flex', flexDirection: 'column', justifyContent: 'space-between', alignItems: 'flex-start', p: 3, }}>
       <Box >
         <Box sx={{ display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
           <Image src={Subtract} alt="logo" style={{ width: "80px" }} />
           <Box sx={{ pl: 3 }}>
-            <Box sx={{ fontWeight: '800', fontSize: '18px' }}>Hello good morning {state.email} <br></br>Welcome to ChicCRM registration process now you are in</Box>
+            <Box sx={{  fontSize: '18px' }}>Hello good morning <b>{state.emailconfirm?state.emailconfirm: state.email}</b> <br></br>Welcome to ChicCRM registration process now you are in</Box>
             <Box sx={{ fontSize: '13px' }}>After complete all infomation you will received email your password</Box>
           </Box>
         </Box>
@@ -120,7 +136,7 @@ function Page() {
                 </Box>
                 <Box sx={{ display: 'flex', alignItems: 'center' }}>
                   <Box sx={{ pt: 1.5, width: '150px', color: '#1F2939', fontWeight: '500' }}>Phone Number</Box>
-                  <TextField id="standard-basic" variant="standard" value={state.phoneNumber} onChange={Handlecompany.phoneNumber} sx={{ width: "250px" }} />
+                  <TextField id="standard-basic" variant="standard" inputProps={{ maxLength: 10, inputMode: 'numeric' }} value={state.phoneNumber} onChange={Handlecompany.phoneNumber} sx={{ width: "250px" }} />
                 </Box>
                 <Box sx={{ display: 'flex', alignItems: 'center' }}>
                   <Box sx={{ pt: 1.5, width: '150px', color: '#1F2939', fontWeight: '500' }}>Google Maps</Box>

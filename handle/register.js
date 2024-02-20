@@ -4,6 +4,7 @@ import { useRouter } from 'next/navigation';
 import { useContext } from 'react'
 
 function Register() {
+
             const {state, setState} = useContext(StateContext);
             const router = useRouter();
             const handleRegister = () => {
@@ -32,10 +33,9 @@ function Register() {
               "address_no": state.no?state.no:state.datacompanylc.AddressNo,
               "job_title": state.jobtitlename,
               "department":state.departmentname,
-              "role": "user",
+              "role": state.datacompanylc.AdminExists ? "user" : "admin",
               "Website": `https://${state.webSite}`,
             });
-
             const requestOptions = {
               method: 'POST',
               headers: myHeaders,
@@ -53,7 +53,6 @@ function Register() {
                   console.log(result);
                   if (result.status === "OK") {
                     setState((prevData) => ({ ...prevData, companyID: result.companyID,loading: false,alert: false }));
-                    
             const formdata = new FormData();
             formdata.append("file",  state.selectedFile);
             formdata.append("organizeID", result.companyID);
@@ -81,17 +80,30 @@ function Register() {
       }
     })
     .catch(error => console.log('error', error));
-};
-  const Selectcompany = () => {
-    router.back()
-  }
-  const  handlechangeTitle =(e)=>{
-    setState((prevData) => ({ ...prevData, titleselect: e.target.value }))
-  }
-  const  handlechangeinput =(e, fieldName)=>{
-    setState((prevData) => ({ ...prevData, [fieldName]: e.target.value }));
-}
-  return {handlechangeTitle,handlechangeinput,Selectcompany,handleRegister};
-}
-export default Register
+      };
+            const Selectcompany = () => {
+              router.back()
+            }
+            const  handlechangeTitle =(e)=>{
+              setState((prevData) => ({ ...prevData, titleselect: e.target.value }))
+            }
+            const  handlechangeinput =(e, fieldName)=>{
+              setState((prevData) => ({ ...prevData, [fieldName]: e.target.value }));
+          }
+          const  first_name =(e)=>{
+            e.target.value = e.target.value.replace(/[^a-zA-Z]/g, '');
+            setState((prevData) => ({ ...prevData, first_name: e.target.value }))
+          }
+          const  last_name =(e)=>{
+            e.target.value = e.target.value.replace(/[^a-zA-Z]/g, '');
+            setState((prevData) => ({ ...prevData, last_name: e.target.value }))
+          }
+          const  phone_number =(e)=>{
+            e.target.value = e.target.value.replace(/\D/g, '');
+            setState((prevData) => ({ ...prevData, phone_number: e.target.value }))
+            
+          }
+            return {handlechangeTitle,handlechangeinput,Selectcompany,handleRegister,first_name,last_name,phone_number};
+          }
+          export default Register
 

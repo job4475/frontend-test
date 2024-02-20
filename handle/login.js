@@ -37,6 +37,7 @@ function Login() {
         setState((prevData) => ({ ...prevData,loading: false }));
         if (result.status === "OK") {
           const decodedToken = JSON.parse(atob(result.token.split('.')[1]));
+          console.log("🚀 ~ handleSignInClick ~ decodedToken:", decodedToken)
           localStorage.setItem("decode_token", JSON.stringify(decodedToken));
           localStorage.setItem("token", result.token);
           setState({ ...state, decode_token: decodedToken,token:result.token });
@@ -78,11 +79,6 @@ function Login() {
         localStorage.setItem("datacompanylc", JSON.stringify(result.data));
         localStorage.setItem("useremail", state.email);
         setState((prevData) => ({ ...prevData, datacompanylc: result.data, loading: false }));
-        setTimeout(() => {
-           getbinary();
-        }, 5000);
-        
-  
         router.push('/Selectcompany');
       } else if (result.message === 'domain does not match. To proceed, please check your email') {
         setState({ ...state, open: true });
@@ -121,8 +117,6 @@ function Login() {
       console.error('Error fetching data:', error);
     }
   };
-  
-
   const ForgotPassword = () => {
     setState({ ...state, backdrop: true });
     setTimeout(() => {
@@ -138,18 +132,7 @@ function Login() {
   const Password = (e) => {
     setState({ ...state, password: e.target.value });
   };
-  const getbinary = () =>{
-    
-      fetch(`${process.env.NEXT_PUBLIC_API_ENDPOINT_GET}${process.env.NEXT_PUBLIC_API_PORT_LOGIN ? `:${process.env.NEXT_PUBLIC_API_PORT_LOGIN}` : ''}/api/getLogoBinary/${state.datacompanylc?.CompanyID}`,)
-          .then(response => response.blob())
-          .then(blob => {
-              const imageUrl = URL.createObjectURL(blob);
-              localStorage.setItem("logoImage", imageUrl);
-              setState((prevData) => ({ ...prevData, logoImage: imageUrl, loading: false }));
-          })
-          .catch(error => console.error("Error fetching binary data:", error));
-          
-  }
+
 
 
   return { handleTogglePassword, handleSignInClick, handleSignUpClick, ForgotPassword, Email, Password };

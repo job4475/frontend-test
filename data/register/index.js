@@ -15,7 +15,6 @@ export const data_register = [
         req_confirm:"Confirm Information",
     }
 ]
-
 export const input_data = [
     {
             form_title:"Title",
@@ -29,6 +28,4 @@ export const input_data = [
     {
             form_title:"Phone number",
     },
-   
-   
 ]

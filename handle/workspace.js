@@ -5,11 +5,11 @@ import { useContext } from 'react';
 
 function workspace() {
 
-    const {state,setState} = useContext(StateContext);
+    const { state, setState } = useContext(StateContext);
 
-        const router = useRouter();
+    const router = useRouter();
 
-        const handleToUserlist = () => {
+    const handleToUserlist = () => {
 
             const myHeaders = new Headers();
             myHeaders.append("Authorization", `Bearer ${state.token}`);
@@ -34,17 +34,14 @@ function workspace() {
             router.push('/Userlist')
         }
 
-        const handleclicklogout = () => {
-            localStorage.removeItem("ally-supports-cache")
-            localStorage.removeItem("decode_token")
-            localStorage.removeItem("loginTime")
-            window.location.href = "/"
-        }
-
-
-
-
-        return { handleToUserlist, handleclicklogout }
+    const handleclicklogout = () => {
+        localStorage.removeItem("ally-supports-cache")
+        localStorage.removeItem("decode_token")
+        localStorage.removeItem("loginTime")
+        window.location.href = "/"
     }
+
+    return { handleToUserlist, handleclicklogout }
+}
 
 export default workspace
