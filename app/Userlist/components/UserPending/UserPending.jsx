@@ -81,7 +81,7 @@ export default function StickyHeadTable() {
             </TableRow>
           </TableHead>
           <TableBody>
-         {state.allmanageradmin?.map((user,index) => (
+         {Array.isArray(state.allmanageradmin) ?state.allmanageradmin?.map((user,index) => (
            user.status === "Pending" ? (
             <TableRow key={`${index}`} hover role="checkbox" tabIndex={-1}>
               <TableCell style={{textTransform:"capitalize",fontWeight:500}}>{user.firstname} {user.surname}</TableCell>
@@ -102,7 +102,7 @@ export default function StickyHeadTable() {
               </TableCell>
             </TableRow>
            ):(null)
-         ))}
+         )):null}
        </TableBody>
         </Table>
       </TableContainer>

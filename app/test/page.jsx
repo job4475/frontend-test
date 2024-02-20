@@ -1,94 +1,161 @@
-"use client" 
-import { Box, Button, Dialog } from '@mui/material'
-import Image from 'next/image';
-import React, { useContext } from 'react'
+import { Box, Button, Skeleton, TextField, Typography } from '@mui/material';
+import React, { useContext, useEffect, useState } from 'react';
+import IconButton from '@mui/material/IconButton';
+import VisibilityIcon from '@mui/icons-material/Visibility';
+import VisibilityOffIcon from '@mui/icons-material/VisibilityOff';
 import { StateContext } from '@/context/Context';
-import MessageFill from '@/assets/assets/images/MessageFill.png'
-import Checked from '@/assets/assets/images/checked.png'
-import Error from '@/assets/assets/images/cross.png'
-import { useCookies } from 'react-cookie';
+import handleresetpassword from '@/handle/ResetPassword'
+import updatePassword from '@/handle/validatepassword'
+import Dialog from '@/components/dialog/dialog'
+import Loading from '@/components/loading'
+import { useRouter } from 'next/navigation';
 
-function Dialog1() {
+function Index() {
   const { state, setState } = useContext(StateContext);
-  const [cookies, removeCookie] = useCookies(['token']); 
-  const handleClose = () => {
-    localStorage.removeItem("ally-supports-cache")
-    localStorage.removeItem("decode_token")
-    localStorage.removeItem("loginTime")
-    localStorage.removeItem("datacompanylc")
-    removeCookie('token',{path: '/'});
-    setState({...state,open: false})
+  const router = useRouter();
+  const [showPassword, setShowPassword] = useState(false);
+  const HandleResetPassword = handleresetpassword();
+  const updatePasswordFunc = updatePassword();
+  const tokenParam = typeof window !== 'undefined' ? new URLSearchParams(window.location.search).get('token') : null;
+  console.log("🚀 ~ Index ~ tokenParam:", tokenParam)
+  const decodedToken = tokenParam ? JSON.parse(atob(tokenParam.split('.')[1])) : null;
+  const expirationTime = decodedToken.exp;
+  const currentTime = Math.floor(Date.now() / 1000);
 
-  };
-  const resetpassword = () => {
-    setState({...state,resetpassword: false})
-    window.location.href="/"
-  };
-  const registerSuccess = () => {
-    setState({...state,registerSuccess: false})
-    window.location.href="/"
+  // useEffect(() => {
+  //   if (tokenParam) {
+  //     setState((prevData) => ({
+  //       ...prevData,
+  //       confirmlink: tokenParam,
+  //       confirmlink_decode: decodedToken,
+  //       email: decodedToken.username,
+  //     }));
+  //     setState((prevData) => ({
+  //       ...prevData,
+  //       confirmlink: tokenParam,
+  //       confirmlink_decode: decodedToken,
+  //       email: decodedToken.username,
+  //     }));
+  //   }
+  // }, [tokenParam]);
+    const confirmPassword = (e) => {
+      setState({ ...state, confirmPassword: e.target.value });
+    };
+    const handleTogglePassword = () => {
+      setShowPassword(!showPassword);
+    };
+    const Confirm = () => {
+      setShowPassword(!showPassword);
+    };
+    const isPasswordValid = () => {
+      const hasMinLength = state.password.length >= 8;
+      const hasUpperCase = /[A-Z]/.test(state.password);
+      const hasLowerCase = /[a-z]/.test(state.password);
+      const hasNumber = /\d/.test(state.password);
+      return hasMinLength && hasUpperCase && hasLowerCase && hasNumber;
+    };
+    const handlePasswordChange = (e) => {
+      setState({ ...state, password: e.target.value });
+      updatePasswordFunc(state.password);
+    };
+    if (expirationTime < currentTime) {
+      router.push('/Login')
+    } else {
+      setState({ ...state, checktoken: true });
+    }
     
-  };
-  const error = () => {
-    setState({...state,error: false})
-    
-  };
-  return (
+    return (
     <Box>
-      {/* check you email */}
-        <Dialog open={state.open} onClose={handleClose} PaperProps={{ style: { borderRadius: '15px' } }}>
-            <Box sx={{ width: '430px', height: '480px', display: 'flex', justifyContent: 'center', alignItems: 'center', flexDirection: 'column' }}>
-              <Box sx={{ width: '100%', height: '50%', background: '#87CEFA', display: 'flex', justifyContent: 'center', alignItems: 'center' }}>
-                <Image src={MessageFill} alt='Message' width={100}></Image>
-              </Box>
-              <Box sx={{ width: '100%', height: '50%', background: '#ffffff', borderBottomLeftRadius: '10px', borderBottomRightRadius: '10px', display: 'flex', justifyContent: 'center', alignItems: 'center', flexDirection: 'column', px: '45px', rowGap: '10px' }}>
-                <h1 style={{ fontSize: '22px', fontWeight: '700' }}>Email Verification</h1>
-                <p style={{ fontSize: '14px', textAlign: 'center' }}>A verification link has been sent to your email. Please check and click on the link to verify.</p>
-                <Button variant='outline' onClick={handleClose} sx={{ border: 'solid 1px #CECECE', borderRadius: '30px', px: '70px', py: '8px' }} style={{ color: '#CECECE', fontWeight: '400' }}>Close</Button>
-              </Box>
+      <Box p={3} sx={{ display: 'flex', flexDirection: 'column', width: '400px', height: '500px', borderRadius: "15px", marginLeft: 'auto', marginRight: 5, marginTop: 1, boxShadow: '0px 0px 10px rgba(0, 0, 0, 0.1)', justifyContent: 'space-between' }}>
+        <Box>
+        {state.checktoken ? (
+          <Box style={{color: '#1F2939', fontSize: 20, fontWeight: '600',ml:'auto',mr:'auto'}}>Reset your password here</Box>
+          ) : (<Skeleton variant="rectangular" width={300} height={25} style={{ borderRadius: '6px' }} />)}
+          <Box sx={{ display: 'flex', flexDirection: 'column', justifyContent: 'center', alignItems: 'center', marginTop: 2 }}>
+          {state.checktoken ? (
+            <TextField  label="New Password"variant="standard"type={showPassword ? 'text' : 'password'}value={state.password} onChange={handlePasswordChange} sx={{ width: '90%' }}
+              InputProps={{endAdornment: (<IconButton onClick={handleTogglePassword}  edge="end">{showPassword ? <VisibilityIcon /> : <VisibilityOffIcon />}</IconButton>),}}/>
+              ) : (<Skeleton variant="rectangular" width={350} height={55} style={{ borderRadius: '6px' }} />)}
+              {state.checktoken ? (
+           <TextField label="Confirm Password" value={state.confirmPassword}variant="standard"type={showPassword ? 'text' : 'password'}onChange={confirmPassword}sx={{ width: '90%' }}InputProps={{endAdornment: (<IconButton onClick={Confirm} edge="end">
+              {showPassword ? <VisibilityIcon /> : <VisibilityOffIcon />}</IconButton>),}}/>
+               ) : (<Skeleton variant="rectangular" width={350} height={55} style={{ borderRadius: '6px' }}sx={{marginTop:1}} />)}
+          </Box>
+          {state.checktoken ? (
+          <Box sx={{display:'flex',mt:"18px",width:'90%',ml:'auto',mr:'auto'}}>
+                <Box sx={{bgcolor: (state.passwordStrength === "Very Weak" || state.passwordStrength === "Weak" || state.passwordStrength === "Medium"
+                || state.passwordStrength === "Strong"|| state.passwordStrength === "Very Strong") ? '#2AB930' : '#E8E8E8',width:'20%',height:'5px',mr:"2px"}}></Box>
+                <Box sx={{bgcolor: ( state.passwordStrength === "Weak" || state.passwordStrength === "Medium"
+                || state.passwordStrength === "Strong"|| state.passwordStrength === "Very Strong") ? '#2AB930' : '#E8E8E8',width:'20%',height:'5px',mr:"2px"}}></Box>
+                <Box sx={{bgcolor: ( state.passwordStrength === "Medium" || state.passwordStrength === "Strong"|| state.passwordStrength === "Very Strong") ? '#2AB930' : '#E8E8E8',width:'20%',height:'5px',mr:"2px"}}></Box>
+                <Box sx={{bgcolor: ( state.passwordStrength === "Strong"|| state.passwordStrength === "Very Strong") ? '#2AB930' : '#E8E8E8',width:'20%',height:'5px',mr:"2px"}}></Box>
+                <Box sx={{bgcolor: ( state.passwordStrength === "Very Strong") ? '#2AB930' : '#E8E8E8',width:'20%',height:'5px',mr:"2px"}}></Box>
+                </Box>
+                 ) : (<Skeleton variant="rectangular" width={300} height={10} style={{ borderRadius: '6px' }} sx={{marginTop:3}} />)}
+                <Box sx={{textAlign:'right' ,fontSize:13,justifyContent:'center',mr:2}}>{state.passwordStrength}</Box>
+                <Box>
+              <Box direction="column"justifyContent="flex-start" alignItems="flex-start" sx={{ width: "90%", mt:4,mr:'auto'}} >
+              {state.checktoken ? (
+            <Box sx={{ display: "flex",justifyContent: "flex-start",alignItems: "center", gap: 1, width: 300, height: 26,}}>
+              <Box sx={{width: 15,height: 15,borderRadius: 9999, border: "1px #E4E7EB solid",background: state.password.length >= 8 ? '#2AB930' : '#ffffff' }}/>
+              <Typography variant="body2" color="#828895" >
+                Contain at least 8 characters.
+              </Typography>
             </Box>
-          </Dialog>
-        {/* resetpassword Success */}
-          <Dialog open={state.resetpassword} onClose={resetpassword} PaperProps={{ style: { borderRadius: '15px' } }}>
-            <Box sx={{ width: '430px', height: '480px', display: 'flex', justifyContent: 'center', alignItems: 'center', flexDirection: 'column' }}>
-              <Box sx={{ width: '100%', height: '50%', background: '#32C38D', display: 'flex', justifyContent: 'center', alignItems: 'center' }}>
-                <Image src={Checked} alt='Checked' width={100}></Image>
-              </Box>
-              <Box sx={{ width: '100%', height: '50%', background: '#ffffff', borderBottomLeftRadius: '10px', borderBottomRightRadius: '10px', display: 'flex', justifyContent: 'center', alignItems: 'center', flexDirection: 'column', px: '45px', rowGap: '10px' }}>
-                <h1 style={{ fontSize: '22px', fontWeight: '700' }}>Reset Password successfully</h1>
-                <p style={{ fontSize: '14px', textAlign: 'center' }}>Password reset successful. You can now sign in using your new password.</p>
-                <Button variant='outline' onClick={resetpassword} sx={{ border: 'solid 1px #CECECE', borderRadius: '30px', px: '70px', py: '8px' }} style={{ color: '#CECECE', fontWeight: '400' }}>Close</Button>
-              </Box>
+             ) : (<Skeleton variant="rectangular" width={300} height={20} style={{ borderRadius: '6px' }}   />)}
+             {state.checktoken ? (
+            <Box
+              sx={{display: "flex",justifyContent: "flex-start", alignItems: "center", gap: 1, width: 320, height: 26, }}>
+              <Box sx={{ width: 15, height: 15, borderRadius: 9999, border: "1px #E4E7EB solid",background: /[A-Z]/.test(state.password) ? '#2AB930' : '#ffffff'}}/>
+              <Typography variant="body2" color="#828895">
+                Contains at least one <span style={{textTransform:'uppercase'}}> uppercase </span> letter.
+              </Typography>
             </Box>
-          </Dialog>
-          {/* register Success */}
-          <Dialog open={state.registerSuccess} onClose={registerSuccess} PaperProps={{ style: { borderRadius: '15px' } }}>
-            <Box sx={{ width: '430px', height: '480px', display: 'flex', justifyContent: 'center', alignItems: 'center', flexDirection: 'column' }}>
-              <Box sx={{ width: '100%', height: '50%', background: '#6BCB77', display: 'flex', justifyContent: 'center', alignItems: 'center' }}>
-                <Image src={Checked} alt='Message' width={100}></Image>
-              </Box>
-              <Box sx={{ width: '100%', height: '50%', background: '#ffffff', borderBottomLeftRadius: '10px', borderBottomRightRadius: '10px', display: 'flex', justifyContent: 'center', alignItems: 'center', flexDirection: 'column', px: '45px', rowGap: '10px' }}>
-                <h1 style={{ fontSize: '22px', fontWeight: '700' }}>Successfully</h1>
-                <p style={{ fontSize: '14px', textAlign: 'center' }}>Please check your email  to proceed</p>
-                <Button variant='outline' onClick={registerSuccess} sx={{ border: 'solid 1px #CECECE', borderRadius: '30px', px: '70px', py: '8px' }} style={{ color: '#CECECE', fontWeight: '400' }}>Close</Button>
-              </Box>
+             ) : (<Skeleton variant="rectangular" width={325} height={20} style={{ borderRadius: '6px' }} sx={{marginTop:1}} />)}
+             {state.checktoken ? (
+            <Box
+              sx={{ display: "flex", justifyContent: "flex-start",alignItems: "center",gap: 1, width: 321,height: 26,}} >
+              <Box sx={{width: 15,height: 15,borderRadius: 9999,border: "1px #E4E7EB solid",background: /[a-z]/.test(state.password) ? '#2AB930' : '#ffffff'}}/>
+              <Typography variant="body2" color="#828895">
+                Contains at least one lowercase letter.
+              </Typography>
             </Box>
-          </Dialog>
-        {/* error */}
-          <Dialog open={state.error} onClose={error} PaperProps={{ style: { borderRadius: '15px' } }}>
-            <Box sx={{ width: '430px', height: '480px', display: 'flex', justifyContent: 'center', alignItems: 'center', flexDirection: 'column' }}>
-              <Box sx={{ width: '100%', height: '50%', background: '#FF6B6B', display: 'flex', justifyContent: 'center', alignItems: 'center' }}>
-                <Image src={Error} alt='Message' width={100}></Image>
-              </Box>
-              <Box sx={{ width: '100%', height: '50%', background: '#ffffff', borderBottomLeftRadius: '10px', borderBottomRightRadius: '10px', display: 'flex', justifyContent: 'center', alignItems: 'center', flexDirection: 'column', px: '45px', rowGap: '10px' }}>
-                <h1 style={{ fontSize: '22px', fontWeight: '700' }}>{state.status}</h1>
-                <p style={{ fontSize: '14px', textAlign: 'center',textTransform:'capitalize' }}>{state.message}</p>
-                <Button variant='outline' onClick={error} sx={{ border: 'solid 1px #CECECE', borderRadius: '30px', px: '70px', py: '8px' }} style={{ color: '#CECECE', fontWeight: '400' }}>Close</Button>
-              </Box>
+             ) : (<Skeleton variant="rectangular" width={315} height={20} style={{ borderRadius: '6px' }} sx={{marginTop:1}} />)}
+             {state.checktoken ? (
+            <Box sx={{display: "flex",justifyContent: "flex-start",alignItems: "center",gap: 1,width: 300,height: 26,}}>
+              <Box sx={{width: 15,height: 15,borderRadius: 9999,border: "1px #E4E7EB solid",background: state.password.length >= 8 && /\d/.test(state.password) ? '#2AB930' : '#ffffff'}}/>
+              <Typography variant="body2" color="#828895">
+                Contain at one number.
+              </Typography>
             </Box>
-          </Dialog>
-    </Box>
-  )
-}
+             ) : (<Skeleton variant="rectangular" width={280} height={20} style={{ borderRadius: '6px'  }} sx={{marginTop:1}} />)}
+             {state.checktoken ? (
+            <Box sx={{display: "flex",justifyContent: "flex-start",alignItems: "center",gap: 1,width: 300,height: 26,}}>
+              <Box sx={{width: 15,height: 15,borderRadius: 9999,border: "1px #E4E7EB solid", background: (state.password === state.confirmPassword) ? '#2AB930' : '#ffffff' }}/>
+              <Typography variant="body2" color="#828895">
+                Password must contain an.
+              </Typography>
+            </Box>
+             ) : (<Skeleton variant="rectangular" width={290} height={20} style={{ borderRadius: '6px' }} sx={{marginTop:1}} />)}
+      </Box>
+          </Box>
+          </Box>
+          {state.checktoken ? (
+          <Box sx={{ display: 'flex', justifyContent: 'center', alignItems: 'center' }}>
+          <Button
+            variant="contained"
+            onClick={HandleResetPassword.Confirm}
+            sx={{ background: '#84BAA1', transition: 'transform 0.3s ease','&:hover': {background: '#84BAA1', transform: 'scale(1.03)',},}}
+            style={{width: '90%',height: '44px',textTransform: 'capitalize',marginTop: 10,boxShadow: '0px 0px 0px',borderRadius: '8px',
+              fontWeight: '600',cursor: state.loading ? 'not-allowed' : 'pointer',}}disabled={!isPasswordValid() || state.password !== state.confirmPassword}>
+            {state.loading ? <Loading /> : "Reset password"}
+          </Button>
+          {state.resetpassword?<Dialog/>:""}
+      </Box>
+       ) : (<Skeleton variant="rectangular" width={350} height={55} style={{ borderRadius: '6px' }} />)}
+        </Box>
+      </Box>
+    );
+  }
 
-export default Dialog1
+  export default Index;
