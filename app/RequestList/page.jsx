@@ -35,7 +35,6 @@ function Page() {
       <Navbar />
       <Title />
       <TableList />
-      {/* <BtNewReq/> */}
     </Box>
   );
 }

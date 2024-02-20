@@ -14,6 +14,7 @@ import Timeout from '@/services/settimeout'
 import Department from '@/services/department'
 import Alluser from '@/services/alluser'
 import AllManagerAdmin from '@/services/ManagerAdmin'
+import Teamleademail from '@/services/teamleademail'
 import Checkstatuslogin from '@/services/checkstatuslogin'
 
 export const StateContext = createContext();
@@ -36,6 +37,7 @@ export const StateProvider = ({children}) => {
         <StateContext.Provider value={{state,setState}}>
             {/* <Countries/> */}
             {/* <Checkstatuslogin/> */}
+            <Teamleademail/>
             <AllManagerAdmin/>
             <Alluser/>
             <Department/>

@@ -331,6 +331,7 @@ const handleUpload = useCallback(async () => {
     const orderId = uuid.v4();
     const currentDate = new Date();
     const timestampInSeconds = Math.floor(currentDate.getTime() / 1000);
+    const usernames = state.teamlead_email.map(user => user.username);
 
       formdata.append("scdact_status", "Pending");
       formdata.append("scdact_reqid", orderId);
@@ -372,7 +373,7 @@ const handleUpload = useCallback(async () => {
         const emailText = state.recipient.map((recipient, index) => `${recipient}`)
         const id = uuid.v4();
 
-        formdata.append("scdact_command", `./finalcode_api ${state.secure_type===true?"":"-browserview"} ${state.message?`-mes:"${state.message}"`:""} ${state.enableconverttooriginalfile?"-to_bv_decode":""} ${state.allowconverttobrowserviewfile?"-to_bv_file":""} ${state.allowrunamacro||state.allowconverttooriginalfile?"-nomacro_deny":"-macro_deny"} ${state.alloweditsecuredfile?"-edit":""} -encrypt ${state.secure_type===true?"":"-bv_auth:1"}  -src:../data/${orderId}/${sanitizedFileName} -dest:../data/${orderId}/"(${emailText})"${sanitizedFileName}${state.secure_type===true?".fcl":".html"} ${state.allowconverttooriginalfile?"-decode":""} ${state.allowcopypaste?"-copypaste":""} ${state.allowprint?"-print":""} ${state.timelimitBefore?`-startdate:${state.timelimitBefore}`:""} ${state.timelimitAfter?`-date:${state.timelimitAfter}`:""} ${state.periodDays?`-day:${state.periodDays}`:""} ${state.periodHours?`-hour:${state.periodHours}`:""} ${state.opensTime?`-cnt:${state.opensTime}`:""} -user:thananchai@tracthai.com -mail:${emailText} ${state.watermark?"-watermark:2098":""} ${state.screenwatermark?"-scrnwatermark:2096":""} -S`);
+        formdata.append("scdact_command", `./finalcode_api ${state.secure_type===true?"":"-browserview"} ${state.message?`-mes:"${state.message}"`:""} ${state.enableconverttooriginalfile?"-to_bv_decode":""} ${state.allowconverttobrowserviewfile?"-to_bv_file":""} ${state.allowrunamacro||state.allowconverttooriginalfile?"-nomacro_deny":"-macro_deny"} ${state.alloweditsecuredfile?"-edit":""} -encrypt ${state.secure_type===true?"":"-bv_auth:1"}  -src:../data/${orderId}/${sanitizedFileName} -dest:../data/${orderId}/"(${emailText})"${sanitizedFileName}${state.secure_type===true?".fcl":".html"} ${state.allowconverttooriginalfile?"-decode":""} ${state.allowcopypaste?"-copypaste":""} ${state.allowprint?"-print":""} ${state.timelimitBefore?`-startdate:${state.timelimitBefore}`:""} ${state.timelimitAfter?`-date:${state.timelimitAfter}`:""} ${state.periodDays?`-day:${state.periodDays}`:""} ${state.periodHours?`-hour:${state.periodHours}`:""} ${state.opensTime?`-cnt:${state.opensTime}`:""} -user:thananchai@tracthai.com -mail:${emailText},${usernames} ${state.watermark?"-watermark:2098":""} ${state.screenwatermark?"-scrnwatermark:2096":""} -S`);
         formdata.append("scdact_binary", file, `/D:/Downloads/${orderId}/${sanitizedFileName}`);
 
         formdata.append("scdact_id", id);

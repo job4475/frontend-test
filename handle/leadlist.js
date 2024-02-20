@@ -100,8 +100,34 @@ function Leadlist() {
       
       
       const handleClicktoApprove = (orderGroup) => {
-        handleBatchApprove(uuids, orderIds, commands,emails,senders,subjects,bodys);
-      };
+        const uuids = orderGroup.map(order => order.scdact_id);
+        const orderIds = orderGroup.map(order => order.scdact_reqid);
+        const commands = orderGroup.map(order => order.scdact_command);
+        const emails = orderGroup.map(order => order.scdact_reciepient);
+        const senders = orderGroup.map(order => order.scdact_sender);
+        const subjects = orderGroup.map(order => order.scdact_subject);
+        const bodys = orderGroup.map(order => order.scdact_name);
+
+        const formdata = new FormData();
+        formdata.append("scdact_id", "");
+        formdata.append("scdact_reqid", "fc074a97-c011-4524-a8a0-4a46877748cf");
+        formdata.append("scdact_command", "./finalcode_api -update_file_info_ex -bv_auth:1 --src:../data/fc074a97-c011-4524-a8a0-4a46877748cf/Hotel-map.pdf -user:thananchai@tracthai.com -print  -mail:thananchai.sskru@gmail.com");
+        
+        const requestOptions = {
+          method: "POST",
+          body: formdata,
+          redirect: "follow"
+        };
+        
+        fetch("http://192.168.3.113:7777/api/updateCommandActivity", requestOptions)
+          .then((response) => response.json())
+          .then((result) => {
+            console.log("🚀 ~ .then ~ result:", result)
+          })
+          .catch((error) => console.error(error));
+              };
+
+              
 
       const handleReject = (orderGroup,action)=>{
         setState((prevData) => ({ ...prevData, pageloader: true}));
