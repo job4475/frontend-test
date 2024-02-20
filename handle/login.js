@@ -39,7 +39,8 @@ function Login() {
           const decodedToken = JSON.parse(atob(result.token.split('.')[1]));
           console.log("🚀 ~ handleSignInClick ~ decodedToken:", decodedToken)
           localStorage.setItem("decode_token", JSON.stringify(decodedToken));
-          setState({ ...state, decode_token: decodedToken });
+          localStorage.setItem("token", result.token);
+          setState({ ...state, decode_token: decodedToken,token:result.token });
           router.push('/Mfa')
         } else {
           setState((prevData) => ({ ...prevData, alert: true, alert_text: result.message, alert_type: "error" }));

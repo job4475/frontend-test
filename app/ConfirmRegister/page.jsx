@@ -11,7 +11,7 @@ function Page() {
 
   return (
     <Box sx={{background: `linear-gradient(108deg, #84BAA1 0%, #FFFBE2 100%), #F7FAFB`,display:"flex",height:"100vh"}}>
-      <Box sx={{display:"flex",alignItems:"center",justifyContent:"space-around",p:5,width:"85%",height:"100vh",background:"#fff",borderRadius:"0px 14px 14px 0px"}}>
+      {/* <Box sx={{display:"flex",alignItems:"center",justifyContent:"space-around",p:5,width:"85%",height:"100vh",background:"#fff",borderRadius:"0px 14px 14px 0px"}}>
        <Box>
         <ContentAccount/>
         <ContentCompany/>
@@ -21,7 +21,7 @@ function Page() {
        <Box>
         <Location/>
        </Box>
-      </Box>
+      </Box> */}
     </Box>
   )
 }

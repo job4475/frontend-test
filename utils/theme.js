@@ -22,14 +22,23 @@ const theme = createTheme({
     btncolor: {
       main: "#84BAA1",
     },
+    featurebt: {
+      main: "#DAEBE3",
+    },
     pending: {
       main: "#0062FF",
     },
     approve: {
       main: "#00E700",
     },
+    adminapprove: {
+      main: "#84BAA1",
+    },
     reject: {
       main: "#FF0000",
+    },
+    adminreject: {
+      main: "#E9563D",
     },
   },
   typography: {

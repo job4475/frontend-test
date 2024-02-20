@@ -97,9 +97,109 @@ function Leadlist() {
       
         return acc;
       }, []);
+
+      const handleBatchApprove = async (uuids,  orderIds, commands,emails,senders,subjects,bodys) => {
+        setState((prevData) => ({ ...prevData, pageloader: true}));
+
+        const blobArray = [];
+        const requestOptions = {
+          method: 'GET',
+          responseType: 'blob',
+          redirect: 'follow'
+        };
       
+        // Fetch files sequentially
+        for (const uuid of uuids) {
+          try {
+            const response = await fetch(`${process.env.NEXT_PUBLIC_API_ENDPOINT}:${process.env.NEXT_PUBLIC_API_PORT}/api/requestFile/${uuid}`, requestOptions);
+            if (response.ok) {
+              const blob = await response.blob();
+              blobArray.push(blob);
+            } else {
+              console.log(`Error fetching file for uuid: ${uuid}, Status: ${response.status}`);
+            }
+          } catch (error) {
+            console.log('Error:', error);
+          }
+        }
+      
+        // Create FormData
+        const formdata = new FormData();
+        formdata.append("order_id", orderIds[0]);
+      
+        // Append files to FormData
+        blobArray.forEach((blob, index) => {
+          const filenameMatch = commands[index].match(/-src:([^ ]+)/);
+          const fullPath = filenameMatch[1];
+          const filename = fullPath.split('/').pop();
+      
+          formdata.append("cmd", commands[index]);
+          formdata.append("file", blob, `/D:/Downloads/${filename}`);
+        });
+      
+        // Make the log request after all files have been fetched
+        const logRequestOptions = {
+          method: 'POST',
+          body: formdata,
+          redirect: 'follow'
+        };
+      
+        try {
+          const logResponse = await fetch(`${process.env.NEXT_PUBLIC_API_ENDPOINT}:${process.env.NEXT_PUBLIC_API_PORT}/api/fileEncrypt`, logRequestOptions);
+          const logResult = await logResponse.json();
+      
+          if (logResult.status === 'OK') {
+            console.log("🚀 ~ handleBatchApprove ~ logResult:", logResult)
+            const formdataSendmail = new FormData();
+            formdataSendmail.append("order_id", orderIds[0]);
+            formdataSendmail.append("action", "Approve");
+            formdataSendmail.append("email", emails[0]);
+            formdataSendmail.append("sender", senders[0]);
+            formdataSendmail.append("subject", subjects[0]);
+            formdataSendmail.append("body", bodys[0]);
+            
+            const requestOptionsSendmail = {
+              method: 'POST',
+              body: formdataSendmail,
+              redirect: 'follow'
+            };
+            
+            fetch(`${process.env.NEXT_PUBLIC_API_ENDPOINT}:${process.env.NEXT_PUBLIC_API_PORT}/api/reustDoc`, requestOptionsSendmail)
+              .then(response => response.json())
+              .then(result => {
+                if(result.status === "OK"){
+                  setState((prevData) => ({ ...prevData, alert: true, pageloader: false, alert_text: "Operation successfully", alert_type: "success" }));
+                  setTimeout(() => {
+                    window.location.reload();
+                  }, 3000);
+                }else{
+                  setState((prevData) => ({ ...prevData, alert: true, loading: false, alert_text: "Operation failed", alert_type: "error" }));
+                  setTimeout(() => {
+                    window.location.reload();
+                  }, 3000);
+                }
+              })
+              .catch(error => console.log('error', error));
+          } else {
+            setState((prevData) => ({ ...prevData, loading: false, alert: true, alert_text: logResult.message.Finalcode_result, alert_type: "error" }));
+            setTimeout(() => {
+              window.location.reload();
+            }, 3000);
+          }
+        } catch (logError) {
+          console.log('Error sending log request:', logError);
+        }
+      };
       
       const handleClicktoApprove = (orderGroup) => {
+        const uuids = orderGroup.map(order => order.scdact_id);
+        const orderIds = orderGroup.map(order => order.scdact_reqid);
+        const commands = orderGroup.map(order => order.scdact_command);
+        const emails = orderGroup.map(order => order.scdact_reciepient);
+        const senders = orderGroup.map(order => order.scdact_sender);
+        const subjects = orderGroup.map(order => order.scdact_subject);
+        const bodys = orderGroup.map(order => order.scdact_name);
+      
         handleBatchApprove(uuids, orderIds, commands,emails,senders,subjects,bodys);
       };
 
