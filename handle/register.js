@@ -4,7 +4,6 @@ import { useRouter } from 'next/navigation';
 import { useContext } from 'react'
 
 function Register() {
-
             const {state, setState} = useContext(StateContext);
             const router = useRouter();
             const handleRegister = () => {
@@ -26,7 +25,7 @@ function Register() {
               "create_location": state.googlemaps?state.googlemaps:state.datacompanylc.Geolocation,
               "url_logo": "unknow",
               "company_name_en": state.companyname?state.companyname:state.datacompanylc.Companyname,
-              "company_mobile": state.phone_number?state.phone_number:state.datacompanylc.CompanyPhone,
+              "company_mobile": state.phoneNumber?state.phoneNumber:state.datacompanylc.CompanyPhone,
               "company_alias": state.alias?state.alias:state.datacompanylc.CompanyAlias,
               "company_geolo": state.googlemaps?state.googlemaps:state.datacompanylc.Geolocation,
               "address1_en": state.street?state.street:state.datacompanylc.Address1En,
