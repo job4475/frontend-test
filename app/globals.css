@@ -4,6 +4,7 @@
 @import url('https://fonts.googleapis.com/css2?family=Montserrat&display=swap');
 @import url('https://fonts.googleapis.com/css2?family=Dancing+Script:wght@400..700&display=swap');
 
+
 :root {
   --headertext: #1F2939;
   --text: #778296;
@@ -153,6 +154,7 @@ a:hover {
 }
 #cellheader{
   color: #778296;
+<<<<<<< HEAD
 }
 
 /* Page.css */
@@ -168,3 +170,6 @@ a:hover {
   visibility: hidden;
   transition: opacity 5s ease, visibility 5s ease;
 }
+=======
+}
+>>>>>>> 2445b4c25c9740aad78c192d3e1df0de11ef3594
