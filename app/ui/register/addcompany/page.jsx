@@ -13,9 +13,7 @@ function Page() {
   const { state, setState } = useContext(StateContext);
   const Handlecompany = handlecompany();
   const router = useRouter();
-  const urlParams = new URLSearchParams(window.location.search);
-  const emailParam = urlParams.get('email');
-  console.log("🚀 ~ Page ~ emailParam:", emailParam)
+
   useEffect(() => {
     const urlParams = new URLSearchParams(window.location.search);
     const emailParam = urlParams.get('email');

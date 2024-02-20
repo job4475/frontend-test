@@ -27,21 +27,13 @@ function Addcompany() {
   const Country = (e) => {
     setState({...state,country: e.target.value,});
   };
-  
-  
   const handleProvinceChange = (event) => {
     const selectedProvince = event.target.value;
     setState(prev => ({ ...prev, selectedProvince }));
     const amphoesData = state.data.dataResponse.provinceAmphoeTambonZipcode
       .filter(item => item.ProvinceEng === selectedProvince)
       .map(item => item.DistrictEng);
-    setState(prev => ({
-      ...prev,
-      amphures: Array.from(new Set(amphoesData)).sort(),
-      selectedAmphoe: '',
-      selectedTambon: '',
-      zipcode: ''
-    }));
+    setState(prev => ({...prev,amphures: Array.from(new Set(amphoesData)).sort(),selectedAmphoe: '',selectedTambon: '',zipcode: ''}));
   };
   const handleAmphoeChange = (event) => {
     const selectedAmphoe = event.target.value;
@@ -49,12 +41,7 @@ function Addcompany() {
     const tambonsData = state.data.dataResponse.provinceAmphoeTambonZipcode
       .filter(item => item.DistrictEng === selectedAmphoe)
       .map(item => item.TambonEng);
-    setState(prev => ({
-      ...prev,
-      tambons: Array.from(new Set(tambonsData)).sort(),
-      selectedTambon: '',
-      zipcode: ''
-    }));
+    setState(prev => ({...prev,tambons: Array.from(new Set(tambonsData)).sort(),selectedTambon: '',zipcode: ''}));
   };
   const handleTambonChange = (event) => {
     const selectedTambon = event.target.value;
