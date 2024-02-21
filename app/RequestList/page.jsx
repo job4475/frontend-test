@@ -10,7 +10,7 @@ import Backdrop from '@/components/backdrop/backdrop'
 import {useEffect} from "react";
 
 function Page() {
-  const {state} = React.useContext(StateContext);
+  const {state,setState} = React.useContext(StateContext);
 
   React.useEffect(() => {
     const handleBeforeUnload = (event) => {
