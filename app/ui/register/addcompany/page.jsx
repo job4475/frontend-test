@@ -57,7 +57,7 @@ function Page() {
               <input accept='image/*' style={{ display: 'none' }} id='raised-button-file' type='file' onChange={handleFileChange} />
               <label htmlFor='raised-button-file'>
                 {state.selectedImage ? (
-                  <img src={state.selectedImage} alt='Selected' style={{ width: '80px', height: '80px', borderRadius: '100%' }} />
+                  <img src={state.selectedImage} alt='Selected' style={{ width: '100px', height: '100px', borderRadius: '100%' }} />
                 ) : (
                   <IconButton sx={{ color: '#1F2939' }} component='span'>
                     <AddAPhotoIcon />
