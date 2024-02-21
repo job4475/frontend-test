@@ -1,5 +1,5 @@
 import { data_register } from '@/data/register'
-import { Box, Radio, Skeleton } from '@mui/material'
+import { Box, Checkbox, Radio, Skeleton } from '@mui/material'
 import Image from 'next/image'
 import React, { useContext } from 'react'
 import website from '@/assets/assets/images/register/website.png'
@@ -82,7 +82,9 @@ function Index() {
           <Box sx={{ display: "flex", alignItems: "center", mt: 2 }}>
             {state.logoImage ? (
               <Box sx={{ display: "flex", alignItems: "center" }}>
-                <Radio style={{ color: "#84BAA1" }} value="male" />
+                <Checkbox
+                
+                  style={{ color: "#84BAA1" }} value="male" />
                 <Box>{data_register[0].req_edit}</Box>
               </Box>
             ) : (<Skeleton variant="rectangular" width={600} height={25} style={{ borderRadius: '6px' }} />)}

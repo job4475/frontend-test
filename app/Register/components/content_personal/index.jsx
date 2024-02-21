@@ -75,7 +75,7 @@ function Index() {
                     Department
                     <Box sx={{ ml: 1 }}>
                       <FormControl variant="standard" sx={{ minWidth: 220 }}>
-                        <Select name="additionalSelect1" value={state.additionalSelect1} onChange={changedepartment} sx={{ width: '100%' }}>
+                        <Select name="additionalSelect1" value={state.additionalSelect1 || ''}  onChange={changedepartment} sx={{ width: '100%' }}>
                           {state.department && state.department.dataResponse && state.department.dataResponse.department_list.map(department => (
                             <MenuItem key={department.id} value={department.id}>
                               {department.department}
@@ -122,7 +122,7 @@ function Index() {
                     Jobtitle
                     <Box sx={{ ml: 10.5 }}>
                       <FormControl variant="standard" sx={{ minWidth: 220 }}>
-                        <Select name="additionalSelect2" value={state.additionalSelect2} onChange={changejobtitle} sx={{ width: '100%' }}>
+                        <Select name="additionalSelect2" value={state.additionalSelect2 || ''} onChange={changejobtitle} sx={{ width: '100%' }}>
                           {state.jobtitle && state.jobtitle.dataResponse && state.jobtitle.dataResponse.jobtitle_list.map(jobtitle => (
                             <MenuItem key={jobtitle.id} value={jobtitle.id}>
                               {jobtitle.jobtitle}
