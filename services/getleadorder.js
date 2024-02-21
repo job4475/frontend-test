@@ -36,7 +36,9 @@ function Token() {
     const {state, setState} = useContext(StateContext);
 
     useEffect(() => {
-      const socket = new WebSocket('ws://192.168.3.113:7777/ws');
+      const apiEndpoint = process.env.NEXT_PUBLIC_API_ENDPOINT_LOGIN;
+      const apiPortLogin = process.env.NEXT_PUBLIC_API_PORT_LOGIN || "";
+      const socket = new WebSocket(`ws://${apiEndpoint}:${apiPortLogin}/ws`);
   
       socket.onopen = () => {
         console.log('WebSocket connection opened');
