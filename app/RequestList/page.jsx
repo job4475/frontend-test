@@ -7,6 +7,7 @@ import TableList from './components/table'
 import GetLeadOrder from '@/services/getleadorder'
 import { StateContext } from '@/context/Context';
 import Backdrop from '@/components/backdrop/backdrop'
+import {useEffect} from "react";
 
 function Page() {
   const {state} = React.useContext(StateContext);
@@ -27,6 +28,10 @@ function Page() {
     };
 
   }, [state.pageloader]);
+
+    useEffect(() => {
+        setState((prevData) => ({ ...prevData, backdrop: false}));
+    }, [])
 
   return (
     <Box style={{ filter: state.pageloader ? 'blur(4px)' : 'none', pointerEvents: state.pageloader ? 'none' : 'auto' }}>
