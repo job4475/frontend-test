@@ -15,7 +15,7 @@ function Page() {
   const router = useRouter();
   const urlParams = new URLSearchParams(window.location.search);
   const emailParam = urlParams.get('email');
-  console.log("🚀 ~ Page ~ emailParam:", emailParam)
+
   useEffect(() => {
     const urlParams = new URLSearchParams(window.location.search);
     const emailParam = urlParams.get('email');
@@ -152,7 +152,8 @@ function Page() {
         </Box>
       </Box>
       <Box sx={{ ml: '45px', mt: '100px', display:'flex',gap:'12px' }}>
-        <Button variant="outlined" color="success" onClick={Handlecompany.Selectcompany} sx={{ transition: 'transform 0.3s ease', '&:hover': { transform: 'scale(1.03)'} }} style={{ textTransform: 'capitalize', width: '100px', height: '50px', color: '#84BAA1', borderRadius: '8px' }}>Back</Button>
+      {!emailParam && (<Button variant="outlined"color="success"onClick={Handlecompany.Selectcompany}sx={{transition: 'transform 0.3s ease','&:hover': { transform: 'scale(1.03)'},}}style={{
+      textTransform: 'capitalize',width: '100px',height: '50px',color: '#84BAA1',borderRadius: '8px',}}>Back</Button>)}
         <Button variant='contained' onClick={Handlecompany.Register} disabled={!state.alias || !state.googlemaps || !state.webSite || !state.phoneNumber || !state.companyname || !state.street || !state.no || !state.country || !state.selectedProvince || !state.selectedAmphoe || !state.selectedTambon || !state.selectedImage} sx={{ transition: 'transform 0.3s ease', '&:hover': { transform: 'scale(1.03)', background: '#84BAA1', boxShadow: '0px 0px 0px' }, gap: '8px', background: '#84BAA1', color: 'white', width: '150px', height: '50px', textTransform: 'capitalize', boxShadow: '0px 0px 0px', borderRadius: '8px', fontWeight: '600' }}>Next
           <Arrow style={{ transform: 'rotate(90deg)' }} />
         </Button>

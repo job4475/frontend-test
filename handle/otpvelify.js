@@ -28,15 +28,6 @@ function Otpvelify() {
     .then(result => console.log(result))
     .catch(error => console.log('error', error));
 }
-        const fetchLogoImage = () => {
-            fetch(`${process.env.NEXT_PUBLIC_API_ENDPOINT_GET}:${process.env.NEXT_PUBLIC_API_PORT_LOGIN}/api/getLogoBinary/${state.decode_token.CompanyID}`)
-                .then(response => response.blob())
-                .then(blob => {
-                    const imageUrl = URL.createObjectURL(blob);
-                    setState((prevData) => ({ ...prevData, logoImage: imageUrl }));
-                })
-                .catch(error => console.error("Error fetching binary data:", error));
-        };
         const workspace = () => {
             setState((prevData) => ({ ...prevData,loading: true, alert: false }));
             
@@ -57,7 +48,7 @@ function Otpvelify() {
                 .then(result => {
                     console.log(result);
                     if (result.status === "OK") {
-                        fetchLogoImage();
+                        
                         migrateDataByOrganize();
                         const expirationDate = new Date(state.decode_token.Exp * 1000);
                         setCookie('token', state.decode_token, { path: '/', expires: expirationDate });
