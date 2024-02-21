@@ -42,8 +42,8 @@ function Page() {
         <Box sx={{ display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
           <Image src={Subtract} alt="logo" style={{ width: "80px" }} />
           <Box sx={{ pl: 3 }}>
-            <Box sx={{  fontSize: '18px' }}>Hello good morning <b>{state.emailconfirm?state.emailconfirm: state.email}</b> <br></br>Welcome to ChicCRM registration process now you are in</Box>
-            <Box sx={{ fontSize: '13px' }}>After complete all infomation you will received email your password</Box>
+            <Box sx={{  fontSize: '15px' }}>Hello good morning <b>{state.emailconfirm?state.emailconfirm: state.email}</b> <br></br>Welcome to ChicCRM registration process now you are in</Box>
+            <Box sx={{ fontSize: '10px' }}>After complete all infomation you will received email your password</Box>
           </Box>
         </Box>
       </Box>
@@ -70,24 +70,24 @@ function Page() {
             <Grid container rowGap={2}>
               <Box sx={{ display: 'flex', flexDirection: 'column', gap: 2, mr: 5 }}>
                 <Box sx={{ display: 'flex', alignItems: 'center' }}>
-                  <Box sx={{ pt: 1.5, width: '100px', color: '#1F2939', fontWeight: '500' }}>Alias</Box>
-                  <TextField id="standard-basic" variant="standard" value={state.alias} onChange={Handlecompany.Alias} sx={{ width: "250px" }} />
+                  <Box sx={{ pt: 1.5, width: '150px', color: '#1F2939', fontWeight: '500' }}>Alias</Box>
+                  <TextField id="standard-basic" variant="standard" value={state.alias} onChange={Handlecompany.Alias} sx={{ width: "200px" }} />
                 </Box>
                 <Box sx={{ display: 'flex', alignItems: 'center' }}>
-                  <Box sx={{ pt: 1.5, width: '100px', color: '#1F2939', fontWeight: '500' }}>Company name</Box>
-                  <TextField id="standard-basic" variant="standard" value={state.companyname} onChange={Handlecompany.Companyname} sx={{ width: "250px" }} />
+                  <Box sx={{ pt: 1.5, width: '150px', color: '#1F2939', fontWeight: '500' }}>Company name</Box>
+                  <TextField id="standard-basic" variant="standard" value={state.companyname} onChange={Handlecompany.Companyname} sx={{ width: "200px" }} />
                 </Box>
                 <Box sx={{ display: 'flex', alignItems: 'center' }}>
-                  <Box sx={{ pt: 1.5, width: '100px', color: '#1F2939', fontWeight: '500' }}>No</Box>
-                  <TextField id="standard-basic" variant="standard" value={state.no} onChange={Handlecompany.No} sx={{ width: "250px" }} />
+                  <Box sx={{ pt: 1.5, width: '150px', color: '#1F2939', fontWeight: '500' }}>No</Box>
+                  <TextField id="standard-basic" variant="standard" value={state.no} onChange={Handlecompany.No} sx={{ width: "200px" }} />
                 </Box>
                 <Box sx={{ display: 'flex', alignItems: 'center' }}>
-                  <Box sx={{ pt: 1.5, width: '100px', color: '#1F2939', fontWeight: '500' }}>Street</Box>
-                  <TextField id="standard-basic" variant="standard" value={state.street} onChange={Handlecompany.Street} sx={{ width: "250px" }} />
+                  <Box sx={{ pt: 1.5, width: '150px', color: '#1F2939', fontWeight: '500' }}>Street</Box>
+                  <TextField id="standard-basic" variant="standard" value={state.street} onChange={Handlecompany.Street} sx={{ width: "200px" }} />
                 </Box>
                 <Box sx={{ display: 'flex', alignItems: 'center' }}>
-                  <Box sx={{ pt: 1.5, width: '100px', color: '#1F2939', fontWeight: '500' }}>Country</Box>
-                  <Select id="standard-basic" variant="standard" value={state.country} onChange={Handlecompany.Country} sx={{ width: "250px" }}>
+                  <Box sx={{ pt: 1.5, width: '150px', color: '#1F2939', fontWeight: '500' }}>Country</Box>
+                  <Select id="standard-basic" variant="standard" value={state.country} onChange={Handlecompany.Country} sx={{ width: "200px" }}>
                     {state.countries.map((country) => (
                       <MenuItem key={country} value={country}>
                         {country}
@@ -96,9 +96,9 @@ function Page() {
                   </Select>
                 </Box>
                 <Box sx={{ display: 'flex', alignItems: 'center' }}>
-                  <Box sx={{ pt: 1.5, width: '100px', color: '#1F2939', fontWeight: '500' }}>Province</Box>
+                  <Box sx={{ pt: 1.5, width: '150px', color: '#1F2939', fontWeight: '500' }}>Province</Box>
                   <Select labelId="province-select" variant="standard" id="province-select" value={state.selectedProvince} label="Province" onChange={Handlecompany.handleProvinceChange}
-                    sx={{ width: "250px" }} size='small'>
+                    sx={{ width: "200px" }} size='small'>
                     {state.provinces?.map((province) => (
                       <MenuItem key={province} value={province}>
                         {province}
@@ -109,7 +109,7 @@ function Page() {
               </Box>
               <Box sx={{ display: 'flex', flexDirection: 'column', gap: 2 }}>
                 <Box sx={{ display: 'flex', alignItems: 'center' }}>
-                  <Box sx={{ pt: 1.5, width: '120px', color: '#1F2939', fontWeight: '500' }}>District</Box>
+                  <Box sx={{ pt: 1.5, width: '150px', color: '#1F2939', fontWeight: '500' }}>District</Box>
                   <Select labelId="amphoe-select-label" variant="standard" id="amphoe-select" value={state.selectedAmphoe} label="Amphoe" onChange={Handlecompany.handleAmphoeChange}
                     sx={{ width: "250px" }} size='small'>
                     {state.selectedProvince && state.amphures?.map((amphoe) => (
@@ -119,7 +119,7 @@ function Page() {
                     ))}
                   </Select></Box>
                 <Box sx={{ display: 'flex', alignItems: 'center' }}>
-                  <Box sx={{ pt: 1.5, width: '120px', color: '#1F2939', fontWeight: '500' }}>Sub-Distric</Box>
+                  <Box sx={{ pt: 1.5, width: '150px', color: '#1F2939', fontWeight: '500' }}>Sub-Distric</Box>
                   <Select labelId="tambon-select-label" variant="standard" id="tambon-select" value={state.selectedTambon} label="Tambon"
                     onChange={Handlecompany.handleTambonChange} sx={{ width: "250px" }} size='small'>
                     {state.selectedAmphoe && state.tambons?.map((tambon) => (
@@ -129,19 +129,19 @@ function Page() {
                     ))}
                   </Select></Box>
                 <Box sx={{ display: 'flex', alignItems: 'center' }}>
-                  <Box sx={{ pt: 1.5, width: '120px', color: '#1F2939', fontWeight: '500' }}>ZIP Code</Box>
+                  <Box sx={{ pt: 1.5, width: '150px', color: '#1F2939', fontWeight: '500' }}>ZIP Code</Box>
                   <TextField variant="standard" size='small' value={state.zipcode} InputProps={{ readOnly: true, }} sx={{ width: "250px" }} />
                 </Box>
                 <Box sx={{ display: 'flex', alignItems: 'center' }}>
-                  <Box sx={{ pt: 1.5, width: '120px', color: '#1F2939', fontWeight: '500' }}>Phone Number</Box>
+                  <Box sx={{ pt: 1.5, width: '150px', color: '#1F2939', fontWeight: '500' }}>Phone Number</Box>
                   <TextField id="standard-basic" variant="standard" inputProps={{ maxLength: 10, inputMode: 'numeric' }} value={state.phoneNumber} onChange={Handlecompany.phoneNumber} sx={{ width: "250px" }} />
                 </Box>
                 <Box sx={{ display: 'flex', alignItems: 'center' }}>
-                  <Box sx={{ pt: 1.5, width: '120px', color: '#1F2939', fontWeight: '500' }}>Google Maps</Box>
+                  <Box sx={{ pt: 1.5, width: '150px', color: '#1F2939', fontWeight: '500' }}>Google Maps</Box>
                   <TextField id="standard-basic" variant="standard" value={state.googlemaps} onChange={Handlecompany.GoogleMaps} sx={{ width: "250px" }} />
                 </Box>
                 <Box sx={{ display: 'flex', alignItems: 'center' }}>
-                  <Box sx={{ pt: 1.5, width: '120px', color: '#1F2939', fontWeight: '500' }}>Website</Box>
+                  <Box sx={{ pt: 1.5, width: '150px', color: '#1F2939', fontWeight: '500' }}>Website</Box>
                   <TextField id="standard-basic" variant="standard" value={state.webSite} onChange={Handlecompany.webSite} sx={{ width: "250px" }} />
                 </Box>
               </Box>
@@ -149,10 +149,10 @@ function Page() {
           </Box>
         </Box>
       </Box>
-      <Box sx={{ ml: '45px', mt: '20px', display:'flex',gap:'12px' }}>
+      <Box sx={{ ml: '45px', mt: '40px', display:'flex',gap:'12px' }}>
       {!emailParam && (<Button variant="outlined"color="success"onClick={Handlecompany.Selectcompany}sx={{transition: 'transform 0.3s ease','&:hover': { transform: 'scale(1.03)'},}}style={{
       textTransform: 'capitalize',width: '100px',height: '50px',color: '#84BAA1',borderRadius: '8px',}}>Back</Button>)}
-        <Button variant='contained' onClick={Handlecompany.Register} disabled={!state.alias || !state.googlemaps || !state.webSite || !state.phoneNumber || !state.companyname || !state.street || !state.no || !state.country || !state.selectedProvince || !state.selectedAmphoe || !state.selectedTambon || !state.selectedImage} sx={{ transition: 'transform 0.3s ease', '&:hover': { transform: 'scale(1.03)', background: '#84BAA1', boxShadow: '0px 0px 0px' }, gap: '8px', background: '#84BAA1', color: 'white', width: '150px', height: '50px', textTransform: 'capitalize', boxShadow: '0px 0px 0px', borderRadius: '8px', fontWeight: '600' }}>Next
+        <Button variant='contained' onClick={Handlecompany.Register} disabled={!state.alias || !state.googlemaps || !state.webSite || !state.phoneNumber || !state.companyname || !state.street || !state.no || !state.country || !state.selectedProvince || !state.selectedAmphoe || !state.selectedTambon || !state.selectedImage} sx={{ transition: 'transform 0.3s ease', '&:hover': { transform: 'scale(1.03)', background: '#84BAA1', boxShadow: '0px 0px 0px' }, gap: '8px', background: '#84BAA1', color: 'white', width: '150px', height: '48px', textTransform: 'capitalize', boxShadow: '0px 0px 0px', borderRadius: '8px', fontWeight: '600' }}>Next
           <Arrow style={{ transform: 'rotate(90deg)' }} />
         </Button>
       </Box>
