@@ -369,11 +369,11 @@ const handleUpload = useCallback(async () => {
 
       for (let i = 0; i < state.selectedFile.length; i++) {
         const file = state.selectedFile[i];
-        const sanitizedFileName = file.name.replace(/\s+/g, '-');
+        const sanitizedFileName = file.name.replace(/[\[\]{}()]/g, '').replace(/\s+/g, '-');
         const emailText = state.recipient.map((recipient, index) => `${recipient}`)
         const id = uuid.v4();
 
-        formdata.append("scdact_command", `./finalcode_api ${state.secure_type===true?"":"-browserview"} ${state.message?`-mes:"${state.message}"`:""} ${state.enableconverttooriginalfile?"-to_bv_decode":""} ${state.allowconverttobrowserviewfile?"-to_bv_file":""} ${state.allowrunamacro||state.allowconverttooriginalfile?"-nomacro_deny":"-macro_deny"} ${state.alloweditsecuredfile?"-edit":""} -encrypt ${state.secure_type===true?"":"-bv_auth:1"}  -src:../data/${orderId}/${sanitizedFileName} -dest:../data/${orderId}/"(${emailText})"${sanitizedFileName}${state.secure_type===true?".fcl":".html"} ${state.allowconverttooriginalfile?"-decode":""} ${state.allowcopypaste?"-copypaste":""} ${state.allowprint?"-print":""} ${state.timelimitBefore?`-startdate:${state.timelimitBefore}`:""} ${state.timelimitAfter?`-date:${state.timelimitAfter}`:""} ${state.periodDays?`-day:${state.periodDays}`:""} ${state.periodHours?`-hour:${state.periodHours}`:""} ${state.opensTime?`-cnt:${state.opensTime}`:""} -user:thananchai@tracthai.com -mail:${emailText},${usernames} ${state.watermark?"-watermark:2098":""} ${state.screenwatermark?"-scrnwatermark:2096":""} -S`);
+        formdata.append("scdact_command", `./finalcode_api ${state.secure_type===true?"":"-browserview"} ${state.message?`-mes:"${state.message}"`:""} ${state.enableconverttooriginalfile?"-to_bv_decode":""} ${state.allowconverttobrowserviewfile?"-to_bv_file":""} ${state.allowrunamacro||state.allowconverttooriginalfile?"-nomacro_deny":"-macro_deny"} ${state.alloweditsecuredfile?"-edit":""} -encrypt ${state.secure_type===true?"":"-bv_auth:1"}  -src:../data/${orderId}/${sanitizedFileName} -dest:../data/${orderId}/"(${emailText})"${sanitizedFileName}${state.secure_type===true?".fcl":".html"} ${state.allowconverttooriginalfile?"-decode":""} ${state.allowcopypaste?"-copypaste":""} ${state.allowprint?"-print":""} ${state.timelimitBefore?`-startdate:${state.timelimitBefore}`:""} ${state.timelimitAfter?`-date:${state.timelimitAfter}`:""} ${state.periodDays?`-day:${state.periodDays}`:""} ${state.periodHours?`-hour:${state.periodHours}`:""} ${state.opensTime?`-cnt:${state.opensTime}`:""} -user:thananchai@tracthai.com -mail:${emailText},${usernames} ${state.watermark?"-watermark:2098":""} ${state.screenwatermark?"-scrnwatermark:2096":""} -S -D`);
         formdata.append("scdact_binary", file, `/D:/Downloads/${orderId}/${sanitizedFileName}`);
 
         formdata.append("scdact_id", id);
@@ -393,7 +393,7 @@ const handleUpload = useCallback(async () => {
 
         if (xhr.status === 200) {
           const result = JSON.parse(xhr.responseText);
-          if (result.Status === "OK") {
+          if (result.status === "OK") {
               setState((prevData) => ({ ...prevData, titleselect:"",input_last_name:"",input_email:"",input_role:"",
               input_firstName:"",input_phone:"",input_jobtitle:"",email:'',Password:'',Alias:'',Province:'',Companyname:'',District:''
               ,No:'',SubDistric:'',Street:'',ZIPCode:'',Country:'',GoogleMaps:'',Newpassword:'',recipient:[],input_recip:"",subject:"",message:"",secure_type:false,selectedFileName:[],
@@ -471,12 +471,14 @@ const handleUpload = useCallback(async () => {
     let selectedFileNames = state.selectedFileName; // Assuming multiple files can be selected
 
   let fileSources = selectedFileNames.map((fileName) => {
-    let filetype = fileName ? fileName.split('.')[1] : '';
-    if (filetype.length > 5) {
-      filetype = filetype.slice(0, 2) + '..';
+    let fileTypeMatch = fileName.match(/\.([^.]+)$/);
+    let fileType = fileTypeMatch ? fileTypeMatch[1].toLowerCase() : '';
+    if (fileType.length > 5) {
+      fileType = fileType.slice(0, 2) + '..';
     }
+
     let src;
-    switch (filetype) {
+    switch (fileType) {
       case 'pdf':
         src = pdf;
         break;

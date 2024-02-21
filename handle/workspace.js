@@ -10,7 +10,7 @@ function workspace() {
     const router = useRouter();
 
     const handleToUserlist = () => {
-
+            setState({ ...state, backdrop: true });
             const myHeaders = new Headers();
             myHeaders.append("Authorization", `Bearer ${state.token}`);
             
@@ -28,10 +28,10 @@ function workspace() {
               .then((response) => response.json())
               .then((result) => 
               {
-                setState((prevData) => ({ ...prevData, allmanageradmin: result }));
+                    setState((prevData) => ({ ...prevData, allmanageradmin: result,backdrop: false }));
+                    router.push('/Userlist')
               })
               .catch((error) => console.error(error));
-            router.push('/Userlist')
         }
 
     const handleclicklogout = () => {
