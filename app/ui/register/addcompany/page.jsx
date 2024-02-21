@@ -13,20 +13,17 @@ function Page() {
   const { state, setState } = useContext(StateContext);
   const Handlecompany = handlecompany();
   const router = useRouter();
-  if (typeof window !== 'undefined') {
-    // คุณสามารถใช้ window ได้ในที่นี้
-    const urlParams = new URLSearchParams(window.location.search);
+  const urlParams = typeof window !== 'undefined' ? new URLSearchParams(window.location.search) : null;
+  const emailParam = urlParams.get('email');
+
+  useEffect(() => {
+    const urlParams = typeof window !== 'undefined' ? new URLSearchParams(window.location.search) : null;
     const emailParam = urlParams.get('email');
+    if(emailParam){
+      setState({ ...state, email: emailParam });
+    }
 
-    useEffect(() => {
-      const urlParams = new URLSearchParams(window.location.search);
-      const emailParam = urlParams.get('email');
-      if(emailParam){
-        setState({ ...state, email: emailParam });
-      }
-    }, []);
-  }
-
+  }, []);
   const handleFileChange = (event) => {
     const file = event.target.files[0];
     if (file) {
