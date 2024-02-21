@@ -6,7 +6,7 @@ function Token() {
     const {state, setState} = useContext(StateContext);
 
     useEffect(() => {
-      const apiEndpoint = process.env.NEXT_PUBLIC_API_ENDPOINT_LOGIN;
+      const apiEndpoint = process.env.NEXT_PUBLIC_API_ENDPOINT_WS;
       const apiPortLogin = process.env.NEXT_PUBLIC_API_PORT_LOGIN || "";
       const socket = new WebSocket(`ws://${apiEndpoint}:${apiPortLogin}/ws`);
   
