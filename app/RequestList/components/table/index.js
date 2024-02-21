@@ -91,7 +91,7 @@ function Index() {
                            row[0].scdact_status !== 'Rejected' ? 
                            handleLeadList.handleClicktoGetFile(row[0].scdact_id[itemIndex]) 
                            : 
-                           handleLeadList.handleClicktoGetFile(row[itemIndex].scdact_id)} 
+                           ''}
                          key={`button-${itemIndex}`} 
                          style={{ textTransform: 'none', display: 'flex', justifyContent: 'space-between', width: '100%' }}>
                          <Box sx={{ pr: 1 }}>{item}</Box>
@@ -108,9 +108,9 @@ function Index() {
                            itemIndex < row[0].scdact_id.length && 
                            row[0].scdact_status !== 'Approved' && 
                            row[0].scdact_status !== 'Rejected' ? 
-                           handleLeadList.handleClicktoGetFile(row[0].scdact_id[itemIndex]) 
+                           handleLeadList.handleClicktoGetFile(row[0].scdact_id[itemIndex])
                            : 
-                           handleLeadList.handleClicktoGetFile(row[itemIndex].scdact_id)} 
+                           ''}
                          key={`button-${itemIndex}`} 
                          style={{ textTransform: 'none', display: 'flex', justifyContent: 'space-between', width: '100%' }}>
                          <Box sx={{ pr: 1 }}>{Array.isArray(row[0].scdact_filename) ? row[0].scdact_filename[itemIndex] : item.scdact_filename}</Box>
