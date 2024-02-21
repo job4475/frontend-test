@@ -8,7 +8,7 @@ function Token() {
     useEffect(() => {
       const apiEndpoint = process.env.NEXT_PUBLIC_API_ENDPOINT_WS;
       const apiPortLogin = process.env.NEXT_PUBLIC_API_PORT_LOGIN || "";
-      const socket = new WebSocket(`ws://${apiEndpoint}:${apiPortLogin}/ws`);
+      const socket = new WebSocket(`wss://${apiEndpoint}:${apiPortLogin}/ws`);
   
       socket.onopen = () => {
         console.log('WebSocket connection opened');
