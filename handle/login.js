@@ -37,7 +37,6 @@ function Login() {
         setState((prevData) => ({ ...prevData,loading: false }));
         if (result.status === "OK") {
           const decodedToken = JSON.parse(atob(result.token.split('.')[1]));
-          console.log("🚀 ~ handleSignInClick ~ decodedToken:", decodedToken)
           localStorage.setItem("decode_token", JSON.stringify(decodedToken));
           localStorage.setItem("token", result.token);
           setState({ ...state, decode_token: decodedToken,token:result.token });
