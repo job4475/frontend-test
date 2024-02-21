@@ -29,13 +29,13 @@ function Page() {
 
   }, [state.pageloader]);
 
-    useEffect(() => {
-        setState((prevData) => ({ ...prevData, backdrop: false}));
-    }, [])
+    // useEffect(() => {
+    //     setState((prevData) => ({ ...prevData, backdrop: false}));
+    // }, [])
 
   return (
     <Box style={{ filter: state.pageloader ? 'blur(4px)' : 'none', pointerEvents: state.pageloader ? 'none' : 'auto' }}>
-      <Backdrop />
+      {/*<Backdrop />*/}
       <GetLeadOrder/>
       <Navbar />
       <Title />
