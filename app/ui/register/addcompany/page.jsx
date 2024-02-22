@@ -64,9 +64,9 @@ function Page() {
           <Box sx={{ ml: 5, display: 'flex' }}>
             <Grid container rowGap={2}>
               <Box sx={{ display: 'flex', flexDirection: 'column', gap: 2, mr: 5 }}>
-                <Box sx={{ display: 'flex', alignItems: 'center' }}>
+                <Box sx={{ display: 'flex', alignItems: 'center'  }}>
                   <Box sx={{ pt: 1.5, width: '150px', color: '#1F2939', fontWeight: '500',fontSize:"13px"  }}>Alias</Box>
-                  <TextField id="standard-basic" variant="standard" value={state.alias} onChange={Handlecompany.Alias} sx={{ width: "200px" }} />
+                  <TextField id="standard-basic" variant="standard"  value={state.alias} onChange={Handlecompany.Alias} sx={{ width: "200px" }} />
                 </Box>
                 <Box sx={{ display: 'flex', alignItems: 'center' }}>
                   <Box sx={{ pt: 1.5, width: '150px', color: '#1F2939', fontWeight: '500',fontSize:"13px"  }}>Company name</Box>

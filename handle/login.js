@@ -76,6 +76,7 @@ function Login() {
   
       if (result.match === true) {
         localStorage.setItem("datacompanylc", JSON.stringify(result.data));
+        localStorage.setItem("decode_token", JSON.stringify(result.data));
         localStorage.setItem("useremail", state.email);
         setState((prevData) => ({ ...prevData, datacompanylc: result.data, loading: false }));
         router.push('/Selectcompany');
