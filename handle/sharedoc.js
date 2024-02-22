@@ -402,6 +402,7 @@ const handleUpload = useCallback(async () => {
               periodDays:"",periodHours:"",opensTime:"",loading:false,messageBody:"",watermark:false,screenwatermark:false}));
               // window.location.href = '/RequestLisU'
               router.push('/RequestLisU');
+              AletToEmail(orderId)
 
           } else {
           }
@@ -416,26 +417,37 @@ const handleUpload = useCallback(async () => {
     }
   }, [state, setState]);
 
+  const getCurrentDateTime = () => {
+    const now = new Date();
+    const formattedDate = `${now.getDate()}/${now.getMonth() + 1}/${now.getFullYear() + 543} ${String(now.getHours()).padStart(2, '0')}:${String(now.getMinutes()).padStart(2, '0')}:${String(now.getSeconds()).padStart(2, '0')}`;
+    return formattedDate;
+};
 
-  const AletToEmail = ()=>{
+
+  const AletToEmail = (orderId)=>{
     const formdata = new FormData();
-    formdata.append("to", "woraponasvn36@gmail.com");
-    formdata.append("subject", "Registration");
-    formdata.append("fromEmail", "worapon@tracthai.com");
-    formdata.append("body1", "<p>----------------------------------------------------<br>A view request has been made for a file which you own<br>----------------------------------------------------<br><br>To: Thananchai Sittikun (thananchai@tracthai.com)<br><br>Thank you for using Chiccrm.<br>This e-mail request was sent to you on behalf of \"thananchai.sskru@gmail.com\" for access approval.<br><br>To approve or deny the request, please login to the management page.<br><br>* You may not approve or deny requests if you are using a limited access account.<br>If so, please contact your administrator.<br><br>----------------------------------------------------<br>Requested on:   22/02/2024 12:52:56 PM<br>Requested by:   thananchai.sskru@gmail.com (thananchai.sskru@gmail.com)<br><br>Target file:    (thananchai@tracthai.com)Hotel-map.pdf<br>File ID:        a0cf69df-d087-f540-a61b-b1d20b83520b<br><br>Message: hello<br>----------------------------------------------------<br>URL : https://trac.chiccrm.com/<br>----------------------------------------------------<br><br>* If you are not the intended recipient for this e-mail, please ignore and delete it.");
-    formdata.append("</p>", "");
-    formdata.append("cc", "napat@tracthai.com,worapon@tracthai.com,thananchai@tracthai.com,surachai@tracthai.com");
-    // formdata.append("attachment", fileInput.files[0], "/D:/Job/Documents/download.png");
+    const files = state.selectedFileName.map((files, index) => `${files}`)
+    const email_manager = state.teamlead_email.map((user) => user.username);
+    formdata.append("to", email_manager?email_manager:"");
+    formdata.append("subject", "SecureDoc - New request");
+    formdata.append("fromEmail", state.decode_token.UsernameOriginal?state.decode_token.UsernameOriginal:"");
+    formdata.append("body", `<p>----------------------------------------------------<br>A view request has been made for a file which you own<br>----------------------------------------------------<br><br>To: ${email_manager?email_manager:""} (${email_manager?email_manager:""})<br><br>Thank you for using Chiccrm.<br>This e-mail request was sent to you on behalf of \"${state.decode_token.UsernameOriginal ? state.decode_token.UsernameOriginal.charAt(0).toUpperCase() + state.decode_token.UsernameOriginal.slice(1) : ""}\" for access approval.<br><br>To approve or deny the request, please login to the management page.<br><br>* You may not approve or deny requests if you are using a limited access account.<br>If so, please contact your administrator.<br><br>----------------------------------------------------<br>Requested on:   ${getCurrentDateTime()}<br>Requested by:   ${state.decode_token.FirstnameOriginal ? state.decode_token.FirstnameOriginal.charAt(0).toUpperCase() + state.decode_token.FirstnameOriginal.slice(1) : ""} ${state.decode_token.SurnameTokenOriginal ? state.decode_token.SurnameTokenOriginal.charAt(0).toUpperCase() + state.decode_token.SurnameTokenOriginal.slice(1) : ""} (${state.decode_token.UsernameOriginal ? state.decode_token.UsernameOriginal : ""})<br><br>Target file:    ${files?files:""}<br>Request ID:        ${orderId}<br><br>Message: ${state.messageBody ? state.messageBody : ""}<br>----------------------------------------------------<br>URL : https://trac.chiccrm.com/<br>----------------------------------------------------<br><br>* If you are not the intended recipient for this e-mail, please ignore and delete it.`);
+    formdata.append("cc", email_manager?email_manager:"");
     
     const requestOptions = {
       method: "POST",
       body: formdata,
       redirect: "follow"
     };
+
+        const apiEndpoint = process.env.NEXT_PUBLIC_API_ENDPOINT_LOGIN;
+        const apiPortLogin = process.env.NEXT_PUBLIC_API_PORT_LOGIN || "";
+        const apiUrl = `${apiEndpoint}:${apiPortLogin}/api/mailChicCRM`;
+        fetch(apiUrl, requestOptions)
     
-    fetch("https://trac.chiccrm.com/api/mailChicCRM", requestOptions)
       .then((response) => response.json())
       .then((result) => {
+        console.log("🚀 ~ .then ~ result:", result)
         
       })
       .catch((error) => console.error(error));
