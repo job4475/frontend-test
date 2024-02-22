@@ -61,8 +61,28 @@ function Index() {
            {state.limitViewablePeriod && (
              <React.Fragment>
                 <Box sx={{ display: 'flex', justifyContent: 'center',mb:1, alignItems: 'center', width: '100%' }}>
-               <TextField type="number" onChange={handleShareDoc.handleChangeperiodDays} value={state.periodDays} size="small" variant="standard" style={{ width: "50px", marginRight: "10px" }} InputProps={{ style: { fontSize: '12px',textAlign: 'center', },}} />Day(s)
-               <TextField type="number" onChange={handleShareDoc.handleChangeperiodHours} value={state.periodHours} size="small" variant="standard" style={{ width: "50px", marginRight: "10px",marginLeft:"10px" }} InputProps={{ style: { fontSize: '12px' },}} />Hour(s)
+               <TextField type="number" onChange={(e) => {
+                   const inputValue = parseInt(e.target.value);
+                   if ( inputValue < 0 || inputValue > 31) {
+                        setState((prevData) => ({ ...prevData, alert: true, alert_text: "Please enter a number between 0 and 31.", alert_type: 'error', loading: false }));
+                        setTimeout(() => {
+                          setState((prevData) => ({ ...prevData, alert: false }));
+                        }, 2000);
+                       return;
+                   }
+                   handleShareDoc.handleChangeperiodDays(e);
+               }}  value={state.periodDays} size="small" variant="standard" style={{ width: "50px", marginRight: "10px" }} InputProps={{ style: { fontSize: '12px',textAlign: 'center', },}} />Day(s)
+               <TextField type="number" onChange={(e)=>{
+                const inputValue = parseInt(e.target.value);
+                if ( inputValue < 0 || inputValue > 23) {
+                     setState((prevData) => ({ ...prevData, alert: true, alert_text: "Please enter a number between 0 and 23.", alert_type: 'error', loading: false }));
+                     setTimeout(() => {
+                       setState((prevData) => ({ ...prevData, alert: false }));
+                     }, 2000);
+                    return;
+                }
+                handleShareDoc.handleChangeperiodHours(e);
+                }} value={state.periodHours} size="small" variant="standard" style={{ width: "50px", marginRight: "10px",marginLeft:"10px" }} InputProps={{ style: { fontSize: '12px' },}} />Hour(s)
                  </Box>
              </React.Fragment> 
            )}    
@@ -74,7 +94,17 @@ function Index() {
            {state.limitNumberFileOpen && (
              <React.Fragment>
                 <Box sx={{ display: 'flex', justifyContent: 'center', alignItems: 'center', mb:1,width: '100%' }}>
-               <TextField type="number" onChange={handleShareDoc.handleChangeopensTime} value={state.opensTime} id="standard-basic" size="small" variant="standard" style={{ width: "50px", marginRight: "10px" }} InputProps={{ style: { fontSize: '12px' },}} />Time(s)
+               <TextField type="number" onChange={(e)=>{
+                 const inputValue = parseInt(e.target.value);
+                 if ( inputValue < 0 ) {
+                   setState((prevData) => ({ ...prevData, alert: true, alert_text: "Please enter a number more than 0.", alert_type: 'error', loading: false }));
+                   setTimeout(() => {
+                     setState((prevData) => ({ ...prevData, alert: false }));
+                    }, 2000);
+                    return;
+                  }
+                  handleShareDoc.handleChangeopensTime(e)
+                }} value={state.opensTime} id="standard-basic" size="small" variant="standard" style={{ width: "50px", marginRight: "10px" }} InputProps={{ style: { fontSize: '12px' },}} />Time(s)
                  </Box>
              </React.Fragment>
            )}
