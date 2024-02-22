@@ -33,7 +33,7 @@ function Register() {
               "job_title": state.jobtitlename,
               "department":state.departmentname,
               "role": state.datacompanylc.AdminExists ? "user" : "admin",
-              "Website": `https://${state.webSite}`,
+              "Website":state.webSite?state.webSite:state.datacompanylc.Website,
             });
             const requestOptions = {
               method: 'POST',

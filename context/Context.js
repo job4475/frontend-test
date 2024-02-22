@@ -30,7 +30,7 @@ export const StateProvider = ({children}) => {
     confirmlink:'',latitude:'',longitude:'',selectedImage:null,countries:["Thailand"],data:[],companyID:'',referenceID:'',logoImage:'',memberAuthorization:[],dragover:false,sumsize:0,size_progress:0,
     sumsize_original:0,leadAuthorization:[],memberfeature:[],securedoc:false,open:false,resetpassword:false,registerSuccess:false,qrcodeurl:'',status:'',error:false,qrcode:"",phoneNumber:'',
     passwordStrength:'',confirmpassword:"",passwordsMatch:'',backdrop:false,webSite:'',messageBody:"",timer:0,showContent:false,department:[],departmentname:'',departmentid:'',jobtitle:[],jobtitlename:'',jobtitlenid:'',userdata:[],
-    checktoken:false,alluser:[],token:"",allmanageradmin:[],dialoguser:false,prepareedit:[],teamlead_email:[]
+    checktoken:false,alluser:[],token:"",allmanageradmin:[],dialoguser:false,prepareedit:[],teamlead_email:[],additionalSelect1:''
     });
     // console.log("🚀 ~ StateProvider ~ state:", state)
     return (

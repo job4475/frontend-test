@@ -19,7 +19,7 @@ function Index() {
     setState(prevState => ({ ...prevState, departmentid: selectedDepartmentId, departmentname: selectedDepartmentName }));
   }
   const changejobtitle = (event) => {
-    const selectedJobTitle = state.jobtitle.dataResponse.jobtitle_list.find(jobtitle => jobtitle.id === event.target.value);
+    const selectedJobTitle = state.jobtitle.dataResponse.jobtitle_list.find(jobtitle => jobtitle.jobtitle === event.target.value);
     setState(prevState => ({ ...prevState, jobtitlename: selectedJobTitle.jobtitle }));
   };
 
@@ -27,7 +27,7 @@ function Index() {
     <Box>
       <Box sx={{ mb: 3 }}>
         {state.logoImage ? (
-          <Box sx={{ fontWeight: 600 }}>
+          <Box sx={{ fontWeight: 600,fontSize:"13px"  }}>
             Personal Information
           </Box>
         ) : (<Skeleton variant="rectangular" width={200} height={25} style={{ borderRadius: '6px' }} />)}
@@ -39,9 +39,9 @@ function Index() {
             <Grid item xs={12}>
               <Box>
                 {state.logoImage ? (
-                  <Box sx={{ display: 'flex', alignItems: 'center' }}>
+                  <Box sx={{ display: 'flex', alignItems: 'center',fontSize:"13px"  }}>
                     Title
-                    <Box sx={{ ml: 9.2 }}>
+                    <Box sx={{ ml: 8 }}>
                       <FormControl variant="standard" sx={{ minWidth: 220 }}>
                         <Box sx={{ width: 202 }}>
                           <Select name="titleselect" value={state.titleselect} onChange={HandleChangeTitle} sx={{ width: '110%' }}>
@@ -59,7 +59,7 @@ function Index() {
             <Grid item xs={12}>
               <Box>
                 {state.logoImage ? (
-                  <Box sx={{ display: 'flex', alignItems: 'center' }}>
+                  <Box sx={{ display: 'flex', alignItems: 'center',fontSize:"13px"  }}>
                     First name
                     <Box sx={{ ml: 2.7 }}>
                       <TextField id="standard-basic" variant="standard" value={state.first_name} onChange={Handleregister.first_name} sx={{ width: "220px" }} />
@@ -71,11 +71,11 @@ function Index() {
             <Grid item xs={12}>
               <Box>
                 {state.logoImage ? (
-                  <Box sx={{ display: 'flex', alignItems: 'center' }}>
+                  <Box sx={{ display: 'flex', alignItems: 'center',fontSize:"13px"  }}>
                     Department
                     <Box sx={{ ml: 1 }}>
                       <FormControl variant="standard" sx={{ minWidth: 220 }}>
-                        <Select name="additionalSelect1" value={state.additionalSelect1 || ''}  onChange={changedepartment} sx={{ width: '100%' }}>
+                        <Select name="departmentname" value={state.departmentid }  onChange={changedepartment} sx={{ width: '100%' }}>
                           {state.department && state.department.dataResponse && state.department.dataResponse.department_list.map(department => (
                             <MenuItem key={department.id} value={department.id}>
                               {department.department}
@@ -94,7 +94,7 @@ function Index() {
             <Grid item xs={12}>
               <Box>
                 {state.logoImage ? (
-                  <Box sx={{ display: 'flex', alignItems: 'center' }}>
+                  <Box sx={{ display: 'flex', alignItems: 'center',fontSize:"13px"  }}>
                     Phone number
                     <Box sx={{ minWidth: 220, ml: 3 }}>
                       <TextField id="standard-basic" variant="standard" value={state.phone_number} onChange={Handleregister.phone_number} sx={{ width: "220px" }} inputProps={{ maxLength: 10, inputMode: 'numeric' }} />
@@ -106,9 +106,9 @@ function Index() {
             <Grid item xs={12}>
               <Box>
                 {state.logoImage ? (
-                  <Box sx={{ display: 'flex', alignItems: 'center' }}>
+                  <Box sx={{ display: 'flex', alignItems: 'center',fontSize:"13px"  }}>
                     Last name
-                    <Box sx={{ minWidth: 220, ml: 7.6 }}>
+                    <Box sx={{ minWidth: 220, ml: 7 }}>
                       <TextField id="standard-basic" variant="standard" value={state.last_name} onChange={Handleregister.last_name} sx={{ width: "220px" }} />
                     </Box>
                   </Box>
@@ -118,13 +118,13 @@ function Index() {
             <Grid item xs={12}>
               <Box>
                 {state.logoImage ? (
-                  <Box sx={{ display: 'flex', alignItems: 'center' }}>
+                  <Box sx={{ display: 'flex', alignItems: 'center',fontSize:"13px"  }}>
                     Jobtitle
-                    <Box sx={{ ml: 10.5 }}>
+                    <Box sx={{ ml: 9.5 }}>
                       <FormControl variant="standard" sx={{ minWidth: 220 }}>
-                        <Select name="additionalSelect2" value={state.additionalSelect2 || ''} onChange={changejobtitle} sx={{ width: '100%' }}>
+                        <Select name="additionalSelect2" value={state.jobtitlename} onChange={changejobtitle} sx={{ width: '100%' }}>
                           {state.jobtitle && state.jobtitle.dataResponse && state.jobtitle.dataResponse.jobtitle_list.map(jobtitle => (
-                            <MenuItem key={jobtitle.id} value={jobtitle.id}>
+                            <MenuItem key={jobtitle.id} value={jobtitle.jobtitle}>
                               {jobtitle.jobtitle}
                             </MenuItem>))}
                         </Select>
