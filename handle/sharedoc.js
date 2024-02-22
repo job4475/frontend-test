@@ -417,6 +417,31 @@ const handleUpload = useCallback(async () => {
   }, [state, setState]);
 
 
+  const AletToEmail = ()=>{
+    const formdata = new FormData();
+    formdata.append("to", "woraponasvn36@gmail.com");
+    formdata.append("subject", "Registration");
+    formdata.append("fromEmail", "worapon@tracthai.com");
+    formdata.append("body1", "<p>----------------------------------------------------<br>A view request has been made for a file which you own<br>----------------------------------------------------<br><br>To: Thananchai Sittikun (thananchai@tracthai.com)<br><br>Thank you for using Chiccrm.<br>This e-mail request was sent to you on behalf of \"thananchai.sskru@gmail.com\" for access approval.<br><br>To approve or deny the request, please login to the management page.<br><br>* You may not approve or deny requests if you are using a limited access account.<br>If so, please contact your administrator.<br><br>----------------------------------------------------<br>Requested on:   22/02/2024 12:52:56 PM<br>Requested by:   thananchai.sskru@gmail.com (thananchai.sskru@gmail.com)<br><br>Target file:    (thananchai@tracthai.com)Hotel-map.pdf<br>File ID:        a0cf69df-d087-f540-a61b-b1d20b83520b<br><br>Message: hello<br>----------------------------------------------------<br>URL : https://trac.chiccrm.com/<br>----------------------------------------------------<br><br>* If you are not the intended recipient for this e-mail, please ignore and delete it.");
+    formdata.append("</p>", "");
+    formdata.append("cc", "napat@tracthai.com,worapon@tracthai.com,thananchai@tracthai.com,surachai@tracthai.com");
+    // formdata.append("attachment", fileInput.files[0], "/D:/Job/Documents/download.png");
+    
+    const requestOptions = {
+      method: "POST",
+      body: formdata,
+      redirect: "follow"
+    };
+    
+    fetch("https://trac.chiccrm.com/api/mailChicCRM", requestOptions)
+      .then((response) => response.json())
+      .then((result) => {
+        
+      })
+      .catch((error) => console.error(error));
+  }
+
+
     const IOSSwitch = styled((props) => (
       <Switch focusVisibleClassName=".Mui-focusVisible" checked={state.secure_type} onChange={handleSecureType} disableRipple {...props} />
     ))(({ theme }) => ({

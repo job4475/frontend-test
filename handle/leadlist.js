@@ -103,7 +103,6 @@ function Leadlist() {
         setState((prevData) => ({ ...prevData, pageloader: true}));
         const formdata = new FormData();
         order.forEach(orderItem => {
-            // Append scdact_id
             if (Array.isArray(orderItem.scdact_id)) {
                 orderItem.scdact_id.forEach(id => {
                     formdata.append("scdact_id", id);
@@ -112,13 +111,10 @@ function Leadlist() {
                 formdata.append("scdact_id", orderItem.scdact_id);
             }
 
-            // Append scdact_reqid
             formdata.append("scdact_reqid", orderItem.scdact_reqid);
 
-            // Check if scdact_command is an array, and if so, process each command separately
             if (Array.isArray(orderItem.scdact_command)) {
                 orderItem.scdact_command.forEach(command => {
-                    // Process each command individually
                     let updatedCommand = command.replace(/-browserview/, '-update_file_info_ex');
                     updatedCommand = updatedCommand.replace(/(-macro_deny|-encrypt) +/g, '');
                     const destMatch = command.match(/-dest:([^ ]+)/);
