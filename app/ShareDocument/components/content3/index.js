@@ -33,12 +33,23 @@ function Index() {
                <Box sx={{alignSelf:"self-start",ml:2,color:"primary.main",fontWeight:500}}>Start time</Box>
                <Box sx={{ display: 'flex', justifyContent: 'center', alignItems: 'center', width: '100%', pl: 2 }}>
                 <TextField value={state.timelimitBeforeOri} onChange={handleShareDoc.handleDatetimeChangeBefore} type="date" onKeyDown={(e) => e.preventDefault()} size="small" variant="standard" style={{ width: "100%", marginRight: "10px" }} InputProps={{style: { fontSize: '10px' },}}/>
-                <TextField onChange={handleShareDoc.handleTimeChangeBefore} type="time" size="small" variant="standard" style={{ width: "100%", marginRight: "10px" }}InputProps={{ style: { fontSize: '10px' },}}/>
+                <TextField disabled={state.timelimitBeforeOri?false:true} onChange={handleShareDoc.handleTimeChangeBefore} type="time" size="small" variant="standard" style={{ width: "100%", marginRight: "10px" }}InputProps={{ style: { fontSize: '10px' },}}/>
                </Box>
                <Box sx={{alignSelf:"self-start",ml:2,mt:1,color:"primary.main",fontWeight:500}}>End time</Box>
                <Box sx={{ display: 'flex', justifyContent: 'center', alignItems: 'center', width: '100%', pl: 2,mb:1 }}>
-                <TextField value={state.timelimitAfterOri} onChange={handleShareDoc.handleDatetimeChangeAfter} type="date" onKeyDown={(e) => e.preventDefault()} size="small" variant="standard" style={{ width: "100%", marginRight: "10px" }} InputProps={{style: { fontSize: '10px' },}}/>
-                <TextField onChange={handleShareDoc.handleTimeChangeAfter} type="time" size="small" variant="standard" style={{ width: "100%", marginRight: "10px" }}InputProps={{ style: { fontSize: '10px' },}}/>
+                <TextField value={state.timelimitAfterOri} onChange={(e) => {
+                    const selectedDate = new Date(e.target.value);
+                    const startDate = new Date(state.timelimitBeforeOri);
+                    if(selectedDate < startDate) {
+                        setState((prevData) => ({ ...prevData, alert: true, alert_text: "End date must be after start date.", alert_type: 'error', loading: false }));
+                        setTimeout(() => {
+                          setState((prevData) => ({ ...prevData, alert: false }));
+                        }, 2000);   
+                        return;
+                    }
+                    handleShareDoc.handleDatetimeChangeAfter(e);
+                }} type="date" onKeyDown={(e) => e.preventDefault()} size="small" variant="standard" style={{ width: "100%", marginRight: "10px" }} InputProps={{style: { fontSize: '10px' },}}/>
+                <TextField disabled={state.timelimitAfterOri?false:true} onChange={handleShareDoc.handleTimeChangeAfter} type="time" size="small" variant="standard" style={{ width: "100%", marginRight: "10px" }}InputProps={{ style: { fontSize: '10px' },}}/>
                </Box>
              </>
            )}
