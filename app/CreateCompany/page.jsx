@@ -7,19 +7,21 @@ import { Box } from "@mui/material";
 const Page = () => {
     const {state} = useContext(StateContext);
     useEffect(() => {
-      const handleBeforeUnload = (event) => {
-        if (state.email !==" ") {
-          const message = "Leaving this page may result in data loss. Are you sure?";
-          event.returnValue = message;
-          return message;
+        if (typeof window !== 'undefined') {
+            const handleBeforeUnload = (event) => {
+                if (state.email !== " ") {
+                    const message = "Leaving this page may result in data loss. Are you sure?";
+                    event.returnValue = message;
+                    return message;
+                }
+            };
+            window.addEventListener("beforeunload", handleBeforeUnload);
+            return () => {
+                window.removeEventListener("beforeunload", handleBeforeUnload);
+            };
         }
-      };
-      window.addEventListener("beforeunload", handleBeforeUnload);
-      return () => {
-        window.removeEventListener("beforeunload", handleBeforeUnload);
-      };
     }, [state.pageloader]);
-  return (
+    return (
     <Box sx={{background: 'linear-gradient(90deg,#84BAA1, #FFFBE2 )',height:'100vh'}}>
       <Box sx={{background:'#ffffff',width:'80%',height:'100vh'}}>
       <Addcompany/>

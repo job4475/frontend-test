@@ -27,16 +27,14 @@ const Page = () => {
         setTimeout(() => {
             setState((prevData) => ({ ...prevData, backdrop: false }));
         }, 1000);
-        await router.push('/RequestList'); // เรียกใช้ await เพื่อรอให้ router.push เสร็จสิ้นก่อนที่จะดำเนินการต่อ
+        router.push('/RequestList');
     } else {
         setState({ ...state, backdrop: true });
         setTimeout(() => {
             setState((prevData) => ({ ...prevData, backdrop: false }));
         }, 1000);
-        await router.push('/ShareDocument'); // เรียกใช้ await เพื่อรอให้ router.push เสร็จสิ้นก่อนที่จะดำเนินการต่อ
-    }
-    
-    // เมื่อทำการ push สำเร็จแล้ว คุณสามารถตรวจสอบว่าการ push เสร็จสมบูรณ์โดยตรงหรือไม่
+        router.push('/ShareDocument');
+    }    
     console.log("Router pushed successfully");
 };
 

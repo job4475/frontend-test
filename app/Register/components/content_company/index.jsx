@@ -1,5 +1,5 @@
 import { data_register } from '@/data/register'
-import { Box, Radio, Skeleton } from '@mui/material'
+import { Box, Checkbox, Radio, Skeleton } from '@mui/material'
 import Image from 'next/image'
 import React, { useContext } from 'react'
 import website from '@/assets/assets/images/register/website.png'
@@ -13,14 +13,14 @@ function Index() {
     window.open(`tel:${state.phoneNumber || "021019884"}`);
   };
   return (
-    <Box sx={{ mt: 3 }}>
-      {state.logoImage ? (<Box sx={{ fontWeight: 600, mb: 3 }}> {data_register[0].title_content1} </Box>) : (<Skeleton variant="rectangular" width={180} height={20} style={{ borderRadius: '6px' }} />)}
+    <Box sx={{ mt: 2 }}>
+      {state.logoImage ? (<Box sx={{ fontWeight: 600, mb: 1,fontSize:"15px" }}> {data_register[0].title_content1} </Box>) : (<Skeleton variant="rectangular" width={150} height={20} style={{ borderRadius: '6px' }} />)}
       <Box sx={{ display: "flex" }}>
         <Box sx={{ mr: 1, width: '100px' }} >
           {state.logoImage ? (
             <Box>
               {state.logoImage || state.selectedImage ? (
-                <Image width={100} height={100} alt="logo" src={state.selectedImage || state.logoImage}></Image>
+                <Image width={80} height={80} alt="logo" src={state.selectedImage || state.logoImage}></Image>
               ) : (
                 <p>""</p>
               )}
@@ -29,14 +29,14 @@ function Index() {
         </Box>
         <Box sx={{ display: "flex", flexDirection: "column", alignItems: "left", ml: 2 }}>
           {state.logoImage ? (
-            <Box sx={{ fontWeight: 600, textTransform: 'capitalize' }}>{state.companyname || state.datacompanylc?.Companyname}</Box>
+            <Box sx={{ fontWeight: 600, textTransform: 'capitalize',width:"350px" ,height:"15px",fontSize:"15px"  }}>{state.companyname || state.datacompanylc?.Companyname}</Box>
           ) : (<Skeleton variant="rectangular" width={200} height={20} style={{ borderRadius: '6px' }} />)}
           <Box sx={{ display: "flex", mt: 1 }}>
             {state.logoImage ? (
-              <Box sx={{ width: "300px" }}>
+              <Box sx={{ width: "300px",fontSize:"13px" }}>
                 <div dangerouslySetInnerHTML={{
                   __html: `${state.no || state.datacompanylc?.AddressNo} ${state.street || state.datacompanylc?.Address1En}<br>
-              ${state.selectedAmphoe || state.datacompanylc?.District} ${state.selectedTambon || state.datacompanylc?.SubDistrict}<br>
+              ${state.selectedAmphoe || state.datacompanylc?.District} ${state.selectedTambon || state.datacompanylc?.SubDistrict}
               ${state.selectedProvince || state.datacompanylc?.Province} ${state.zipcode || state.datacompanylc?.Zipcode}<br> ${state.country || state.datacompanylc?.Country}`
                 }} />
               </Box>
@@ -44,26 +44,26 @@ function Index() {
             <Box sx={{ ml: 1 }}>
               {state.logoImage ? (
                 <Box sx={{ display: "flex", alignItems: "center" }}>
-                  <Image alt="website" src={website} />
-                  <Box sx={{ ml: 2 }}>
+                  <Image alt="website" src={website} width={20} height={50} />
+                  <Box sx={{ ml: 2,fontSize:"13px"  }}>
                     <a href={state.webSite || state.datacompanylc?.Website} target="_blank" rel="noopener noreferrer">
                       {state.webSite || state.datacompanylc?.Website}
                     </a>
                   </Box>
                 </Box>
               ) : (<Skeleton variant="rectangular" width={250} height={30} style={{ borderRadius: '6px' }} />)}
-              <Box sx={{ mt: 1, display: "flex", alignItems: "center" }}>
+              <Box sx={{ mt: 1, display: "flex", alignItems: "center" ,fontSize:"13px" }}>
                 {state.logoImage ? (
                   <a href={`tel:${state.phoneNumber || "021019884"}`} onClick={handlePhoneClick} style={{ textDecoration: 'none', display: 'flex', alignItems: 'center' }}>
-                    <Image alt="tel" src={tel} sx={{ width: '24px', height: '24px' }} />
+                    <Image alt="tel" src={tel} width={20} height={50} />
                     <Box sx={{ ml: 2, whiteSpace: 'nowrap' }}>{state.phoneNumber || state.datacompanylc?.CompanyPhone}</Box>
                   </a>
                 ) : (<Skeleton variant="rectangular" width={150} height={30} style={{ borderRadius: '6px' }} />)}
               </Box>
               <Box sx={{ mt: 1, display: "flex", alignItems: "center" }}>
                 {state.logoImage ? (
-                  <Box sx={{ display: 'flex' }}>
-                    <Image alt="map" src={map} />
+                  <Box sx={{ display: 'flex',fontSize:"13px"  }}>
+                    <Image alt="map" src={map} width={20} height={50}/>
                     <Box sx={{ ml: 2 }}>
                       <a href={state.datacompanylc?.Geolocation || state.googlemaps} target="_blank" rel="noopener noreferrer">
                         {state.googlemaps || state.datacompanylc?.Geolocation}
@@ -79,11 +79,12 @@ function Index() {
       <Box sx={{ display: "flex" }}>
         <Box sx={{ width: "125px", height: "auto" }}></Box>
         <Box sx={{ ml: 2 }}>
-          <Box sx={{ display: "flex", alignItems: "center", mt: 2 }}>
+          <Box sx={{ display: "flex", alignItems: "center", mt: 1 }}>
             {state.logoImage ? (
               <Box sx={{ display: "flex", alignItems: "center" }}>
-                <Radio style={{ color: "#84BAA1" }} value="male" />
-                <Box>{data_register[0].req_edit}</Box>
+                <Checkbox
+                  style={{ color: "#84BAA1" }} value="male" width={20} height={50}/>
+                <Box sx={{fontSize:"13px" }}>{data_register[0].req_edit}</Box>
               </Box>
             ) : (<Skeleton variant="rectangular" width={600} height={25} style={{ borderRadius: '6px' }} />)}
           </Box>

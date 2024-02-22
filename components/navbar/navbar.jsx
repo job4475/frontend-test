@@ -95,7 +95,7 @@ function Navbar() {
                 </IconButton>
                 <Menu id="basic-menu" anchorEl={anchorEl} open={openMenu} onClose={handleClose}>
                     <MenuItem>Edit Profile</MenuItem>
-                    <MenuItem onClick={HandleUserlist.handleToUserlist}>Administrator</MenuItem>
+                    {state.decode_token.Role==="admin"?(<MenuItem onClick={HandleUserlist.handleToUserlist}>Administrator</MenuItem>):null}
                     <MenuItem onClick={HandleUserlist.handleclicklogout}>Logout</MenuItem>
                 </Menu>
                 <Box sx={{ background: '#D9D9D9', overflow: 'hidden', width: '55px', height: '55px', display: 'flex', justifyContent: 'center', alignContent: 'center', cursor: 'pointer', borderRadius: '100px', ml: '25px' }}>

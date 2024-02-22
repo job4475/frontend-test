@@ -37,7 +37,6 @@ function Login() {
         setState((prevData) => ({ ...prevData,loading: false }));
         if (result.status === "OK") {
           const decodedToken = JSON.parse(atob(result.token.split('.')[1]));
-          console.log("🚀 ~ handleSignInClick ~ decodedToken:", decodedToken)
           localStorage.setItem("decode_token", JSON.stringify(decodedToken));
           localStorage.setItem("token", result.token);
           setState({ ...state, decode_token: decodedToken,token:result.token });
@@ -88,7 +87,7 @@ function Login() {
         formdata.append('fromEmail', 'worapon@tracthai.com');
         formdata.append('body', 'Please click the link provided below to proceed.');
         formdata.append('body1', 'Platform: chiCRM');
-        formdata.append('bodylink', `http://localhost:3434/CreateCompany/?email=${state.email}`);
+        formdata.append('bodylink', `https://trac.chiccrm.com/CreateCompany/?email=${state.email}`);
         formdata.append('linkname', 'Registration Link');
   
         const requestOptions = {

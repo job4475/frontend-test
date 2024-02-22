@@ -44,7 +44,7 @@ function Userlist() {
             {value===1?(<TableUserList />):(<TableUserPending/>)}
             </Box>
         </Box >
-        <Box className={open ? 'editUserVisible' : 'editUserHidden'} > 
+        <Box className={state.dialoguser ? 'editUserVisible' : 'editUserHidden'} >
          <EditUser />
         </Box>
         </>

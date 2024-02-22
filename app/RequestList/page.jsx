@@ -7,9 +7,10 @@ import TableList from './components/table'
 import GetLeadOrder from '@/services/getleadorder'
 import { StateContext } from '@/context/Context';
 import Backdrop from '@/components/backdrop/backdrop'
+import {useEffect} from "react";
 
 function Page() {
-  const {state} = React.useContext(StateContext);
+  const {state,setState} = React.useContext(StateContext);
 
   React.useEffect(() => {
     const handleBeforeUnload = (event) => {
@@ -28,14 +29,17 @@ function Page() {
 
   }, [state.pageloader]);
 
+    // useEffect(() => {
+    //     setState((prevData) => ({ ...prevData, backdrop: false}));
+    // }, [])
+
   return (
     <Box style={{ filter: state.pageloader ? 'blur(4px)' : 'none', pointerEvents: state.pageloader ? 'none' : 'auto' }}>
-      <Backdrop />
+      {/*<Backdrop />*/}
       <GetLeadOrder/>
       <Navbar />
       <Title />
       <TableList />
-      {/* <BtNewReq/> */}
     </Box>
   );
 }

@@ -1,5 +1,6 @@
 import { StateContext } from '@/context/Context';
 import React, { useContext } from 'react'
+import { useEffect } from 'react';
 
 function Teamleademail() {
     const { state, setState } = useContext(StateContext);
@@ -23,8 +24,6 @@ function Teamleademail() {
           .then((result) => {
             if(result.status === "OK"){
                 setState((prevData) => ({ ...prevData, teamlead_email: result.TeamleadByDepartmentID }));
-            }else{
-                setState((prevData) => ({ ...prevData, alert: true, loading: false, alert_text: result.message, alert_type: "error" }));
             }
           })
           .catch((error) => console.error(error));
