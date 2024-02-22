@@ -33,7 +33,7 @@ function Index() {
                <Box sx={{alignSelf:"self-start",ml:2,color:"primary.main",fontWeight:500}}>Start time</Box>
                <Box sx={{ display: 'flex', justifyContent: 'center', alignItems: 'center', width: '100%', pl: 2 }}>
                 <TextField value={state.timelimitBeforeOri} onChange={handleShareDoc.handleDatetimeChangeBefore} type="date" onKeyDown={(e) => e.preventDefault()} size="small" variant="standard" style={{ width: "100%", marginRight: "10px" }} InputProps={{style: { fontSize: '10px' },}}/>
-                <TextField disabled={state.timelimitBeforeOri?false:true} onChange={handleShareDoc.handleTimeChangeBefore} type="time" size="small" variant="standard" style={{ width: "100%", marginRight: "10px" }}InputProps={{ style: { fontSize: '10px' },}}/>
+                <TextField required disabled={state.timelimitBeforeOri?false:true} onChange={handleShareDoc.handleTimeChangeBefore} type="time" size="small" variant="standard" style={{ width: "100%", marginRight: "10px" }}InputProps={{ style: { fontSize: '10px' },}}/>
                </Box>
                <Box sx={{alignSelf:"self-start",ml:2,mt:1,color:"primary.main",fontWeight:500}}>End time</Box>
                <Box sx={{ display: 'flex', justifyContent: 'center', alignItems: 'center', width: '100%', pl: 2,mb:1 }}>
@@ -63,8 +63,8 @@ function Index() {
                 <Box sx={{ display: 'flex', justifyContent: 'center',mb:1, alignItems: 'center', width: '100%' }}>
                <TextField type="number" onChange={(e) => {
                    const inputValue = parseInt(e.target.value);
-                   if ( inputValue < 0 || inputValue > 31) {
-                        setState((prevData) => ({ ...prevData, alert: true, alert_text: "Please enter a number between 0 and 31.", alert_type: 'error', loading: false }));
+                   if ( inputValue < 1 || inputValue > 31) {
+                        setState((prevData) => ({ ...prevData, alert: true, alert_text: "Please enter a number between 1 and 31.", alert_type: 'error', loading: false }));
                         setTimeout(() => {
                           setState((prevData) => ({ ...prevData, alert: false }));
                         }, 2000);
@@ -74,8 +74,8 @@ function Index() {
                }}  value={state.periodDays} size="small" variant="standard" style={{ width: "50px", marginRight: "10px" }} InputProps={{ style: { fontSize: '12px',textAlign: 'center', },}} />Day(s)
                <TextField type="number" onChange={(e)=>{
                 const inputValue = parseInt(e.target.value);
-                if ( inputValue < 0 || inputValue > 23) {
-                     setState((prevData) => ({ ...prevData, alert: true, alert_text: "Please enter a number between 0 and 23.", alert_type: 'error', loading: false }));
+                if ( inputValue < 1 || inputValue > 23) {
+                     setState((prevData) => ({ ...prevData, alert: true, alert_text: "Please enter a number between 1 and 23.", alert_type: 'error', loading: false }));
                      setTimeout(() => {
                        setState((prevData) => ({ ...prevData, alert: false }));
                      }, 2000);
@@ -96,7 +96,7 @@ function Index() {
                 <Box sx={{ display: 'flex', justifyContent: 'center', alignItems: 'center', mb:1,width: '100%' }}>
                <TextField type="number" onChange={(e)=>{
                  const inputValue = parseInt(e.target.value);
-                 if ( inputValue < 0 ) {
+                 if ( inputValue < 1 ) {
                    setState((prevData) => ({ ...prevData, alert: true, alert_text: "Please enter a number more than 0.", alert_type: 'error', loading: false }));
                    setTimeout(() => {
                      setState((prevData) => ({ ...prevData, alert: false }));

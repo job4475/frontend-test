@@ -390,9 +390,9 @@ const handleUpload = useCallback(async () => {
 
       xhr.open("POST", `${process.env.NEXT_PUBLIC_API_ENDPOINT}:${process.env.NEXT_PUBLIC_API_PORT}/api/requestDoc`, true);
       xhr.onload = () => {
+        const result = JSON.parse(xhr.responseText);
 
         if (xhr.status === 200) {
-          const result = JSON.parse(xhr.responseText);
           if (result.status === "OK") {
               setState((prevData) => ({ ...prevData, titleselect:"",input_last_name:"",input_email:"",input_role:"",
               input_firstName:"",input_phone:"",input_jobtitle:"",email:'',Password:'',Alias:'',Province:'',Companyname:'',District:''
@@ -405,7 +405,13 @@ const handleUpload = useCallback(async () => {
               AletToEmail(orderId)
 
           } else {
+        
           }
+        }else{
+          setState((prevData) => ({ ...prevData, alert: true, alert_text: result.message.Finalcode_result, alert_type: 'error', loading: false }));
+          setTimeout(() => {
+            setState((prevData) => ({ ...prevData, alert: false,loading:false }));
+           }, 2000);
         }
       };
 
