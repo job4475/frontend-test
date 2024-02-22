@@ -160,12 +160,12 @@ a:hover {
 .editUserVisible {
   opacity: 1;
   visibility: visible;
-  transition: opacity 5s ease, visibility 5s ease;
+  transition: opacity 0.4s ease, visibility 0.4s ease;
   z-index: 999;
 }
 
 .editUserHidden {
   opacity: 0;
   visibility: hidden;
-  transition: opacity 5s ease, visibility 5s ease;
+  transition: opacity 0.4s ease, visibility 0.4s ease;
 }

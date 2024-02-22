@@ -11,14 +11,14 @@ import { useContext,useEffect } from 'react';
 import Backdrop from '@/components/backdrop/backdrop'
 
 function Page() {
-  const {setState} = useContext(StateContext);
-  useEffect(() => {
-    setState((prevData) => ({ ...prevData, backdrop: false}));
-  }, [])
+  // const {setState} = useContext(StateContext);
+  // useEffect(() => {
+  //   setState((prevData) => ({ ...prevData, backdrop: false}));
+  // }, [])
   
   return (
     <Box>
-      <Backdrop />
+      {/*<Backdrop />*/}
       <GetAllOrder/>
       <Navbar/>
       <Title/>

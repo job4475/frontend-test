@@ -53,12 +53,12 @@ function Index() {
       </TableHead>
       <TableBody>
         {handleLeadList.groupedOrders?.map((row,index)=>(
-        <TableRow key={`${row.scdact_reqid}`}>
+        <TableRow key={`${row[0].scdact_reqid}`}>
           <TableCell align="center">{row[0].scdact_reqid}</TableCell>
           <TableCell id="cellheader" align="center">{handleLeadList.convertTimestampToLocalTime(row[0].scdact_timestamp)}</TableCell>
           <TableCell id="bodycell" align="center">
             <div style={{ display: 'flex', justifyContent: 'center', alignItems: 'center' }}>
-            <Box key={index}>
+            <Box key={row[0].scdact_reqid}>
               <handleLeadList.CustomTooltipRecipient
                 open={tooltipOpen[index] || false}
                 title={

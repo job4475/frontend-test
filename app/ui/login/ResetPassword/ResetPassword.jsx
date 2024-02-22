@@ -18,7 +18,7 @@ function Index() {
   const updatePasswordFunc = updatePassword();
   const tokenParam = typeof window !== 'undefined' ? new URLSearchParams(window.location.search).get('token') : null;
   const decodedToken = tokenParam ? JSON.parse(atob(tokenParam.split('.')[1])) : null;
-  const expirationTime = decodedToken.exp;
+  const expirationTime = decodedToken?.exp;
   const currentTime = Math.floor(Date.now() / 1000);
 
   useEffect(() => {

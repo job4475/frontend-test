@@ -91,7 +91,7 @@ function Index() {
                            row[0].scdact_status !== 'Rejected' ? 
                            handleLeadList.handleClicktoGetFile(row[0].scdact_id[itemIndex]) 
                            : 
-                           handleLeadList.handleClicktoGetFile(row[itemIndex].scdact_id)} 
+                           ''}
                          key={`button-${itemIndex}`} 
                          style={{ textTransform: 'none', display: 'flex', justifyContent: 'space-between', width: '100%' }}>
                          <Box sx={{ pr: 1 }}>{item}</Box>
@@ -108,14 +108,13 @@ function Index() {
                            itemIndex < row[0].scdact_id.length && 
                            row[0].scdact_status !== 'Approved' && 
                            row[0].scdact_status !== 'Rejected' ? 
-                           handleLeadList.handleClicktoGetFile(row[0].scdact_id[itemIndex]) 
+                           handleLeadList.handleClicktoGetFile(row[0].scdact_id[itemIndex])
                            : 
-                           handleLeadList.handleClicktoGetFile(row[itemIndex].scdact_id)} 
+                           ''}
                          key={`button-${itemIndex}`} 
                          style={{ textTransform: 'none', display: 'flex', justifyContent: 'space-between', width: '100%' }}>
                          <Box sx={{ pr: 1 }}>{Array.isArray(row[0].scdact_filename) ? row[0].scdact_filename[itemIndex] : item.scdact_filename}</Box>
                          <Box >{Array.isArray(row[0].scdact_filesize) ? row[0].scdact_filesize[itemIndex] : item.scdact_filesize}</Box>
-                         {/* You can add the filesize here if needed */}
                        </Button>
                      ))
                    }
@@ -127,7 +126,7 @@ function Index() {
                 <Box sx={{ display: 'flex', alignItems: 'center' }} onClick={() => handleOpen(index)}>
                   <Button sx={{ display: 'flex', backgroundColor: 'rgba(119, 130, 150, 0.13)', borderRadius: '10px', justifyContent: 'space-around', alignItems: 'center' }}>
                     <Image src={file} alt="file" />
-                    <Box sx={{ color: 'gray.main' }}>{row.length}</Box>
+                    <Box sx={{ color: 'gray.main' }}>{Array.isArray(row[0].scdact_filename) ? row[0].scdact_filename.length : row.length}</Box>
                   </Button>
                   <Box sx={{ ml: 0.5, cursor: 'pointer' }}>
                     <Image alt="dropdown" style={{ width:"15px",height:"auto",transform: tooltipOpen[index] ? 'rotate(180deg)' : 'rotate(0)' }} src={dropdown}></Image>
@@ -267,7 +266,7 @@ function Index() {
           <TableCell style={{fontWeight:600,color: row[0].scdact_status === "Approved" ? "#00E700" : row[0].scdact_status === "Rejected" ? "#FF0000" : "#0062FF", textAlign: "center"}} align="center">{row[0].scdact_status}</TableCell>
           <TableCell align='center'>
           <Box sx={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center',visibility:row[0].scdact_status === "Approved"||row[0].scdact_status === "Rejected" ?"hidden":"visible" }}>
-           <Button id="Approve" onClick={()=>{handleLeadList.handleClicktoApprove(row,"Approve")}} sx={{ flexGrow: 1, marginRight: '8px' }} variant="contained" color="approve" style={{ borderRadius: "7px", minWidth: "50%", textTransform: "capitalize", color: "white", fontWeight: 600 }}>Approve</Button>
+           <Button id="Approve" onClick={()=>{handleLeadList.handleClickApprove(row,"Approve")}} sx={{ flexGrow: 1, marginRight: '8px' }} variant="contained" color="approve" style={{ borderRadius: "7px", minWidth: "50%", textTransform: "capitalize", color: "white", fontWeight: 600 }}>Approve</Button>
            <Button id="Reject" onClick={()=>{handleLeadList.handleReject(row,"Reject")}} variant="contained" color="reject" style={{ borderRadius: "7px", minWidth: "50%", textTransform: "capitalize", color: "white", fontWeight: 600 }}>Reject</Button>
           </Box>
           </TableCell>

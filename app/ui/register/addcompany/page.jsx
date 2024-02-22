@@ -21,7 +21,6 @@ function Page() {
     if(emailParam){
       setState({ ...state, email: emailParam });
     }
-
   }, []);
   const handleFileChange = (event) => {
     const file = event.target.files[0];
@@ -33,23 +32,20 @@ function Page() {
       reader.readAsDataURL(file);
     }
   };
-  const handleInput = (event) => {
-    event.target.value = event.target.value.replace(/\D/, '');
-  };
   return (
     <Box sx={{ display: 'flex', flexDirection: 'column', justifyContent: 'space-between', alignItems: 'flex-start', p: 1, }}>
       <Box >
         <Box sx={{ display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
           <Image src={Subtract} alt="logo" style={{ width: "80px" }} />
           <Box sx={{ pl: 3 }}>
-            <Box sx={{  fontSize: '15px' }}>Hello good morning <b>{state.emailconfirm?state.emailconfirm: state.email}</b> <br></br>Welcome to ChicCRM registration process now you are in</Box>
+            <Box sx={{ fontSize: '15px' }}>Hello good morning <b>{state.emailconfirm?state.emailconfirm: state.email}</b> <br></br>Welcome to ChicCRM registration process now you are in</Box>
             <Box sx={{ fontSize: '10px' }}>After complete all infomation you will received email your password</Box>
           </Box>
         </Box>
       </Box>
       <Box >
-        <Box sx={{ mt: 5 }}>
-          <Typography variant="h6">Create Company</Typography>
+        <Box sx={{ mt: 5}}>
+          <Typography variant="h7">Create Company</Typography>
         </Box>
         <Box sx={{ display: 'flex', ml: 5 }}>
           <Box sx={{ mt: '2%', flexDirection: 'column', justifyContent: 'center' }}>
@@ -58,8 +54,7 @@ function Page() {
               <label htmlFor='raised-button-file'>
                 {state.selectedImage ? (
                   <img src={state.selectedImage} alt='Selected' style={{ width: '100px', height: '100px', borderRadius: '100%' }} />
-                ) : (
-                  <IconButton sx={{ color: '#1F2939' }} component='span'>
+                ) : (<IconButton sx={{ color: '#1F2939' }} component='span'>
                     <AddAPhotoIcon />
                   </IconButton>
                 )}
@@ -70,23 +65,23 @@ function Page() {
             <Grid container rowGap={2}>
               <Box sx={{ display: 'flex', flexDirection: 'column', gap: 2, mr: 5 }}>
                 <Box sx={{ display: 'flex', alignItems: 'center' }}>
-                  <Box sx={{ pt: 1.5, width: '150px', color: '#1F2939', fontWeight: '500' }}>Alias</Box>
+                  <Box sx={{ pt: 1.5, width: '150px', color: '#1F2939', fontWeight: '500',fontSize:"13px"  }}>Alias</Box>
                   <TextField id="standard-basic" variant="standard" value={state.alias} onChange={Handlecompany.Alias} sx={{ width: "200px" }} />
                 </Box>
                 <Box sx={{ display: 'flex', alignItems: 'center' }}>
-                  <Box sx={{ pt: 1.5, width: '150px', color: '#1F2939', fontWeight: '500' }}>Company name</Box>
+                  <Box sx={{ pt: 1.5, width: '150px', color: '#1F2939', fontWeight: '500',fontSize:"13px"  }}>Company name</Box>
                   <TextField id="standard-basic" variant="standard" value={state.companyname} onChange={Handlecompany.Companyname} sx={{ width: "200px" }} />
                 </Box>
                 <Box sx={{ display: 'flex', alignItems: 'center' }}>
-                  <Box sx={{ pt: 1.5, width: '150px', color: '#1F2939', fontWeight: '500' }}>No</Box>
+                  <Box sx={{ pt: 1.5, width: '150px', color: '#1F2939', fontWeight: '500',fontSize:"13px"  }}>No</Box>
                   <TextField id="standard-basic" variant="standard" value={state.no} onChange={Handlecompany.No} sx={{ width: "200px" }} />
                 </Box>
                 <Box sx={{ display: 'flex', alignItems: 'center' }}>
-                  <Box sx={{ pt: 1.5, width: '150px', color: '#1F2939', fontWeight: '500' }}>Street</Box>
+                  <Box sx={{ pt: 1.5, width: '150px', color: '#1F2939', fontWeight: '500',fontSize:"13px"  }}>Street</Box>
                   <TextField id="standard-basic" variant="standard" value={state.street} onChange={Handlecompany.Street} sx={{ width: "200px" }} />
                 </Box>
                 <Box sx={{ display: 'flex', alignItems: 'center' }}>
-                  <Box sx={{ pt: 1.5, width: '150px', color: '#1F2939', fontWeight: '500' }}>Country</Box>
+                  <Box sx={{ pt: 1.5, width: '150px', color: '#1F2939', fontWeight: '500',fontSize:"13px"  }}>Country</Box>
                   <Select id="standard-basic" variant="standard" value={state.country} onChange={Handlecompany.Country} sx={{ width: "200px" }}>
                     {state.countries.map((country) => (
                       <MenuItem key={country} value={country}>
@@ -96,7 +91,7 @@ function Page() {
                   </Select>
                 </Box>
                 <Box sx={{ display: 'flex', alignItems: 'center' }}>
-                  <Box sx={{ pt: 1.5, width: '150px', color: '#1F2939', fontWeight: '500' }}>Province</Box>
+                  <Box sx={{ pt: 1.5, width: '150px', color: '#1F2939', fontWeight: '500',fontSize:"13px"  }}>Province</Box>
                   <Select labelId="province-select" variant="standard" id="province-select" value={state.selectedProvince} label="Province" onChange={Handlecompany.handleProvinceChange}
                     sx={{ width: "200px" }} size='small'>
                     {state.provinces?.map((province) => (
@@ -109,7 +104,7 @@ function Page() {
               </Box>
               <Box sx={{ display: 'flex', flexDirection: 'column', gap: 2 }}>
                 <Box sx={{ display: 'flex', alignItems: 'center' }}>
-                  <Box sx={{ pt: 1.5, width: '150px', color: '#1F2939', fontWeight: '500' }}>District</Box>
+                  <Box sx={{ pt: 1.5, width: '150px', color: '#1F2939', fontWeight: '500',fontSize:"13px"  }}>District</Box>
                   <Select labelId="amphoe-select-label" variant="standard" id="amphoe-select" value={state.selectedAmphoe} label="Amphoe" onChange={Handlecompany.handleAmphoeChange}
                     sx={{ width: "250px" }} size='small'>
                     {state.selectedProvince && state.amphures?.map((amphoe) => (
@@ -119,7 +114,7 @@ function Page() {
                     ))}
                   </Select></Box>
                 <Box sx={{ display: 'flex', alignItems: 'center' }}>
-                  <Box sx={{ pt: 1.5, width: '150px', color: '#1F2939', fontWeight: '500' }}>Sub-Distric</Box>
+                  <Box sx={{ pt: 1.5, width: '150px', color: '#1F2939', fontWeight: '500',fontSize:"13px"  }}>Sub-Distric</Box>
                   <Select labelId="tambon-select-label" variant="standard" id="tambon-select" value={state.selectedTambon} label="Tambon"
                     onChange={Handlecompany.handleTambonChange} sx={{ width: "250px" }} size='small'>
                     {state.selectedAmphoe && state.tambons?.map((tambon) => (
@@ -129,19 +124,19 @@ function Page() {
                     ))}
                   </Select></Box>
                 <Box sx={{ display: 'flex', alignItems: 'center' }}>
-                  <Box sx={{ pt: 1.5, width: '150px', color: '#1F2939', fontWeight: '500' }}>ZIP Code</Box>
+                  <Box sx={{ pt: 1.5, width: '150px', color: '#1F2939', fontWeight: '500',fontSize:"13px"  }}>ZIP Code</Box>
                   <TextField variant="standard" size='small' value={state.zipcode} InputProps={{ readOnly: true, }} sx={{ width: "250px" }} />
                 </Box>
                 <Box sx={{ display: 'flex', alignItems: 'center' }}>
-                  <Box sx={{ pt: 1.5, width: '150px', color: '#1F2939', fontWeight: '500' }}>Phone Number</Box>
+                  <Box sx={{ pt: 1.5, width: '150px', color: '#1F2939', fontWeight: '500',fontSize:"13px"  }}>Phone Number</Box>
                   <TextField id="standard-basic" variant="standard" inputProps={{ maxLength: 10, inputMode: 'numeric' }} value={state.phoneNumber} onChange={Handlecompany.phoneNumber} sx={{ width: "250px" }} />
                 </Box>
                 <Box sx={{ display: 'flex', alignItems: 'center' }}>
-                  <Box sx={{ pt: 1.5, width: '150px', color: '#1F2939', fontWeight: '500' }}>Google Maps</Box>
+                  <Box sx={{ pt: 1.5, width: '150px', color: '#1F2939', fontWeight: '500',fontSize:"13px"  }}>Google Maps</Box>
                   <TextField id="standard-basic" variant="standard" value={state.googlemaps} onChange={Handlecompany.GoogleMaps} sx={{ width: "250px" }} />
                 </Box>
                 <Box sx={{ display: 'flex', alignItems: 'center' }}>
-                  <Box sx={{ pt: 1.5, width: '150px', color: '#1F2939', fontWeight: '500' }}>Website</Box>
+                  <Box sx={{ pt: 1.5, width: '150px', color: '#1F2939', fontWeight: '500',fontSize:"13px"  }}>Website</Box>
                   <TextField id="standard-basic" variant="standard" value={state.webSite} onChange={Handlecompany.webSite} sx={{ width: "250px" }} />
                 </Box>
               </Box>
