@@ -38,6 +38,7 @@ function workspace() {
         localStorage.removeItem("ally-supports-cache")
         localStorage.removeItem("decode_token")
         localStorage.removeItem("loginTime")
+        localStorage.removeItem("useremail")
         window.location.href = "/"
     }
 
