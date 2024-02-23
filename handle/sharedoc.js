@@ -67,7 +67,7 @@ function Sharedoc(textFieldRef,fileInputRef) {
       setState((prevData) => ({ ...prevData, recipient: [...state.recipient, state.input_recip.trim()],input_recip:""}));
     }
   }
-};
+}; 
 
 const handleFileChange = (e) => {
   const files = Array.from(e.target.files);

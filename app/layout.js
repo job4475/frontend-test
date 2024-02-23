@@ -4,6 +4,7 @@ import { StateProvider } from '@/context/Context'
 import ThemeRegistry from "@/utils/ThemeRegistry";
 import { SpeedInsights } from '@vercel/speed-insights/next';
 import ComingSoon from '@/components/comingSoon/page';
+import { GoogleOAuthProvider } from '@react-oauth/google';
 
 export const metadata = {
   title: "ChicCRM",
@@ -23,6 +24,7 @@ export default function RootLayout({ children, isComingSoon }) {
           <footer></footer>
         </body> */}
         <body>
+        <GoogleOAuthProvider clientId="1089445122074-oktnkasmvnhrcq1bahdv2im3ua1msiqo.apps.googleusercontent.com">
           <div className= 'sm:block lg:hidden m-0 p-0'>
             <ComingSoon />
           </div>
@@ -34,6 +36,7 @@ export default function RootLayout({ children, isComingSoon }) {
             </StateProvider>
             <footer></footer>
           </div>
+          </GoogleOAuthProvider>
         </body>
       </ThemeRegistry>
     </html>
