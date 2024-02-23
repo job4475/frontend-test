@@ -67,7 +67,7 @@ function Sharedoc(textFieldRef,fileInputRef) {
       setState((prevData) => ({ ...prevData, recipient: [...state.recipient, state.input_recip.trim()],input_recip:""}));
     }
   }
-};
+}; 
 
 const handleFileChange = (e) => {
   const files = Array.from(e.target.files);
@@ -390,9 +390,9 @@ const handleUpload = useCallback(async () => {
 
       xhr.open("POST", `${process.env.NEXT_PUBLIC_API_ENDPOINT}:${process.env.NEXT_PUBLIC_API_PORT}/api/requestDoc`, true);
       xhr.onload = () => {
+        const result = JSON.parse(xhr.responseText);
 
         if (xhr.status === 200) {
-          const result = JSON.parse(xhr.responseText);
           if (result.status === "OK") {
               setState((prevData) => ({ ...prevData, titleselect:"",input_last_name:"",input_email:"",input_role:"",
               input_firstName:"",input_phone:"",input_jobtitle:"",email:'',Password:'',Alias:'',Province:'',Companyname:'',District:''
@@ -402,9 +402,16 @@ const handleUpload = useCallback(async () => {
               periodDays:"",periodHours:"",opensTime:"",loading:false,messageBody:"",watermark:false,screenwatermark:false}));
               // window.location.href = '/RequestLisU'
               router.push('/RequestLisU');
+              AletToEmail(orderId)
 
           } else {
+        
           }
+        }else{
+          setState((prevData) => ({ ...prevData, alert: true, alert_text: result.message.Finalcode_result, alert_type: 'error', loading: false }));
+          setTimeout(() => {
+            setState((prevData) => ({ ...prevData, alert: false,loading:false }));
+           }, 2000);
         }
       };
 
@@ -415,6 +422,42 @@ const handleUpload = useCallback(async () => {
       xhr.send(formdata);
     }
   }, [state, setState]);
+
+  const getCurrentDateTime = () => {
+    const now = new Date();
+    const formattedDate = `${now.getDate()}/${now.getMonth() + 1}/${now.getFullYear() + 543} ${String(now.getHours()).padStart(2, '0')}:${String(now.getMinutes()).padStart(2, '0')}:${String(now.getSeconds()).padStart(2, '0')}`;
+    return formattedDate;
+};
+
+
+  const AletToEmail = (orderId)=>{
+    const formdata = new FormData();
+    const files = state.selectedFileName?.map((files, index) => `${files}`)
+    const email_manager = state.teamlead_email?.map((user) => user.username);
+    formdata.append("to", email_manager?email_manager:"");
+    formdata.append("subject", "SecureDoc - New request");
+    formdata.append("fromEmail", state.decode_token.UsernameOriginal?state.decode_token.UsernameOriginal:"");
+    formdata.append("body", `<p>----------------------------------------------------<br>A view request has been made for a file which you own<br>----------------------------------------------------<br><br>To: ${email_manager?email_manager:""} (${email_manager?email_manager:""})<br><br>Thank you for using Chiccrm.<br>This e-mail request was sent to you on behalf of \"${state.decode_token.UsernameOriginal ? state.decode_token.UsernameOriginal.charAt(0).toUpperCase() + state.decode_token.UsernameOriginal.slice(1) : ""}\" for access approval.<br><br>To approve or deny the request, please login to the management page.<br><br>* You may not approve or deny requests if you are using a limited access account.<br>If so, please contact your administrator.<br><br>----------------------------------------------------<br>Requested on:   ${getCurrentDateTime()}<br>Requested by:   ${state.decode_token.FirstnameOriginal ? state.decode_token.FirstnameOriginal.charAt(0).toUpperCase() + state.decode_token.FirstnameOriginal.slice(1) : ""} ${state.decode_token.SurnameTokenOriginal ? state.decode_token.SurnameTokenOriginal.charAt(0).toUpperCase() + state.decode_token.SurnameTokenOriginal.slice(1) : ""} (${state.decode_token.UsernameOriginal ? state.decode_token.UsernameOriginal : ""})<br><br>Target file:    ${files?files:""}<br>Request ID:        ${orderId?orderId:""}<br><br>Message: ${state.messageBody ? state.messageBody : ""}<br>----------------------------------------------------<br>URL : https://trac.chiccrm.com/<br>----------------------------------------------------<br><br>* If you are not the intended recipient for this e-mail, please ignore and delete it.`);
+    formdata.append("cc", email_manager?email_manager:"");
+    
+    const requestOptions = {
+      method: "POST",
+      body: formdata,
+      redirect: "follow"
+    };
+
+        const apiEndpoint = process.env.NEXT_PUBLIC_API_ENDPOINT_LOGIN;
+        const apiPortLogin = process.env.NEXT_PUBLIC_API_PORT_LOGIN || "";
+        const apiUrl = `${apiEndpoint}:${apiPortLogin}/api/mailChicCRM`;
+        fetch(apiUrl, requestOptions)
+    
+      .then((response) => response.json())
+      .then((result) => {
+        console.log("🚀 ~ .then ~ result:", result)
+        
+      })
+      .catch((error) => console.error(error));
+  }
 
 
     const IOSSwitch = styled((props) => (

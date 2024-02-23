@@ -63,6 +63,12 @@ function Navbar() {
     const GetHome = () =>{
         if(state.decode_token){
             router.push('/Workspace');
+            fetch(`${process.env.NEXT_PUBLIC_API_ENDPOINT_GET}${process.env.NEXT_PUBLIC_API_PORT_LOGIN?`:${process.env.NEXT_PUBLIC_API_PORT_LOGIN}`:""}/api/getFeatureByMember/${state.decode_token.ID}`)
+            .then(response => response.json())
+            .then(result => {
+              setState((prevData) => ({ ...prevData, memberAuthorization: result.data }));
+            })
+            .catch(error => console.log('error', error));
 
         }else{
             router.push('/');
