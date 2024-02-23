@@ -45,7 +45,7 @@ function Index() {
               {state.logoImage ? (
                 <Box sx={{ display: "flex", alignItems: "center" }}>
                   <Image alt="website" src={website} width={20} height={50} />
-                  <Box sx={{ ml: 2, fontSize: "13px", overflow: "hidden", textOverflow: "ellipsis", whiteSpace: "nowrap" }}>
+                  <Box sx={{ ml: 2,width:200, fontSize: "13px", overflow: "hidden", textOverflow: "ellipsis", whiteSpace: "nowrap" }}>
                     <a href={state.webSite || state.datacompanylc?.Website} target="_blank" rel="noopener noreferrer">
                       {state.webSite || state.datacompanylc?.Website}
                     </a>
@@ -64,7 +64,7 @@ function Index() {
                 {state.logoImage ? (
                   <Box sx={{ display: 'flex',fontSize:"13px"  }}>
                     <Image alt="map" src={map} width={20} height={50}/>
-                    <Box sx={{ ml: 2,overflow: "hidden", textOverflow: "ellipsis", whiteSpace: "nowrap" }}>
+                    <Box sx={{ ml: 2,width:200,overflow: "hidden", textOverflow: "ellipsis", whiteSpace: "nowrap" }}>
                       <a href={state.datacompanylc?.Geolocation || state.googlemaps} target="_blank" rel="noopener noreferrer">
                         {state.googlemaps || state.datacompanylc?.Geolocation}
                       </a>

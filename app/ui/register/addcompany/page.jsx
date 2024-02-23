@@ -33,22 +33,21 @@ function Page() {
     }
   };
   return (
-    <Box sx={{ display: 'flex', flexDirection: 'column', justifyContent: 'space-between', alignItems: 'flex-start', p: 1, width: '100%', height: '100%' }}>
+    <Box sx={{ display: 'flex', flexDirection: 'column', justifyContent: 'space-between', alignItems: 'flex-start', p: 1, }}>
       <Box >
-      <Box sx={{ display: 'flex', alignItems: 'center', justifyContent: 'center', width: 'auto', height: 'auto' }}>
-        <Image src={Subtract} alt="logo" style={{ width: "80px" }} />
-        <Box sx={{ pl: 3, width: 'auto', height: 'auto' }}>
-          <Box sx={{ fontSize: '15px' }}>Hello good morning <b>{state.emailconfirm ? state.emailconfirm : state.email}</b> <br />Welcome to ChicCRM registration process now you are in</Box>
-          <Box sx={{ fontSize: '10px' }}>After completing all information, you will receive an email with your password</Box>
+        <Box sx={{ display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
+          <Image src={Subtract} alt="logo" style={{ width: "80px" }} />
+          <Box sx={{ pl: 3 }}>
+            <Box sx={{ fontSize: '15px' }}>Hello good morning <b>{state.emailconfirm?state.emailconfirm: state.email}</b> <br></br>Welcome to ChicCRM registration process now you are in</Box>
+            <Box sx={{ fontSize: '10px' }}>After complete all infomation you will received email your password</Box>
+          </Box>
         </Box>
-      </Box>
-
       </Box>
       <Box >
         <Box sx={{ mt: 5}}>
           <Typography variant="h7">Create Company</Typography>
         </Box>
-        <Box sx={{ display: 'flex', ml: 5, width: '100%', height: '100%' }}>
+        <Box sx={{ display: 'flex', ml: 5 }}>
           <Box sx={{ mt: '2%', flexDirection: 'column', justifyContent: 'center' }}>
             <Box sx={{ mt: '2%', width: '100px', height: '100px', background: '#D9D9D9', display: 'flex', justifyContent: 'center', alignItems: 'center', borderRadius: '50%', marginLeft: 'auto', marginRight: 'auto' }}>
               <input accept='image/*' style={{ display: 'none' }} id='raised-button-file' type='file' onChange={handleFileChange} />
@@ -67,7 +66,7 @@ function Page() {
               <Box sx={{ display: 'flex', flexDirection: 'column', gap: 2, mr: 5 }}>
                 <Box sx={{ display: 'flex', alignItems: 'center'  }}>
                   <Box sx={{ pt: 1.5, width: '150px', color: '#1F2939', fontWeight: '500',fontSize:"13px"  }}>Alias</Box>
-                  <TextField id="standard-basic" variant="standard"  value={state.alias} onChange={Handlecompany.Alias} sx={{ width: "200px" }} style={{ fontSize: '13px'}} />
+                  <TextField id="standard-basic" variant="standard"  value={state.alias} onChange={Handlecompany.Alias} sx={{ width: "200px" }} />
                 </Box>
                 <Box sx={{ display: 'flex', alignItems: 'center' }}>
                   <Box sx={{ pt: 1.5, width: '150px', color: '#1F2939', fontWeight: '500',fontSize:"13px"  }}>Company name</Box>
@@ -145,53 +144,13 @@ function Page() {
           </Box>
         </Box>
       </Box>
-      <Box sx={{ ml: '45px', mt: '40px', display:'flex',gap:'12px', 
-          '@media (max-width: 600px)': { flexDirection: 'column' },  // sm
-          '@media (min-width: 601px) and (max-width: 960px)': { flexDirection: 'row' },  // md
-          '@media (min-width: 961px)': { flexDirection: 'row' },  // lg
-        }}>
-  {!emailParam && (
-    <Button 
-      variant="outlined"
-      color="success"
-      onClick={Handlecompany.Selectcompany}
-      sx={{
-        transition: 'transform 0.3s ease',
-        '&:hover': { transform: 'scale(1.03)' },
-      }}
-      style={{
-        textTransform: 'capitalize',
-        width: '100px',
-        height: '50px',
-        color: '#84BAA1',
-        borderRadius: '8px',
-      }}
-    >
-      Back
-    </Button>
-  )}
-  <Button
-    variant='contained'
-    onClick={Handlecompany.Register}
-    disabled={!state.alias || !state.googlemaps || !state.webSite || !state.phoneNumber || !state.companyname || !state.street || !state.no || !state.country || !state.selectedProvince || !state.selectedAmphoe || !state.selectedTambon || !state.selectedImage}
-    sx={{
-      transition: 'transform 0.3s ease',
-      '&:hover': { transform: 'scale(1.03)', background: '#84BAA1', boxShadow: '0px 0px 0px' },
-      gap: '8px',
-      background: '#84BAA1',
-      color: 'white',
-      width: '150px',
-      height: '48px',
-      textTransform: 'capitalize',
-      boxShadow: '0px 0px 0px',
-      borderRadius: '8px',
-      fontWeight: '600',
-    }}
-  >
-    Next
-    <Arrow style={{ transform: 'rotate(90deg)' }} />
-  </Button>
-</Box>
+      <Box sx={{ ml: '45px', mt: '40px', display:'flex',gap:'12px' }}>
+      {!emailParam && (<Button variant="outlined"color="success"onClick={Handlecompany.Selectcompany}sx={{transition: 'transform 0.3s ease','&:hover': { transform: 'scale(1.03)'},}}style={{
+      textTransform: 'capitalize',width: '100px',height: '50px',color: '#84BAA1',borderRadius: '8px',}}>Back</Button>)}
+        <Button variant='contained' onClick={Handlecompany.Register} disabled={!state.alias || !state.googlemaps || !state.webSite || !state.phoneNumber || !state.companyname || !state.street || !state.no || !state.country || !state.selectedProvince || !state.selectedAmphoe || !state.selectedTambon || !state.selectedImage} sx={{ transition: 'transform 0.3s ease', '&:hover': { transform: 'scale(1.03)', background: '#84BAA1', boxShadow: '0px 0px 0px' }, gap: '8px', background: '#84BAA1', color: 'white', width: '150px', height: '48px', textTransform: 'capitalize', boxShadow: '0px 0px 0px', borderRadius: '8px', fontWeight: '600' }}>Next
+          <Arrow style={{ transform: 'rotate(90deg)' }} />
+        </Button>
+      </Box>
     </Box>
   )
 }
