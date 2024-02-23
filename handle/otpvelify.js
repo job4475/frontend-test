@@ -25,7 +25,7 @@ function Otpvelify() {
 
     fetch(`${process.env.NEXT_PUBLIC_API_ENDPOINT_GET}:${process.env.NEXT_PUBLIC_API_PORT_LOGIN}/api/migrateDataByOrganize`, requestOptions)
     .then(response => response.text())
-    .then(result => console.log(result))
+    
     .catch(error => console.log('error', error));
 }
         const workspace = () => {
@@ -46,7 +46,7 @@ function Otpvelify() {
             fetch(`${process.env.NEXT_PUBLIC_API_ENDPOINT_GET}:${process.env.NEXT_PUBLIC_API_PORT_LOGIN}/api/validateOTPEmail`, requestOptions)
                 .then(response => response.json())
                 .then(result => {
-                    console.log(result);
+                    
                     if (result.status === "OK") {
                         
                         migrateDataByOrganize();

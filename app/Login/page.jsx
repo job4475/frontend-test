@@ -19,7 +19,7 @@ const Page = () => {
     <div className="flex flex-col xl:flex-row bg-[#F7FAFB] h-screen">
       <div className="basis-2/3 hidden xl:block">
         {!state.showContent?(
-          <Image onClick={backToLogin}src={Chiclogo}alt="logo"className="absolute w-[80px] h-[auto] top-5 left-5 hover:scale-110 duration-500 cursor-pointer"/>
+          <Image onClick={backToLogin}src={Chiclogo}alt="logo"className="absolute w-[80px] h-[auto] top-5 left-5 hover:scale-110 duration-500 cursor-pointer"priority/>
         ):(
           <Box m={3}>
             <Skeleton variant="circular" width={100} height={100} />
