@@ -7,21 +7,6 @@ function Authenticator() {
     const {state, setState} = useContext(StateContext);
     const router = useRouter();
 
-    const fetchLogoImage = () => {
-      const apiEndpoint = process.env.NEXT_PUBLIC_API_ENDPOINT_GET;
-      const apiPortLogin = process.env.NEXT_PUBLIC_API_PORT_LOGIN || "";
-      const companyId = state.decode_token.CompanyID;
-      const apiUrl = apiEndpoint + (apiPortLogin ? `:${apiPortLogin}` : "") + `/api/getLogoBinary/${companyId}`;
-      
-      fetch(apiUrl)
-        .then(response => response.json())
-          .then(response => response.blob())
-          .then(blob => {
-              const imageUrl = URL.createObjectURL(blob);
-              setState((prevData) => ({ ...prevData, logoImage: imageUrl }));
-          })
-          .catch(error => console.error("Error fetching binary data:", error));
-  };
 
   const tryanother=()=>{
     setState((prevData) => ({ ...prevData,loading: false }))
@@ -51,14 +36,14 @@ function Authenticator() {
             console.log("🚀 ~ getQR ~ result:", result)
             localStorage.setItem("qrcode", JSON.stringify(result.qrCodeURL));
             setState({ ...state, qrcodeurl: result.qrCodeURL });
-            fetchLogoImage();
+  
             router.push('/Authenticator');
 
           } else if(result.statusqr) {
-            fetchLogoImage();
+            
             router.push('/Authenverify');
           } else {
-            fetchLogoImage();
+        
             router.push('/Authenticator');
           }
         })

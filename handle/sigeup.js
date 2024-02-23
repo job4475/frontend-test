@@ -6,26 +6,6 @@ function Signup() {
     const { state, setState } = useContext(StateContext);
     const router = useRouter();
 
-    useEffect(() => {
-        const fetchLogoImage = () => {
-          const apiEndpoint = process.env.NEXT_PUBLIC_API_ENDPOINT_GET;
-          const apiPortLogin = process.env.NEXT_PUBLIC_API_PORT_LOGIN || "";
-          const apiPortString = apiPortLogin ? `:${apiPortLogin}` : "";
-          const apiUrl = `${apiEndpoint}${apiPortString}/api/getLogoBinary/${state.decode_token.CompanyID}`;
-          
-          fetch(apiUrl)
-                .then(response => response.blob())
-                .then(blob => {
-                    const imageUrl = URL.createObjectURL(blob);
-                    setState((prevData) => ({ ...prevData, logoImage: imageUrl }));
-                })
-                .catch(error => console.error("Error fetching binary data:", error));
-        };
-        
-        fetchLogoImage();
-
-    }, [state.email, state.decode_token.CompanyID, setState, router]);
-
     const handleSignUpClick = () => {
       const myHeaders = new Headers();
       myHeaders.append("Content-Type", "application/json");
@@ -49,7 +29,6 @@ function Signup() {
         .then(result => {
           console.log(result);
           if (result.match === true) {
-            fetchLogoImage();
             setState({
               ...state,
               datacompany: result.data,
