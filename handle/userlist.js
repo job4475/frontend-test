@@ -1,13 +1,32 @@
 'use client'
 import { StateContext } from '@/context/Context';
-import React, { useContext } from 'react'
+import React, { useContext, useEffect, useState } from 'react'
 import { styled } from "@mui/material/styles";
 import Tooltip, { tooltipClasses } from '@mui/material/Tooltip';
 import { useRouter } from 'next/navigation';
+import { googleLogout, useGoogleLogin } from '@react-oauth/google';
+import axios from 'axios';
 
 function Userlist() {
   const {state, setState} = useContext(StateContext);
   const router = useRouter();
+  const [ user, setUser ] = useState([]);
+  const [ file,setfile ] = useState([]);
+  const [ filetype,setfiletype ] = useState([]);
+  const [ filegg2,setfilegg2 ] = useState([]);
+  const [ filetypegg2,setfiletypegg2 ] = useState([]);
+  const [ filetype2,setfiletype2 ] = useState([]);
+  const [ filename2,setfilename2 ] = useState([]);
+  const [ uuid,setuuid ] = useState([]);
+  const [ filetypegg,setfiletypegg ] = useState([]);
+  const [ filenamegg,setfilenamegg ] = useState([]);
+  const [ uuidgg,setuuidgg ] = useState([]);
+  const [ filesecuretypegg,setfilesecuretypegg ] = useState([]);
+  const [ recipient,setrecipient ] = useState([]);
+  console.log("🚀 ~ Userlist ~ recipient:", recipient)
+  const [ recipient2,setrecipient2 ] = useState([]);
+  const [ msgEmail,setmsgEmail ] = useState([]);
+  const [ msgEmail2,setmsgEmail2 ] = useState([]);
 
     const handleNewRequest =async () => {
       setState({ ...state, backdrop: true });
@@ -32,7 +51,6 @@ function Userlist() {
       };
 
       const handleClicktoGetFile = (uuid) => {
-        console.log("🚀 ~ handleClicktoGetFile ~ uuid:", uuid)
         const requestOptions = {
           method: 'GET',
           responseType: 'blob',
@@ -53,6 +71,179 @@ function Userlist() {
           })
           .catch(error => console.log('error', error));
       };
+
+      const handleExportToDevice = (uuids, filenames,securetype) => {
+        const promises = uuids.map((uuid, index) => {
+            const requestOptions = {
+                method: 'GET',
+                responseType: 'blob',
+                redirect: 'follow'
+            };
+    
+            const apiEndpoint = process.env.NEXT_PUBLIC_API_ENDPOINT;
+            const apiPortLogin = process.env.NEXT_PUBLIC_API_PORT_LOGIN || "";
+            const apiPortString = apiPortLogin ? `:${apiPortLogin}` : "";
+            const apiUrl = `${apiEndpoint}${apiPortString}/api/requestFile/${uuid}`;
+    
+            // ส่งคำขอดาวน์โหลดไฟล์
+            return fetch(apiUrl, requestOptions)
+                .then(response => response.blob())
+                .then(blob => {
+                    // สร้างลิงก์ชั่วคราวสำหรับไฟล์
+                    const link = document.createElement('a');
+                    link.href = URL.createObjectURL(blob);
+                    // กำหนดชื่อไฟล์สำหรับการดาวน์โหลด
+                    const filename = filenames[index] || `file_${uuid}.extension`;
+                    link.download = filename+`${securetype[index]==="HTML"?".html":".FCL"}`;
+                    // เพิ่มลิงก์ไปยัง DOM และเรียกใช้การดาวน์โหลด
+                    document.body.appendChild(link);
+                    link.click();
+                    document.body.removeChild(link);
+                    URL.revokeObjectURL(link.href);
+                });
+        });
+    
+        Promise.all(promises)
+            .then(() => {
+                console.log('All files downloaded successfully');
+            })
+            .catch(error => console.log('Error downloading files:', error));
+    };
+
+    const handleExportToDevice2 = (uuids, filenames, securetype) => {
+      setuuid(prevFiles => [...prevFiles, { uuid: uuids}]);
+      setfilename2(prevFiles => [...prevFiles,  filenames]);
+      setfiletype2(prevFiles => [...prevFiles,  securetype]);
+  };
+
+  const handleExportToGoogleDrive2 = (uuids, filenames,type,securetype,recipients,massageEmail) => {
+    setuuidgg(prevFiles => [...prevFiles, { uuid: uuids}]);
+    setfilenamegg(prevFiles => [...prevFiles,  filenames]);
+    setfilesecuretypegg(prevFiles => [...prevFiles,  securetype]);
+    setfiletypegg(prevFiles => [...prevFiles,  type]);
+    setrecipient2(prevFiles => [...prevFiles,  recipients]);
+    setmsgEmail2(prevFiles => [...prevFiles,  massageEmail]);
+  }
+
+
+  useEffect(() => {
+    if(uuid.length>0){
+      const promises = uuid.map((id, index) => {
+      const requestOptions = {
+        method: 'GET',
+        responseType: 'blob',
+        redirect: 'follow'
+    };
+
+    const apiEndpoint = process.env.NEXT_PUBLIC_API_ENDPOINT;
+    const apiPortLogin = process.env.NEXT_PUBLIC_API_PORT_LOGIN || "";
+    const apiPortString = apiPortLogin ? `:${apiPortLogin}` : "";
+    const apiUrl = `${apiEndpoint}${apiPortString}/api/requestFile/${id.uuid}`;
+
+    // ส่งคำขอดาวน์โหลดไฟล์
+    return fetch(apiUrl, requestOptions)
+        .then(response => response.blob())
+        .then(blob => {
+            // สร้างลิงก์ชั่วคราวสำหรับไฟล์
+            const link = document.createElement('a');
+            link.href = URL.createObjectURL(blob);
+            // กำหนดชื่อไฟล์สำหรับการดาวน์โหลด
+            const filename = filename2[index] || `file_${id.uuid}.extension`;
+            link.download = filename+`${filetype2[index]==="HTML"?".html":".FCL"}`;
+            // เพิ่มลิงก์ไปยัง DOM และเรียกใช้การดาวน์โหลด
+            document.body.appendChild(link);
+            link.click();
+            document.body.removeChild(link);
+            URL.revokeObjectURL(link.href);
+        });
+    });
+
+    Promise.all(promises)
+        .then(() => {
+            console.log('All files downloaded successfully');
+        })
+        .catch(error => console.log('Error downloading files:', error));
+      }
+}, [uuid]);
+
+useEffect(() => {
+  if(uuidgg.length>0){
+    const promises = uuidgg.map((id, index) => {
+      // สร้างคำขอดาวน์โหลดไฟล์สำหรับ UUID นี้
+      const requestOptions = {
+          method: 'GET',
+          responseType: 'blob',
+          redirect: 'follow'
+      };
+
+      const apiEndpoint = process.env.NEXT_PUBLIC_API_ENDPOINT;
+      const apiPortLogin = process.env.NEXT_PUBLIC_API_PORT_LOGIN || "";
+      const apiPortString = apiPortLogin ? `:${apiPortLogin}` : "";
+      const apiUrl = `${apiEndpoint}${apiPortString}/api/requestFile/${id.uuid}`;
+
+      // ส่งคำขอดาวน์โหลดไฟล์
+      return fetch(apiUrl, requestOptions)
+          .then(response => response.blob())
+          .then(blob => {
+              // สร้างลิงก์ชั่วคราวสำหรับไฟล์
+              const link = document.createElement('a');
+              link.href = URL.createObjectURL(blob);
+              // กำหนดชื่อไฟล์สำหรับการดาวน์โหลด
+              const filename = filenamegg[index]+`${filesecuretypegg[index]==="HTML"?".html":".FCL"}` || `file_${id.uuid}.extension`;
+              setfiletypegg2(filetypegg)
+              setfilegg2(prevFiles => [...prevFiles, { name: filename, blob: blob }]);
+          });
+  });
+
+  // รอให้การดาวน์โหลดสำเร็จทั้งหมด
+  Promise.all(promises)
+      .then(() => {
+          console.log('All files downloaded successfully');
+      })
+      .catch(error => console.log('Error downloading files:', error));
+    }
+}, [uuidgg]);
+  
+
+      const handleExportToGoogleDrive = (uuids, filenames,type,securetype,recipients,massageEmail) => {
+        setfile([])
+        setrecipient(recipients)
+        setmsgEmail(massageEmail)
+        const promises = uuids.map((uuid, index) => {
+            // สร้างคำขอดาวน์โหลดไฟล์สำหรับ UUID นี้
+            const requestOptions = {
+                method: 'GET',
+                responseType: 'blob',
+                redirect: 'follow'
+            };
+    
+            const apiEndpoint = process.env.NEXT_PUBLIC_API_ENDPOINT;
+            const apiPortLogin = process.env.NEXT_PUBLIC_API_PORT_LOGIN || "";
+            const apiPortString = apiPortLogin ? `:${apiPortLogin}` : "";
+            const apiUrl = `${apiEndpoint}${apiPortString}/api/requestFile/${uuid}`;
+    
+            // ส่งคำขอดาวน์โหลดไฟล์
+            return fetch(apiUrl, requestOptions)
+                .then(response => response.blob())
+                .then(blob => {
+                    // สร้างลิงก์ชั่วคราวสำหรับไฟล์
+                    const link = document.createElement('a');
+                    link.href = URL.createObjectURL(blob);
+                    // กำหนดชื่อไฟล์สำหรับการดาวน์โหลด
+                    const filename = filenames[index]+`${securetype[index]==="HTML"?".html":".FCL"}` || `file_${uuid}.extension`;
+                    setfiletype(type)
+                    setfile(prevFiles => [...prevFiles, { name: filename, blob: blob }]);
+                });
+        });
+    
+        // รอให้การดาวน์โหลดสำเร็จทั้งหมด
+        Promise.all(promises)
+            .then(() => {
+                console.log('All files downloaded successfully');
+            })
+            .catch(error => console.log('Error downloading files:', error));
+    };
+    
 
       const CustomTooltip = styled(({ className, ...props }) => (
         <Tooltip {...props} classes={{ popper: className }} />
@@ -109,9 +300,145 @@ function Userlist() {
         return acc;
       }, []);
 
+      const handleGoogleDrive =(row) => {
+        console.log("🚀 ~ handleGoogleDrive ~ row:", row)
+      }
+
+      const login = useGoogleLogin({
+        onSuccess: (codeResponse) => setUser([codeResponse]),
+        onError: (error) => console.log('Login Failed:', error),
+        accessType: 'offline',
+        scope: 'https://www.googleapis.com/auth/drive https://www.googleapis.com/auth/drive.file https://www.googleapis.com/auth/drive.appdata' // เพิ่มสิทธิ์ในการอัปโหลดไฟล์ไปยัง Google Drive
+      });
+    
+
+      useEffect(() => {
+        if (user.length > 0 && (file.length > 0||filegg2.length > 0)) {
+          setState(prevData => ({...prevData,backdrop: true,}));
+            const access_token = user[0].access_token;
+            const filesToUse = file.length > 0 ? file : filegg2;
+            const fileTypesToUse = filetype.length > 0 ? filetype : filetypegg2;
+
+            
+            const promises = filesToUse.map((fileItem, index) => {
+                const myHeaders = new Headers();
+                myHeaders.append("Content-Type", fileTypesToUse[index]);
+                myHeaders.append("Authorization", `Bearer ${access_token}`);
+                
+                const requestOptions = {
+                    method: "POST",
+                    headers: myHeaders,
+                    body: fileItem.blob,
+                    redirect: "follow"
+                };
+                
+                return fetch("https://www.googleapis.com/upload/drive/v3/files?uploadType=media", requestOptions)
+                    .then(response => response.json())
+                    .then(result => {
+                        return Rename(result.id, fileItem.name);
+                    })
+                    .catch(error => console.error(error));
+            });
+    
+            Promise.all(promises)
+                .then(() => {
+                    setState(prevData => ({...prevData,alert: true,alert_text: "Upload to Google Drive Successfully",alert_type: "success",loading: false,backdrop:false}));
+                    setTimeout(() => {
+                      setState((prevData) => ({ ...prevData, alert: false }));
+                    }, 2000);
+                  })
+                .catch(error => console.error("Error uploading files:", error));
+        }
+    }, [user,(file || filegg2),(filetype || filetypegg2)]);
+    
+    const Rename = (id, filename) => {
+        const myHeaders = new Headers();
+        myHeaders.append("Content-Type", "application/json");
+        myHeaders.append("Authorization", `Bearer ${user[0].access_token}`);
+        
+        const raw = JSON.stringify({
+            title: filename
+        });
+        
+        const requestOptions = {
+            method: "PUT",
+            headers: myHeaders,
+            body: raw,
+            redirect: "follow"
+        };
+        
+        return fetch(`https://www.googleapis.com/drive/v2/files/${id}`, requestOptions)
+            .then(response => response.json())
+            .then(result => {
+              AssigntoRecipients(result.id)
+            })
+            .catch(error => console.error(error));
+    };
+
+    const AssigntoRecipients = (id) => {
+      const access_token = user[0].access_token;
+      
+      // แยก Recipient และ messageEmail ออกจากกัน
+      const recipients = recipient.length > 0 ? recipient[0].split(",") : recipient2[0].split(",");
+      const messageEmails = msgEmail.length > 0 ? msgEmail[0].split(",") : msgEmail2[0].split(",");
+      
+      // สร้าง Promise สำหรับแต่ละ Recipient
+      const requests = recipients.map((recipient, index) => {
+        const myHeaders = new Headers();
+        myHeaders.append("Content-Type", "application/json");
+        myHeaders.append("Authorization", `Bearer ${access_token}`);
+    
+        const raw = JSON.stringify({
+          "role": "reader",
+          "type": "user",
+          "emailAddress": recipient.trim() 
+        });
+    
+        const requestOptions = {
+          method: "POST",
+          headers: myHeaders,
+          body: raw,
+          redirect: "follow"
+        };
+    
+        // ส่งคำขอ API สำหรับแต่ละ Recipient
+        return fetch(`https://www.googleapis.com/drive/v3/files/${id}/permissions?sendNotificationEmails=true&emailMessage=${messageEmails}`, requestOptions);
+      });
+    
+      // รวม Promise ของแต่ละ Recipient เข้าด้วยกัน
+      Promise.all(requests)
+        .then(responses => {
+          return Promise.all(responses.map(response => response.json()));
+        })
+        .then(results => {
+          console.log("🚀 ~ .then ~ result:", results);
+          // ล้างข้อมูลหลังจากทำงานเสร็จสำเร็จ
+          setfilesecuretypegg([]);
+          setuuidgg([]);
+          setfiletypegg([]);
+          setfilenamegg([]);
+          setuuid([]);
+          setfilename2([]);
+          setfiletype2([]);
+          setfiletypegg2([]);
+          setfilegg2([]);
+          setfiletype([]);
+          setfile([]);
+          setUser([]);
+          setrecipient([]);
+          setrecipient2([]);
+          setmsgEmail([]);
+          setmsgEmail2([]);
+        })
+        .catch(error => console.error(error));
+    }
+    
+    
+    
+
 
   return {handleNewRequest,handleClicktoGetFile,handleTooltipOpen,handleTooltipClose,handleTooltipCloseRecipient,handleTooltipOpenRecipient,CustomTooltip,CustomTooltipRecipient,
-    convertTimestampToLocalTime,groupedOrders
+    convertTimestampToLocalTime,groupedOrders,login,handleGoogleDrive,handleExportToDevice,handleExportToDevice2,handleExportToGoogleDrive,handleExportToGoogleDrive2
   };
 
 }

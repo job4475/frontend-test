@@ -1,12 +1,14 @@
 "use client";
 import * as React from 'react';
-import { Box, Button, Paper, Table, TableBody, TableCell, TableContainer, TableHead, TableRow } from '@mui/material'
+import { Box, Button, IconButton, Paper, Table, TableBody, TableCell, TableContainer, TableHead, TableRow, Tooltip } from '@mui/material'
 import file from '@/assets/assets/images/file.png'
 import recipient from '@/assets/assets/images/recipient.png'
 import dropdown from '@/assets/assets/images/dropdown.png'
 import Image from 'next/image';
 import HandleLeadList from '@/handle/userlist'
 import { useState } from 'react';
+import DevicesIcon from '@mui/icons-material/Devices';
+import AddToDriveIcon from '@mui/icons-material/AddToDrive';
 
 function Index() {
   const handleLeadList = HandleLeadList();
@@ -49,6 +51,7 @@ function Index() {
           <TableCell id="cellheader" align="center">Sender</TableCell>
           <TableCell id="cellheader" align="center">Recipient</TableCell>
           <TableCell id="cellheader" align="center">Status</TableCell>
+          <TableCell id="cellheader" align="center">Export to</TableCell>
         </TableRow>
       </TableHead>
       <TableBody>
@@ -70,17 +73,17 @@ function Index() {
                      row[0].scdact_filename.map((item, itemIndex) => (
                        <Button  
                          onClick={() => 
-                           Array.isArray(row[0].scdact_id) && 
-                           itemIndex >= 0 && 
-                           itemIndex < row[0].scdact_id.length && 
-                           row[0].scdact_status !== 'Approved' && 
-                           row[0].scdact_status !== 'Rejected' ? 
-                           handleLeadList.handleClicktoGetFile(row[0].scdact_id[itemIndex]) 
-                           : 
-                           handleLeadList.handleClicktoGetFile(row[itemIndex].scdact_id)} 
+                          Array.isArray(row[0].scdact_id) && 
+                          itemIndex >= 0 && 
+                          itemIndex < row[0].scdact_id.length && 
+                          row[0].scdact_status !== 'Approved' && 
+                          row[0].scdact_status !== 'Rejected' ? 
+                          handleLeadList.handleClicktoGetFile(row[0].scdact_id[itemIndex])
+                          : 
+                          ''} 
                          key={`button-${itemIndex}`} 
                          style={{ textTransform: 'none', display: 'flex', justifyContent: 'space-between', width: '100%' }}>
-                         <Box sx={{ pr: 1 }}>{item}</Box>
+                         <Box sx={{ pr: 1, overflow: 'hidden', textOverflow: 'ellipsis', maxWidth: '17ch', whiteSpace: 'nowrap' }}>{item}</Box>
                          <Box >{Array.isArray(row[0].scdact_filesize) ? row[0].scdact_filesize[itemIndex] : item.scdact_filesize}</Box>
                          {/* You can add the filesize here if needed */}
                        </Button>
@@ -88,18 +91,15 @@ function Index() {
                    :
                      row.map((item, itemIndex) => (
                        <Button  
-                         onClick={() => 
-                           Array.isArray(row[0].scdact_id) && 
-                           itemIndex >= 0 && 
-                           itemIndex < row[0].scdact_id.length && 
-                           row[0].scdact_status !== 'Approved' && 
-                           row[0].scdact_status !== 'Rejected' ? 
-                           handleLeadList.handleClicktoGetFile(row[0].scdact_id[itemIndex]) 
-                           : 
-                           handleLeadList.handleClicktoGetFile(row[itemIndex].scdact_id)} 
+                       onClick={() =>  
+                        row[0].scdact_status !== 'Approved' && 
+                        row[0].scdact_status !== 'Rejected' ? 
+                        handleLeadList.handleClicktoGetFile(row[itemIndex].scdact_id)
+                        : 
+                        ''}
                          key={`button-${itemIndex}`} 
                          style={{ textTransform: 'none', display: 'flex', justifyContent: 'space-between', width: '100%' }}>
-                         <Box sx={{ pr: 1 }}>{Array.isArray(row[0].scdact_filename) ? row[0].scdact_filename[itemIndex] : item.scdact_filename}</Box>
+                         <Box sx={{ pr: 1, overflow: 'hidden', textOverflow: 'ellipsis', maxWidth: '17ch', whiteSpace: 'nowrap' }}>{Array.isArray(row[0].scdact_filename) ? row[0].scdact_filename[itemIndex] : item.scdact_filename}</Box>
                          <Box >{Array.isArray(row[0].scdact_filesize) ? row[0].scdact_filesize[itemIndex] : item.scdact_filesize}</Box>
                          {/* You can add the filesize here if needed */}
                        </Button>
@@ -156,6 +156,61 @@ function Index() {
             </div>
           </TableCell>
           <TableCell style={{fontWeight:600,color: row[0].scdact_status === "Approved" ? "#00E700" : row[0].scdact_status === "Rejected" ? "#FF0000" : "#0062FF", textAlign: "center"}} align="center">{row[0].scdact_status}</TableCell>
+          <TableCell id="bodycell" align="center">
+            <Box sx={{display:'flex',justifyContent:"center"}}>
+              {Array.isArray(row[0].scdact_filename) ? 
+                      <Box onClick={() => 
+                        row[0].scdact_filename.map((item, itemIndex) => (
+                            Array.isArray(row[0].scdact_id) && 
+                            itemIndex >= 0 && 
+                            itemIndex < row[0].scdact_id.length && 
+                            row[0].scdact_status !== 'Approved' && 
+                            row[0].scdact_status !== 'Rejected' ? 
+                            handleLeadList.handleExportToDevice2(row[0].scdact_id[itemIndex],row[0].scdact_filename[itemIndex],row[0].scdact_type)
+                            : 
+                            ''
+                            ))
+                          }>
+                              <Tooltip title="Export to device " placement="top"><IconButton><DevicesIcon/></IconButton></Tooltip>
+                            </Box>
+                   :
+                      <Box onClick={() =>  
+                        row[0].scdact_status !== 'Approved' && 
+                        row[0].scdact_status !== 'Rejected' ? 
+                        handleLeadList.handleExportToDevice(row.map(item => item.scdact_id),row.map(item => item.scdact_filename),row.map(item => item.scdact_type))
+                        : 
+                        ''} ><Tooltip title="Export to device" placement="top"><IconButton><DevicesIcon/></IconButton></Tooltip></Box>
+                     }
+              
+                      {Array.isArray(row[0].scdact_filename) ? 
+                      <Box onClick={() => 
+                        row[0].scdact_filename.map((item, itemIndex) => (
+                            Array.isArray(row[0].scdact_id) && 
+                            itemIndex >= 0 && 
+                            itemIndex < row[0].scdact_id.length && 
+                            row[0].scdact_status !== 'Approved' && 
+                            row[0].scdact_status !== 'Rejected' ? 
+                            (
+                            handleLeadList.login(),
+                            handleLeadList.handleExportToGoogleDrive2(row[0].scdact_id[itemIndex],row[0].scdact_filename[itemIndex],row[0].scdact_filetype,row[0].scdact_type,row[0].scdact_reciepient,row[0].scdact_name)
+                            )
+                            : 
+                            ''
+                            ))}
+                          ><Tooltip title="Export to Google Drive" placement="top"><IconButton><AddToDriveIcon/></IconButton></Tooltip></Box>
+                   :
+                      <Box onClick={() =>  
+                        row[0].scdact_status !== 'Approved' && 
+                        row[0].scdact_status !== 'Rejected' ? 
+                        (
+                        handleLeadList.login(),
+                        handleLeadList.handleExportToGoogleDrive(row.map(item => item.scdact_id),row.map(item => item.scdact_filename),row.map(item => item.scdact_filetype),row.map(item => item.scdact_type),row.map(item => item.scdact_reciepient),row.map(item => item.scdact_name))
+                        )
+                        : 
+                        ''} ><Tooltip title="Export to Google Drive" placement="top"><IconButton><AddToDriveIcon/></IconButton></Tooltip></Box>
+                     }
+            </Box>
+          </TableCell>
         </TableRow>
         ))}
       </TableBody>

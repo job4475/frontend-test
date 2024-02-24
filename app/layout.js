@@ -25,10 +25,10 @@ export default function RootLayout({ children, isComingSoon }) {
         </body> */}
         <body>
         <GoogleOAuthProvider clientId="1089445122074-oktnkasmvnhrcq1bahdv2im3ua1msiqo.apps.googleusercontent.com">
-          <div className= 'sm:block lg:hidden m-0 p-0'>
+          {/* <div className= 'sm:block lg:hidden m-0 p-0'>
             <ComingSoon />
-          </div>
-          <div className='hidden lg:block m-0 p-0'>
+          </div> */}
+          <div >
             <header></header>
             <StateProvider>
               {children}

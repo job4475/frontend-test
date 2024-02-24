@@ -27,6 +27,7 @@ function Leadlist() {
     };
 
     const handleClicktoGetFile = (uuid) => {
+        console.log("🚀 ~ handleClicktoGetFile ~ uuid:", uuid)
         const requestOptions = {
             method: 'GET',
             responseType: 'blob',
