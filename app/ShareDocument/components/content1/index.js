@@ -1,8 +1,8 @@
 "use client";
-import React, { useContext, useRef } from "react";
+import React, { useContext, useRef, useState } from "react";
 import Image from "next/image";
 import Upfile from '@/assets/assets/images/upfile.png';
-import { Box, Button, Chip, Grid, TextField } from "@mui/material";
+import { Box, Button, Chip, Grid, TextField, Tooltip } from "@mui/material";
 import { StateContext } from "@/context/Context";
 import EmailIcon from '@mui/icons-material/Email';
 import HandleShareDoc from '@/handle/sharedoc'
@@ -14,7 +14,6 @@ function Index() {
   const fileInputRef = useRef(null);
   const textFieldRef = useRef(null);
   const handleShareDoc = HandleShareDoc(textFieldRef,fileInputRef);
-
   return (
     <>
     {/* //*!Hook Useeffect */}
@@ -43,6 +42,7 @@ function Index() {
               InputProps={{startAdornment: (<></>),}}/>
 
             {/* //*&Upload File */}
+            
             <Box id="upload" onClick={handleShareDoc.handleFileClick} onDragOver={handleShareDoc.handleDragOver} onDrop={handleShareDoc.handleDrop}     onDragLeave={handleShareDoc.handleDragLeave} sx={{width: "100%",height: "250px",borderRadius: "10px",backgroundColor: !state.selectedFileName.length > 0?"#fff": "#F7F8F9",borderStyle: "dashed",borderWidth: "1px",borderColor: "#ccc",display:'flex',justifyContent:"center",alignItems:'center',flexDirection:!state.selectedFileName.length > 0?'column':"row"}}>
               <input type="file" ref={fileInputRef} style={{ display: 'none' }} onChange={handleShareDoc.handleFileChange} multiple/>
             {!state.selectedFileName.length > 0?(

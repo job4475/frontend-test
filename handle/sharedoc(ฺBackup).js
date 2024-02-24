@@ -77,16 +77,10 @@ const handleFileChange = (e) => {
   const newTotalSize = currentTotalSize + incomingTotalSize;
 
   if (newTotalSize > maxSize) {
-    // setState((prevData) => ({ ...prevData,alert: true, loading: false, alert_text: "File size exceeds 25 MB limit. Please select a smaller file.", alert_type: "error"}));
-    // setTimeout(() => {
-    //   setState((prevData) => ({ ...prevData,alert: false}));
-    // }, 3000);
-    // return;
-    setState((prevData) => ({ ...prevData, selectedFile: [...prevData.selectedFile, ...files],selectedFileName: [
-      ...prevData.selectedFileName,
-      ...files.map((file) => file.name),
-    ] }));
-    document.getElementById('upload').style.backgroundColor = `#F7F8F9`;
+    setState((prevData) => ({ ...prevData,alert: true, loading: false, alert_text: "File size exceeds 25 MB limit. Please select a smaller file.", alert_type: "error"}));
+    setTimeout(() => {
+      setState((prevData) => ({ ...prevData,alert: false}));
+    }, 3000);
     return;
   }
   setState((prevData) => ({ ...prevData, selectedFile: [...prevData.selectedFile, ...files],selectedFileName: [
