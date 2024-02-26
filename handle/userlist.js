@@ -14,6 +14,7 @@ function Userlist() {
   const [ file,setfile ] = useState([]);
   const [ filetype,setfiletype ] = useState([]);
   const [ filegg2,setfilegg2 ] = useState([]);
+  console.log("🚀 ~ Userlist ~ filegg2:", filegg2)
   const [ filetypegg2,setfiletypegg2 ] = useState([]);
   const [ filetype2,setfiletype2 ] = useState([]);
   const [ filename2,setfilename2 ] = useState([]);
@@ -23,7 +24,6 @@ function Userlist() {
   const [ uuidgg,setuuidgg ] = useState([]);
   const [ filesecuretypegg,setfilesecuretypegg ] = useState([]);
   const [ recipient,setrecipient ] = useState([]);
-  console.log("🚀 ~ Userlist ~ recipient:", recipient)
   const [ recipient2,setrecipient2 ] = useState([]);
   const [ msgEmail,setmsgEmail ] = useState([]);
   const [ msgEmail2,setmsgEmail2 ] = useState([]);
@@ -73,6 +73,7 @@ function Userlist() {
       };
 
       const handleExportToDevice = (uuids, filenames,securetype) => {
+        setState(prevData => ({...prevData,backdrop: true}));
         const promises = uuids.map((uuid, index) => {
             const requestOptions = {
                 method: 'GET',
@@ -105,7 +106,7 @@ function Userlist() {
     
         Promise.all(promises)
             .then(() => {
-                console.log('All files downloaded successfully');
+              setState(prevData => ({...prevData,backdrop: false}));
             })
             .catch(error => console.log('Error downloading files:', error));
     };
@@ -117,17 +118,18 @@ function Userlist() {
   };
 
   const handleExportToGoogleDrive2 = (uuids, filenames,type,securetype,recipients,massageEmail) => {
-    setuuidgg(prevFiles => [...prevFiles, { uuid: uuids}]);
-    setfilenamegg(prevFiles => [...prevFiles,  filenames]);
-    setfilesecuretypegg(prevFiles => [...prevFiles,  securetype]);
-    setfiletypegg(prevFiles => [...prevFiles,  type]);
-    setrecipient2(prevFiles => [...prevFiles,  recipients]);
-    setmsgEmail2(prevFiles => [...prevFiles,  massageEmail]);
+       setuuidgg(prevFiles => [...prevFiles, { uuid: uuids}]);
+       setfilenamegg(prevFiles => [...prevFiles,  filenames]);
+       setfilesecuretypegg(prevFiles => [...prevFiles,  securetype]);
+       setfiletypegg(prevFiles => [...prevFiles,  type]);
+       setrecipient2(prevFiles => [...prevFiles,  recipients]);
+       setmsgEmail2(prevFiles => [...prevFiles,  massageEmail]);
   }
 
 
   useEffect(() => {
     if(uuid.length>0){
+      setState(prevData => ({...prevData,backdrop: true}));
       const promises = uuid.map((id, index) => {
       const requestOptions = {
         method: 'GET',
@@ -167,13 +169,13 @@ function Userlist() {
 }, [uuid]);
 
 useEffect(() => {
-  if(uuidgg.length>0){
-    const promises = uuidgg.map((id, index) => {
-      // สร้างคำขอดาวน์โหลดไฟล์สำหรับ UUID นี้
+  if(uuidgg.length > 0 && user.length > 0){
+    setState(prevData => ({...prevData, backdrop: true}));
+    const filePromises = uuidgg.map((id, index) => {
       const requestOptions = {
-          method: 'GET',
-          responseType: 'blob',
-          redirect: 'follow'
+        method: 'GET',
+        responseType: 'blob',
+        redirect: 'follow'
       };
 
       const apiEndpoint = process.env.NEXT_PUBLIC_API_ENDPOINT;
@@ -181,28 +183,29 @@ useEffect(() => {
       const apiPortString = apiPortLogin ? `:${apiPortLogin}` : "";
       const apiUrl = `${apiEndpoint}${apiPortString}/api/requestFile/${id.uuid}`;
 
-      // ส่งคำขอดาวน์โหลดไฟล์
       return fetch(apiUrl, requestOptions)
-          .then(response => response.blob())
-          .then(blob => {
-              // สร้างลิงก์ชั่วคราวสำหรับไฟล์
-              const link = document.createElement('a');
-              link.href = URL.createObjectURL(blob);
-              // กำหนดชื่อไฟล์สำหรับการดาวน์โหลด
-              const filename = filenamegg[index]+`${filesecuretypegg[index]==="HTML"?".html":".FCL"}` || `file_${id.uuid}.extension`;
-              setfiletypegg2(filetypegg)
-              setfilegg2(prevFiles => [...prevFiles, { name: filename, blob: blob }]);
-          });
-  });
+        .then(response => response.blob())
+        .then(blob => {
+          const filename = filenamegg[index] + (filesecuretypegg[index] === "HTML" ? ".html" : ".FCL") || `file_${id.uuid}.extension`;
+          return { name: filename, blob: blob };
+        })
+        .catch(error => {
+          console.error('Error downloading file:', error);
+          return { error: error };
+        });
+    });
 
-  // รอให้การดาวน์โหลดสำเร็จทั้งหมด
-  Promise.all(promises)
-      .then(() => {
-          console.log('All files downloaded successfully');
+    Promise.all(filePromises)
+      .then(files => {
+        const successfulFiles = files.filter(file => !file.error);
+        setfiletypegg2(filetypegg);
+        setfilegg2(prevFiles => [...prevFiles, ...successfulFiles]);
+        console.log('All files downloaded successfully');
       })
-      .catch(error => console.log('Error downloading files:', error));
-    }
-}, [uuidgg]);
+      .catch(error => console.error('Error downloading files:', error));
+  }
+}, [uuidgg, user]);
+
   
 
       const handleExportToGoogleDrive = (uuids, filenames,type,securetype,recipients,massageEmail) => {
@@ -314,7 +317,6 @@ useEffect(() => {
 
       useEffect(() => {
         if (user.length > 0 && (file.length > 0||filegg2.length > 0)) {
-          setState(prevData => ({...prevData,backdrop: true,}));
             const access_token = user[0].access_token;
             const filesToUse = file.length > 0 ? file : filegg2;
             const fileTypesToUse = filetype.length > 0 ? filetype : filetypegg2;
@@ -342,14 +344,11 @@ useEffect(() => {
     
             Promise.all(promises)
                 .then(() => {
-                    setState(prevData => ({...prevData,alert: true,alert_text: "Upload to Google Drive Successfully",alert_type: "success",loading: false,backdrop:false}));
-                    setTimeout(() => {
-                      setState((prevData) => ({ ...prevData, alert: false }));
-                    }, 2000);
+                    
                   })
                 .catch(error => console.error("Error uploading files:", error));
         }
-    }, [user,(file || filegg2),(filetype || filetypegg2)]);
+    }, [user,file ,filegg2]);
     
     const Rename = (id, filename) => {
         const myHeaders = new Headers();
@@ -374,6 +373,12 @@ useEffect(() => {
             })
             .catch(error => console.error(error));
     };
+    useEffect(() => {
+      if(user.length > 0){
+        setState(prevData => ({...prevData,backdrop: true}));
+      }
+    }, [user,setUser])
+    
 
     const AssigntoRecipients = (id) => {
       const access_token = user[0].access_token;
@@ -384,6 +389,7 @@ useEffect(() => {
       
       // สร้าง Promise สำหรับแต่ละ Recipient
       const requests = recipients.map((recipient, index) => {
+        console.log("🚀 ~ requests ~ recipient:", recipient)
         const myHeaders = new Headers();
         myHeaders.append("Content-Type", "application/json");
         myHeaders.append("Authorization", `Bearer ${access_token}`);
@@ -411,8 +417,11 @@ useEffect(() => {
           return Promise.all(responses.map(response => response.json()));
         })
         .then(results => {
-          console.log("🚀 ~ .then ~ result:", results);
           // ล้างข้อมูลหลังจากทำงานเสร็จสำเร็จ
+          setState(prevData => ({...prevData,alert: true,alert_text: "Upload to Google Drive Successfully",alert_type: "success",loading: false,backdrop:false}));
+                    setTimeout(() => {
+                      setState((prevData) => ({ ...prevData, alert: false }));
+                    }, 2000);
           setfilesecuretypegg([]);
           setuuidgg([]);
           setfiletypegg([]);

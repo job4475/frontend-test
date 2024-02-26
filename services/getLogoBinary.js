@@ -14,7 +14,7 @@ function GetLogoBinary() {
                 .then(response => response.blob())
                 .then(blob => {
                     const imageUrl = URL.createObjectURL(blob);
-                    setState((prevData) => ({ ...prevData, logoImage: imageUrl, loading: false }));
+                    setState((prevData) => ({ ...prevData, logoImage: imageUrl }));
                 })
                 .catch(error => console.error("Error fetching binary data:", error));
         }
