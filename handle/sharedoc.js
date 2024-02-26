@@ -387,7 +387,7 @@ const handleUpload = useCallback(async () => {
         formdata.append("scdact_filename", sanitizedFileName);
         // formdata.append("scdact_filetype", state.selectedFileName[i].split('.')[1]);
         formdata.append("scdact_filetype", fileType);
-        formdata.append("scdact_filehash", "A");
+        formdata.append("scdact_filehash", state.sumsize?state.sumsize:"");
         formdata.append("scdact_filesize", formatBytes(file.size));
         formdata.append("scdact_filecreated", file.lastModified);
         formdata.append("scdact_filemodified", file.lastModified);

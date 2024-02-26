@@ -14,7 +14,6 @@ function Userlist() {
   const [ file,setfile ] = useState([]);
   const [ filetype,setfiletype ] = useState([]);
   const [ filegg2,setfilegg2 ] = useState([]);
-  console.log("🚀 ~ Userlist ~ filegg2:", filegg2)
   const [ filetypegg2,setfiletypegg2 ] = useState([]);
   const [ filetype2,setfiletype2 ] = useState([]);
   const [ filename2,setfilename2 ] = useState([]);
@@ -27,6 +26,9 @@ function Userlist() {
   const [ recipient2,setrecipient2 ] = useState([]);
   const [ msgEmail,setmsgEmail ] = useState([]);
   const [ msgEmail2,setmsgEmail2 ] = useState([]);
+  const [ typeupload,settypeexport ] = useState("");
+  const [ folderid,setfolderid ] = useState("");
+
 
     const handleNewRequest =async () => {
       setState({ ...state, backdrop: true });
@@ -117,13 +119,14 @@ function Userlist() {
       setfiletype2(prevFiles => [...prevFiles,  securetype]);
   };
 
-  const handleExportToGoogleDrive2 = (uuids, filenames,type,securetype,recipients,massageEmail) => {
+  const handleExportToGoogleDrive2 = (uuids, filenames,type,securetype,recipients,massageEmail,typeexport) => {
        setuuidgg(prevFiles => [...prevFiles, { uuid: uuids}]);
        setfilenamegg(prevFiles => [...prevFiles,  filenames]);
        setfilesecuretypegg(prevFiles => [...prevFiles,  securetype]);
        setfiletypegg(prevFiles => [...prevFiles,  type]);
        setrecipient2(prevFiles => [...prevFiles,  recipients]);
        setmsgEmail2(prevFiles => [...prevFiles,  massageEmail]);
+       settypeexport(typeexport)
   }
 
 
@@ -208,7 +211,8 @@ useEffect(() => {
 
   
 
-      const handleExportToGoogleDrive = (uuids, filenames,type,securetype,recipients,massageEmail) => {
+      const handleExportToGoogleDrive = (uuids, filenames,type,securetype,recipients,massageEmail,exporttype) => {
+        settypeexport(exporttype)
         setfile([])
         setrecipient(recipients)
         setmsgEmail(massageEmail)
@@ -302,10 +306,8 @@ useEffect(() => {
       
         return acc;
       }, []);
+    
 
-      const handleGoogleDrive =(row) => {
-        console.log("🚀 ~ handleGoogleDrive ~ row:", row)
-      }
 
       const login = useGoogleLogin({
         onSuccess: (codeResponse) => setUser([codeResponse]),
@@ -313,50 +315,125 @@ useEffect(() => {
         accessType: 'offline',
         scope: 'https://www.googleapis.com/auth/drive https://www.googleapis.com/auth/drive.file https://www.googleapis.com/auth/drive.appdata' // เพิ่มสิทธิ์ในการอัปโหลดไฟล์ไปยัง Google Drive
       });
+
+      useEffect(() => {
+      if(user.length > 0){
+        const myHeaders = new Headers();
+        myHeaders.append("Content-Type", "application/json");
+        myHeaders.append("Authorization", `Bearer ${user[0].access_token}`);
+        
+        const raw = JSON.stringify({
+          "name": `Secure File ${getCurrentDateTime()}`,
+          "mimeType": "application/vnd.google-apps.folder"
+        });
+        
+        const requestOptions = {
+          method: "POST",
+          headers: myHeaders,
+          body: raw,
+          redirect: "follow"
+        };
+        
+        fetch("https://www.googleapis.com/drive/v3/files", requestOptions)
+          .then((response) => response.json())
+          .then((result) => {
+            setfolderid(result.id)
+          })
+          .catch((error) => console.error(error));
+      }
+      }, [user])
+      
     
 
       useEffect(() => {
-        if (user.length > 0 && (file.length > 0||filegg2.length > 0)) {
+        if (user.length > 0 && folderid !== "" && (file.length > 0 || filegg2.length > 0)) {
             const access_token = user[0].access_token;
             const filesToUse = file.length > 0 ? file : filegg2;
             const fileTypesToUse = filetype.length > 0 ? filetype : filetypegg2;
-
-            
+    
             const promises = filesToUse.map((fileItem, index) => {
                 const myHeaders = new Headers();
                 myHeaders.append("Content-Type", fileTypesToUse[index]);
                 myHeaders.append("Authorization", `Bearer ${access_token}`);
-                
+    
                 const requestOptions = {
                     method: "POST",
                     headers: myHeaders,
                     body: fileItem.blob,
                     redirect: "follow"
                 };
-                
+    
                 return fetch("https://www.googleapis.com/upload/drive/v3/files?uploadType=media", requestOptions)
                     .then(response => response.json())
                     .then(result => {
-                        return Rename(result.id, fileItem.name);
+                        return { id: result.id, name: fileItem.name };
                     })
                     .catch(error => console.error(error));
             });
     
             Promise.all(promises)
-                .then(() => {
-                    
-                  })
-                .catch(error => console.error("Error uploading files:", error));
+    .then(fileData => {
+        const ids = fileData.map(data => data.id);
+        const filenames = fileData.map(data => data.name);
+        return Rename(ids, filenames); // เปลี่ยนการส่งข้อมูลให้เป็น ids และ filenames โดยไม่ต้องใส่ใน array ซ้อน array
+    })
+    .catch(error => console.error("Error uploading files:", error));
+
         }
-    }, [user,file ,filegg2]);
+    }, [user, file, filegg2, filetype, filetypegg2, folderid]);
     
-    const Rename = (id, filename) => {
+
+    
+    
+    const Rename = (ids, filenames) => {
+      const renamePromises = ids.map((id, index) => {
+          const myHeaders = new Headers();
+          myHeaders.append("Content-Type", "application/json");
+          myHeaders.append("Authorization", `Bearer ${user[0].access_token}`);
+          
+          const raw = JSON.stringify({
+              title: filenames[index]
+          });
+          
+          const requestOptions = {
+              method: "PUT",
+              headers: myHeaders,
+              body: raw,
+              redirect: "follow"
+          };
+          
+          return fetch(`https://www.googleapis.com/drive/v2/files/${id}`, requestOptions)
+              .then(response => response.json())
+              .then(result => {
+                  return { id: result.id }; // ส่ง ID ของไฟล์ที่เปลี่ยนชื่อไปยังขั้นตอนถัดไป
+              })
+              .catch(error => console.error(error));
+      });
+  
+      return Promise.all(renamePromises)
+      .then(fileData => {
+        const ids = fileData.map(data => data.id);
+            return Movefile(ids); // เปลี่ยนการส่งข้อมูลให้เป็น ids และ filenames โดยไม่ต้องใส่ใน array ซ้อน array
+        })
+          .catch(error => console.error("Error renaming files:", error));
+  };
+  
+  
+  
+  
+
+  const Movefile = (ids) => {
+    const MovefilePromises = ids.map((id, index) => {
         const myHeaders = new Headers();
         myHeaders.append("Content-Type", "application/json");
         myHeaders.append("Authorization", `Bearer ${user[0].access_token}`);
         
         const raw = JSON.stringify({
-            title: filename
+            "parents": [
+                {
+                    "id": folderid
+                }
+            ]
         });
         
         const requestOptions = {
@@ -367,29 +444,67 @@ useEffect(() => {
         };
         
         return fetch(`https://www.googleapis.com/drive/v2/files/${id}`, requestOptions)
-            .then(response => response.json())
-            .then(result => {
-              AssigntoRecipients(result.id)
+            .then((response) => response.json())
+            .then((result) => {
+                return null;
             })
-            .catch(error => console.error(error));
-    };
+            .catch((error) => console.error(error));
+    });
+
+    return Promise.all(MovefilePromises)
+        .then(() => {
+            if(typeupload === "auto") {
+                AssigntoRecipients();
+            } else {
+                setState(prevData => ({
+                    ...prevData,
+                    alert: true,
+                    alert_text: "Upload to Google Drive Successfully",
+                    alert_type: "success",
+                    loading: false,
+                    backdrop: false
+                }));
+                setTimeout(() => {
+                    setState((prevData) => ({ ...prevData, alert: false }));
+                }, 2000);          
+                setfilesecuretypegg([]);
+                setuuidgg([]);
+                setfiletypegg([]);
+                setfilenamegg([]);
+                setuuid([]);
+                setfilename2([]);
+                setfiletype2([]);
+                setfiletypegg2([]);
+                setfilegg2([]);
+                setfiletype([]);
+                setfile([]);
+                setUser([]);
+                setrecipient([]);
+                setrecipient2([]);
+                setmsgEmail([]);
+                setmsgEmail2([]);
+                settypeexport("");
+                setfolderid("");
+            }
+        })
+        .catch(error => console.error("Error renaming files:", error));
+}
+
+    
     useEffect(() => {
       if(user.length > 0){
         setState(prevData => ({...prevData,backdrop: true}));
       }
     }, [user,setUser])
-    
 
-    const AssigntoRecipients = (id) => {
+    const AssigntoRecipients = () => {
       const access_token = user[0].access_token;
-      
       // แยก Recipient และ messageEmail ออกจากกัน
       const recipients = recipient.length > 0 ? recipient[0].split(",") : recipient2[0].split(",");
       const messageEmails = msgEmail.length > 0 ? msgEmail[0].split(",") : msgEmail2[0].split(",");
       
       // สร้าง Promise สำหรับแต่ละ Recipient
       const requests = recipients.map((recipient, index) => {
-        console.log("🚀 ~ requests ~ recipient:", recipient)
         const myHeaders = new Headers();
         myHeaders.append("Content-Type", "application/json");
         myHeaders.append("Authorization", `Bearer ${access_token}`);
@@ -408,7 +523,7 @@ useEffect(() => {
         };
     
         // ส่งคำขอ API สำหรับแต่ละ Recipient
-        return fetch(`https://www.googleapis.com/drive/v3/files/${id}/permissions?sendNotificationEmails=true&emailMessage=${messageEmails}`, requestOptions);
+        return fetch(`https://www.googleapis.com/drive/v3/files/${folderid?folderid:""}/permissions?sendNotificationEmails=true&emailMessage=${messageEmails}`, requestOptions);
       });
     
       // รวม Promise ของแต่ละ Recipient เข้าด้วยกัน
@@ -418,7 +533,7 @@ useEffect(() => {
         })
         .then(results => {
           // ล้างข้อมูลหลังจากทำงานเสร็จสำเร็จ
-          setState(prevData => ({...prevData,alert: true,alert_text: "Upload to Google Drive Successfully",alert_type: "success",loading: false,backdrop:false}));
+          setState(prevData => ({...prevData,alert: true,alert_text: "Google Drive Upload & Send to Recipient Successful",alert_type: "success",loading: false,backdrop:false}));
                     setTimeout(() => {
                       setState((prevData) => ({ ...prevData, alert: false }));
                     }, 2000);
@@ -438,16 +553,24 @@ useEffect(() => {
           setrecipient2([]);
           setmsgEmail([]);
           setmsgEmail2([]);
+          settypeexport("")
+          setfolderid("")
         })
         .catch(error => console.error(error));
     }
+
+    const getCurrentDateTime = () => {
+      const now = new Date();
+      const formattedDate = `${now.getDate()}/${now.getMonth() + 1}/${now.getFullYear() + 543} ${String(now.getHours()).padStart(2, '0')}:${String(now.getMinutes()).padStart(2, '0')}:${String(now.getSeconds()).padStart(2, '0')}`;
+      return formattedDate;
+  };
     
     
     
 
 
   return {handleNewRequest,handleClicktoGetFile,handleTooltipOpen,handleTooltipClose,handleTooltipCloseRecipient,handleTooltipOpenRecipient,CustomTooltip,CustomTooltipRecipient,
-    convertTimestampToLocalTime,groupedOrders,login,handleGoogleDrive,handleExportToDevice,handleExportToDevice2,handleExportToGoogleDrive,handleExportToGoogleDrive2
+    convertTimestampToLocalTime,groupedOrders,login,handleExportToDevice,handleExportToDevice2,handleExportToGoogleDrive,handleExportToGoogleDrive2
   };
 
 }

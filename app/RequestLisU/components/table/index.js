@@ -9,8 +9,12 @@ import HandleLeadList from '@/handle/userlist'
 import { useState } from 'react';
 import DevicesIcon from '@mui/icons-material/Devices';
 import AddToDriveIcon from '@mui/icons-material/AddToDrive';
+import Menu from '@mui/material/Menu';
+import MenuItem from '@mui/material/MenuItem';
+import PopupState, { bindTrigger, bindMenu } from 'material-ui-popup-state';
 
 function Index() {
+  let totalSize = 0;
   const handleLeadList = HandleLeadList();
   handleLeadList.groupedOrders?.sort((a, b) => b[0].scdact_timestamp - a[0].scdact_timestamp);
   const [tooltipOpen, setTooltipOpen] = useState({});
@@ -52,6 +56,7 @@ function Index() {
           <TableCell id="cellheader" align="center">Recipient</TableCell>
           <TableCell id="cellheader" align="center">Status</TableCell>
           <TableCell id="cellheader" align="center">Export to</TableCell>
+          <TableCell id="cellheader" align="center">FileSize</TableCell>
         </TableRow>
       </TableHead>
       <TableBody>
@@ -183,34 +188,105 @@ function Index() {
                      }
               
                       {Array.isArray(row[0].scdact_filename) ? 
-                      <Box onClick={() => 
-                        row[0].scdact_filename.map((item, itemIndex) => (
+                      <Box><Tooltip title="Export to Google Drive" placement="top">
+                            <IconButton>
+                            {/* <AddToDriveIcon/> */}
+                            <PopupState variant="popover" popupId="demo-popup-menu">
+                         {(popupState) => (                     
+                          <>
+                            <AddToDriveIcon variant="contained" {...bindTrigger(popupState)}>
+                            </AddToDriveIcon>
+                            <Menu {...bindMenu(popupState)}>
+                              <MenuItem onClick={() => 
+                            row[0].scdact_filename.map((item, itemIndex) => (
                             Array.isArray(row[0].scdact_id) && 
                             itemIndex >= 0 && 
                             itemIndex < row[0].scdact_id.length && 
                             row[0].scdact_status !== 'Approved' && 
                             row[0].scdact_status !== 'Rejected' ? 
                             (
+                            popupState.close(),
                             handleLeadList.login(),
-                            handleLeadList.handleExportToGoogleDrive2(row[0].scdact_id[itemIndex],row[0].scdact_filename[itemIndex],row[0].scdact_filetype,row[0].scdact_type,row[0].scdact_reciepient,row[0].scdact_name)
-                            )
+                            handleLeadList.handleExportToGoogleDrive2(row[0].scdact_id[itemIndex],row[0].scdact_filename[itemIndex],row[0].scdact_filetype,row[0].scdact_type,row[0].scdact_reciepient,row[0].scdact_name,"manual"))
                             : 
                             ''
-                            ))}
-                          ><Tooltip title="Export to Google Drive" placement="top"><IconButton><AddToDriveIcon/></IconButton></Tooltip></Box>
+                            ))}>Upload to Google Drive (manual)</MenuItem>
+                              <MenuItem onClick={() => 
+                            row[0].scdact_filename.map((item, itemIndex) => (
+                            Array.isArray(row[0].scdact_id) && 
+                            itemIndex >= 0 && 
+                            itemIndex < row[0].scdact_id.length && 
+                            row[0].scdact_status !== 'Approved' && 
+                            row[0].scdact_status !== 'Rejected' ? 
+                            (
+                            popupState.close(),
+                            handleLeadList.login(),
+                            handleLeadList.handleExportToGoogleDrive2(row[0].scdact_id[itemIndex],row[0].scdact_filename[itemIndex],row[0].scdact_filetype,row[0].scdact_type,row[0].scdact_reciepient,row[0].scdact_name,"auto"))
+                            : 
+                            ''
+                            ))}>Upload to Google Drive (automatic)</MenuItem>
+                            </Menu>
+                          </>
+                        )}
+                      </PopupState>
+                            </IconButton>
+                            </Tooltip></Box>
                    :
-                      <Box onClick={() =>  
-                        row[0].scdact_status !== 'Approved' && 
-                        row[0].scdact_status !== 'Rejected' ? 
-                        (
-                        handleLeadList.login(),
-                        handleLeadList.handleExportToGoogleDrive(row.map(item => item.scdact_id),row.map(item => item.scdact_filename),row.map(item => item.scdact_filetype),row.map(item => item.scdact_type),row.map(item => item.scdact_reciepient),row.map(item => item.scdact_name))
-                        )
-                        : 
-                        ''} ><Tooltip title="Export to Google Drive" placement="top"><IconButton><AddToDriveIcon/></IconButton></Tooltip></Box>
+                      <Box><Tooltip title="Export to Google Drive" placement="top">
+                          <IconButton>
+                            {/* <AddToDriveIcon/> */}
+                            <PopupState variant="popover" popupId="demo-popup-menu">
+                         {(popupState) => (                     
+                          <>
+                            <AddToDriveIcon variant="contained" {...bindTrigger(popupState)}>
+                            </AddToDriveIcon>
+                            <Menu {...bindMenu(popupState)}>
+                              <MenuItem onClick={() =>  
+                              row[0].scdact_status !== 'Approved' && 
+                              row[0].scdact_status !== 'Rejected' ? 
+                              (
+                                popupState.close(),
+                                handleLeadList.login(),
+                                handleLeadList.handleExportToGoogleDrive(row.map(item => item.scdact_id),row.map(item => item.scdact_filename),row.map(item => item.scdact_filetype),row.map(item => item.scdact_type),row.map(item => item.scdact_reciepient),row.map(item => item.scdact_name),"manual")
+                              )
+                              : 
+                              ''}>Upload to Google Drive (manual)</MenuItem>
+                              <MenuItem onClick={() =>  
+                              row[0].scdact_status !== 'Approved' && 
+                              row[0].scdact_status !== 'Rejected' ? 
+                              (
+                                popupState.close(),
+                                handleLeadList.login(),
+                                handleLeadList.handleExportToGoogleDrive(row.map(item => item.scdact_id),row.map(item => item.scdact_filename),row.map(item => item.scdact_filetype),row.map(item => item.scdact_type),row.map(item => item.scdact_reciepient),row.map(item => item.scdact_name),"auto")
+                              )
+                              : 
+                              ''}>Upload to Google Drive (automatic)</MenuItem>
+                            </Menu>
+                          </>
+                        )}
+                      </PopupState>
+                            </IconButton>
+                            
+                            </Tooltip>
+                          
+                          </Box>
                      }
             </Box>
           </TableCell>
+          <TableCell align="center">
+  {row.map((item, itemIndex) => {
+    const fileSize = Array.isArray(row[0].scdact_filesize) ? row[0].scdact_filesize[itemIndex] : item.scdact_filesize;
+    // แปลงขนาดไฟล์จาก string เป็น number
+    const fileSizeNum = parseInt(fileSize.replace(' Bytes', ''));
+    // บวกขนาดไฟล์ทั้งหมด
+    totalSize += fileSizeNum;
+    return (
+      <Box key={itemIndex}>{fileSize}</Box>
+    );
+  })}
+  {/* แสดงผลลัพธ์ของการบวกขนาดไฟล์ทั้งหมด */}
+  Total Size: {totalSize} Bytes
+</TableCell>
         </TableRow>
         ))}
       </TableBody>
