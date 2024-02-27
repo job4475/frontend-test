@@ -209,6 +209,13 @@ function Leadlist() {
         const massage = orderGroup.map(order => order.scdact_name);
         const size = orderGroup.map(order => order.scdact_filehash);
 
+        let fileSize;
+        if (Array.isArray(orderGroup[0].scdact_filename)) {
+            const sizeArray = orderGroup.map(order => order.scdact_filehash)[0];
+            fileSize = sizeArray[0] + " MB";
+        } else {
+            fileSize = size[0] + " MB";
+        }
         const myHeaders = new Headers();
         myHeaders.append("Content-Type", "application/json");
         const raw = JSON.stringify({
@@ -218,7 +225,7 @@ function Leadlist() {
             "sender": senders[0],
             "subject": subjects[0],
             "teamleadID": state.decode_token.ID ? state.decode_token.ID : "",
-            "filesize":size[0] +" MB"
+            "filesize": fileSize
         });
 
         const requestOptions = {
