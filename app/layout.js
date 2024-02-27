@@ -26,7 +26,7 @@ export default function RootLayout({ children, isComingSoon }) {
           <div className= 'sm:block lg:hidden m-0 p-0'>
             <ComingSoon />
           </div>
-          <div className='hidden lg:block m-0 p-0'>
+          <div className='sm:hidden lg:block m-0 p-0'>
             <header></header>
             <StateProvider>
               {children}
