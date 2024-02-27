@@ -23,17 +23,17 @@ const Page = () => {
 
   const sharedocumentRouter = async () => {
     if (state.decode_token.JobTitleOriginal === "Manager") {
-        setState({ ...state, backdrop: true });
-        setTimeout(() => {
-            setState((prevData) => ({ ...prevData, backdrop: false }));
-        }, 1000);
-        router.push('/RequestList');
+        // setState({ ...state, backdrop: true });
+        // setTimeout(() => {
+        //     setState((prevData) => ({ ...prevData, backdrop: false }));
+        // }, 1000);
+        router.push('/RequestList',{ scroll: false });
     } else {
-        setState({ ...state, backdrop: true });
-        setTimeout(() => {
-            setState((prevData) => ({ ...prevData, backdrop: false }));
-        }, 1000);
-        router.push('/ShareDocument');
+        // setState({ ...state, backdrop: true });
+        // setTimeout(() => {
+        //     setState((prevData) => ({ ...prevData, backdrop: false }));
+        // }, 1000);
+        router.push('/ShareDocument',{ scroll: false });
     }    
     console.log("Router pushed successfully");
 };

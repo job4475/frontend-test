@@ -22,9 +22,7 @@ function Teamleademail() {
 
           .then((response) => response.json())
           .then((result) => {
-            if(result.status === "OK"){
                 setState((prevData) => ({ ...prevData, teamlead_email: result.TeamleadByDepartmentID }));
-            }
           })
           .catch((error) => console.error(error));
         }

@@ -34,12 +34,12 @@ function Userlist() {
 
 
 
-    const handleNewRequest =async () => {
-      setState({ ...state, backdrop: true });
-        setTimeout(() => {
-          setState((prevData) => ({ ...prevData, backdrop: false }));
-      }, 1000);
-      await router.push('/ShareDocument');
+    const handleNewRequest = () => {
+      // setState({ ...state, backdrop: true });
+      //   setTimeout(() => {
+      //     setState((prevData) => ({ ...prevData, backdrop: false }));
+      // }, 1000);
+       router.push('/ShareDocument',{ scroll: false });
     };
     
     
