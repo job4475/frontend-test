@@ -7,6 +7,7 @@ import { useRouter } from 'next/navigation';
 import { googleLogout, useGoogleLogin } from '@react-oauth/google';
 import axios from 'axios';
 
+
 function Userlist() {
   const {state, setState} = useContext(StateContext);
   const router = useRouter();
@@ -28,6 +29,9 @@ function Userlist() {
   const [ msgEmail2,setmsgEmail2 ] = useState([]);
   const [ typeupload,settypeexport ] = useState("");
   const [ folderid,setfolderid ] = useState("");
+  const [scdact_id, setscdact_id] = useState([])
+  const [scdact_id2, setscdact_id2] = useState([])
+
 
 
     const handleNewRequest =async () => {
@@ -53,6 +57,7 @@ function Userlist() {
       };
 
       const handleClicktoGetFile = (uuid) => {
+        setState((prevData) => ({ ...prevData, backdrop: true}));
         const requestOptions = {
           method: 'GET',
           responseType: 'blob',
@@ -67,6 +72,7 @@ function Userlist() {
         fetch(apiUrl, requestOptions)
           .then(response => response.blob())
           .then(blob => {
+            setState((prevData) => ({ ...prevData, backdrop: false}));
             const blobUrl = URL.createObjectURL(blob);
     
             window.open(blobUrl, '_blank');
@@ -119,7 +125,7 @@ function Userlist() {
       setfiletype2(prevFiles => [...prevFiles,  securetype]);
   };
 
-  const handleExportToGoogleDrive2 = (uuids, filenames,type,securetype,recipients,massageEmail,typeexport) => {
+  const handleExportToGoogleDrive2 = (uuids, filenames,type,securetype,recipients,massageEmail,reqid,typeexport) => {
        setuuidgg(prevFiles => [...prevFiles, { uuid: uuids}]);
        setfilenamegg(prevFiles => [...prevFiles,  filenames]);
        setfilesecuretypegg(prevFiles => [...prevFiles,  securetype]);
@@ -127,6 +133,7 @@ function Userlist() {
        setrecipient2(prevFiles => [...prevFiles,  recipients]);
        setmsgEmail2(prevFiles => [...prevFiles,  massageEmail]);
        settypeexport(typeexport)
+       setscdact_id2(prevFiles => [...prevFiles,  reqid]);
   }
 
 
@@ -211,45 +218,50 @@ useEffect(() => {
 
   
 
-      const handleExportToGoogleDrive = (uuids, filenames,type,securetype,recipients,massageEmail,exporttype) => {
-        settypeexport(exporttype)
-        setfile([])
-        setrecipient(recipients)
-        setmsgEmail(massageEmail)
-        const promises = uuids.map((uuid, index) => {
-            // สร้างคำขอดาวน์โหลดไฟล์สำหรับ UUID นี้
-            const requestOptions = {
-                method: 'GET',
-                responseType: 'blob',
-                redirect: 'follow'
-            };
-    
-            const apiEndpoint = process.env.NEXT_PUBLIC_API_ENDPOINT;
-            const apiPortLogin = process.env.NEXT_PUBLIC_API_PORT_LOGIN || "";
-            const apiPortString = apiPortLogin ? `:${apiPortLogin}` : "";
-            const apiUrl = `${apiEndpoint}${apiPortString}/api/requestFile/${uuid}`;
-    
-            // ส่งคำขอดาวน์โหลดไฟล์
-            return fetch(apiUrl, requestOptions)
-                .then(response => response.blob())
-                .then(blob => {
-                    // สร้างลิงก์ชั่วคราวสำหรับไฟล์
-                    const link = document.createElement('a');
-                    link.href = URL.createObjectURL(blob);
-                    // กำหนดชื่อไฟล์สำหรับการดาวน์โหลด
-                    const filename = filenames[index]+`${securetype[index]==="HTML"?".html":".FCL"}` || `file_${uuid}.extension`;
-                    setfiletype(type)
-                    setfile(prevFiles => [...prevFiles, { name: filename, blob: blob }]);
-                });
-        });
-    
-        // รอให้การดาวน์โหลดสำเร็จทั้งหมด
-        Promise.all(promises)
-            .then(() => {
-                console.log('All files downloaded successfully');
-            })
-            .catch(error => console.log('Error downloading files:', error));
-    };
+const handleExportToGoogleDrive = (uuids, filenames, type, securetype, recipients, massageEmail,reqid,exporttype) => {
+  settypeexport(exporttype)
+  setfile([])
+  setrecipient(recipients)
+  setmsgEmail(massageEmail)
+  setscdact_id(reqid)
+  const promises = uuids.map((uuid, index) => {
+      const requestOptions = {
+          method: 'GET',
+          responseType: 'blob',
+          redirect: 'follow'
+      };
+
+      const apiEndpoint = process.env.NEXT_PUBLIC_API_ENDPOINT;
+      const apiPortLogin = process.env.NEXT_PUBLIC_API_PORT_LOGIN || "";
+      const apiPortString = apiPortLogin ? `:${apiPortLogin}` : "";
+      const apiUrl = `${apiEndpoint}${apiPortString}/api/requestFile/${uuid}`;
+
+      // ส่งคำขอดาวน์โหลดไฟล์
+      return fetch(apiUrl, requestOptions)
+          .then(response => response.blob())
+          .then(blob => {
+              // สร้างลิงก์ชั่วคราวสำหรับไฟล์
+              const link = document.createElement('a');
+              link.href = URL.createObjectURL(blob);
+              // กำหนดชื่อไฟล์สำหรับการดาวน์โหลด
+              const filename = filenames[index] + `${securetype[index] === "HTML" ? ".html" : ".FCL"}` || `file_${uuid}.extension`;
+              return { filename, blob };
+          });
+  });
+
+  // รอให้การดาวน์โหลดสำเร็จทั้งหมด
+  Promise.all(promises)
+      .then(files => {
+          // ตั้งค่า filetype และเพิ่มไฟล์ลงใน file state
+          files.forEach(({ filename, blob }) => {
+              setfiletype(type);
+              setfile(prevFiles => [...prevFiles, { name: filename, blob: blob }]);
+          });
+          console.log('All files downloaded successfully');
+      })
+      .catch(error => console.log('Error downloading files:', error));
+};
+
     
 
       const CustomTooltip = styled(({ className, ...props }) => (
@@ -375,7 +387,7 @@ useEffect(() => {
     .then(fileData => {
         const ids = fileData.map(data => data.id);
         const filenames = fileData.map(data => data.name);
-        return Rename(ids, filenames); // เปลี่ยนการส่งข้อมูลให้เป็น ids และ filenames โดยไม่ต้องใส่ใน array ซ้อน array
+        return Rename(ids, filenames);
     })
     .catch(error => console.error("Error uploading files:", error));
 
@@ -485,6 +497,8 @@ useEffect(() => {
                 setmsgEmail2([]);
                 settypeexport("");
                 setfolderid("");
+                setscdact_id2([]);
+                setscdact_id([]);
             }
         })
         .catch(error => console.error("Error renaming files:", error));
@@ -532,31 +546,87 @@ useEffect(() => {
           return Promise.all(responses.map(response => response.json()));
         })
         .then(results => {
-          // ล้างข้อมูลหลังจากทำงานเสร็จสำเร็จ
-          setState(prevData => ({...prevData,alert: true,alert_text: "Google Drive Upload & Send to Recipient Successful",alert_type: "success",loading: false,backdrop:false}));
-                    setTimeout(() => {
-                      setState((prevData) => ({ ...prevData, alert: false }));
-                    }, 2000);
-          setfilesecuretypegg([]);
-          setuuidgg([]);
-          setfiletypegg([]);
-          setfilenamegg([]);
-          setuuid([]);
-          setfilename2([]);
-          setfiletype2([]);
-          setfiletypegg2([]);
-          setfilegg2([]);
-          setfiletype([]);
-          setfile([]);
-          setUser([]);
-          setrecipient([]);
-          setrecipient2([]);
-          setmsgEmail([]);
-          setmsgEmail2([]);
-          settypeexport("")
-          setfolderid("")
+          DeleteFiles();
         })
         .catch(error => console.error(error));
+    }
+
+    const DeleteFiles = () => {
+      const ids = scdact_id?scdact_id:scdact_id2
+      const deletePromises = ids.map(id => {
+        const myHeaders = new Headers();
+        myHeaders.append("Content-Type", "application/json");
+        const raw = JSON.stringify({
+          "scdact_reqid": id
+        });
+    
+        const requestOptions = {
+          method: "PATCH",
+          headers: myHeaders,
+          body: raw,
+          redirect: "follow"
+        };
+    
+        const apiEndpoint = process.env.NEXT_PUBLIC_API_ENDPOINT;
+        const apiPortLogin = process.env.NEXT_PUBLIC_API_PORT_LOGIN || "";
+        const apiPortString = apiPortLogin ? `:${apiPortLogin}` : "";
+        const apiUrl = `${apiEndpoint}${apiPortString}/api/deleteActivity`;
+    
+        // ส่งคืน Promise สำหรับ fetch API
+        return fetch(apiUrl, requestOptions)
+          .then(response => response.json())
+          .then(result => {
+            console.log("🚀 ~ .then ~ result:", result);
+            return result; // ส่งค่า result ไปยังการรับประกัน (.then) ถัดไป
+          });
+      });
+      
+      // รวม Promise ทั้งหมดด้วย Promise.all
+      Promise.all(deletePromises)
+      .then(results => {
+            reQuery();
+        })
+        .catch(error => console.error(error));
+    };
+
+    const reQuery = () =>{
+      const requestOptions = {
+        method: 'GET',
+        redirect: 'follow'
+      };
+      const apiEndpoint = process.env.NEXT_PUBLIC_API_ENDPOINT_LOGIN;
+      const apiPortLogin = process.env.NEXT_PUBLIC_API_PORT_LOGIN || "";
+      const teamleadID = state.decode_token.ID;
+      const apiUrl = `${apiEndpoint}:${apiPortLogin}/api/getLogSecuredocActivityByMember/${state.decode_token.ID}`;
+      fetch(apiUrl, requestOptions)
+        .then(response => response.json())
+        .then(result => {
+            setState(prevData => ({...prevData,allorder: result.logSecuredocActivityMember,alert: true,alert_text: "Google Drive Upload & Send to Recipient Successful",alert_type: "success",loading: false,backdrop:false}));
+            setTimeout(() => {
+              setState((prevData) => ({ ...prevData, alert: false }));
+            }, 2000);
+            setfilesecuretypegg([]);
+            setuuidgg([]);
+            setfiletypegg([]);
+            setfilenamegg([]);
+            setuuid([]);
+            setfilename2([]);
+            setfiletype2([]);
+            setfiletypegg2([]);
+            setfilegg2([]);
+            setfiletype([]);
+            setfile([]);
+            setUser([]);
+            setrecipient([]);
+            setrecipient2([]);
+            setmsgEmail([]);
+            setmsgEmail2([]);
+            settypeexport("")
+            setfolderid("")
+            setscdact_id2([]);
+            setscdact_id([]);
+        })
+        .catch(error => console.log('error', error));
     }
 
     const getCurrentDateTime = () => {
