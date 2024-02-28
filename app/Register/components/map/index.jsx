@@ -1,20 +1,17 @@
-'use client'
-
-import Map from '@/components/map'
+import { Box } from '@mui/system';
+import MapPage from '@/components/map/index';
+import { useContext } from 'react';  // นำเข้า useContext ที่นี่
 import { StateContext } from '@/context/Context';
-import { Box, Skeleton } from '@mui/material'
-import React, { useContext }  from 'react'
+import { Skeleton } from '@mui/material';
 
-function index() {
-  const { state } = useContext(StateContext);
+const Index = () => {
+  const { state, setState } = useContext(StateContext);
 
   return (
-    <Box sx={{ display: "flex" }}>
-      {state.logoImage ? (
-      <Map height="300"/>
-      ) : (<Skeleton variant="rectangular" width={300} height={300} style={{ borderRadius: '6px' }} />)}
+    <Box>
+      <MapPage />
     </Box>
-  )
-}
+  );
+};
 
-export default index
+export default Index;

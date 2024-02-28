@@ -36,12 +36,12 @@ function Index() {
 
   const handleTogglePassword = () => {
     setShowPassword(!showPassword);
-  };
+  }
 
   const Confirm = () => {
     setShowPassword(!showPassword);
   };
-
+  
   const isPasswordValid = () => {
     const hasMinLength = state.password.length >= 8;
     const hasUpperCase = /[A-Z]/.test(state.password);
@@ -49,7 +49,6 @@ function Index() {
     const hasNumber = /\d/.test(state.password);
     return hasMinLength && hasUpperCase && hasLowerCase && hasNumber;
   };
-
   const handlePasswordChange = (e) => {
     setState({ ...state, password: e.target.value });
     updatePasswordFunc(state.password);
@@ -151,5 +150,4 @@ function Index() {
     </Box>
   );
 }
-
 export default Index;
