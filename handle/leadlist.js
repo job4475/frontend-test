@@ -207,7 +207,15 @@ function Leadlist() {
         const subjects = orderGroup.map(order => order.scdact_subject);
         const files = orderGroup.map(order => order.scdact_filename);
         const massage = orderGroup.map(order => order.scdact_name);
+        const size = orderGroup.map(order => order.scdact_filehash);
 
+        let fileSize;
+        if (Array.isArray(orderGroup[0].scdact_filename)) {
+            const sizeArray = orderGroup.map(order => order.scdact_filehash)[0];
+            fileSize = sizeArray[0] + " MB";
+        } else {
+            fileSize = size[0] + " MB";
+        }
         const myHeaders = new Headers();
         myHeaders.append("Content-Type", "application/json");
         const raw = JSON.stringify({
@@ -216,7 +224,8 @@ function Leadlist() {
             "email": reciepients[0],
             "sender": senders[0],
             "subject": subjects[0],
-            "teamleadID": state.decode_token.ID ? state.decode_token.ID : ""
+            "teamleadID": state.decode_token.ID ? state.decode_token.ID : "",
+            "filesize": fileSize
         });
 
         const requestOptions = {
@@ -289,7 +298,6 @@ function Leadlist() {
           .then((response) => response.json())
           .then((result) => {
             console.log("🚀 ~ .then ~ result:", result)
-            
           })
           .catch((error) => console.error(error));
     }
@@ -311,7 +319,6 @@ function Leadlist() {
           body: formdata,
           redirect: "follow"
         };
-    
             const apiEndpoint = process.env.NEXT_PUBLIC_API_ENDPOINT_LOGIN;
             const apiPortLogin = process.env.NEXT_PUBLIC_API_PORT_LOGIN || "";
             const apiUrl = `${apiEndpoint}:${apiPortLogin}/api/mailChicCRM`;
@@ -335,6 +342,7 @@ function Leadlist() {
         const subjects = orderGroup.map(order => order.scdact_subject);
         const files = orderGroup.map(order => order.scdact_filename);
         const massage = orderGroup.map(order => order.scdact_name);
+        const size = orderGroup.map(order => order.scdact_filehash);
 
         const myHeaders = new Headers();
         myHeaders.append("Content-Type", "application/json");
@@ -344,7 +352,8 @@ function Leadlist() {
             "email": reciepients[0],
             "sender": senders[0],
             "subject": subjects[0],
-            "teamleadID": state.decode_token.ID ? state.decode_token.ID : ""
+            "teamleadID": state.decode_token.ID ? state.decode_token.ID : "",
+            "filesize":size[0] +" MB"
         });
 
         const requestOptions = {

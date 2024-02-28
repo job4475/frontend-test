@@ -77,16 +77,10 @@ const handleFileChange = (e) => {
   const newTotalSize = currentTotalSize + incomingTotalSize;
 
   if (newTotalSize > maxSize) {
-    // setState((prevData) => ({ ...prevData,alert: true, loading: false, alert_text: "File size exceeds 25 MB limit. Please select a smaller file.", alert_type: "error"}));
-    // setTimeout(() => {
-    //   setState((prevData) => ({ ...prevData,alert: false}));
-    // }, 3000);
-    // return;
-    setState((prevData) => ({ ...prevData, selectedFile: [...prevData.selectedFile, ...files],selectedFileName: [
-      ...prevData.selectedFileName,
-      ...files.map((file) => file.name),
-    ] }));
-    document.getElementById('upload').style.backgroundColor = `#F7F8F9`;
+    setState((prevData) => ({ ...prevData,alert: true, loading: false, alert_text: "File size exceeds 25 MB limit. Please select a smaller file.", alert_type: "error"}));
+    setTimeout(() => {
+      setState((prevData) => ({ ...prevData,alert: false}));
+    }, 3000);
     return;
   }
   setState((prevData) => ({ ...prevData, selectedFile: [...prevData.selectedFile, ...files],selectedFileName: [
@@ -122,14 +116,10 @@ const handleDrop = (e) => {
   const newTotalSize = currentTotalSize + incomingTotalSize;
 
   if (newTotalSize > maxSize) {
-    // setState((prevData) => ({ ...prevData,alert: true, loading: false, alert_text: "File size exceeds 25 MB limit. Please select a smaller file.", alert_type: "error"}));
-    // setTimeout(() => {
-    //   setState((prevData) => ({ ...prevData,alert: false}));
-    // }, 3000);
-    setState((prevData) => ({ ...prevData, selectedFile: [...prevData.selectedFile, ...droppedFile],selectedFileName: [
-      ...prevData.selectedFileName,
-      ...droppedFile.map((file) => file.name)
-    ],dragover:false}));
+    setState((prevData) => ({ ...prevData,alert: true, loading: false, alert_text: "File size exceeds 25 MB limit. Please select a smaller file.", alert_type: "error"}));
+    setTimeout(() => {
+      setState((prevData) => ({ ...prevData,alert: false}));
+    }, 3000);
     return;
   }
   setState((prevData) => ({ ...prevData, selectedFile: [...prevData.selectedFile, ...droppedFile],selectedFileName: [
@@ -384,14 +374,14 @@ const handleUpload = useCallback(async () => {
         const id = uuid.v4();
         const fileType = state.selectedFile[i].type
 
-        formdata.append("scdact_command", `./finalcode_api ${state.secure_type===true?"":"-browserview"} ${state.message?`-mes:"${state.message}"`:""} ${state.enableconverttooriginalfile?"-to_bv_decode":""} ${state.allowconverttobrowserviewfile?"-to_bv_file":""} ${state.allowrunamacro||state.allowconverttooriginalfile?"-nomacro_deny":"-macro_deny"} ${state.alloweditsecuredfile?"-edit":""} -encrypt ${state.secure_type===true?"":"-bv_auth:1"}  -src:../data/${orderId}/${sanitizedFileName} -dest:../data/${orderId}/"(${emailText})"${sanitizedFileName}${state.secure_type===true?".fcl":".html"} ${state.allowconverttooriginalfile?"-decode":""} ${state.allowcopypaste?"-copypaste":""} ${state.allowprint?"-print":""} ${state.timelimitBefore?`-startdate:${state.timelimitBefore}`:""} ${state.timelimitAfter?`-date:${state.timelimitAfter}`:""} ${state.periodDays?`-day:${state.periodDays}`:""} ${state.periodHours?`-hour:${state.periodHours}`:""} ${state.opensTime?`-cnt:${state.opensTime}`:""} -user:thananchai@tracthai.com -mail:${state.decode_token.UsernameOriginal?state.decode_token.UsernameOriginal:""}${","+emailText+","}${usernames} ${state.watermark?"-watermark:2098":""} ${state.screenwatermark?"-scrnwatermark:2096":""} -S -D`);
+        formdata.append("scdact_command", `./finalcode_api ${state.secure_type===true?"":"-browserview"} ${state.message?`-mes:"${state.message}"`:""} ${state.enableconverttooriginalfile?"-to_bv_decode":""} ${state.allowconverttobrowserviewfile?"-to_bv_file":""} ${state.allowrunamacro||state.allowconverttooriginalfile?"-nomacro_deny":"-macro_deny"} ${state.alloweditsecuredfile?"-edit":""} -encrypt ${state.secure_type===true?"":"-bv_auth:1"}  -src:../data/${orderId}/${sanitizedFileName} -dest:../data/${orderId}/"(${emailText})"${sanitizedFileName}${state.secure_type===true?".fcl":".html"} ${state.allowconverttooriginalfile?"-decode":""} ${state.allowcopypaste?"-copypaste":""} ${state.allowprint?"-print":""} ${state.timelimitBefore?`-startdate:${state.timelimitBefore}`:""} ${state.timelimitAfter?`-date:${state.timelimitAfter}`:""} ${state.periodDays?`-day:${state.periodDays}`:""} ${state.periodHours?`-hour:${state.periodHours}`:""} ${state.opensTime?`-cnt:${state.opensTime}`:""} -user:thananchai@tracthai.com -mail:${emailText},${usernames} ${state.watermark?"-watermark:2098":""} ${state.screenwatermark?"-scrnwatermark:2096":""} -S -D`);
         formdata.append("scdact_binary", file, `/D:/Downloads/${orderId}/${sanitizedFileName}`);
 
         formdata.append("scdact_id", id);
         formdata.append("scdact_filename", sanitizedFileName);
         // formdata.append("scdact_filetype", state.selectedFileName[i].split('.')[1]);
         formdata.append("scdact_filetype", fileType);
-        formdata.append("scdact_filehash", state.sumsize?state.sumsize:"");
+        formdata.append("scdact_filehash", "A");
         formdata.append("scdact_filesize", formatBytes(file.size));
         formdata.append("scdact_filecreated", file.lastModified);
         formdata.append("scdact_filemodified", file.lastModified);
@@ -403,7 +393,8 @@ const handleUpload = useCallback(async () => {
       xhr.open("POST", `${process.env.NEXT_PUBLIC_API_ENDPOINT}:${process.env.NEXT_PUBLIC_API_PORT}/api/requestDoc`, true);
       xhr.onload = () => {
         const result = JSON.parse(xhr.responseText);
-        
+
+        if (xhr.status === 200) {
           if (result.status === "OK") {
               setState((prevData) => ({ ...prevData, titleselect:"",input_last_name:"",input_email:"",input_role:"",
               input_firstName:"",input_phone:"",input_jobtitle:"",email:'',Password:'',Alias:'',Province:'',Companyname:'',District:''
@@ -416,11 +407,14 @@ const handleUpload = useCallback(async () => {
               AletToEmail(orderId)
 
           } else {
-            setState((prevData) => ({ ...prevData, alert: true, alert_text: result.message.Finalcode_result, alert_type: 'error', loading: false }));
-            setTimeout(() => {
-              setState((prevData) => ({ ...prevData, alert: false,loading:false }));
-             }, 2000);
+        
           }
+        }else{
+          setState((prevData) => ({ ...prevData, alert: true, alert_text: result.message.Finalcode_result, alert_type: 'error', loading: false }));
+          setTimeout(() => {
+            setState((prevData) => ({ ...prevData, alert: false,loading:false }));
+           }, 2000);
+        }
       };
 
       xhr.onerror = () => {
@@ -460,7 +454,9 @@ const handleUpload = useCallback(async () => {
         fetch(apiUrl, requestOptions)
     
       .then((response) => response.json())
-      .then((result) => {        
+      .then((result) => {
+        console.log("🚀 ~ .then ~ result:", result)
+        
       })
       .catch((error) => console.error(error));
   }

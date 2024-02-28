@@ -95,25 +95,22 @@ function Index() {
                          key={`button-${itemIndex}`} 
                          style={{ textTransform: 'none', display: 'flex', justifyContent: 'space-between', width: '100%' }}>
                          <Box sx={{ pr: 1 }}>{item}</Box>
-                         <Box >{Array.isArray(row[0].scdact_filesize) ? row[0].scdact_filesize[itemIndex] : item.scdact_filesize}</Box>
+                         <Box sx={{ pr: 1, overflow: 'hidden', textOverflow: 'ellipsis', maxWidth: '17ch', whiteSpace: 'nowrap' }}>{Array.isArray(row[0].scdact_filesize) ? row[0].scdact_filesize[itemIndex] : item.scdact_filesize}</Box>
                          {/* You can add the filesize here if needed */}
                        </Button>
                      ))
                    :
                      row.map((item, itemIndex) => (
                        <Button  
-                         onClick={() => 
-                           Array.isArray(row[0].scdact_id) && 
-                           itemIndex >= 0 && 
-                           itemIndex < row[0].scdact_id.length && 
+                         onClick={() =>  
                            row[0].scdact_status !== 'Approved' && 
                            row[0].scdact_status !== 'Rejected' ? 
-                           handleLeadList.handleClicktoGetFile(row[0].scdact_id[itemIndex])
+                           handleLeadList.handleClicktoGetFile(row[0].scdact_id)
                            : 
                            ''}
                          key={`button-${itemIndex}`} 
                          style={{ textTransform: 'none', display: 'flex', justifyContent: 'space-between', width: '100%' }}>
-                         <Box sx={{ pr: 1 }}>{Array.isArray(row[0].scdact_filename) ? row[0].scdact_filename[itemIndex] : item.scdact_filename}</Box>
+                         <Box sx={{ pr: 1, overflow: 'hidden', textOverflow: 'ellipsis', maxWidth: '17ch', whiteSpace: 'nowrap' }}>{Array.isArray(row[0].scdact_filename) ? row[0].scdact_filename[itemIndex] : item.scdact_filename}</Box>
                          <Box >{Array.isArray(row[0].scdact_filesize) ? row[0].scdact_filesize[itemIndex] : item.scdact_filesize}</Box>
                        </Button>
                      ))

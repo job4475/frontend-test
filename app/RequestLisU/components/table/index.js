@@ -1,12 +1,22 @@
 "use client";
 import * as React from 'react';
-import { Box, Button, Paper, Table, TableBody, TableCell, TableContainer, TableHead, TableRow } from '@mui/material'
+import { Box, Button, Dialog, DialogActions, DialogContent, DialogTitle, IconButton, Paper, Slide, Table, TableBody, TableCell, TableContainer, TableHead, TableRow, Tooltip } from '@mui/material'
 import file from '@/assets/assets/images/file.png'
 import recipient from '@/assets/assets/images/recipient.png'
 import dropdown from '@/assets/assets/images/dropdown.png'
 import Image from 'next/image';
 import HandleLeadList from '@/handle/userlist'
 import { useState } from 'react';
+import DevicesIcon from '@mui/icons-material/Devices';
+import AddToDriveIcon from '@mui/icons-material/AddToDrive';
+import Menu from '@mui/material/Menu';
+import MenuItem from '@mui/material/MenuItem';
+import PopupState, { bindTrigger, bindMenu } from 'material-ui-popup-state';
+import AutoDeleteIcon from '@mui/icons-material/AutoDelete';
+const Transition = React.forwardRef(function Transition(props, ref) {
+  return <Slide direction="up" ref={ref} {...props} />;
+});
+
 
 function Index() {
   const handleLeadList = HandleLeadList();
@@ -22,6 +32,10 @@ function Index() {
   const handleClose = (index) => {
     setTooltipOpen({ ...tooltipOpen, [index]: false });
   };
+
+  const [open, setOpen] = useState(false)
+  const [openmanual, setOpenManual] = useState(false)
+  const [typeexport, settypeexport] = useState("")
 
   const [tooltipOpenRecipient, setTooltipOpenRecipient] = useState({});
   const [tooltipContentRecipient, setTooltipContentRecipient] = useState({});
@@ -49,6 +63,7 @@ function Index() {
           <TableCell id="cellheader" align="center">Sender</TableCell>
           <TableCell id="cellheader" align="center">Recipient</TableCell>
           <TableCell id="cellheader" align="center">Status</TableCell>
+          <TableCell id="cellheader" align="center">Export to</TableCell>
         </TableRow>
       </TableHead>
       <TableBody>
@@ -70,17 +85,17 @@ function Index() {
                      row[0].scdact_filename.map((item, itemIndex) => (
                        <Button  
                          onClick={() => 
-                           Array.isArray(row[0].scdact_id) && 
-                           itemIndex >= 0 && 
-                           itemIndex < row[0].scdact_id.length && 
-                           row[0].scdact_status !== 'Approved' && 
-                           row[0].scdact_status !== 'Rejected' ? 
-                           handleLeadList.handleClicktoGetFile(row[0].scdact_id[itemIndex]) 
-                           : 
-                           handleLeadList.handleClicktoGetFile(row[itemIndex].scdact_id)} 
+                          Array.isArray(row[0].scdact_id) && 
+                          itemIndex >= 0 && 
+                          itemIndex < row[0].scdact_id.length && 
+                          row[0].scdact_status !== 'Approved' && 
+                          row[0].scdact_status !== 'Rejected' ? 
+                          handleLeadList.handleClicktoGetFile(row[0].scdact_id[itemIndex])
+                          : 
+                          ''} 
                          key={`button-${itemIndex}`} 
                          style={{ textTransform: 'none', display: 'flex', justifyContent: 'space-between', width: '100%' }}>
-                         <Box sx={{ pr: 1 }}>{item}</Box>
+                         <Box sx={{ pr: 1, overflow: 'hidden', textOverflow: 'ellipsis', maxWidth: '17ch', whiteSpace: 'nowrap' }}>{item}</Box>
                          <Box >{Array.isArray(row[0].scdact_filesize) ? row[0].scdact_filesize[itemIndex] : item.scdact_filesize}</Box>
                          {/* You can add the filesize here if needed */}
                        </Button>
@@ -88,18 +103,15 @@ function Index() {
                    :
                      row.map((item, itemIndex) => (
                        <Button  
-                         onClick={() => 
-                           Array.isArray(row[0].scdact_id) && 
-                           itemIndex >= 0 && 
-                           itemIndex < row[0].scdact_id.length && 
-                           row[0].scdact_status !== 'Approved' && 
-                           row[0].scdact_status !== 'Rejected' ? 
-                           handleLeadList.handleClicktoGetFile(row[0].scdact_id[itemIndex]) 
-                           : 
-                           handleLeadList.handleClicktoGetFile(row[itemIndex].scdact_id)} 
+                       onClick={() =>  
+                        row[0].scdact_status !== 'Approved' && 
+                        row[0].scdact_status !== 'Rejected' ? 
+                        handleLeadList.handleClicktoGetFile(row[itemIndex].scdact_id)
+                        : 
+                        ''}
                          key={`button-${itemIndex}`} 
                          style={{ textTransform: 'none', display: 'flex', justifyContent: 'space-between', width: '100%' }}>
-                         <Box sx={{ pr: 1 }}>{Array.isArray(row[0].scdact_filename) ? row[0].scdact_filename[itemIndex] : item.scdact_filename}</Box>
+                         <Box sx={{ pr: 1, overflow: 'hidden', textOverflow: 'ellipsis', maxWidth: '17ch', whiteSpace: 'nowrap' }}>{Array.isArray(row[0].scdact_filename) ? row[0].scdact_filename[itemIndex] : item.scdact_filename}</Box>
                          <Box >{Array.isArray(row[0].scdact_filesize) ? row[0].scdact_filesize[itemIndex] : item.scdact_filesize}</Box>
                          {/* You can add the filesize here if needed */}
                        </Button>
@@ -156,6 +168,168 @@ function Index() {
             </div>
           </TableCell>
           <TableCell style={{fontWeight:600,color: row[0].scdact_status === "Approved" ? "#00E700" : row[0].scdact_status === "Rejected" ? "#FF0000" : "#0062FF", textAlign: "center"}} align="center">{row[0].scdact_status}</TableCell>
+          <TableCell id="bodycell" align="center">
+            <Box sx={{display:row[0].scdact_filehash>25 && row[0].scdact_binary && row[0].scdact_status==="Approved" ?"flex":"none",justifyContent:"center"}}>
+              {Array.isArray(row[0].scdact_filename) ? 
+                      <Box onClick={() => 
+                        row[0].scdact_filename.map((item, itemIndex) => (
+                            Array.isArray(row[0].scdact_id) && 
+                            itemIndex >= 0 && 
+                            itemIndex < row[0].scdact_id.length && 
+                            row[0].scdact_status !== 'Approved' && 
+                            row[0].scdact_status !== 'Rejected' ? 
+                            handleLeadList.handleExportToDevice2(row[0].scdact_id[itemIndex],row[0].scdact_filename[itemIndex],row[0].scdact_type)
+                            : 
+                            handleLeadList.handleExportToDevice2(row[0].scdact_id[itemIndex],row[0].scdact_filename[itemIndex],row[0].scdact_type)
+                            ))
+                          }>
+                              <Tooltip title="Export to device " placement="top"><IconButton><DevicesIcon/></IconButton></Tooltip>
+                            </Box>
+                   :
+                      <Box onClick={() =>  
+                        row[0].scdact_status !== 'Approved' && 
+                        row[0].scdact_status !== 'Rejected' ? 
+                        handleLeadList.handleExportToDevice(row.map(item => item.scdact_id),row.map(item => item.scdact_filename),row.map(item => item.scdact_type))
+                        : 
+                        handleLeadList.handleExportToDevice(row.map(item => item.scdact_id),row.map(item => item.scdact_filename),row.map(item => item.scdact_type))
+                      } ><Tooltip title="Export to device" placement="top"><IconButton><DevicesIcon/></IconButton></Tooltip></Box>
+                     }
+              
+                      {Array.isArray(row[0].scdact_filename) ? 
+                      <Box>
+                            <PopupState variant="popover" popupId="demo-popup-menu">
+                         {(popupState) => (                     
+                          <>
+                           <Tooltip title="Export to Google Drive" placement="top"><IconButton {...bindTrigger(popupState)}><AddToDriveIcon variant="contained" ></AddToDriveIcon></IconButton></Tooltip>
+                            <Menu {...bindMenu(popupState)}>
+                              <MenuItem onClick={() => 
+                            row[0].scdact_filename.map((item, itemIndex) => (
+                            Array.isArray(row[0].scdact_id) && 
+                            itemIndex >= 0 && 
+                            itemIndex < row[0].scdact_id.length && 
+                            row[0].scdact_status !== 'Approved' && 
+                            row[0].scdact_status !== 'Rejected' ? 
+                            (
+                              settypeexport("manual"),
+                              setOpenManual(true)
+                            )
+                            : 
+                            (
+                              settypeexport("manual"),
+                              setOpenManual(true)
+                            )
+                            ))}>Upload to Google Drive (manual)</MenuItem>
+                              <MenuItem onClick={() => 
+                            row[0].scdact_filename.map((item, itemIndex) => (
+                            Array.isArray(row[0].scdact_id) && 
+                            itemIndex >= 0 && 
+                            itemIndex < row[0].scdact_id.length && 
+                            row[0].scdact_status !== 'Approved' && 
+                            row[0].scdact_status !== 'Rejected' ? 
+                            (
+                              settypeexport("auto"),
+                              setOpenManual(true)
+                            )
+                            : 
+                            (
+                              settypeexport("auto"),
+                              setOpenManual(true)
+                            )
+                            ))}>Upload to Google Drive (automatic)</MenuItem>
+                            <Dialog open={openmanual} TransitionComponent={Transition} keepMounted onClose={handleClose}>
+                              <DialogTitle sx={{fontWeight: 600}}>{"Are you sure? Your file has been deleted after being uploaded to Google Drive."}</DialogTitle>
+                              <DialogContent sx={{display:"flex",justifyContent:"center",alignItems:"center"}}>
+                               <AutoDeleteIcon  sx={{fontSize:"90px"}}/>
+                              </DialogContent>
+                              <DialogActions sx={{p:2,display:"flex",justifyContent:"center",alignItems:"center"}}>
+                                <Button variant="contained" color="approve" style={{ borderRadius: "7px", minWidth: "40%", textTransform: "capitalize", color: "white", fontWeight: 600 }} onClick={()=>{setOpen(false);
+                                 row[0].scdact_filename.map((item, itemIndex) => (
+                                  Array.isArray(row[0].scdact_id) && 
+                                  itemIndex >= 0 && 
+                                  itemIndex < row[0].scdact_id.length && 
+                                  row[0].scdact_status !== 'Approved' && 
+                                  row[0].scdact_status !== 'Rejected' ? 
+                                  (
+                                    popupState.close(),
+                                    handleLeadList.login(),
+                                    handleLeadList.handleExportToGoogleDrive2(row[0].scdact_id[itemIndex],row[0].scdact_filename[itemIndex],row[0].scdact_filetype,row[0].scdact_type,row[0].scdact_reciepient,row[0].scdact_name,row[0].scdact_reqid,typeexport)
+                                  )
+                                  : 
+                                  (
+                                    popupState.close(),
+                                    handleLeadList.login(),
+                                    handleLeadList.handleExportToGoogleDrive2(row[0].scdact_id[itemIndex],row[0].scdact_filename[itemIndex],row[0].scdact_filetype,row[0].scdact_type,row[0].scdact_reciepient,row[0].scdact_name,row[0].scdact_reqid,typeexport)
+                                  )
+                                  ))}
+                                  }>Yes</Button>
+                                <Button variant="contained" color="reject" style={{ borderRadius: "7px", minWidth: "40%", textTransform: "capitalize", color: "white", fontWeight: 600 }} onClick={()=>{setOpen(false)
+                                popupState.close();
+                                }}>No</Button>
+                              </DialogActions>
+                            </Dialog>
+                            </Menu>
+                          </>
+                        )}
+                      </PopupState>
+                           </Box>
+                   :
+                      <Box>
+                            <PopupState variant="popover" popupId="demo-popup-menu">
+                         {(popupState) => (                     
+                          <Box>
+                            <Tooltip title="Export to Google Drive" placement="top"><IconButton {...bindTrigger(popupState)}><AddToDriveIcon variant="contained" ></AddToDriveIcon></IconButton></Tooltip>
+                            <Menu {...bindMenu(popupState)}>
+                              <MenuItem onClick={() =>  
+                              row[0].scdact_status !== 'Approved' && 
+                              row[0].scdact_status !== 'Rejected' ? 
+                              (
+                                settypeexport("manual"),
+                                setOpen(true)
+                              )
+                              : 
+                              (
+                                settypeexport("manual"),
+                                setOpen(true)
+                              )
+                              }
+                             >Upload to Google Drive (manual)</MenuItem>
+                              <MenuItem onClick={() =>  
+                              row[0].scdact_status !== 'Approved' && 
+                              row[0].scdact_status !== 'Rejected' ? 
+                              (
+                                settypeexport("auto"),
+                                setOpen(true)
+                              )
+                              : 
+                              (
+                                settypeexport("auto"),
+                                setOpen(true)
+                              )
+                              }>Upload to Google Drive (automatic)</MenuItem>
+                              <Dialog open={open} TransitionComponent={Transition} keepMounted onClose={handleClose}>
+                              <DialogTitle sx={{fontWeight: 600}}>{"Are you sure? Your file has been deleted after being uploaded to Google Drive."}</DialogTitle>
+                              <DialogContent sx={{display:"flex",justifyContent:"center",alignItems:"center"}}>
+                               <AutoDeleteIcon  sx={{fontSize:"90px"}}/>
+                              </DialogContent>
+                              <DialogActions sx={{p:2,display:"flex",justifyContent:"center",alignItems:"center"}}>
+                                <Button variant="contained" color="approve" style={{ borderRadius: "7px", minWidth: "40%", textTransform: "capitalize", color: "white", fontWeight: 600 }} onClick={()=>{setOpen(false);
+                                popupState.close();
+                                handleLeadList.login();
+                                handleLeadList.handleExportToGoogleDrive(row.map(item => item.scdact_id),row.map(item => item.scdact_filename),row.map(item => item.scdact_filetype),row.map(item => item.scdact_type),row.map(item => item.scdact_reciepient),row.map(item => item.scdact_name),row.map(item => item.scdact_reqid),typeexport);
+                                }}>Yes</Button>
+                                <Button variant="contained" color="reject" style={{ borderRadius: "7px", minWidth: "40%", textTransform: "capitalize", color: "white", fontWeight: 600 }} onClick={()=>{setOpen(false)
+                                popupState.close();
+                                }}>No</Button>
+                              </DialogActions>
+                            </Dialog>
+                            </Menu>
+                          </Box>
+                        )}
+                      </PopupState>
+                          </Box>
+                     }
+            </Box>
+          </TableCell>
         </TableRow>
         ))}
       </TableBody>

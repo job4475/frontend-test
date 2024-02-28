@@ -1,6 +1,6 @@
 "use client";
-import React, { useContext } from "react";
-import { Box, Grid } from "@mui/material";
+import React, { useContext, useState } from "react";
+import { Box, Grid, Tooltip } from "@mui/material";
 import Navbar from "@/components/navbar/navbar";
 import Title from './components/title'
 import Content1 from './components/content1'
@@ -13,7 +13,7 @@ import Backdrop from '@/components/backdrop/backdrop'
 
 const Page = () => {
   const {state} = useContext(StateContext);
-  
+
   return (
     <>
       <Backdrop />
@@ -27,7 +27,19 @@ const Page = () => {
               <SizeProgress/>
               <Progress/>
               <Box sx={{display:"flex",justifyContent:"center"}}>
+              <Tooltip
+                PopperProps={{
+                  disablePortal: true,
+                }}
+                // onClose={handleTooltipClose}
+                open={state.tooltiplimit}
+                disableFocusListener
+                disableHoverListener
+                disableTouchListener
+                title="Please note that the maximum file size allowed is 25 MB. If your file exceeds this limit, it will be uploaded to Google Drive instead."
+              >
                 <Box sx={{alignSelf:"flex-end",color:"gray.main"}}>{state.sumsize} MB / 25 MB</Box>
+                </Tooltip>
               </Box>
             </Box>
           </Grid>

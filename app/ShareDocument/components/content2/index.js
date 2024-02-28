@@ -27,7 +27,7 @@ function Index() {
            <Box style={{color:"red"}}>*&nbsp;</Box>{state.secure_type ? " For recipients using the FinalCode." : ` For recipients who do not use the FinalCode.`}
          </Box>
          </Box>
-         <TextField id="outlined-basic" value={state.message} onChange={handleShareDoc.handlemessageChange} label="Message Encrypt Files"size="small" variant="outlined" style={{width:"100%",paddingBottom:10}}
+         <TextField disabled={state.loading?true:false} id="outlined-basic" value={state.message} onChange={handleShareDoc.handlemessageChange} label="Message Encrypt Files"size="small" variant="outlined" style={{width:"100%",paddingBottom:10}}
          InputProps={{
            startAdornment: (
              <MessageIcon style={{ color: "gray" }} />
