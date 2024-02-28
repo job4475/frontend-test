@@ -1,6 +1,6 @@
 import { Box } from '@mui/system';
 import MapPage from '@/components/map/index';
-import { useContext } from 'react';  // นำเข้า useContext ที่นี่
+import { useContext } from 'react';  
 import { StateContext } from '@/context/Context';
 import { Skeleton } from '@mui/material';
 
