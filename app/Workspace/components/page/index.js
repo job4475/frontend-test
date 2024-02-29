@@ -7,7 +7,7 @@ import RemoteSupport from "@/assets/assets/images/workspace/RemoteSupport.png";
 import ShareDocument from "@/assets/assets/images/workspace/ShareDocument.png";
 import UnderReview from "@/assets/assets/images/workspace/UnderReview.png";
 import { StateContext } from "@/context/Context";
-import { useRouter } from 'next/navigation';
+import { useRouter, useSearchParams } from 'next/navigation';
 
 import Backdrop from '@/components/backdrop/backdrop'
 import Navbar from "@/components/navbar/navbar";
@@ -20,6 +20,7 @@ const Page = () => {
 
   const [loading, setLoading] = useState(true);
   const [cookies, removeCookie] = useCookies(['token']);
+  const Code = localStorage.getItem('code');
 
   const sharedocumentRouter = async () => {
     if (state.decode_token.JobTitleOriginal === "Manager") {
@@ -37,9 +38,6 @@ const Page = () => {
     }    
     console.log("Router pushed successfully");
 };
-
-
-
   useEffect(() => {
     const timeoutId = setTimeout(() => {
       setLoading(false);
@@ -51,6 +49,25 @@ const Page = () => {
   
   const Notallowed = () => {
   }
+  const searchParams = useSearchParams();
+  const access_token= searchParams.get('code');
+  const localStorageCode = localStorage.getItem('code');
+
+  const CheckCode = access_token === localStorageCode
+  useEffect(() => {
+    if(access_token && !CheckCode){
+    localStorage.setItem("code",access_token?access_token:"no value" );
+  }
+  
+  }, [access_token,CheckCode]);
+
+  useEffect(() => {
+    if (Code) {
+      setState(prevState => ({ ...prevState, code: Code }));
+    }  
+  }, [Code])
+  
+ 
 
   return (
     <>

@@ -1,17 +1,10 @@
 import { Box } from '@mui/system';
-import MapPage from '@/components/map/index';
-import { useContext } from 'react';  
-import { StateContext } from '@/context/Context';
-import { Skeleton } from '@mui/material';
+import MapPage from '@/components/map';
 
-const Index = () => {
-  const { state, setState } = useContext(StateContext);
+const Home = () => 
 
-  return (
-    <Box>
-      <MapPage />
-    </Box>
-  );
-};
+<Box>
+<MapPage />
+</Box>
 
-export default Index;
+export default Home;

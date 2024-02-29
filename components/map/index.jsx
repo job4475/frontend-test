@@ -1,10 +1,12 @@
 "use client";
-import { useEffect } from 'react';
+import { StateContext } from '@/context/Context';
+import { useContext, useEffect } from 'react';
 
-const Map = () => {
+const MapPage = () => {
   let map;
   let service;
   let infowindow;
+  const {state, setState} = useContext(StateContext);
 
   useEffect(() => {
     const initMap = () => {
@@ -17,7 +19,7 @@ const Map = () => {
       });
 
       const request = {
-        query: "The Recovery Advisor Company Limited",
+        query: state.companyname?state.companyname:state.datacompanylc.Companyname,
         fields: ["name", "geometry"],
       };
 
@@ -54,10 +56,12 @@ const Map = () => {
     if (typeof window !== 'undefined') {
       window.initMap = initMap;
     }
+
     if (typeof window.google !== 'undefined') {
       initMap();
     }
   }, []); 
+
   return (
     <>
       <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyCca_e4bPcPd8qt-R7yfSs-19S0po1bbXg&libraries=places" defer></script>
@@ -66,4 +70,4 @@ const Map = () => {
   );
 };
 
-export default Map;
+export default MapPage;

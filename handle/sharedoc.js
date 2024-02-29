@@ -364,7 +364,7 @@ const handleUpload = useCallback(async () => {
       formdata.append("scdact_marcro", state.allowrunamacro?"true":"false");
       formdata.append("scdact_msgtext", state.message);
       formdata.append("scdact_subject", state.subject);
-      formdata.append("scdact_createlocation", "สำเร็จ");
+      formdata.append("scdact_createlocation", state.user_id);
       formdata.append("scdact_updatelocation", "สำเร็จ");
       formdata.append("scdact_reciepient", state.recipient);
       formdata.append("scdact_sender", state.decode_token?state.decode_token.UsernameOriginal:"thananchai@tracthai.com");

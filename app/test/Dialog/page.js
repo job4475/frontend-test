@@ -1,10 +1,12 @@
 "use client";
-import { useEffect } from 'react';
+import { StateContext } from '@/context/Context';
+import { useContext, useEffect } from 'react';
 
 const MapPage = () => {
   let map;
   let service;
   let infowindow;
+  const {state, setState} = useContext(StateContext);
 
   useEffect(() => {
     const initMap = () => {
@@ -13,11 +15,11 @@ const MapPage = () => {
       infowindow = new google.maps.InfoWindow();
       map = new google.maps.Map(document.getElementById("map"), {
         center: bangkokLatLng,
-        zoom: 10, 
+        zoom: 20, 
       });
 
       const request = {
-        query: "The Recovery Advisor Company Limited",
+        query: state.companyname?state.companyname:state.datacompanylc.Companyname,
         fields: ["name", "geometry"],
       };
 

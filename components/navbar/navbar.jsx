@@ -1,5 +1,5 @@
 "use client";
-import { Box, IconButton, Menu, MenuItem, Skeleton } from '@mui/material'
+import { Box, Button, IconButton, Menu, MenuItem, Skeleton } from '@mui/material'
 import React, { useContext, useState,useEffect } from 'react'
 import Image from 'next/image';
 import { StateContext } from "@/context/Context";
@@ -19,6 +19,11 @@ function Navbar() {
         setAnchorEl(e.currentTarget);
         console.log(e.currentTarget);
     };
+    const handleLogin = () => {
+        const uuid = require('uuid');
+        const state = uuid.v4();
+        window.location.href = `https://access.line.me/oauth2/v2.1/authorize?response_type=code&client_id=2003835525&redirect_uri=http://localhost:3434/Workspace&state=${state}&scope=profile%20openid%20email&bot_prompt=aggressive`;
+    }
 
     const handleClose = () => {
         setAnchorEl(null);
@@ -72,7 +77,6 @@ function Navbar() {
 
         }else{
             router.push('/');
-            // window.location.href = "/"
         }
     }
 
@@ -93,6 +97,7 @@ function Navbar() {
                       )
                     }
             </Box>
+            <Button variant="contained" onClick={handleLogin}>Contained</Button>
             <Box sx={{ background: '', width: '1000px', height: '100%', display: 'flex', alignItems: 'center', flexDirection: 'row-reverse' }}>
                 <IconButton style={{ width: '30px', height: '30px' }} aria-controls='basic-menu' aria-haspopup="true" aria-expanded={openMenu ? 'true' : undefined} onClick={handleClick} >
                     <svg width="16" height="9" viewBox="0 0 16 9" fill="none" xmlns="http://www.w3.org/2000/svg">

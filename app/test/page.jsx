@@ -3,9 +3,8 @@ import MapPage from './Dialog/page';
 
 const Home = () => 
 
-<Box sx={{width:'300px',height:'50px'}}>
+<Box>
 <MapPage />
 </Box>
-
 
 export default Home;

@@ -24,6 +24,8 @@ function Token() {
     if (token) {
       setState(prevState => ({ ...prevState, token: token }));
     }
+
+    
   }, []); 
   
   
