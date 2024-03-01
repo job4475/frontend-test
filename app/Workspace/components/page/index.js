@@ -20,7 +20,6 @@ const Page = () => {
 
   const [loading, setLoading] = useState(true);
   const [cookies, removeCookie] = useCookies(['token']);
-  const Code = localStorage.getItem('code');
 
   const sharedocumentRouter = async () => {
     if (state.decode_token.JobTitleOriginal === "Manager") {
@@ -60,15 +59,6 @@ const Page = () => {
   }
   
   }, [access_token,CheckCode]);
-
-  useEffect(() => {
-    if (Code) {
-      setState(prevState => ({ ...prevState, code: Code }));
-    }  
-  }, [Code])
-  
- 
-
   return (
     <>
       <Backdrop />

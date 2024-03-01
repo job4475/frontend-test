@@ -8,12 +8,12 @@ function Request_access_token() {
   const urlCode  = searchParams.get('code');
   const localStorageAccessToken  = localStorage.getItem('access_token');
   const localStorageCode = localStorage.getItem('code');
-  const CheckCode = urlCode === localStorageCode
+  
 
     const { state, setState } = useContext(StateContext);
 
     useEffect(() => {
-        if(state.code && urlCode && !CheckCode){
+        if(state.code ){
         const myHeaders = new Headers();
         myHeaders.append("Content-Type", "application/x-www-form-urlencoded");
         
@@ -34,13 +34,13 @@ function Request_access_token() {
         fetch("https://api.line.me/oauth2/v2.1/token", requestOptions)
           .then((response) => response.json())
           .then((result) => {
-            console.log("🚀 ~ .then ~ result:", result)
+            if(result.access_token){
             localStorage.setItem("access_token",result.access_token );
-
+            }
           })
           .catch((error) => console.error(error));
     }
-    }, [state.code,urlCode,CheckCode])
+    }, [state.code])
 
     useEffect(() => {
       if (localStorageAccessToken) {
