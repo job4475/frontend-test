@@ -1,9 +1,10 @@
 'use client'
 import {StateContext} from '@/context/Context';
-import React, {useContext} from 'react'
+import React, {useContext, useState} from 'react'
 import {useRouter} from "next/navigation";
 import {styled} from "@mui/material/styles";
 import Tooltip, {tooltipClasses} from '@mui/material/Tooltip';
+import { Box, FormControlLabel, Switch } from '@mui/material';
 
 function Leadlist() {
     const {state, setState} = useContext(StateContext);
@@ -42,29 +43,7 @@ function Leadlist() {
             })
             .catch(error => console.log('error', error));
     };
-
-    const CustomTooltip = styled(({className, ...props}) => (
-        <Tooltip {...props} classes={{popper: className}}/>
-    ))({
-        [`& .${tooltipClasses.tooltip}`]: {
-            maxWidth: 500,
-            borderRadius: 7,
-            border: '1px solid rgba(119, 130, 150, 0.20)',
-            background: '#FFF',
-            boxShadow: '0px 4px 60px 0px rgba(0, 0, 0, 0.08)',
-        },
-    });
-    const CustomTooltipRecipient = styled(({className, ...props}) => (
-        <Tooltip {...props} classes={{popper: className}}/>
-    ))({
-        [`& .${tooltipClasses.tooltip}`]: {
-            maxWidth: 500,
-            borderRadius: 7,
-            border: '1px solid rgba(119, 130, 150, 0.20)',
-            background: '#FFF',
-            boxShadow: '0px 4px 60px 0px rgba(0, 0, 0, 0.08)',
-        },
-    });
+ 
 
     const convertTimestampToLocalTime = (timestamp) => {
 
@@ -100,7 +79,7 @@ function Leadlist() {
 
 
     const handleClickApprove = (order) => {
-        setState((prevData) => ({ ...prevData, pageloader: true}));
+        // setState((prevData) => ({ ...prevData, pageloader: true }));
         const formdata = new FormData();
         order.forEach(orderItem => {
             if (Array.isArray(orderItem.scdact_id)) {
@@ -110,9 +89,9 @@ function Leadlist() {
             } else {
                 formdata.append("scdact_id", orderItem.scdact_id);
             }
-
+    
             formdata.append("scdact_reqid", orderItem.scdact_reqid);
-
+    
             if (Array.isArray(orderItem.scdact_command)) {
                 orderItem.scdact_command.forEach(command => {
                     let updatedCommand = command.replace(/-browserview/, '-update_file_info_ex');
@@ -128,13 +107,32 @@ function Leadlist() {
                     const recipientsString = recipients.map(recipient => `-mail:${recipient}`).join(' ');
                     updatedCommand = updatedCommand.replace(/-mail:[^ ]+/, '');
                     updatedCommand += ` ${recipientsString}`;
-                    updatedCommand = updatedCommand.replace(/(-watermark:[^ ]+|-scrnwatermark:[^ ]+) */g, '');
-                    const watermarkMatches = command.match(/(-watermark:[^ ]+|-scrnwatermark:[^ ]+) */g);
-                    if (watermarkMatches) {
-                        updatedCommand += ` ${watermarkMatches.join(' ')}`;
+
+                    if (orderItem.scdact_print) {
+                        updatedCommand += ' -print'; // Add watermark
+                    } else {
+                        // Remove watermark if exists
+                        updatedCommand = updatedCommand.replace(/-print/, '-noprint');
                     }
-                    console.log(updatedCommand);
-                    formdata.append("scdact_command", updatedCommand);
+    
+                    // Check if watermark exists
+                    if (orderItem.scdact_watermark) {
+                        updatedCommand += ' -watermark:2098'; // Add watermark
+                    } else {
+                        // Remove watermark if exists
+                        updatedCommand = updatedCommand.replace(/-watermark:[^ ]+/, '');
+                    }
+    
+                    // Check if scrnwatermark exists
+                    if (orderItem.scdact_scrwatermark) {
+                        updatedCommand += ' -scrnwatermark:2096'; // Add scrnwatermark
+                    } else {
+                        // Remove scrnwatermark if exists
+                        updatedCommand = updatedCommand.replace(/-scrnwatermark:[^ ]+/, '');
+                    }
+    
+                    // formdata.append("scdact_command", updatedCommand);
+                    console.log("🚀 ~ handleClickApprove ~ updatedCommand:", updatedCommand)
                 });
             } else {
                 // Process single command
@@ -151,36 +149,55 @@ function Leadlist() {
                 const recipientsString = recipients.map(recipient => `-mail:${recipient}`).join(' ');
                 updatedCommand = updatedCommand.replace(/-mail:[^ ]+/, '');
                 updatedCommand += ` ${recipientsString}`;
-                updatedCommand = updatedCommand.replace(/(-watermark:[^ ]+|-scrnwatermark:[^ ]+) */g, '');
-                const watermarkMatches = orderItem.scdact_command.match(/(-watermark:[^ ]+|-scrnwatermark:[^ ]+) */g);
-                if (watermarkMatches) {
-                    updatedCommand += ` ${watermarkMatches.join(' ')}`;
+
+                if (orderItem.scdact_print) {
+                    updatedCommand += ' -print'; // Add watermark
+                } else {
+                    // Remove watermark if exists
+                    updatedCommand = updatedCommand.replace(/-print/, '-noprint');
                 }
-                console.log(updatedCommand);
-                formdata.append("scdact_command", updatedCommand);
+    
+                // Check if watermark exists
+                if (orderItem.scdact_watermark) {
+                    updatedCommand += ' -watermark:2098'; // Add watermark
+                } else {
+                    // Remove watermark if exists
+                    updatedCommand = updatedCommand.replace(/-watermark:[^ ]+/, '');
+                }
+    
+                // Check if scrnwatermark exists
+                if (orderItem.scdact_scrwatermark) {
+                    updatedCommand += ' -scrnwatermark:2096'; // Add scrnwatermark
+                } else {
+                    // Remove scrnwatermark if exists
+                    updatedCommand = updatedCommand.replace(/-scrnwatermark:[^ ]+/, '');
+                }
+    
+                // formdata.append("scdact_command", updatedCommand);
+                console.log("🚀 ~ handleClickApprove ~ updatedCommand:", updatedCommand)
             }
         });
-
-
-        const requestOptions = {
-            method: "PATCH",
-            body: formdata,
-            redirect: "follow"
-        };
-
-        const apiEndpoint = process.env.NEXT_PUBLIC_API_ENDPOINT_LOGIN;
-        const apiPortLogin = process.env.NEXT_PUBLIC_API_PORT_LOGIN || "";
-        const apiUrl = `${apiEndpoint}:${apiPortLogin}/api/updateCommandActivity`;
-
-        fetch(apiUrl, requestOptions)
-            .then((response) => response.json())
-            .then((result) => {
-                if(result.status==="OK"){
-                    handleApprove(order);
-                }
-            })
-            .catch((error) => console.error(error));
+    
+        // const requestOptions = {
+        //     method: "PATCH",
+        //     body: formdata,
+        //     redirect: "follow"
+        // };
+    
+        // const apiEndpoint = process.env.NEXT_PUBLIC_API_ENDPOINT_LOGIN;
+        // const apiPortLogin = process.env.NEXT_PUBLIC_API_PORT_LOGIN || "";
+        // const apiUrl = `${apiEndpoint}:${apiPortLogin}/api/updateCommandActivity`;
+    
+        // fetch(apiUrl, requestOptions)
+        //     .then((response) => response.json())
+        //     .then((result) => {
+        //         if (result.status === "OK") {
+        //             handleApprove(order);
+        //         }
+        //     })
+        //     .catch((error) => console.error(error));
     };
+    
 
     const afterFinish =()=>{
         const requestOptions = {
@@ -393,6 +410,88 @@ function Leadlist() {
             })
             .catch((error) => console.error(error));
     }
+    
+
+    const CustomTooltipRecipient = styled(({className, ...props}) => (
+        <Tooltip {...props} classes={{popper: className}}/>
+    ))({
+        [`& .${tooltipClasses.tooltip}`]: {
+            maxWidth: 500,
+            borderRadius: 7,
+            border: '1px solid rgba(119, 130, 150, 0.20)',
+            background: '#FFF',
+            boxShadow: '0px 4px 60px 0px rgba(0, 0, 0, 0.08)',
+        },
+    });
+    const handleSwitchChange = (key, event) => {
+        setState((prevState) => ({
+            ...prevState,
+            [key]: !prevState[key]
+        }));
+    }
+
+    const IOSSwitchPolicy = styled((props) => (
+        <Switch focusVisibleClassName=".Mui-focusVisible"  disableRipple {...props} />
+      ))(({ theme }) => ({
+        width: 42,
+        height: 26,
+        padding: 0,
+        '& .MuiSwitch-switchBase': {
+          padding: 0,
+          margin: 2,
+          transitionDuration: '300ms',
+          '&.Mui-checked': {
+            transform: 'translateX(16px)',
+            color: '#48846B',
+            '& + .MuiSwitch-track': {
+              backgroundColor: theme.palette.mode === 'dark' ? '#48846B' : '#E9E9EA',
+              opacity: 1,
+              border: 0,
+            },
+            '&.Mui-disabled + .MuiSwitch-track': {
+              opacity: 0.5,
+            },
+          },
+          '&.Mui-focusVisible .MuiSwitch-thumb': {
+            color: '#33cf4d',
+            border: '6px solid #fff',
+          },
+          '&.Mui-disabled .MuiSwitch-thumb': {
+            color:
+              theme.palette.mode === 'light'
+                ? theme.palette.grey[100]
+                : theme.palette.grey[600],
+          },
+          '&.Mui-disabled + .MuiSwitch-track': {
+            opacity: theme.palette.mode === 'light' ? 0.7 : 0.3,
+          },
+        },
+        '& .MuiSwitch-thumb': {
+          boxSizing: 'border-box',
+          width: 22,
+          height: 22,
+        },
+        '& .MuiSwitch-track': {
+          borderRadius: 26 / 2,
+          backgroundColor: theme.palette.mode === 'light' ? '#E9E9EA' : '#39393D',
+          opacity: 1,
+          transition: theme.transitions.create(['background-color'], {
+            duration: 500,
+          }),
+        },
+      }));
+      
+      const SwitchBox = ({ checked, onChange }) => (
+        <Box >
+          <FormControlLabel
+            labelPlacement="start"
+            control={
+            <IOSSwitchPolicy  checked={checked} onChange={onChange}/>
+          }
+            sx={{ color: '#778296'}}
+          />
+        </Box>
+      );
 
 
     return {
@@ -402,12 +501,11 @@ function Leadlist() {
         handleTooltipClose,
         handleTooltipCloseRecipient,
         handleTooltipOpenRecipient,
-        CustomTooltip,
         CustomTooltipRecipient,
         convertTimestampToLocalTime,
         groupedOrders,
         handleClickApprove: handleClickApprove,
-        handleReject
+        handleReject,SwitchBox,handleSwitchChange
     };
 
 }

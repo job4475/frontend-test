@@ -46,6 +46,19 @@ const theme = createTheme({
       'montserrat',
     ].join(','),
   },
+  components: {
+    MuiTooltip: {
+      styleOverrides: {
+        tooltip: {
+          maxWidth: 500,
+          borderRadius: 7,
+          border: '1px solid rgba(119, 130, 150, 0.20)',
+          background: '#FFF',
+          boxShadow: '0px 4px 60px 0px rgba(0, 0, 0, 0.08)',
+        },
+      },
+    },
+  },
 });
 
 export default theme;

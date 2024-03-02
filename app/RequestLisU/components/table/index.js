@@ -1,6 +1,6 @@
 "use client";
 import * as React from 'react';
-import { Box, Button, Dialog, DialogActions, DialogContent, DialogTitle, IconButton, Paper, Slide, Table, TableBody, TableCell, TableContainer, TableHead, TableRow, Tooltip } from '@mui/material'
+import { Box, Button, Dialog, DialogActions, DialogContent, DialogTitle, IconButton, Paper, Slide, Table, TableBody, TableCell, TableContainer, TableHead, TablePagination, TableRow, Tooltip } from '@mui/material'
 import file from '@/assets/assets/images/file.png'
 import recipient from '@/assets/assets/images/recipient.png'
 import dropdown from '@/assets/assets/images/dropdown.png'
@@ -13,6 +13,8 @@ import Menu from '@mui/material/Menu';
 import MenuItem from '@mui/material/MenuItem';
 import PopupState, { bindTrigger, bindMenu } from 'material-ui-popup-state';
 import AutoDeleteIcon from '@mui/icons-material/AutoDelete';
+import TablePaginationActions from '../paginationAction'
+
 const Transition = React.forwardRef(function Transition(props, ref) {
   return <Slide direction="up" ref={ref} {...props} />;
 });
@@ -23,6 +25,9 @@ function Index() {
   handleLeadList.groupedOrders?.sort((a, b) => b[0].scdact_timestamp - a[0].scdact_timestamp);
   const [tooltipOpen, setTooltipOpen] = useState({});
   const [tooltipContent, setTooltipContent] = useState({});
+
+  const row = handleLeadList.groupedOrders.map(row => row);
+
 
   const handleOpen = (index, sender) => {
     setTooltipOpen({ ...tooltipOpen, [index]: true });
@@ -50,8 +55,21 @@ function Index() {
   };
 
 
+  
+  const [page, setPage] = React.useState(0);
+  const [rowsPerPage, setRowsPerPage] = React.useState(5);
+
+  const handleChangePage = (event, newPage) => {
+    setPage(newPage);
+  };
+
+  const handleChangeRowsPerPage = (event) => {
+    setRowsPerPage(+event.target.value);
+    setPage(0);
+  };
+
   return (
-    <Box sx={{display:'flex',justifyContent:'center',mt:3,pb:3}}>
+    <Box sx={{display:'flex',justifyContent:'center',mt:3,flexDirection:"column",alignItems:"center"}}>
       <TableContainer id="tablelist" component={Paper} sx={{ width: '90%', maxHeight: '90%' }}>
         <Box sx={{p:2,fontWeight:600}}>Request list</Box>
       <Table>
@@ -67,7 +85,8 @@ function Index() {
         </TableRow>
       </TableHead>
       <TableBody>
-        {handleLeadList.groupedOrders?.map((row,index)=>(
+        {handleLeadList.groupedOrders?.slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage)
+              .map((row,index)=>(
         <TableRow key={`${row[0].scdact_reqid}`}>
           <TableCell align="center">{row[0].scdact_reqid}</TableCell>
           <TableCell id="cellheader" align="center">{handleLeadList.convertTimestampToLocalTime(row[0].scdact_timestamp)}</TableCell>
@@ -335,6 +354,18 @@ function Index() {
       </TableBody>
       </Table>
       </TableContainer>
+      <Box sx={{width: '90%', maxHeight: '90%'}}>
+      <TablePagination
+        rowsPerPageOptions={[5, 10, 25,{ label: 'All', value: -1 }]}
+        component="div"
+        count={row.length}
+        rowsPerPage={rowsPerPage}
+        page={page}
+        onPageChange={handleChangePage}
+        onRowsPerPageChange={handleChangeRowsPerPage}
+        ActionsComponent={TablePaginationActions}
+      />
+      </Box>
     </Box>
   )
 }
