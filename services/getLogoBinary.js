@@ -1,7 +1,6 @@
 import { StateContext } from '@/context/Context';
 import React, { useContext, useEffect, useState } from 'react';
 
-
 function GetLogoBinary() {
     const { state, setState } = useContext(StateContext);
 

@@ -12,7 +12,7 @@ export default function App() {
   };
   return (
     <OtpInput value={state.input_OTP} onChange={handleChange} numInputs={6}isInputNum={true} separator={<span>-</span>}
-      renderInput={(props) => <input {...props} />} inputStyle={{ width: '51px', height: '57px', marginRight:'9px',
+      renderInput={(props) => <input {...props} />} inputStyle={{ width: '100%', height: '57px', marginRight:'9px',
         fontSize: '1.5rem', borderBottom: '2px solid #BBC0CA' }} />
   );
 }

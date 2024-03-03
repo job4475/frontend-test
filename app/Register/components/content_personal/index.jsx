@@ -122,7 +122,7 @@ function Index() {
                     Jobtitle
                     <Box sx={{ ml: 9.5 }}>
                       <FormControl variant="standard" sx={{ minWidth: 220 }}>
-                        <Select name="additionalSelect2" value={state.jobtitlename} onChange={changejobtitle} sx={{ width: '100%' }}>
+                        <Select name="additionalSelect2" value={state.jobtitlename} onChange={changejobtitle} sx={{ width: '100%' }} disabled={!state.departmentid}>
                           {state.jobtitle && state.jobtitle.dataResponse && state.jobtitle.dataResponse.jobtitle_list.map(jobtitle => (
                             <MenuItem key={jobtitle.id} value={jobtitle.jobtitle}>
                               {jobtitle.jobtitle}

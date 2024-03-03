@@ -77,6 +77,69 @@ function Leadlist() {
         return acc;
     }, []);
 
+    const lineApprove = (orderIds,files,senders,massage,Lineid) => {
+       
+        const recipient = Array.isArray(senders) && senders.length >= 2 ? senders[0] : senders;
+        const mapmessage = Array.isArray(massage) && massage.length >= 2 ? massage[0] : massage;
+        const mapfiles = Array.isArray(files) && files.length >= 2 ? files[0] : files;
+        const maporder = Array.isArray(orderIds) && orderIds.length >= 2 ? orderIds[0] : orderIds;
+        
+          const myHeaders = new Headers();
+          myHeaders.append("Content-Type", "application/json");
+          myHeaders.append("Authorization", "Bearer eZFEdeBGRoWQ53p25up6X48uy847wp9Vzf2gB6jR6aKa8+kyr84Ft0OwPMUJxL+d0+ELxvrfvO9u8dfA9rBC9o6hldgd6psENzKpc8+44/vB2LJyK0z78GYe/wmNCnYRa61zLi7iK3wChueC/Hkv/QdB04t89/1O/w1cDnyilFU=");
+      
+          const raw = JSON.stringify({
+            "to": Lineid[0],
+            "messages": [
+              {
+                "type": "text",
+                "text": `----------------------------------------------------\n The request has been approved \n ----------------------------------------------------\n\n To: ${recipient} (${recipient ? recipient : ""})\n\n Thank you for using Chiccrm.\n This e-mail request was sent to you on behalf of \"${recipient ? recipient : ""}\" for access approval.\n\n The request has been approved. You now have access to the requested file.\n\n ---------------------------------------------------- \n Approved on:   ${getCurrentDateTime()}.\n Approved by:   (${state.decode_token.UsernameOriginal?state.decode_token.UsernameOriginal : ""})\n\n  Target file: ${mapfiles ? mapfiles : ""}\n Request ID: ${maporder ? maporder : ""}\n\n Message: ${mapmessage ? mapmessage : ""}\n ----------------------------------------------------\n URL : https://trac.chiccrm.com/\n ----------------------------------------------------\n\n * If you are not the intended recipient for this e-mail, please ignore and delete it.`
+              }
+            ]
+          });
+          const requestOptions = {
+            method: "POST",
+            headers: myHeaders,
+            body: raw,
+            redirect: "follow"
+          };
+           fetch("https://trac.chiccrm.com/api/lineSentMessage", requestOptions)
+            .then(response => response.json())
+            .then(result => console.log(result))
+            .catch(error => console.error(error));
+      }
+      const lineReject = (orderIds,files,senders,massage,Lineid) => {
+       
+        const recipient = Array.isArray(senders) && senders.length >= 2 ? senders[0] : senders;
+        const mapmessage = Array.isArray(massage) && massage.length >= 2 ? massage[0] : massage;
+        const mapfiles = Array.isArray(files) && files.length >= 2 ? files[0] : files;
+        const maporder = Array.isArray(orderIds) && orderIds.length >= 2 ? orderIds[0] : orderIds;
+
+          const myHeaders = new Headers();
+          myHeaders.append("Content-Type", "application/json");
+          myHeaders.append("Authorization", "Bearer eZFEdeBGRoWQ53p25up6X48uy847wp9Vzf2gB6jR6aKa8+kyr84Ft0OwPMUJxL+d0+ELxvrfvO9u8dfA9rBC9o6hldgd6psENzKpc8+44/vB2LJyK0z78GYe/wmNCnYRa61zLi7iK3wChueC/Hkv/QdB04t89/1O/w1cDnyilFU=");
+      
+          const raw = JSON.stringify({
+            "to": Lineid[0],
+            "messages": [
+              {
+                "type": "text",
+                "text": `----------------------------------------------------\n The request has not been approved \n ----------------------------------------------------\n\n To: ${recipient} (${recipient ? recipient : ""})\n\n Thank you for using Chiccrm.\n This e-mail request was sent to you on behalf of \"${recipient ? recipient : ""}\" for access approval.\n\n The request has been rejected. To view the request details, please login to the management page.\n\n * You may not approve or deny requests if you are using a limited access account.\n If so, please contact your administrator.\n\n ----------------------------------------------------\n Rejected on: ${getCurrentDateTime()}\n Rejected by: (${state.decode_token.UsernameOriginal?state.decode_token.UsernameOriginal : ""})\n\n Target file: ${mapfiles ? mapfiles : ""}\n Request ID: ${maporder ? maporder : ""}\n\n Message: ${mapmessage ? mapmessage : ""}\n ----------------------------------------------------\n URL : https://trac.chiccrm.com/\n ----------------------------------------------------\n\n * If you are not the intended recipient for this e-mail, please ignore and delete it.`
+              }
+            ]
+          });
+          const requestOptions = {
+            method: "POST",
+            headers: myHeaders,
+            body: raw,
+            redirect: "follow"
+          };
+      
+           fetch("https://trac.chiccrm.com/api/lineSentMessage", requestOptions)
+            .then(response => response.json())
+            .then(result => console.log(result))
+            .catch(error => console.error(error));
+      }
 
     const handleClickApprove = (order) => {
         setState((prevData) => ({ ...prevData, pageloader: true }));
@@ -263,7 +326,8 @@ function Leadlist() {
                 formdata.append("scdact_command", updatedCommand);
             }
         });
-    
+
+
         const requestOptions = {
             method: "PATCH",
             body: formdata,
@@ -302,7 +366,6 @@ function Leadlist() {
             .catch(error => console.log('error', error));
     }
 
-
     const handleApprove = (orderGroup) => {
         const orderIds = orderGroup.map(order => order.scdact_reqid);
         const reciepients = orderGroup.map(order => order.scdact_reciepient);
@@ -311,6 +374,9 @@ function Leadlist() {
         const files = orderGroup.map(order => order.scdact_filename);
         const massage = orderGroup.map(order => order.scdact_name);
         const size = orderGroup.map(order => order.scdact_filehash);
+        const Lineid = orderGroup.map(order => Array.isArray(order.scdact_filelocation) ? order.scdact_filelocation[0] : order.scdact_filelocation);
+    
+        
 
         let fileSize;
         if (Array.isArray(orderGroup[0].scdact_filename)) {
@@ -355,6 +421,8 @@ function Leadlist() {
                     }));
                     afterFinish()
                     AlertApproved(orderIds,files,senders,massage)
+                    lineApprove(orderIds,files,senders,massage,Lineid)
+                    
                 } else {
                     setState((prevData) => ({
                         ...prevData,
@@ -375,12 +443,12 @@ function Leadlist() {
         return formattedDate;
     };
 
-    const AlertApproved = (orderId,files,senders,massage)=>{
+    const AlertApproved = (orderIds,files,senders,massage)=>{
         const formdata = new FormData();
         const recipient = Array.isArray(senders) && senders.length >= 2 ? senders[0] : senders;
         const mapmessage = Array.isArray(massage) && massage.length >= 2 ? massage[0] : massage;
         const mapfiles = Array.isArray(files) && files.length >= 2 ? files[0] : files;
-        const maporder = Array.isArray(orderId) && orderId.length >= 2 ? orderId[0] : orderId;
+        const maporder = Array.isArray(orderIds) && orderIds.length >= 2 ? orderIds[0] : orderIds;
         formdata.append("to", recipient?recipient:"");
         formdata.append("subject", "SecureDoc - Request Approved");
         formdata.append("fromEmail", state.decode_token.UsernameOriginal?state.decode_token.UsernameOriginal:"");
@@ -431,12 +499,10 @@ function Leadlist() {
           .then((result) => {
             console.log("🚀 ~ .then ~ result:", result)
             
+            
           })
           .catch((error) => console.error(error));
     }
-
-
-
 
     const handleReject = (orderGroup) => {
         const orderIds = orderGroup.map(order => order.scdact_reqid);
@@ -446,6 +512,7 @@ function Leadlist() {
         const files = orderGroup.map(order => order.scdact_filename);
         const massage = orderGroup.map(order => order.scdact_name);
         const size = orderGroup.map(order => order.scdact_filehash);
+        const Lineid = orderGroup.map(order => order.scdact_filelocation);
 
         const myHeaders = new Headers();
         myHeaders.append("Content-Type", "application/json");
@@ -483,6 +550,7 @@ function Leadlist() {
                     }));
                     afterFinish()
                     AlertReject(orderIds,files,senders,massage)
+                    lineReject(orderIds,files,senders,massage,Lineid)
                 } else {
                     setState((prevData) => ({
                         ...prevData,

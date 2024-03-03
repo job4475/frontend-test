@@ -44,8 +44,8 @@ function Index() {
             <Box sx={{ ml: 1 }}>
               {state.logoImage ? (
                 <Box sx={{ display: "flex", alignItems: "center" }}>
-                  <Image alt="website" src={website} width={20} height={50} />
-                  <Box sx={{ ml: 2,fontSize:"13px"  }}>
+                  <Image alt="website" src={website} width={20} height={50} style={{ maxWidth: "100%", height: "auto", width: "auto" }} />
+                  <Box sx={{ ml: 2,width:200, fontSize: "13px", overflow: "hidden", textOverflow: "ellipsis", whiteSpace: "nowrap" }}>
                     <a href={state.webSite || state.datacompanylc?.Website} target="_blank" rel="noopener noreferrer">
                       {state.webSite || state.datacompanylc?.Website}
                     </a>
@@ -55,7 +55,7 @@ function Index() {
               <Box sx={{ mt: 1, display: "flex", alignItems: "center" ,fontSize:"13px" }}>
                 {state.logoImage ? (
                   <a href={`tel:${state.phoneNumber || "021019884"}`} onClick={handlePhoneClick} style={{ textDecoration: 'none', display: 'flex', alignItems: 'center' }}>
-                    <Image alt="tel" src={tel} width={20} height={50} />
+                    <Image alt="tel" src={tel} width={20} height={50} style={{ maxWidth: "100%", height: "auto", width: "auto" }}  />
                     <Box sx={{ ml: 2, whiteSpace: 'nowrap' }}>{state.phoneNumber || state.datacompanylc?.CompanyPhone}</Box>
                   </a>
                 ) : (<Skeleton variant="rectangular" width={150} height={30} style={{ borderRadius: '6px' }} />)}
@@ -63,8 +63,8 @@ function Index() {
               <Box sx={{ mt: 1, display: "flex", alignItems: "center" }}>
                 {state.logoImage ? (
                   <Box sx={{ display: 'flex',fontSize:"13px"  }}>
-                    <Image alt="map" src={map} width={20} height={50}/>
-                    <Box sx={{ ml: 2 }}>
+                    <Image alt="map" src={map} width={20} height={50} style={{ maxWidth: "100%", height: "auto", width: "auto" }} />
+                    <Box sx={{ ml: 2,width:200,overflow: "hidden", textOverflow: "ellipsis", whiteSpace: "nowrap" }}>
                       <a href={state.datacompanylc?.Geolocation || state.googlemaps} target="_blank" rel="noopener noreferrer">
                         {state.googlemaps || state.datacompanylc?.Geolocation}
                       </a>

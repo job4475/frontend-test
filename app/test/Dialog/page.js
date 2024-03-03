@@ -15,7 +15,7 @@ const MapPage = () => {
       infowindow = new google.maps.InfoWindow();
       map = new google.maps.Map(document.getElementById("map"), {
         center: bangkokLatLng,
-        zoom: 19, 
+        zoom: 20, 
       });
 
       const request = {
@@ -71,3 +71,4 @@ const MapPage = () => {
 };
 
 export default MapPage;
+
