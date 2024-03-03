@@ -79,7 +79,7 @@ function Leadlist() {
 
 
     const handleClickApprove = (order) => {
-        // setState((prevData) => ({ ...prevData, pageloader: true }));
+        setState((prevData) => ({ ...prevData, pageloader: true }));
         const formdata = new FormData();
         order.forEach(orderItem => {
             if (Array.isArray(orderItem.scdact_id)) {
@@ -96,6 +96,8 @@ function Leadlist() {
                 orderItem.scdact_command.forEach(command => {
                     let updatedCommand = command.replace(/-browserview/, '-update_file_info_ex');
                     updatedCommand = updatedCommand.replace(/(-macro_deny|-encrypt) +/g, '');
+                    updatedCommand = updatedCommand.replace(/-watermark:[^ ]+/, '');
+                    updatedCommand = updatedCommand.replace(/-scrnwatermark:[^ ]+/, '');
                     const destMatch = command.match(/-dest:([^ ]+)/);
                     if (destMatch && destMatch[1]) {
                         const srcValue = destMatch[1];
@@ -109,35 +111,78 @@ function Leadlist() {
                     updatedCommand += ` ${recipientsString}`;
 
                     if (orderItem.scdact_print) {
-                        updatedCommand += ' -print'; // Add watermark
+                        if (updatedCommand.includes(' -noprint')) {
+                            updatedCommand = updatedCommand.replace(/-noprint/, ' -print');
+                          } else {
+                            updatedCommand += ' -print'; // Add watermark
+                          }
                     } else {
                         // Remove watermark if exists
-                        updatedCommand = updatedCommand.replace(/-print/, '-noprint');
+                        if (updatedCommand.includes(' -print')) {
+                            updatedCommand = updatedCommand.replace(/-print/, ' -noprint');
+                          } else {
+                            updatedCommand += ' -noprint'; // Add watermark
+                          }                    }
+
+                    if (orderItem.scdact_cvtoriginal) {
+                        if (updatedCommand.includes(' -nodecode')) {
+                            updatedCommand = updatedCommand.replace(/-nodecode/, ' -decode');
+                          } else {
+                            updatedCommand += ' -decode'; // Add watermark
+                          }
+                        updatedCommand = updatedCommand.replace(/-S/, '');
+                        updatedCommand = updatedCommand.replace(/-D/, '');
+                    } else {
+                        // Remove watermark if exists
+                        if (updatedCommand.includes(' -decode')) {
+                            updatedCommand = updatedCommand.replace(/-decode/, ' -nodecode');
+                          } else {
+                            updatedCommand += ' -decode'; // Add watermark
+                          }
+                        updatedCommand = updatedCommand.replace(/-S/, '');
+                        updatedCommand = updatedCommand.replace(/-D/, '');
+                    }
+
+                    if (orderItem.scdact_copy) {
+                        if (updatedCommand.includes(' -nocopypaste')) {
+                            updatedCommand = updatedCommand.replace(/-nocopypaste/, ' -copypaste');
+                          } else {
+                            updatedCommand += ' -copypaste'; 
+                          } // Add watermark
+                    } else {
+                        // Remove watermark if exists
+                        if (updatedCommand.includes(' -copypaste')) {
+                            updatedCommand = updatedCommand.replace(/-copypaste/, ' -nocopypaste');
+                          } else {
+                            updatedCommand += ' -nocopypaste'; 
+                          } // Add watermark
                     }
     
                     // Check if watermark exists
-                    if (orderItem.scdact_watermark) {
-                        updatedCommand += ' -watermark:2098'; // Add watermark
-                    } else {
-                        // Remove watermark if exists
-                        updatedCommand = updatedCommand.replace(/-watermark:[^ ]+/, '');
-                    }
+                    // if (orderItem.scdact_watermark) {
+                    //     updatedCommand += ' -watermark:2098'; // Add watermark
+                    // } else {
+                    //     // Remove watermark if exists
+                    //     updatedCommand = updatedCommand.replace(/-watermark:[^ ]+/, '');
+                    // }
     
-                    // Check if scrnwatermark exists
-                    if (orderItem.scdact_scrwatermark) {
-                        updatedCommand += ' -scrnwatermark:2096'; // Add scrnwatermark
-                    } else {
-                        // Remove scrnwatermark if exists
-                        updatedCommand = updatedCommand.replace(/-scrnwatermark:[^ ]+/, '');
-                    }
+                    // // Check if scrnwatermark exists
+                    // if (orderItem.scdact_scrwatermark) {
+                    //     updatedCommand += ' -scrnwatermark:2096'; // Add scrnwatermark
+                    // } else {
+                    //     // Remove scrnwatermark if exists
+                    //     updatedCommand = updatedCommand.replace(/-scrnwatermark:[^ ]+/, '');
+                    // }
     
-                    // formdata.append("scdact_command", updatedCommand);
-                    console.log("🚀 ~ handleClickApprove ~ updatedCommand:", updatedCommand)
+    
+                    formdata.append("scdact_command", updatedCommand);
                 });
             } else {
                 // Process single command
                 let updatedCommand = orderItem.scdact_command.replace(/-browserview/, '-update_file_info_ex');
                 updatedCommand = updatedCommand.replace(/(-macro_deny|-encrypt) +/g, '');
+                updatedCommand = updatedCommand.replace(/-watermark:[^ ]+/, '');
+                updatedCommand = updatedCommand.replace(/-scrnwatermark:[^ ]+/, '');
                 const destMatch = orderItem.scdact_command.match(/-dest:([^ ]+)/);
                 if (destMatch && destMatch[1]) {
                     const srcValue = destMatch[1];
@@ -151,51 +196,92 @@ function Leadlist() {
                 updatedCommand += ` ${recipientsString}`;
 
                 if (orderItem.scdact_print) {
-                    updatedCommand += ' -print'; // Add watermark
+                    if (updatedCommand.includes(' -noprint')) {
+                        updatedCommand = updatedCommand.replace(/-noprint/, ' -print');
+                      } else {
+                        updatedCommand += ' -print'; // Add watermark
+                      }
                 } else {
                     // Remove watermark if exists
-                    updatedCommand = updatedCommand.replace(/-print/, '-noprint');
+                    if (updatedCommand.includes(' -print')) {
+                        updatedCommand = updatedCommand.replace(/-print/, ' -noprint');
+                      } else {
+                        updatedCommand += ' -noprint'; // Add watermark
+                      }   
+                    }
+
+                if (orderItem.scdact_cvtoriginal) {
+                    if (updatedCommand.includes(' -nodecode')) {
+                        updatedCommand = updatedCommand.replace(/-nodecode/, ' -decode');
+                      } else {
+                        updatedCommand += ' -decode'; // Add watermark
+                      }
+                    updatedCommand = updatedCommand.replace(/-S/, '');
+                    updatedCommand = updatedCommand.replace(/-D/, '');
+                } else {
+                    if (updatedCommand.includes(' -decode')) {
+                        updatedCommand = updatedCommand.replace(/-decode/, ' -nodecode');
+                      } else {
+                        updatedCommand += ' -decode'; // Add watermark
+                      }
+                    updatedCommand = updatedCommand.replace(/-S/, '');
+                    updatedCommand = updatedCommand.replace(/-D/, '');
+                }
+
+                if (orderItem.scdact_copy) {
+                    if (updatedCommand.includes(' -nocopypaste')) {
+                        updatedCommand = updatedCommand.replace(/-nocopypaste/, ' -copypaste');
+                      } else {
+                        updatedCommand += ' -copypaste'; 
+                      } // Add watermark
+                } else {
+                    // Remove watermark if exists
+                    if (updatedCommand.includes(' -copypaste')) {
+                        updatedCommand = updatedCommand.replace(/-copypaste/, ' -nocopypaste');
+                      } else {
+                        updatedCommand += ' -nocopypaste'; 
+                      } // Add watermark
                 }
     
                 // Check if watermark exists
-                if (orderItem.scdact_watermark) {
-                    updatedCommand += ' -watermark:2098'; // Add watermark
-                } else {
-                    // Remove watermark if exists
-                    updatedCommand = updatedCommand.replace(/-watermark:[^ ]+/, '');
-                }
-    
+                // if (orderItem.scdact_watermark) {
+                //     updatedCommand += ' -watermark:2098'; // Add watermark
+                // } else {
+                //     // Remove watermark if exists
+                //     updatedCommand = updatedCommand.replace(/-watermark:[^ ]+/, '');
+                // }
+
                 // Check if scrnwatermark exists
-                if (orderItem.scdact_scrwatermark) {
-                    updatedCommand += ' -scrnwatermark:2096'; // Add scrnwatermark
-                } else {
-                    // Remove scrnwatermark if exists
-                    updatedCommand = updatedCommand.replace(/-scrnwatermark:[^ ]+/, '');
-                }
+                // if (orderItem.scdact_scrwatermark) {
+                //     updatedCommand += ' -scrnwatermark:2096'; // Add scrnwatermark
+                // } else {
+                //     // Remove scrnwatermark if exists
+                //     updatedCommand = updatedCommand.replace(/-scrnwatermark:[^ ]+/, '');
+                // }
+
     
-                // formdata.append("scdact_command", updatedCommand);
-                console.log("🚀 ~ handleClickApprove ~ updatedCommand:", updatedCommand)
+                formdata.append("scdact_command", updatedCommand);
             }
         });
     
-        // const requestOptions = {
-        //     method: "PATCH",
-        //     body: formdata,
-        //     redirect: "follow"
-        // };
+        const requestOptions = {
+            method: "PATCH",
+            body: formdata,
+            redirect: "follow"
+        };
     
-        // const apiEndpoint = process.env.NEXT_PUBLIC_API_ENDPOINT_LOGIN;
-        // const apiPortLogin = process.env.NEXT_PUBLIC_API_PORT_LOGIN || "";
-        // const apiUrl = `${apiEndpoint}:${apiPortLogin}/api/updateCommandActivity`;
+        const apiEndpoint = process.env.NEXT_PUBLIC_API_ENDPOINT_LOGIN;
+        const apiPortLogin = process.env.NEXT_PUBLIC_API_PORT_LOGIN || "";
+        const apiUrl = `${apiEndpoint}:${apiPortLogin}/api/updateCommandActivity`;
     
-        // fetch(apiUrl, requestOptions)
-        //     .then((response) => response.json())
-        //     .then((result) => {
-        //         if (result.status === "OK") {
-        //             handleApprove(order);
-        //         }
-        //     })
-        //     .catch((error) => console.error(error));
+        fetch(apiUrl, requestOptions)
+            .then((response) => response.json())
+            .then((result) => {
+                if (result.status === "OK") {
+                    handleApprove(order);
+                }
+            })
+            .catch((error) => console.error(error));
     };
     
 
@@ -481,9 +567,10 @@ function Leadlist() {
         },
       }));
       
-      const SwitchBox = ({ checked, onChange }) => (
+      const SwitchBox = ({ checked, onChange ,disabled}) => (
         <Box >
           <FormControlLabel
+          disabled={disabled}
             labelPlacement="start"
             control={
             <IOSSwitchPolicy  checked={checked} onChange={onChange}/>

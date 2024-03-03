@@ -336,7 +336,7 @@ const SwitchBox = ({ label, checked, onChange }) => (
 const handleUpload = useCallback(async () => {
   const uuid = require('uuid');
   if (state.selectedFile.length > 0) {
-    setState((prevData) => ({ ...prevData, loading: true }));
+    setState((prevData) => ({ ...prevData, loading: true,backdrop:true }));
     const formdata = new FormData();
     const orderId = uuid.v4();
     const currentDate = new Date();
@@ -380,7 +380,7 @@ const handleUpload = useCallback(async () => {
       for (let i = 0; i < state.selectedFile.length; i++) {
         const file = state.selectedFile[i];
         const sanitizedFileName = file.name.replace(/[\[\]{}()]/g, '').replace(/\s+/g, '-');
-        const emailText = state.recipient.map((recipient, index) => `${recipient}`)
+        const emailText = state.recipient.map((recipient, index) => `${recipient}`) 
         const id = uuid.v4();
         const fileType = state.selectedFile[i].type
 
@@ -410,15 +410,15 @@ const handleUpload = useCallback(async () => {
               ,No:'',SubDistric:'',Street:'',ZIPCode:'',Country:'',GoogleMaps:'',Newpassword:'',recipient:[],input_recip:"",subject:"",message:"",secure_type:false,selectedFileName:[],
               selectedFile:[],allowconverttooriginalfile: false,allowcopypaste: false,allowprint: false,alloweditsecuredfile: false,allowrunamacro: false,allowconverttobrowserviewfile: false,enableconverttooriginalfile:false,
               timelimitBeforeOri:"",timelimitBefore:"",timeBefore:"",timelimitAfterOri:"",timelimitAfter:"",timeAfter:"",limitDateTime:false,limitViewablePeriod:false,limitNumberFileOpen:false,noLimit:false,
-              periodDays:"",periodHours:"",opensTime:"",loading:false,messageBody:"",watermark:false,screenwatermark:false}));
+              periodDays:"",periodHours:"",opensTime:"",loading:false,messageBody:"",watermark:false,screenwatermark:false,backdrop:false}));
               // window.location.href = '/RequestLisU'
               router.push('/RequestLisU');
               AletToEmail(orderId)
 
           } else {
-            setState((prevData) => ({ ...prevData, alert: true, alert_text: result.message.Finalcode_result, alert_type: 'error', loading: false }));
+            setState((prevData) => ({ ...prevData, alert: true, alert_text: result.message.Finalcode_result, alert_type: 'error', loading: false,backdrop:false }));
             setTimeout(() => {
-              setState((prevData) => ({ ...prevData, alert: false,loading:false }));
+              setState((prevData) => ({ ...prevData, alert: false,loading:false,backdrop:false }));
              }, 2000);
           }
       };
@@ -441,8 +441,10 @@ const handleUpload = useCallback(async () => {
   const AletToEmail = (orderId)=>{
     const formdata = new FormData();
     const files = state.selectedFileName?.map((files, index) => `${files}`)
-    const email_manager = state.teamlead_email?.map((user) => user.username);
-    formdata.append("to", email_manager?email_manager:"");
+    const activeUsers = state.teamlead_email?.filter(user => user.status === 'Active');
+    const email_manager = activeUsers.map(user => user.username);
+
+    formdata.append("to", email_manager?email_manager[0]:"");
     formdata.append("subject", "SecureDoc - New request");
     formdata.append("fromEmail", state.decode_token.UsernameOriginal?state.decode_token.UsernameOriginal:"");
     formdata.append("body", `<p>----------------------------------------------------<br>A view request has been made for a file which you own<br>----------------------------------------------------<br><br>To: ${email_manager?email_manager:""} (${email_manager?email_manager:""})<br><br>Thank you for using Chiccrm.<br>This e-mail request was sent to you on behalf of \"${state.decode_token.UsernameOriginal ? state.decode_token.UsernameOriginal.charAt(0).toUpperCase() + state.decode_token.UsernameOriginal.slice(1) : ""}\" for access approval.<br><br>To approve or deny the request, please login to the management page.<br><br>* You may not approve or deny requests if you are using a limited access account.<br>If so, please contact your administrator.<br><br>----------------------------------------------------<br>Requested on:   ${getCurrentDateTime()}<br>Requested by:   ${state.decode_token.FirstnameOriginal ? state.decode_token.FirstnameOriginal.charAt(0).toUpperCase() + state.decode_token.FirstnameOriginal.slice(1) : ""} ${state.decode_token.SurnameTokenOriginal ? state.decode_token.SurnameTokenOriginal.charAt(0).toUpperCase() + state.decode_token.SurnameTokenOriginal.slice(1) : ""} (${state.decode_token.UsernameOriginal ? state.decode_token.UsernameOriginal : ""})<br><br>Target file:    ${files?files:""}<br>Request ID:        ${orderId?orderId:""}<br><br>Message: ${state.messageBody ? state.messageBody : ""}<br>----------------------------------------------------<br>URL : https://trac.chiccrm.com/<br>----------------------------------------------------<br><br>* If you are not the intended recipient for this e-mail, please ignore and delete it.`);
