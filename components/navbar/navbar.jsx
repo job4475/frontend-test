@@ -21,7 +21,7 @@ function Navbar() {
     const handleLogin = () => {
         const uuid = require('uuid');
         const state = uuid.v4();
-        window.location.href = `https://access.line.me/oauth2/v2.1/authorize?response_type=code&client_id=2003835525&redirect_uri=http://localhost:3434/Workspace&state=${state}&scope=profile%20openid%20email&bot_prompt=aggressive`;
+        window.location.href = `https://access.line.me/oauth2/v2.1/authorize?response_type=code&client_id=2003835525&redirect_uri=https://trac.chiccrm.com/Workspace&state=${state}&scope=profile%20openid%20email&bot_prompt=aggressive`;
     }
 
     const handleClose = () => {
