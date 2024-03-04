@@ -20,6 +20,7 @@ import Tooltiplimit from '@/services/tooltiplimit'
 import Requestaccesstoken from '@/services/requestaccesstoken'
 import GetuserIdforsendmessage from '@/services/GetuserIdforsendmessage'
 import Addlineid from '@/services/Addlineid'
+import GetLindID from '@/services/getLineID'
 export const StateContext = createContext();
 export const StateProvider = ({children}) => {
     
@@ -33,13 +34,14 @@ export const StateProvider = ({children}) => {
     confirmlink:'',latitude:'',longitude:'',selectedImage:null,countries:["Thailand"],data:[],companyID:'',referenceID:'',logoImage:'',memberAuthorization:[],dragover:false,sumsize:0,size_progress:0,
     sumsize_original:0,leadAuthorization:[],memberfeature:[],securedoc:false,open:false,resetpassword:false,registerSuccess:false,qrcodeurl:'',status:'',error:false,qrcode:"",phoneNumber:'',
     passwordStrength:'',confirmpassword:"",passwordsMatch:'',backdrop:false,webSite:'',messageBody:"",timer:0,showContent:false,department:[],departmentname:'',departmentid:'',jobtitle:[],jobtitlename:'',jobtitlenid:'',userdata:[],
-    checktoken:false,alluser:[],token:"",allmanageradmin:[],dialoguser:false,prepareedit:[],teamlead_email:[],additionalSelect1:'',uuid:[],tooltiplimit:false,code:'',access_token:'',user_id:''
+    checktoken:false,alluser:[],token:"",allmanageradmin:[],dialoguser:false,prepareedit:[],teamlead_email:[],additionalSelect1:'',uuid:[],tooltiplimit:false,code:'',access_token:'',user_id:'',line_id:[]
     });
-    // console.log("🚀 ~ StateProvider ~ state:", state)
+    console.log("🚀 ~ StateProvider ~ state:", state)
     return (
         <StateContext.Provider value={{state,setState}}>
             {/* <Countries/> */}
             {/* <Checkstatuslogin/> */}
+            <GetLindID/>
             <GetuserIdforsendmessage/>
             <Addlineid/>
             <Requestaccesstoken/>

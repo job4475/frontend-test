@@ -11,7 +11,7 @@ function Page() {
   return (
     <Box>
       <Box p={3} sx={{
-        display: 'flex', flexDirection: 'column', background: 'width', width: '400px', height: '500px',
+        display: 'flex', flexDirection: 'column', background: 'width', width: '100%', height: '500px',
         borderRadius: "15px", marginLeft: 'auto', mr: 5, mt: 1, boxShadow: '0px 0px 10px rgba(0, 0, 0, 0.1)', justifyContent: 'space-between'
       }}>
         <Box>

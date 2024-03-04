@@ -17,7 +17,6 @@ function Navbar() {
 
     const handleClick = e => {
         setAnchorEl(e.currentTarget);
-        console.log(e.currentTarget);
     };
     const handleLogin = () => {
         const uuid = require('uuid');
@@ -80,6 +79,19 @@ function Navbar() {
             router.push('/');
         }
     }
+
+    const [showIconButton, setShowIconButton] = useState(false);
+    useEffect(() => {
+        if (state.line_id.lineID === null && !state.user_id) {
+            const timeout = setTimeout(() => {
+                setShowIconButton(true);
+            }, 300); 
+            return () => clearTimeout(timeout);
+        } else {
+            setShowIconButton(false);
+        }
+    }, [state.line_id.lineID, state.user_id]);
+
     return (
         <Box sx={{ width: '100%', height: '90px', background: '#fff', border: '1px solid #C2CCE1', display: 'flex', px: '50px', justifyContent: 'space-between', alignItems: 'center' }}>
             <Box onClick={GetHome} sx={{ overflow: 'hidden', width: '55px', height: '55px', display: 'flex', justifyContent: 'center', alignContent: 'center', borderRadius: '7px', cursor: 'pointer' }}>
@@ -140,7 +152,8 @@ function Navbar() {
                     </svg>
                 </IconButton>
                 <Box sx={{ display: 'flex', mr: '40px', gap: '10px', alignItems: 'center' }}>
-                {state.code === '' && (
+
+                {showIconButton&&(
                 <IconButton variant="contained" onClick={handleLogin}>
                     <svg width="30" height="29" viewBox="0 0 30 29" fill="none" xmlns="http://www.w3.org/2000/svg">
                         <path d="M30 12.0849C30 5.42124 23.2713 0 14.9999 0C6.72958 0 0 5.42124 0 12.0849C0 18.0588 5.33639 23.0618 12.5447 24.0079C13.0333 24.1124 13.6981 24.3276 13.8663 24.7421C14.0176 25.1187 13.9652 25.7085 13.9146 26.0887C13.9146 26.0887 13.7387 27.1396 13.7007 27.3634C13.6354 27.7399 13.3993 28.8359 14.9999 28.1662C16.6009 27.4964 23.6385 23.1163 26.7855 19.5202H26.7849C28.9588 17.1535 30 14.7518 30 12.0849Z" fill="#1F2939"/>
