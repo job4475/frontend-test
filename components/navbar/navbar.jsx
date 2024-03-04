@@ -21,22 +21,14 @@ function Navbar() {
     const handleLogin = () => {
         const uuid = require('uuid');
         const state = uuid.v4();
-        window.location.href = `https://access.line.me/oauth2/v2.1/authorize?response_type=code&client_id=2003835525&redirect_uri=https://trac.chiccrm.com/Workspace&state=${state}&scope=profile%20openid%20email&bot_prompt=aggressive`;
+        const apiEndpoint = process.env.NEXT_PUBLIC_API_ENDPOINT_LINELOGIN
+        window.location.href = `https://access.line.me/oauth2/v2.1/authorize?response_type=code&client_id=2003835525&redirect_uri=${apiEndpoint}/Workspace&state=${state}&scope=profile%20openid%20email&bot_prompt=aggressive`;
     }
 
     const handleClose = () => {
         setAnchorEl(null);
     };
-
-    const handleclicklogout = () => {
-        localStorage.removeItem("ally-supports-cache")
-        localStorage.removeItem("decode_token")
-        localStorage.removeItem("loginTime")
-        localStorage.removeItem("datacompanylc")
-        localStorage.removeItem("logoImage")
-       
-        window.location.href = "/"
-    }
+  
     // Use local storage only if it's available
     const storedLoginTime = isLocalStorageAvailable ? localStorage.getItem('loginTime') : null;
     const [loginTime, setLoginTime] = useState(
