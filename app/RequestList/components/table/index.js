@@ -18,7 +18,7 @@ function Index() {
   handleLeadList.groupedOrders?.sort((a, b) => b[0].scdact_timestamp - a[0].scdact_timestamp);
   const [tooltipOpen, setTooltipOpen] = useState({});
   const [tooltipContent, setTooltipContent] = useState({});
-  const row = handleLeadList.groupedOrders.map(row => row);
+  const row = handleLeadList?.groupedOrders?.map(row => row);
 
 
   const handleOpen = (index, sender) => {
@@ -314,7 +314,7 @@ function Index() {
       <TablePagination
         rowsPerPageOptions={[5, 10, 25,{ label: 'All', value: -1 }]}
         component="div"
-        count={row.length}
+        count={row?.length?row?.length:0}
         rowsPerPage={rowsPerPage}
         page={page}
         onPageChange={handleChangePage}
