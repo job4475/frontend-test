@@ -98,7 +98,6 @@ function Index() {
                   <>
                   <Box sx={{ p:1,display: "flex", flexDirection: 'column', justifyContent: 'flex-start', alignItems: 'flex-start' }}>
                     <Box component="h3" sx={{ ml: 1, color: 'gray.main' }}>All Files</Box>
-                    {/* <Box>{console.log("name",row)}</Box> */}
                     {Array.isArray(row[0].scdact_filename) ? 
                      row[0].scdact_filename.map((item, itemIndex) => (
                        <Button  
@@ -131,7 +130,6 @@ function Index() {
                          style={{ textTransform: 'none', display: 'flex', justifyContent: 'space-between', width: '100%' }}>
                          <Box sx={{ pr: 1, overflow: 'hidden', textOverflow: 'ellipsis', maxWidth: '17ch', whiteSpace: 'nowrap' }}>{Array.isArray(row[0].scdact_filename) ? row[0].scdact_filename[itemIndex] : item.scdact_filename}</Box>
                          <Box >{Array.isArray(row[0].scdact_filesize) ? row[0].scdact_filesize[itemIndex] : item.scdact_filesize}</Box>
-                         {/* You can add the filesize here if needed */}
                        </Button>
                      ))
                    }
