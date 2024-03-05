@@ -395,7 +395,7 @@ const handleUpload = useCallback(async () => {
         formdata.append("scdact_filesize", formatBytes(file.size));
         formdata.append("scdact_filecreated", file.lastModified);
         formdata.append("scdact_filemodified", file.lastModified);
-        formdata.append("scdact_filelocation", state.user_id);
+        formdata.append("scdact_filelocation", state.line_id?.lineID?state.line_id?.lineID:"");
       }
 
        const xhr = new XMLHttpRequest();
