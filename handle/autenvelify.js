@@ -51,6 +51,7 @@ function Autenvelify() {
         .then(result => {
           console.log(result);
           if (result.status === "OK") {
+              setState((prevData) => ({ ...prevData, loading: false }));
               localStorage.removeItem("qrcode");
               const expirationDate = new Date(state.decode_token.Exp * 1000);
               setCookie('token', state.token, { path: '/', expires: expirationDate });
