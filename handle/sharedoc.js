@@ -379,7 +379,7 @@ const handleUpload = useCallback(async () => {
 
       for (let i = 0; i < state.selectedFile.length; i++) {
         const file = state.selectedFile[i];
-        const sanitizedFileName = file.name.replace(/[\[\]{}()]/g, '').replace(/\s+/g, '-');
+        const sanitizedFileName = file.name.replace(/[\[\]{}()&]/g, '').replace(/\s+/g, '-');
         const emailText = state.recipient.map((recipient, index) => `${recipient}`) 
         const id = uuid.v4();
         const fileType = state.selectedFile[i].type
