@@ -59,7 +59,7 @@ function Index() {
       <Box p={3} sx={{ display: 'flex', flexDirection: 'column', width: '400px', height: '500px', borderRadius: "15px", marginLeft: 'auto', marginRight: 5, marginTop: 1, boxShadow: '0px 0px 10px rgba(0, 0, 0, 0.1)', justifyContent: 'space-between' }}>
         <Box>
           {state.checktoken ? (
-            <Box style={{ color: '#1F2939', fontSize: 20, fontWeight: '600', ml: 'auto', mr: 'auto' }}>Reset your password here</Box>
+            <Box style={{ color: '#1F2939', fontSize: 20, fontWeight: '600', ml: 'auto', mr: 'auto' }}>Reset1111111 your password here</Box>
           ) : (<Skeleton variant="rectangular" width={300} height={25} style={{ borderRadius: '6px' }} />)}
           <Box sx={{ display: 'flex', flexDirection: 'column', justifyContent: 'center', alignItems: 'center', marginTop: 2 }}>
             {state.checktoken ? (
@@ -79,7 +79,6 @@ function Index() {
               <Box sx={{ bgcolor: state.passwordStrength === "Weak" ? '#E8E8E8' : '#2AB930', width: '20%', height: '5px', mr: "2px" }}></Box>
               <Box sx={{ bgcolor: state.passwordStrength === "Medium" ? '#E8E8E8' : '#2AB930', width: '20%', height: '5px', mr: "2px" }}></Box>
               <Box sx={{ bgcolor: state.passwordStrength === "Strong" ? '#E8E8E8' : '#2AB930', width: '20%', height: '5px', mr: "2px" }}></Box>
-              <Box sx={{ bgcolor: state.passwordStrength === "Very Strong" ? '#E8E8E8' : '#2AB930', width: '20%', height: '5px', mr: "2px" }}></Box>
             </Box>
           ) : (<Skeleton variant="rectangular" width={300} height={10} style={{ borderRadius: '6px' }} sx={{ marginTop: 3 }} />)}
           <Box sx={{ textAlign: 'right', fontSize: 13, justifyContent: 'center', mr: 2, color: state.passwordStrength === "Very Weak" ? '#E8E8E8' : '#2AB930' }}>
