@@ -12,6 +12,7 @@ export function middleware(request) {
     && !request.nextUrl.pathname.startsWith('/ForgotPassword') && !request.nextUrl.pathname.startsWith('/CreateCompany')&& !request.nextUrl.pathname.startsWith('/Mfa')
     && !request.nextUrl.pathname.startsWith('/ResetPassSuccess')&& !request.nextUrl.pathname.startsWith('/ResetPassword') && !request.nextUrl.pathname.startsWith('/ResetSuccess')
     && !request.nextUrl.pathname.startsWith('/OTPverify')&& !request.nextUrl.pathname.startsWith('/test') && !request.nextUrl.pathname.startsWith('/Authenticator') && !request.nextUrl.pathname.startsWith('/Authenverify')
+    && !request.nextUrl.pathname.startsWith('/Changepassword')
     ) {
       return Response.redirect(new URL('/Login', request.url))
     }
