@@ -36,7 +36,7 @@ export const StateProvider = ({children}) => {
     passwordStrength:'',confirmpassword:"",passwordsMatch:'',backdrop:false,webSite:'',messageBody:"",timer:0,showContent:false,department:[],departmentname:'',departmentid:'',jobtitle:[],jobtitlename:'',jobtitlenid:'',userdata:[],
     checktoken:false,alluser:[],token:"",allmanageradmin:[],dialoguser:false,prepareedit:[],teamlead_email:[],additionalSelect1:'',uuid:[],tooltiplimit:false,code:'',access_token:'',user_id:'',line_id:[]
     });
-    console.log("🚀 ~ StateProvider ~ state:", state)
+    // console.log("🚀 ~ StateProvider ~ state:", state)
     return (
         <StateContext.Provider value={{state,setState}}>
             {/* <Countries/> */}
