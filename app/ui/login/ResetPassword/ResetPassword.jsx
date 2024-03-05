@@ -135,7 +135,7 @@ function Index() {
           <Box sx={{ display: 'flex', justifyContent: 'center', alignItems: 'center' }}>
             <Button
               variant="contained"
-              onClick={HandleResetPassword.Confirm}
+              onClick={HandleResetPassword.Changepassword}
               sx={{ background: '#84BAA1', transition: 'transform 0.3s ease', '&:hover': { background: '#84BAA1', transform: 'scale(1.03)', }, }}
               style={{
                 width: '90%', height: '44px', textTransform: 'capitalize', marginTop: 10, boxShadow: '0px 0px 0px', borderRadius: '8px',

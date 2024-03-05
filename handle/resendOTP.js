@@ -3,6 +3,7 @@ import  { useContext } from 'react'
 
 function ResendOTP() {
   const { state, setState } = useContext(StateContext);
+  
   const sendOTPEmail = () => {
     setState({ ...state,timer:15  })
     const myHeaders = new Headers();
@@ -26,7 +27,7 @@ function ResendOTP() {
     .then(result => {
       console.log(result);
       if (result.status === "OK") {
-          setState({ ...state, referenceID: result.referenceID });
+          setState({ ...state, referenceID: result.referenceID,timer:12  });
   }})
     .catch(error => console.log('error', error));
   }
