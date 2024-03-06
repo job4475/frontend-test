@@ -33,7 +33,7 @@ function Authenticator() {
         .then(result => {
           console.log(result);
           if (result.status === "OK") {
-            console.log("🚀 ~ getQR ~ result:", result)
+            
             localStorage.setItem("qrcode", JSON.stringify(result.qrCodeURL));
             setState({ ...state, qrcodeurl: result.qrCodeURL });
   

@@ -102,7 +102,6 @@ function SelectVerify() {
             getQR();
         }
     }
-
     const getadminid =() =>{
         // if(state.decode_token.FirstTimeLogin){
             const requestOptions = {
