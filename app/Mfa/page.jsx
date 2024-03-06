@@ -78,9 +78,7 @@ function SelectVerify() {
         fetch(`${process.env.NEXT_PUBLIC_API_ENDPOINT_GET}:${process.env.NEXT_PUBLIC_API_PORT_LOGIN}/api/qrTOTP`, requestOptions)
             .then(response => response.json())
             .then(result => {
-                console.log(result);
                 if (result.status === "OK") {
-                    console.log("🚀 ~ getQR ~ result:", result)
                     localStorage.setItem("qrcode", JSON.stringify(result.qrCodeURL));
                     setState({ ...state, qrcodeurl: result.qrCodeURL, loading: false });
                     router.push('/Authenticator');
@@ -95,15 +93,34 @@ function SelectVerify() {
     }
     const handlenext = () => {
         if (isClickedMail) {
+            getadminid()
             router.push('/OTPverify');
             sendOTPEmail();
         } else if (isClickedAut) {
+            getadminid()
             router.push('/Authenticator');
             getQR();
         }
-
-
     }
+
+    const getadminid =() =>{
+        // if(state.decode_token.FirstTimeLogin){
+            const requestOptions = {
+                method: "GET",
+                redirect: "follow"
+              };
+              fetch(`${process.env.NEXT_PUBLIC_API_ENDPOINT_GET}:${process.env.NEXT_PUBLIC_API_PORT_LOGIN}/api/getAdminInfoByCompanyID/${state.decode_token.CompanyID}`, requestOptions)
+                .then((response) => response.json())
+                .then(result => {
+                    if (result.status === "OK") {
+                        setState({ ...state, admin_id: result });
+                        router.push('/OTPverify');
+                    } 
+                } )
+                .catch((error) => console.error(error));
+        // }
+    }
+    
     return (
         <CustomBackground>
             <Box>
