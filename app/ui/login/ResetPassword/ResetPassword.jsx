@@ -45,11 +45,9 @@ function Index() {
     setShowPassword(!showPassword);
   };
 
-
   const Confirm = () => {
     setShowPassword(!showPassword);
   };
-
 
   const isPasswordValid = () => {
     const hasMinLength = state.password.length >= 8;
@@ -58,8 +56,6 @@ function Index() {
     const hasNumber = /\d/.test(state.password);
     return hasMinLength && hasUpperCase && hasLowerCase && hasNumber;
   };
-
-
   const handlePasswordChange = (e) => {
     setState({ ...state, password: e.target.value });
     updatePasswordFunc(state.password);
@@ -123,33 +119,14 @@ function Index() {
         </Box>
         </Box>
         <Box sx={{ display: 'flex', justifyContent: 'center', alignItems: 'center' }}>
-        <Button
-          variant="contained"
-          onClick={HandleResetPassword.Confirm}
-          sx={{
-            background: state.loading ? '#e5e5e5' : '#84BAA1',
-            transition: 'transform 0.3s ease',
-            '&:hover': {
-              background: '#84BAA1', 
-              transform: 'scale(1.03)',
-            },
-          }}
-          style={{
-            width: '90%',
-            height: '44px',
-            textTransform: 'capitalize',
-            marginTop: 10,
-            boxShadow: '0px 0px 0px',
-            borderRadius: '8px',
-            fontWeight: '600',
-            cursor: state.loading ? 'not-allowed' : 'pointer',
-          }}
+        <Button variant="contained" onClick={HandleResetPassword.Confirm}
+          sx={{ background: state.loading ? '#e5e5e5' : '#84BAA1',transition: 'transform 0.3s ease',
+            '&:hover': { background: '#84BAA1',  transform: 'scale(1.03)',},}}
+          style={{width: '90%',height: '44px',textTransform: 'capitalize',marginTop: 10,boxShadow: '0px 0px 0px',
+            borderRadius: '8px',fontWeight: '600',cursor: state.loading ? 'not-allowed' : 'pointer', }}
           disabled={!isPasswordValid() || state.password !== state.confirmPassword || state.loading}
-        >
-          {state.loading ? <Loading /> : "Reset password"}
+        >{state.loading ? <Loading /> : "Reset password"}
         </Button>
-
-
         {state.resetpassword?<Dialog/>:""}
     </Box>
       </Box>
