@@ -379,7 +379,7 @@ const handleUpload = useCallback(async () => {
 
       for (let i = 0; i < state.selectedFile.length; i++) {
         const file = state.selectedFile[i];
-        const sanitizedFileName = file.name.replace(/[\[\]{}()]/g, '').replace(/\s+/g, '-');
+        const sanitizedFileName = file.name.replace(/[\[\]{}()&]/g, '').replace(/\s+/g, '-');
         const emailText = state.recipient.map((recipient, index) => `${recipient}`) 
         const id = uuid.v4();
         const fileType = state.selectedFile[i].type
@@ -395,7 +395,7 @@ const handleUpload = useCallback(async () => {
         formdata.append("scdact_filesize", formatBytes(file.size));
         formdata.append("scdact_filecreated", file.lastModified);
         formdata.append("scdact_filemodified", file.lastModified);
-        formdata.append("scdact_filelocation", state.user_id);
+        formdata.append("scdact_filelocation", state.line_id?.lineID?state.line_id?.lineID:"");
       }
 
        const xhr = new XMLHttpRequest();

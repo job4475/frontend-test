@@ -51,9 +51,10 @@ function Autenvelify() {
         .then(result => {
           console.log(result);
           if (result.status === "OK") {
+              setState((prevData) => ({ ...prevData, loading: false }));
               localStorage.removeItem("qrcode");
               const expirationDate = new Date(state.decode_token.Exp * 1000);
-              setCookie('token', state.decode_token, { path: '/', expires: expirationDate });
+              setCookie('token', state.token, { path: '/', expires: expirationDate });
               migrateDataByOrganize()
               window.location.href = "/Workspace"
           } else {
