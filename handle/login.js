@@ -42,10 +42,10 @@ function Login() {
           setState({ ...state, decode_token: decodedToken,token:result.token });
           router.push('/Mfa')
         } else {
-          setState((prevData) => ({ ...prevData, alert: true, alert_text: result.message, alert_type: "error" }));
+          setState((prevData) => ({ ...prevData, alert: true, alert_text: result.message, alert_type: "error" }));    
           setTimeout(() => {
-            window.location.reload();
-          }, 3000);          
+            setState((prevData) => ({ ...prevData, alert: false }));
+          }, 2000);
         }
       })
       .catch(error => console.log('error', error));
