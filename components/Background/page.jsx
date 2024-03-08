@@ -20,12 +20,12 @@ const Layout = ({ children }) => {
             {!isMobile && (
                 <Box width="60%" height="100%" bgcolor="" display="flex" flexDirection="column" justifyContent="start" gap="20px">
                     <Image onClick={backToLogin} src={Chiclogo} alt="logo" className="w-[80px] h-[auto] hover:scale-110 duration-500 cursor-pointer" />
-                    <Image src={Computer} style={{ width: '53%', maxWidth: '640px', height: 'auto', marginLeft: 'auto', marginRight: 'auto' }} />
+                    <Image src={Computer} alt="screenbg"  style={{ width: '53%', maxWidth: '640px', height: 'auto', marginLeft: 'auto', marginRight: 'auto' }} />
                 </Box>
             )}
             <Box display="flex" flexDirection="column" justifyContent="center" alignItems="center">
             {isMobile && (
-                <Image onClick={backToLogin} src={Chiclogo2} alt="logo" className="w-[150px] h-[auto] hover:scale-110 duration-500 cursor-pointer"  style={{ paddingBottom: '80px' }} />
+                <Image onClick={backToLogin} src={Chiclogo2} alt="logo" className="w-[150px] h-[auto] hover:scale-110 duration-500 cursor-pointer" priority={true} style={{ paddingBottom: '80px' }} />
                 )}
             <Box width={isMobile ? "100%" : "30%"} maxWidth="500px" minWidth="400px" height="85%" maxHeight="550px" minHeight="480px" px="42px" py="30px" bgcolor="#fff" borderRadius="17px" display="flex" flexDirection="column" justifyContent="space-between" boxShadow="0px 0px 50px 8px rgba(0,0,0,0.05)">
                 {children}

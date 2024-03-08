@@ -8,33 +8,39 @@ function Otpvelify() {
     const [cookies,setCookie] = useCookies(['token']);
     const router = useRouter();
 
+    const getCurrentDateTime = () => {
+        const now = new Date();
+        const formattedDate = `${now.getDate()}/${now.getMonth() + 1}/${now.getFullYear() + 543} ${String(now.getHours()).padStart(2, '0')}:${String(now.getMinutes()).padStart(2, '0')}:${String(now.getSeconds()).padStart(2, '0')}`;
+        return formattedDate;
+    };
+
     const sendmailtoadmin = () => {
         const formdata = new FormData();
-        formdata.append("to", "kwan5120@gmail.com");
+        formdata.append("to", state.admin_id.dataResponse[0].username);
         formdata.append("subject", "Notification: New User Login - Request for Access Rights");
         formdata.append("fromEmail", "worapon@tracthai.com");
 
         const emailBody = `
-          Dear System Administrator (Surachai Tongsaeng),<br>
+          Dear System Administrator (${state.admin_id.dataResponse[0].firstname} ${state.admin_id.dataResponse[0].surname}),<br>
           <br>
           I hope this email finds you well. I would like to inform you that a new user has successfully <br>
-          logged into our system at [time] on [date]. The details of the new user are as follows:
+          logged into our system at // The details of the new user are as follows:
           <br>
-          Username: [Surachai Tongsaeng]<br>
-          Email: [Surachai@tracthai.com]<br>
-          Position: [Front-End Developer]
+          Username: [${state.decode_token.FirstnameOriginal} ${state.decode_token.SurnameTokenOriginal}]<br>
+          Email: [${state.decode_token.UsernameOriginal} ]<br>
+          Position: [${state.decode_token.JobTitleOriginal} ]
           <br>
           Kindly grant the necessary access rights to the new user as outlined below:<br>
           <br>
-          [Specify the details of the access rights needed, such as database access, document approval, or any other permissions.]<br>
+          [Share Document]<br>
           <br>
           Thank you for promptly addressing this request. Should you have any questions or concerns, please feel free to reach out to this email.<br>
           <br>
           Thank you,<br>
-          [Surachai Tongsaeng]<br>
-          [manager]<br>
+          [${state.admin_id.dataResponse[0].firstname} ${state.admin_id.dataResponse[0].surname}]<br>
+          [${state.admin_id.dataResponse[0].level}]<br>
           [ChicCRM]<br>
-          [The Recovery Advisor Company Limited]
+          [${state.decode_token.CompanynameOrginal}]
         `;
       
         formdata.append("body", emailBody);
@@ -59,7 +65,7 @@ function Otpvelify() {
             "messages": [
                 {
                     "type": "text",
-                    "text": `Subject: Notification: New User Login - Request for Access Rights\n\nDear System Administrator (Surachai Tongsaeng),\n\nI hope this email finds you well. I would like to inform you that a new user has successfully logged into our system at [time] on [date]. The details of the new user are as follows:\n\nUsername: [Surachai Tongsaeng]\nEmail: [Surachai@tracthai.com]\nPosition: [Development & BI and Front-End Developer ]\n\nKindly grant the necessary access rights to the new user as outlined below:\n\n[Specify the details of the access rights needed, such as database access, document approval, or any other permissions.]\n\nThank you for promptly addressing this request. Should you have any questions or concerns, please feel free to reach out to this email.\n\nThank you,\n[Surachai Tongsaeng]\n[Manager]\n[ChicCRM]\n[The Recovery Advisor Company Limited]`
+                    "text": `Subject: Notification: New User Login - Request for Access Rights\n\nDear System Administrator (${state.admin_id.dataResponse[0].firstname} ${state.admin_id.dataResponse[0].surname}),\n\nI hope this email finds you well. I would like to inform you that a new user has successfully logged into our system at ${getCurrentDateTime()} The details of the new user are as follows:\n\nUsername: [${state.decode_token.FirstnameOriginal} ${state.decode_token.SurnameTokenOriginal}]\nEmail: [${state.decode_token.UsernameOriginal} ]\nPosition: [${state.decode_token.JobTitleOriginal} ]\n\nKindly grant the necessary access rights to the new user as outlined below:\n\n[Share Document]\n\nThank you for promptly addressing this request. Should you have any questions or concerns, please feel free to reach out to this email.\n\nThank you,\n[${state.admin_id.dataResponse[0].firstname} ${state.admin_id.dataResponse[0].surname}]\n[${state.admin_id.dataResponse[0].level}]\n[ChicCRM]\n[${state.decode_token.CompanynameOrginal}]`
                 }
             ]
         });

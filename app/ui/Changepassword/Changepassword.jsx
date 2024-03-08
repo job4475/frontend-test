@@ -56,8 +56,9 @@ function Index() {
     const hasUpperCase = /[A-Z]/.test(state.password);
     const hasLowerCase = /[a-z]/.test(state.password);
     const hasNumber = /\d/.test(state.password);
-    return hasMinLength && hasUpperCase && hasLowerCase && hasNumber;
-  };
+    const hasSpecialChar = /[!@#$%^&*(),.?":{}|<>]/.test(state.password);
+    return hasMinLength && hasUpperCase && hasLowerCase && hasNumber && hasSpecialChar;
+};
 
 
   const handlePasswordChange = (e) => {

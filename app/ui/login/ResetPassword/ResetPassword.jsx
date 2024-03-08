@@ -54,8 +54,9 @@ function Index() {
     const hasUpperCase = /[A-Z]/.test(state.password);
     const hasLowerCase = /[a-z]/.test(state.password);
     const hasNumber = /\d/.test(state.password);
-    return hasMinLength && hasUpperCase && hasLowerCase && hasNumber;
-  };
+    const hasSpecialChar = /[!@#$%^&*(),.?":{}|<>]/.test(state.password);
+    return hasMinLength && hasUpperCase && hasLowerCase && hasNumber && hasSpecialChar;
+};
   const handlePasswordChange = (e) => {
     setState({ ...state, password: e.target.value });
     updatePasswordFunc(state.password);
@@ -73,12 +74,12 @@ function Index() {
           </Box>
           <Box sx={{display:'flex',mt:"18px",width:'90%',ml:'auto',mr:'auto'}}>
                 <Box sx={{bgcolor: (state.passwordStrength === "Very Weak" || state.passwordStrength === "Weak" || state.passwordStrength === "Medium"
-                || state.passwordStrength === "Strong"|| state.passwordStrength === "Very Strong") ? '#2AB930' : '#E8E8E8',width:'20%',height:'5px',mr:"2px"}}></Box>
+                || state.passwordStrength === "Strong"|| state.passwordStrength === "VeryStrong") ? '#2AB930' : '#E8E8E8',width:'20%',height:'5px',mr:"2px"}}></Box>
                 <Box sx={{bgcolor: ( state.passwordStrength === "Weak" || state.passwordStrength === "Medium"
-                || state.passwordStrength === "Strong"|| state.passwordStrength === "Very Strong") ? '#2AB930' : '#E8E8E8',width:'20%',height:'5px',mr:"2px"}}></Box>
-                <Box sx={{bgcolor: ( state.passwordStrength === "Medium" || state.passwordStrength === "Strong"|| state.passwordStrength === "Very Strong") ? '#2AB930' : '#E8E8E8',width:'20%',height:'5px',mr:"2px"}}></Box>
-                <Box sx={{bgcolor: ( state.passwordStrength === "Strong"|| state.passwordStrength === "Very Strong") ? '#2AB930' : '#E8E8E8',width:'20%',height:'5px',mr:"2px"}}></Box>
-                <Box sx={{bgcolor: ( state.passwordStrength === "Very Strong") ? '#2AB930' : '#E8E8E8',width:'20%',height:'5px',mr:"2px"}}></Box>
+                || state.passwordStrength === "Strong"|| state.passwordStrength === "VeryStrong") ? '#2AB930' : '#E8E8E8',width:'20%',height:'5px',mr:"2px"}}></Box>
+                <Box sx={{bgcolor: ( state.passwordStrength === "Medium" || state.passwordStrength === "Strong"|| state.passwordStrength === "VeryStrong") ? '#2AB930' : '#E8E8E8',width:'20%',height:'5px',mr:"2px"}}></Box>
+                <Box sx={{bgcolor: ( state.passwordStrength === "Strong"|| state.passwordStrength === "VeryStrong") ? '#2AB930' : '#E8E8E8',width:'20%',height:'5px',mr:"2px"}}></Box>
+                <Box sx={{bgcolor: ( state.passwordStrength === "VeryStrong") ? '#2AB930' : '#E8E8E8',width:'20%',height:'5px',mr:"2px"}}></Box>
                 </Box>
                 <Box sx={{textAlign:'right' ,fontSize:13,justifyContent:'center',mr:2}}>{state.passwordStrength}</Box>
                 <Box>
