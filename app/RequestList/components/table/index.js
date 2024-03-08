@@ -201,14 +201,14 @@ function Index() {
                             <Box sx={{ pr: 1}}>Allow print</Box>
                             <Box sx={{display:"flex",alignItems:"center"}}><handleLeadList.SwitchBox disabled={row[0].scdact_watermark} checked={row[0].scdact_print}  onChange={(e) => handleSwitchChange(index,e,('scdact_print'))}  /></Box>
                           </Button>
-                          <Button disabled style={{ textTransform: 'none',display: 'flex', justifyContent: 'space-between', width: '100%' }}>
+                          {/* <Button disabled style={{ textTransform: 'none',display: 'flex', justifyContent: 'space-between', width: '100%' }}>
                             <Box sx={{ pr: 1}}>Allow Screen Watermark</Box>
                             <Box sx={{display:"flex",alignItems:"center"}}><handleLeadList.SwitchBox disabled={true} checked={row[0].scdact_scrwatermark} /></Box>
                           </Button>
                           <Button disabled style={{ textTransform: 'none',display: 'flex', justifyContent: 'space-between', width: '100%' }}>
                             <Box sx={{ pr: 1}}>Allow Watermark</Box>
                             <Box sx={{display:"flex",alignItems:"center"}}><handleLeadList.SwitchBox disabled={true}  checked={row[0].scdact_watermark} /> </Box>
-                          </Button>
+                          </Button> */}
                      </Box>
 
                      <Box sx={{display:row[0].scdact_type==="FCL"?"flex":"none",flexDirection:"column"}}>
@@ -240,14 +240,14 @@ function Index() {
                             <Box sx={{ pr: 1}}>Enable convert to original file</Box>
                             <Box sx={{display:"flex",alignItems:"center"}}><handleLeadList.SwitchBox  checked={row[0].scdact_enableconvertoriginal} onChange={(e) => handleSwitchChange(index,e,('scdact_enableconvertoriginal'))}/></Box>
                           </Button>
-                          <Button disabled style={{ textTransform: 'none',display: 'flex', justifyContent: 'space-between', width: '100%' }}>
+                          {/* <Button disabled style={{ textTransform: 'none',display: 'flex', justifyContent: 'space-between', width: '100%' }}>
                             <Box sx={{ pr: 1}}>Allow Screen Watermark</Box>
                             <Box sx={{display:"flex",alignItems:"center"}}><handleLeadList.SwitchBox  disabled={true} checked={row[0].scdact_scrwatermark} onChange={(e) => handleSwitchChange(index,e,('scdact_scrwatermark'))}/></Box>
                           </Button>
                           <Button disabled style={{ textTransform: 'none',display: 'flex', justifyContent: 'space-between', width: '100%' }}>
                             <Box sx={{ pr: 1}}>Allow Watermark</Box>
                             <Box sx={{display:"flex",alignItems:"center"}}><handleLeadList.SwitchBox  disabled={true}  checked={row[0].scdact_watermark} onChange={(e) => handleSwitchChange(index,e,('scdact_watermark'))} /></Box>
-                          </Button>
+                          </Button> */}
                         </Box>
                   </Box>
                   </>

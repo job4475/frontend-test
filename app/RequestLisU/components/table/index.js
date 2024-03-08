@@ -26,7 +26,7 @@ function Index() {
   const [tooltipOpen, setTooltipOpen] = useState({});
   const [tooltipContent, setTooltipContent] = useState({});
 
-  const row = handleLeadList.groupedOrders.map(row => row);
+  const row = handleLeadList?.groupedOrders?.map(row => row);
 
 
   const handleOpen = (index, sender) => {
