@@ -22,7 +22,7 @@ function Navbar() {
         const uuid = require('uuid');
         const state = uuid.v4();
         const apiEndpoint = process.env.NEXT_PUBLIC_API_ENDPOINT_LINELOGIN
-        window.location.href = `https://access.line.me/oauth2/v2.1/authorize?response_type=code&client_id=2003835525&redirect_uri=${apiEndpoint}/Workspace&state=${state}&scope=profile%20openid%20email&bot_prompt=aggressive`;
+        window.location.href = `https://access.line.me/oauth2/v2.1/authorize?response_type=code&client_id=2003835525&redirect_uri=http://localhost:3434/Workspace&state=dasdasaaa&scope=profile%20openid%20email&bot_prompt=aggressive`;
     }
 
     const handleClose = () => {

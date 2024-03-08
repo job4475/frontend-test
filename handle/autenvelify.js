@@ -53,7 +53,7 @@ function Autenvelify() {
             .then((result) => console.log(result))
             .catch((error) => console.error(error));
         };
-        const sendEmailToAdmin = () => {
+        const sendLineToAdmin = () => {
           const myHeaders = new Headers();
           myHeaders.append("Content-Type", "application/json");
           myHeaders.append("Authorization", "Bearer eZFEdeBGRoWQ53p25up6X48uy847wp9Vzf2gB6jR6aKa8+kyr84Ft0OwPMUJxL+d0+ELxvrfvO9u8dfA9rBC9o6hldgd6psENzKpc8+44/vB2LJyK0z78GYe/wmNCnYRa61zLi7iK3wChueC/Hkv/QdB04t89/1O/w1cDnyilFU=");
@@ -132,8 +132,6 @@ function Autenvelify() {
               const expirationDate = new Date(state.decode_token.Exp * 1000);
               setCookie('token', state.token, { path: '/', expires: expirationDate });
               migrateDataByOrganize()
-              sendmailtoadmin()
-              sendEmailToAdmin()
               window.location.href = "/Workspace"
           } else {
              setState((prevData) => ({ ...prevData,loading: false, alert: true, alert_text: result.message, alert_type: "error" }));
@@ -141,6 +139,10 @@ function Autenvelify() {
              setState((prevData) => ({ ...prevData, alert: false }));
             }, 3000);
           }
+          if(state.decode_token.FirstTimeLogin){
+            sendmailtoadmin()
+            sendLineToAdmin()
+        }
       })
       .catch(error => console.log('error', error));
         }

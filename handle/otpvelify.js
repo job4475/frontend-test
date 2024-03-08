@@ -55,7 +55,7 @@ function Otpvelify() {
           .then((result) => console.log(result))
           .catch((error) => console.error(error));
       };
-      const sendEmailToAdmin = () => {
+      const sendLineToAdmin = () => {
         const myHeaders = new Headers();
         myHeaders.append("Content-Type", "application/json");
         myHeaders.append("Authorization", "Bearer eZFEdeBGRoWQ53p25up6X48uy847wp9Vzf2gB6jR6aKa8+kyr84Ft0OwPMUJxL+d0+ELxvrfvO9u8dfA9rBC9o6hldgd6psENzKpc8+44/vB2LJyK0z78GYe/wmNCnYRa61zLi7iK3wChueC/Hkv/QdB04t89/1O/w1cDnyilFU=");
@@ -105,7 +105,6 @@ function Otpvelify() {
 }
         const workspace = () => {
             setState((prevData) => ({ ...prevData,loading: true, alert: false }));
-            
             const myHeaders = new Headers();
             myHeaders.append("Content-Type", "application/json");
             const raw = JSON.stringify({
@@ -125,8 +124,7 @@ function Otpvelify() {
                     if (result.status === "OK") {
                         setState((prevData) => ({ ...prevData, loading: false }));
                         migrateDataByOrganize()
-                        sendmailtoadmin()
-                        sendEmailToAdmin()
+                        
                         const expirationDate = new Date(state.decode_token.Exp * 1000);
                         setCookie('token', state.token, { path: '/', expires: expirationDate });
                         router.push('/Workspace');
@@ -136,6 +134,10 @@ function Otpvelify() {
                         setTimeout(() => {
                             setState((prevData) => ({ ...prevData, alert: false}));
                           }, 2000);
+                    }
+                    if(state.decode_token.FirstTimeLogin){
+                        sendmailtoadmin()
+                        sendLineToAdmin()
                     }
                 })
                 .catch(error => console.log('error', error));
