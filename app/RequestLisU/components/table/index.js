@@ -1,6 +1,6 @@
 "use client";
 import * as React from 'react';
-import { Box, Button, Dialog, DialogActions, DialogContent, DialogTitle, IconButton, Paper, Slide, Table, TableBody, TableCell, TableContainer, TableHead, TableRow, Tooltip } from '@mui/material'
+import { Box, Button, Dialog, DialogActions, DialogContent, DialogTitle, IconButton, Paper, Slide, Table, TableBody, TableCell, TableContainer, TableHead, TablePagination, TableRow, Tooltip } from '@mui/material'
 import file from '@/assets/assets/images/file.png'
 import recipient from '@/assets/assets/images/recipient.png'
 import dropdown from '@/assets/assets/images/dropdown.png'
@@ -13,6 +13,8 @@ import Menu from '@mui/material/Menu';
 import MenuItem from '@mui/material/MenuItem';
 import PopupState, { bindTrigger, bindMenu } from 'material-ui-popup-state';
 import AutoDeleteIcon from '@mui/icons-material/AutoDelete';
+import TablePaginationActions from '../paginationAction'
+
 const Transition = React.forwardRef(function Transition(props, ref) {
   return <Slide direction="up" ref={ref} {...props} />;
 });
@@ -23,6 +25,9 @@ function Index() {
   handleLeadList.groupedOrders?.sort((a, b) => b[0].scdact_timestamp - a[0].scdact_timestamp);
   const [tooltipOpen, setTooltipOpen] = useState({});
   const [tooltipContent, setTooltipContent] = useState({});
+
+  const row = handleLeadList.groupedOrders.map(row => row);
+
 
   const handleOpen = (index, sender) => {
     setTooltipOpen({ ...tooltipOpen, [index]: true });
@@ -50,8 +55,21 @@ function Index() {
   };
 
 
+  
+  const [page, setPage] = React.useState(0);
+  const [rowsPerPage, setRowsPerPage] = React.useState(5);
+
+  const handleChangePage = (event, newPage) => {
+    setPage(newPage);
+  };
+
+  const handleChangeRowsPerPage = (event) => {
+    setRowsPerPage(+event.target.value);
+    setPage(0);
+  };
+
   return (
-    <Box sx={{display:'flex',justifyContent:'center',mt:3,pb:3}}>
+    <Box sx={{display:'flex',justifyContent:'center',mt:3,flexDirection:"column",alignItems:"center"}}>
       <TableContainer id="tablelist" component={Paper} sx={{ width: '90%', maxHeight: '90%' }}>
         <Box sx={{p:2,fontWeight:600}}>Request list</Box>
       <Table>
@@ -67,20 +85,19 @@ function Index() {
         </TableRow>
       </TableHead>
       <TableBody>
-        {handleLeadList.groupedOrders?.map((row,index)=>(
+        {handleLeadList.groupedOrders?.slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage)
+              .map((row,index)=>(
         <TableRow key={`${row[0].scdact_reqid}`}>
           <TableCell align="center">{row[0].scdact_reqid}</TableCell>
           <TableCell id="cellheader" align="center">{handleLeadList.convertTimestampToLocalTime(row[0].scdact_timestamp)}</TableCell>
           <TableCell id="bodycell" align="center">
             <div style={{ display: 'flex', justifyContent: 'center', alignItems: 'center' }}>
             <Box key={row[0].scdact_reqid}>
-              <handleLeadList.CustomTooltipRecipient
-                open={tooltipOpen[index] || false}
+              <Tooltip
                 title={
                   <>
                   <Box sx={{ p:1,display: "flex", flexDirection: 'column', justifyContent: 'flex-start', alignItems: 'flex-start' }}>
                     <Box component="h3" sx={{ ml: 1, color: 'gray.main' }}>All Files</Box>
-                    {/* <Box>{console.log("name",row)}</Box> */}
                     {Array.isArray(row[0].scdact_filename) ? 
                      row[0].scdact_filename.map((item, itemIndex) => (
                        <Button  
@@ -113,16 +130,14 @@ function Index() {
                          style={{ textTransform: 'none', display: 'flex', justifyContent: 'space-between', width: '100%' }}>
                          <Box sx={{ pr: 1, overflow: 'hidden', textOverflow: 'ellipsis', maxWidth: '17ch', whiteSpace: 'nowrap' }}>{Array.isArray(row[0].scdact_filename) ? row[0].scdact_filename[itemIndex] : item.scdact_filename}</Box>
                          <Box >{Array.isArray(row[0].scdact_filesize) ? row[0].scdact_filesize[itemIndex] : item.scdact_filesize}</Box>
-                         {/* You can add the filesize here if needed */}
                        </Button>
                      ))
                    }
                   </Box>
                   </>
                 }
-                onClose={() => handleClose(index)}
               >
-                <Box sx={{ display: 'flex', alignItems: 'center' }} onClick={() => handleOpen(index)}>
+                <Box sx={{ display: 'flex', alignItems: 'center' }} >
                   <Button sx={{ display: 'flex', backgroundColor: 'rgba(119, 130, 150, 0.13)', borderRadius: '10px', justifyContent: 'space-around', alignItems: 'center' }}>
                     <Image src={file} alt="file" />
                     <Box sx={{ color: 'gray.main' }}>{Array.isArray(row[0].scdact_filename) ? row[0].scdact_filename.length : row.length}</Box>
@@ -131,7 +146,7 @@ function Index() {
                     <Image alt="dropdown" style={{ width:"15px",height:"auto",transform: tooltipOpen[index] ? 'rotate(180deg)' : 'rotate(0)' }} src={dropdown}></Image>
                   </Box>
                 </Box>
-              </handleLeadList.CustomTooltipRecipient>
+              </Tooltip>
             </Box>
             </div>
           </TableCell>
@@ -139,10 +154,9 @@ function Index() {
           <TableCell id="bodycell" align="center">
           <div style={{ display: 'flex', justifyContent: 'center', alignItems: 'center' }}>
             <Box key={index}>
-              <handleLeadList.CustomTooltipRecipient
-                open={tooltipOpenRecipient[index] || false}
+              <Tooltip
                 title={
-                  <Box sx={{ p:1,display: "flex", flexDirection: 'column', justifyContent: 'flex-start', alignItems: 'flex-start' }}>
+                  <Box  sx={{ p:1,display: "flex", flexDirection: 'column', justifyContent: 'flex-start', alignItems: 'flex-start' }}>
                    <Box component="h3" sx={{ ml: 1, color: 'gray.main' }}>All Recipients</Box>
                    {Array.from(new Set(row.flatMap(item => item.scdact_reciepient.split(',')))).map((recipient, index) => (
                      <Button key={`button-${index}`} style={{ display: 'flex', justifyContent: 'left', width: '100%' }}>
@@ -151,9 +165,8 @@ function Index() {
                    ))}
                  </Box>
                 }
-                onClose={() => handleCloseRecipient(index)}
               >
-                <Box sx={{ display: 'flex', alignItems: 'center' }} onClick={() => handleOpenRecipient(index)}>
+                <Box sx={{ display: 'flex', alignItems: 'center' }} >
                   <Button sx={{ display: 'flex', backgroundColor: 'rgba(119, 130, 150, 0.13)', borderRadius: '10px', justifyContent: 'space-around', alignItems: 'center' }}>
                       <Image src={recipient} alt="recipient" />
                       <Box sx={{ color: 'gray.main' }}>{row[0]?.scdact_reciepient?.split(',').length || 0}</Box>
@@ -163,7 +176,7 @@ function Index() {
                   </Box>
                   <Box sx={{fontWeight:500}}>{row[0].scdact_reciepient.split(',')[0]}</Box>
                 </Box>
-              </handleLeadList.CustomTooltipRecipient>
+              </Tooltip>
             </Box>
             </div>
           </TableCell>
@@ -183,7 +196,7 @@ function Index() {
                             handleLeadList.handleExportToDevice2(row[0].scdact_id[itemIndex],row[0].scdact_filename[itemIndex],row[0].scdact_type)
                             ))
                           }>
-                              <Tooltip title="Export to device " placement="top"><IconButton><DevicesIcon/></IconButton></Tooltip>
+                              <Tooltip title={<Box component="h5">Export to device</Box>} placement="top"><IconButton><DevicesIcon/></IconButton></Tooltip>
                             </Box>
                    :
                       <Box onClick={() =>  
@@ -192,7 +205,7 @@ function Index() {
                         handleLeadList.handleExportToDevice(row.map(item => item.scdact_id),row.map(item => item.scdact_filename),row.map(item => item.scdact_type))
                         : 
                         handleLeadList.handleExportToDevice(row.map(item => item.scdact_id),row.map(item => item.scdact_filename),row.map(item => item.scdact_type))
-                      } ><Tooltip title="Export to device" placement="top"><IconButton><DevicesIcon/></IconButton></Tooltip></Box>
+                      } ><Tooltip title={<Box component="h5" sx={{fontWeight:500}}>Export to device</Box>} placement="top"><IconButton><DevicesIcon/></IconButton></Tooltip></Box>
                      }
               
                       {Array.isArray(row[0].scdact_filename) ? 
@@ -200,7 +213,7 @@ function Index() {
                             <PopupState variant="popover" popupId="demo-popup-menu">
                          {(popupState) => (                     
                           <>
-                           <Tooltip title="Export to Google Drive" placement="top"><IconButton {...bindTrigger(popupState)}><AddToDriveIcon variant="contained" ></AddToDriveIcon></IconButton></Tooltip>
+                           <Tooltip title={<Box component="h5" sx={{fontWeight:500}}>Export to Google Drive</Box>} placement="top"><IconButton {...bindTrigger(popupState)}><AddToDriveIcon variant="contained" ></AddToDriveIcon></IconButton></Tooltip>
                             <Menu {...bindMenu(popupState)}>
                               <MenuItem onClick={() => 
                             row[0].scdact_filename.map((item, itemIndex) => (
@@ -277,7 +290,7 @@ function Index() {
                             <PopupState variant="popover" popupId="demo-popup-menu">
                          {(popupState) => (                     
                           <Box>
-                            <Tooltip title="Export to Google Drive" placement="top"><IconButton {...bindTrigger(popupState)}><AddToDriveIcon variant="contained" ></AddToDriveIcon></IconButton></Tooltip>
+                            <Tooltip title={<Box component="h5" sx={{fontWeight:500}}>Export to Google Drive</Box>} placement="top"><IconButton {...bindTrigger(popupState)}><AddToDriveIcon variant="contained" ></AddToDriveIcon></IconButton></Tooltip>
                             <Menu {...bindMenu(popupState)}>
                               <MenuItem onClick={() =>  
                               row[0].scdact_status !== 'Approved' && 
@@ -335,6 +348,18 @@ function Index() {
       </TableBody>
       </Table>
       </TableContainer>
+      <Box sx={{width: '90%', maxHeight: '90%'}}>
+      <TablePagination
+        rowsPerPageOptions={[5, 10, 25,{ label: 'All', value: -1 }]}
+        component="div"
+        count={row.length}
+        rowsPerPage={rowsPerPage}
+        page={page}
+        onPageChange={handleChangePage}
+        onRowsPerPageChange={handleChangeRowsPerPage}
+        ActionsComponent={TablePaginationActions}
+      />
+      </Box>
     </Box>
   )
 }

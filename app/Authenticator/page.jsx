@@ -19,8 +19,8 @@ function Page() {
         <QRCode value={state.qrcodeurl ? state.qrcodeurl : state.qrcode} size={150} level={"H"} />
       </Box>
       <Box sx={{ display: 'flex', justifyContent: 'center', flexDirection: 'column' }}>
-        <Button variant="text" sx={{ color: '#828895', textTransform: 'capitalize', fontSize: 14, fontWeight: '', '&:hover': { background: 'none', color: '#1F2939' }, '&:active': { background: 'none' } }} onClick={HandleLogin.tryanother}>Try Another method</Button>
-        <Button variant="contained" sx={{ transition: 'transform 0.3s ease', '&:hover': { transform: 'scale(1.03)', }, }} style={{ background: state.loading ? '#e5e5e5' : '#84BAA1', width: '100%', height: '44px', textTransform: 'capitalize', marginTop: 10, boxShadow: '0px 0px 0px', borderRadius: '8px', fontWeight: '600', cursor: state.loading ? 'not-allowed' : 'pointer', }}>Next</Button>
+          <Button variant="text" style={{ textTransform: "capitalize", color: "gray" }} onClick={HandleLogin.tryanother}>Try Another method</Button>
+          <Button variant="contained" onClick={HandleLogin.gotovelify} style={{ background: '#84BAA1', width: '100%', textTransform: 'capitalize' }}>Next</Button>
       </Box>
     </CustomBackground>
   );

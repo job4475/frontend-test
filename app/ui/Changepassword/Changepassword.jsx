@@ -129,6 +129,7 @@ function Index() {
           </Box>
         </Box>
         <Box sx={{ display: 'flex', justifyContent: 'center', alignItems: 'center' }}>
+<<<<<<< HEAD
           <Button
             variant="contained"
             onClick={HandleResetPassword.Confirm}
@@ -154,6 +155,33 @@ function Index() {
           >
             {state.loading ? <Loading /> : "Reset password"}
           </Button>
+=======
+        <Button
+          variant="contained"
+          onClick={HandleResetPassword.Changepassword}
+          sx={{
+            background: state.loading ? '#e5e5e5' : '#84BAA1',
+            transition: 'transform 0.3s ease',
+            '&:hover': {
+              background: '#84BAA1', 
+              transform: 'scale(1.03)',
+            },
+          }}
+          style={{
+            width: '90%',
+            height: '44px',
+            textTransform: 'capitalize',
+            marginTop: 10,
+            boxShadow: '0px 0px 0px',
+            borderRadius: '8px',
+            fontWeight: '600',
+            cursor: state.loading ? 'not-allowed' : 'pointer',
+          }}
+          disabled={!isPasswordValid() || state.password !== state.confirmPassword || state.loading}
+        >
+          {state.loading ? <Loading /> : "Reset password"}
+        </Button>
+>>>>>>> 56be5cf8ba8d163b235320b1d4cb7ced2f5b5e06
 
 
           {state.resetpassword ? <Dialog /> : ""}

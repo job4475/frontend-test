@@ -1,5 +1,5 @@
 'use client'
-import React, { useContext } from 'react'
+import React, { useContext, useEffect } from 'react'
 import VerificationCodeInput from '@/app/ui/login/OTPverify/VerificationCodeotp'
 import { Box, Button } from '@mui/material';
 import handleotp from "@/handle/otpvelify"
@@ -14,7 +14,8 @@ function OTPverify() {
     const Handleresend = resend();
     const HandleOTP = handleotp();
     const HandleQRCode = handleqrcode();
-    const { state } = useContext(StateContext);
+    const { state, setState } = useContext(StateContext);
+    
     return (
         <CustomBackground>
             <Box sx={{ background: '', width: '100%', mx: 'auto' }}>
@@ -24,12 +25,12 @@ function OTPverify() {
             <Box>
                 <Box sx={{ mb: '10px', color:'#778296', fontSize:'14px', fontWeight:'500' }}>Code</Box>
                 <VerificationCodeInput onChange={HandleOTP.handleCodeChange} />
-                <Box sx={{ mt: '15px', display: 'flex', justifyContent: 'space-between' }}>
+                <Box sx={{ mt: '15px', display: 'flex', justifyContent: 'space-between',alignItems:'center' }}>
                     <Box sx={{ display: 'flex', gap: '10px' }}>
                         <p style={{ fontSize: '14px' }}>Reference No :</p>
                         <p style={{ fontSize: '14px', fontWeight: '600' }}>{state.referenceID}</p>
                     </Box>
-                    <Box onClick={Handleresend.sendOTPEmail} sx={{ fontSize: '14px', fontWeight: '600', color: '#4D94FB', textTransform: 'capitalize', cursor: 'pointer', '&:hover': { color: '#1d39b0' } }} disabled={state.timer > 0} > {state.timer > 0 ? `Resend Code (${state.timer})` : "Resend Code"} </Box>
+                    <Button onClick={Handleresend.sendOTPEmail} sx={{ fontSize: '14px', fontWeight: '600', color: '#4D94FB', textTransform: 'capitalize', cursor: 'pointer', '&:hover': { color: '#1d39b0' } }} disabled={state.timer > 0} > {state.timer > 0 ? `Resend Code (${state.timer})` : "Resend Code"} </Button>
                 </Box>
             </Box>
             <Box sx={{ display: 'flex', justifyContent: 'center', flexDirection: 'column-reverse', gap: '10px' }}>

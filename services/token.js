@@ -4,6 +4,7 @@ import React, { useContext, useEffect } from 'react';
 
 function Token() {
   const { state, setState } = useContext(StateContext);
+  const Code = localStorage.getItem('code');
 
   useEffect(() => {
     const items = JSON.parse(localStorage.getItem('decode_token'));
@@ -24,8 +25,16 @@ function Token() {
     if (token) {
       setState(prevState => ({ ...prevState, token: token }));
     }
+
+    
   }, []); 
   
+
+  useEffect(() => {
+    if (Code) {
+      setState(prevState => ({ ...prevState, code: Code }));
+    }  
+  }, [Code])
   
 
   return null;

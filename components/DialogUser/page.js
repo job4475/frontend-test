@@ -101,11 +101,35 @@ function page() {
             if(result.status==="OK"){
               setState((prevData) => ({ ...prevData, alert: true, pageloader: false, alert_text: "Modify successfully", alert_type: "success",dialoguser: false }));
               getAllUser()
+              GetUpdateRequest()
             }else{
               setState((prevData) => ({ ...prevData, alert: true, loading: false, alert_text: result.message, alert_type: "error",dialoguser: false }));
             }
           })
           .catch((error) => console.error(error));
+      }
+
+      const GetUpdateRequest =()=>{
+        const myHeaders = new Headers();
+            myHeaders.append("Authorization", `Bearer ${state.token}`);
+            
+            const requestOptions = {
+              method: "GET",
+              headers: myHeaders,
+              redirect: "follow"
+            };
+
+            const apiEndpoint = process.env.NEXT_PUBLIC_API_ENDPOINT_LOGIN;
+            const apiPortLogin = process.env.NEXT_PUBLIC_API_PORT_LOGIN || "";
+            const apiUrl = `${apiEndpoint}:${apiPortLogin}/api/getManagerAdminDashboard`;
+            fetch(apiUrl, requestOptions)
+           
+              .then((response) => response.json())
+              .then((result) => 
+              {
+                    setState((prevData) => ({ ...prevData, allmanageradmin: result }));
+              })
+              .catch((error) => console.error(error));
       }
   return (
     <Box sx={{  display: state.dialoguser ? "flex" : "none",

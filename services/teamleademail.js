@@ -26,7 +26,7 @@ function Teamleademail() {
           })
           .catch((error) => console.error(error));
         }
-    }, [state.token])
+    }, [state.token,setState])
     
   return null;
 }

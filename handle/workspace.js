@@ -2,10 +2,12 @@ import { StateContext } from '@/context/Context';
 import { useRouter } from 'next/navigation';
 import React from 'react'
 import { useContext } from 'react';
+import { useCookies } from 'react-cookie';
 
 function workspace() {
 
     const { state, setState } = useContext(StateContext);
+    const [cookies,setCookie,removeCookie] = useCookies(['token']);
 
     const router = useRouter();
 
@@ -35,11 +37,10 @@ function workspace() {
         }
 
     const handleclicklogout = () => {
-        localStorage.removeItem("ally-supports-cache")
-        localStorage.removeItem("decode_token")
-        localStorage.removeItem("loginTime")
-        localStorage.removeItem("useremail")
+      localStorage.clear();
+
         window.location.href = "/"
+        removeCookie('token', { path: '/'});
     }
 
     return { handleToUserlist, handleclicklogout }

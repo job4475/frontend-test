@@ -45,8 +45,9 @@ function Token() {
   
 
     useEffect(() => {
-      if (state.decode_token?.ID)  {
-        const requestOptions = {
+      if (state.decode_token?.ID) {
+        const fetchData = () => {
+          const requestOptions = {
             method: 'GET',
             redirect: 'follow'
           };
@@ -57,11 +58,22 @@ function Token() {
           fetch(apiUrl, requestOptions)
             .then(response => response.json())
             .then(result => {
-                setState({...state,allorder: result.logSecuredocActivityMember});
+              setState(prevState => ({ ...prevState, allorder: result.logSecuredocActivityMember }));
             })
             .catch(error => console.log('error', error));
-          }
-      }, [state.decode_token]);
+        };
+    
+        // Initial fetch
+        fetchData();
+    
+        // Fetch every minute
+        const intervalId = setInterval(fetchData, 60000);
+    
+        // Clean up
+        return () => clearInterval(intervalId);
+      }
+    }, [state.decode_token]);
+    
   return null
 }
 
