@@ -6,6 +6,7 @@ function Validatepassword() {
     const {state, setState} = useContext(StateContext);
     const updatePassword = (newPassword) => {
         const validations = {
+          isNotEmpty: newPassword.trim() !== '',
           minLength: newPassword.length >= 8,
           hasNumber: /\d/.test(newPassword),
           hasUpper: /[A-Z]/.test(newPassword),
@@ -13,13 +14,16 @@ function Validatepassword() {
           hasSpecialChar: /[!@#$%^&*(),.?":{}|<>]/.test(newPassword),
         };
         setState((prevData) => ({ ...prevData, passwordsMatch: newPassword === state.confirmpassword,minLength: validations.minLength,hasNumber: validations.hasNumber,hasUpper: validations.hasUpper,hasLower: validations.hasLower,hasSpecialChar:validations.hasSpecialChar }))
-      const strengthLevels = [
+        const strengthLevels = [
+          validations.isNotEmpty,
           validations.minLength,
           validations.hasNumber,
           validations.hasUpper,
           validations.hasLower,
           validations.hasSpecialChar,
         ].filter(Boolean).length;
+        
+       
         switch (strengthLevels) {
           case 0:
           case 1:
