@@ -5,6 +5,7 @@ import { Box, Skeleton } from "@mui/material";
 import { useRouter } from "next/navigation";
 import { StateContext } from "@/context/Context";
 import Backdrop from '@/components/backdrop/backdrop'
+import CustomBackground2 from '@/components/BackgroundTwocolors//page'
 
 const Page = () => {
   const router = useRouter();
@@ -20,21 +21,17 @@ const Page = () => {
     window.location.href = "/CreateCompany"
   } 
   return (
-    <div
-      className="h-screen"
-      style={{
-        background: `linear-gradient(108deg, #84BAA1 0%, #FFFBE2 100%), #F7FAFB`,
-      }}
-    >
+    <Box>
+      <CustomBackground2>
+        <Box>
       {state.backdrop ? <Backdrop /> : ""}
-      <div className="bg-white h-screen w-4/5 p-16">
-        <h2>
           {state.logoImage ? (
-            "Hi, Is this the company you work ?"
+            <Box sx={{width: '100%', fontWeight: 700,fontSize: {xs: '18px',   md: '18px',   lg: '24px'},}}>
+                Hi, Is this the company you work ?
+            </Box>
           ) : (
             <Skeleton variant="text" width={400} height={50} />
           )}
-        </h2>
         <p>
           {state.logoImage ? (
             "Please select your company."
@@ -42,6 +39,7 @@ const Page = () => {
             <Skeleton variant="text" width={250} height={30} />
           )}
         </p>
+        </Box>
         <div className="flex lg:flex-row flex-col items-center content-center">
           <Box onClick={Register} sx={{ display: 'flex', justifyContent: 'space-between', cursor: "pointer", transition: "background-color 0.3s ease", "&:hover": { backgroundColor: "#f4f9f6" } }} className="basis-2/6 rounded-[10px] border border-[#C2CCE1] w-[300px] h-[370px] mr-3 mt-2 lg:mt-4 flex flex-col  items-center py-[42px] px-[40px] text-center" >
             <Box sx={{ transition: 'transform 0.3s ease', '&:hover': { transform: 'scale(1.03)' } }}>
@@ -94,9 +92,9 @@ const Page = () => {
             </div>
           </Box>
 
-          <Box onClick={CreateCompany} sx={{ display: 'flex', justifyContent: 'space-between', cursor: "pointer", transition: "background-color 0.3s ease", "&:hover": { backgroundColor: "#f4f9f6" } }} className="basis-2/6 rounded-[10px] border border-[#C2CCE1] w-[250px] h-[370px] mr-3 mt-2 lg:mt-4 flex flex-col  items-center py-[42px] px-[40px] text-center" >
+          <Box onClick={CreateCompany} sx={{ display: 'flex', justifyContent: 'space-between', cursor: "pointer", transition: "background-color 0.3s ease", "&:hover": { backgroundColor: "#f4f9f6" } }}className="basis-2/6 rounded-[10px] border border-[#C2CCE1] w-[300px] h-[370px] mr-3 mt-2 lg:mt-4 flex flex-col  items-center py-[42px] px-[40px] text-center" >
             <Box sx={{ transition: 'transform 0.3s ease', '&:hover': { transform: 'scale(1.3)' } }}>
-              <Box sx={{ width: '90px', height: '90px', display: 'flex', justifyContent: 'center', alignItems: 'center' }}>
+              <Box sx={{ width: '90px', height: '150px', display: 'flex', justifyContent: 'center', alignItems: 'center' }}>
                 {state.logoImage ? (
                   <svg
                     xmlns="http://www.w3.org/2000/svg"
@@ -161,8 +159,9 @@ const Page = () => {
             </div>
           </Box>
         </div>
-      </div>
-    </div>
+      
+      </CustomBackground2>
+    </Box>
   );
 };
 
