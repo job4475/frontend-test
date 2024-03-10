@@ -15,6 +15,7 @@ function Request_access_token() {
     useEffect(() => {
         if(state.code ){
         const myHeaders = new Headers();
+        const apiEndpoint = process.env.NEXT_PUBLIC_API_ENDPOINT_LINELOGIN
         myHeaders.append("Content-Type", "application/x-www-form-urlencoded");
         
         const urlencoded = new URLSearchParams();
@@ -22,7 +23,7 @@ function Request_access_token() {
         urlencoded.append("code", state.code);
         urlencoded.append("client_id", "2003835525");
         urlencoded.append("client_secret", "b1b849ef6bd0ed02ee4462ae98a8d8b8");
-        urlencoded.append("redirect_uri", "http://localhost:3434/Workspace");
+        urlencoded.append("redirect_uri", `${apiEndpoint}/Workspace`);
         
         const requestOptions = {
           method: "POST",

@@ -28,15 +28,13 @@ const Page = () => {
               <Progress/>
               <Box sx={{display:"flex",justifyContent:"center"}}>
               <Tooltip
-                PopperProps={{
-                  disablePortal: true,
-                }}
+             
                 // onClose={handleTooltipClose}
                 open={state.tooltiplimit}
-                disableFocusListener
-                disableHoverListener
-                disableTouchListener
-                title="Please note that the maximum file size allowed is 25 MB. If your file exceeds this limit, it will be uploaded to Google Drive instead."
+          
+                title={
+                  <Box component="h5" sx={{textAlign:"center",color:"red"}}>**Please note that the maximum file size allowed is 25 MB. If your file exceeds this limit, it will be uploaded to Google Drive instead.**</Box>
+                }
               >
                 <Box sx={{alignSelf:"flex-end",color:"gray.main"}}>{state.sumsize} MB / 25 MB</Box>
                 </Tooltip>

@@ -96,8 +96,8 @@ function Index() {
                 <Box sx={{ display: 'flex', justifyContent: 'center', alignItems: 'center', mb:1,width: '100%' }}>
                <TextField type="number" onChange={(e)=>{
                  const inputValue = parseInt(e.target.value);
-                 if ( inputValue < 1 ) {
-                   setState((prevData) => ({ ...prevData, alert: true, alert_text: "Please enter a number more than 0.", alert_type: 'error', loading: false }));
+                 if ( inputValue < 1 || inputValue > 9999  ) {
+                   setState((prevData) => ({ ...prevData, alert: true, alert_text: "Please enter a number between 1 and 9999.", alert_type: 'error', loading: false }));
                    setTimeout(() => {
                      setState((prevData) => ({ ...prevData, alert: false }));
                     }, 2000);

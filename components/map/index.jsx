@@ -1,80 +1,18 @@
-"use client";
-import { StateContext } from '@/context/Context';
-import { useContext, useEffect } from 'react';
+'use client'
+import React from 'react'
 
-const MapPage = () => {
-  let map;
-  let service;
-  let infowindow;
-  const {state, setState} = useContext(StateContext);
-
-  useEffect(() => {
-    const initMap = () => {
-      const bangkokLatLng = typeof google !== 'undefined' && google.maps ? new google.maps.LatLng(13.7563, 100.5018) : null;
-    
-      if (!bangkokLatLng) {
-        console.error('Google Maps API not loaded or LatLng not available');
-        return;
-      }
-    
-      if (typeof google !== 'undefined' && google.maps) {
-        infowindow = new google.maps.InfoWindow();
-        map = new google.maps.Map(document.getElementById("map"), {
-          center: bangkokLatLng,
-          zoom: 19,
-        });
-
-      const request = {
-        query: state.companyname?state.companyname:state.datacompanylc.Companyname,
-        fields: ["name", "geometry"],
-      };
-
-      service = new google.maps.places.PlacesService(map);
-
-      service.findPlaceFromQuery(
-        request,
-        (results, status) => {
-          if (status === google.maps.places.PlacesServiceStatus.OK && results) {
-            for (let i = 0; i < results.length; i++) {
-              createMarker(results[i]);
-            }
-
-            map.setCenter(results[0].geometry.location);
-          }
-        }
-      );
-    };
-
-    const createMarker = (place) => {
-      if (!place.geometry || !place.geometry.location) return;
-
-      const marker = new google.maps.Marker({
-        map,
-        position: place.geometry.location,
-      });
-
-      google.maps.event.addListener(marker, "click", () => {
-        infowindow.setContent(place.name || "");
-        infowindow.open(map);
-      });
-    };
-
-    if (typeof window !== 'undefined') {
-      window.initMap = initMap;
-    }
-
-    if (typeof window.google !== 'undefined') {
-      initMap();
-    }
-  }
-  }, []); 
-
+function Location (props)  {
   return (
-    <>
-      <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyCca_e4bPcPd8qt-R7yfSs-19S0po1bbXg&libraries=places" defer></script>
-      <div id="map" style={{ width: '300px', height: '300px' }}></div>
-    </>
-  );
-};
+    <iframe
+    title="Map"
+    src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3872.8587671145247!2d100.57718059999999!3d13.9073888!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x30e282584e6bd939%3A0x3ab694bb30ce43e!2sTRAC%3A%20The%20Recovery%20Advisor%20Co.%2C%20Ltd.!5e0!3m2!1sth!2sth!4v1708570336057!5m2!1sth!2sth"
+    width={props.width}
+    height={props.height}
+    style={{border:0}}
+    allowFullScreen
+    referrerPolicy="no-referrer-when-downgrade"
+  />
+  )
+  }
 
-export default MapPage;
+export default Location

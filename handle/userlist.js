@@ -499,6 +499,7 @@ const handleExportToGoogleDrive = (uuids, filenames, type, securetype, recipient
                 setfolderid("");
                 setscdact_id2([]);
                 setscdact_id([]);
+                DeleteFiles();
             }
         })
         .catch(error => console.error("Error renaming files:", error));
