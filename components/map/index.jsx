@@ -10,13 +10,19 @@ const MapPage = () => {
 
   useEffect(() => {
     const initMap = () => {
-      const bangkokLatLng = new google.maps.LatLng(13.7563, 100.5018);
-
-      infowindow = new google.maps.InfoWindow();
-      map = new google.maps.Map(document.getElementById("map"), {
-        center: bangkokLatLng,
-        zoom: 19, 
-      });
+      const bangkokLatLng = typeof google !== 'undefined' && google.maps ? new google.maps.LatLng(13.7563, 100.5018) : null;
+    
+      if (!bangkokLatLng) {
+        console.error('Google Maps API not loaded or LatLng not available');
+        return;
+      }
+    
+      if (typeof google !== 'undefined' && google.maps) {
+        infowindow = new google.maps.InfoWindow();
+        map = new google.maps.Map(document.getElementById("map"), {
+          center: bangkokLatLng,
+          zoom: 19,
+        });
 
       const request = {
         query: state.companyname?state.companyname:state.datacompanylc.Companyname,
@@ -60,6 +66,7 @@ const MapPage = () => {
     if (typeof window.google !== 'undefined') {
       initMap();
     }
+  }
   }, []); 
 
   return (
