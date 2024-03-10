@@ -88,7 +88,6 @@ function SelectVerify() {
     const handlenext = () => {
         if (isClickedMail) {
             router.push('/OTPverify');
-            
             sendOTPEmail();
             
         } else if (isClickedAut) {
