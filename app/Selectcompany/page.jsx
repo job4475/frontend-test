@@ -93,15 +93,16 @@ const Page = () => {
               )}
             </div>
           </Box>
-
-          <Box onClick={CreateCompany} sx={{ display: 'flex', justifyContent: 'space-between', cursor: "pointer", transition: "background-color 0.3s ease", "&:hover": { backgroundColor: "#f4f9f6" } }} className="basis-2/6 rounded-[10px] border border-[#C2CCE1] w-[250px] h-[370px] mr-3 mt-2 lg:mt-4 flex flex-col  items-center py-[42px] px-[40px] text-center" >
+          
+          <Box onClick={CreateCompany} sx={{ display: 'flex', justifyContent: 'space-between', cursor: "pointer", transition: "background-color 0.3s ease", "&:hover": { backgroundColor: "#f4f9f6" } }} className="basis-2/6 rounded-[10px] border border-[#C2CCE1] w-[300px] h-[370px] mr-3 mt-2 lg:mt-4 flex flex-col  items-center py-[42px] px-[40px] text-center" >
             <Box sx={{ transition: 'transform 0.3s ease', '&:hover': { transform: 'scale(1.3)' } }}>
-              <Box sx={{ width: '90px', height: '90px', display: 'flex', justifyContent: 'center', alignItems: 'center' }}>
+              <Box sx={{  display: 'flex', justifyContent: 'center', alignItems: 'center' }}>
                 {state.logoImage ? (
+                  <Box sx={{width:'90',height:'90'}}>
                   <svg
                     xmlns="http://www.w3.org/2000/svg"
-                    width="41"
-                    height="41"
+                    width="40"
+                    height="90"
                     viewBox="0 0 41 41"
                     fill="none"
                   >
@@ -118,6 +119,7 @@ const Page = () => {
                       strokeLinecap="round"
                     />
                   </svg>
+                  </Box>
                 ) : (
                   <Skeleton variant="rectangular" width={90} height={90} style={{ borderRadius: '6px' }} />
                 )}

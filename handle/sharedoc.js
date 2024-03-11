@@ -439,9 +439,7 @@ const handleUpload = useCallback(async () => {
 };
 
 const Sendmessageline = (orderId) => {
-  const filteredLineIDs = state.teamlead_email
-    .filter(user => user.status === 'Active' && (user.lineID !== '' && user.lineID !== null))
-    .map(user => user.lineID);
+  const filteredLineIDs = state.teamlead_email.filter(user => user.status === 'Active' && (user.lineID !== '' && user.lineID !== null)).map(user => user.lineID);
 
   const files = state.selectedFileName?.map((files, index) => `${files}`);
   const email_manager = state.teamlead_email?.filter(user => user.status === 'Active').map(user => user.username);
@@ -492,7 +490,7 @@ const Sendmessageline = (orderId) => {
     const files = state.selectedFileName?.map((files, index) => `${files}`)
     const activeUsers = state.teamlead_email?.filter(user => user.status === 'Active');
     const email_manager = activeUsers.map(user => user.username);
-
+    
     formdata.append("to", email_manager?email_manager[0]:"");
     formdata.append("subject", "SecureDoc - New request");
     formdata.append("fromEmail", state.decode_token.UsernameOriginal?state.decode_token.UsernameOriginal:"");

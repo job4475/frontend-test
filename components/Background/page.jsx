@@ -15,7 +15,7 @@ const Layout = ({ children }) => {
     };
     const isMobile = useMediaQuery('(max-width:1024px)');
 
-    return (
+    return ( 
         <Box display="flex" height="100vh" justifyContent="center" alignItems="center" bgcolor="#FFFFF" px="70px" py="50px">
             {!isMobile && (
                 <Box width="60%" height="100%" bgcolor="" display="flex" flexDirection="column" justifyContent="start" gap="20px">
@@ -38,5 +38,4 @@ const Layout = ({ children }) => {
 Layout.propTypes = {
     children: PropTypes.node,
 };
-
 export default Layout;
