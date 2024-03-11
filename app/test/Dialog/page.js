@@ -32,7 +32,6 @@ const MapPage = () => {
             for (let i = 0; i < results.length; i++) {
               createMarker(results[i]);
             }
-
             map.setCenter(results[0].geometry.location);
           }
         }

@@ -29,8 +29,8 @@ function Index() {
          </Box>
          <TextField disabled={state.loading?true:false} id="outlined-basic" value={state.message} onChange={handleShareDoc.handlemessageChange} label="Message Encrypt Files"size="small" variant="outlined" style={{width:"100%",paddingBottom:10}}
          InputProps={{
-           startAdornment: (
-             <MessageIcon style={{ color: "gray" }} />
+           startAdornment: ( 
+            <Box sx={{pr:1}}><MessageIcon style={{ color: "gray" }} /></Box>
            ),
          }}/>
          <Box sx={{width: "100%", height: "375px", borderRadius: "10px", backgroundColor: "#FFFFFF", borderWidth: "1px", borderColor: "#ccc", display: 'flex', flexDirection: 'row', justifyContent: 'center', p: 1.5 }}>
