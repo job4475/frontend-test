@@ -3,12 +3,17 @@
 import { StateContext } from '@/context/Context';
 import { Box, Grid } from '@mui/material';
 import React, { useContext, useEffect } from 'react'
-import ContentAccount from './components/content_account'
-import ContentCompany from './components/content_company'
-import ContentPersonal from './components/content_personal'
+import ContentAccount from './components/pc/content_account'
+import ContentCompany from './components/pc/content_company'
+import ContentPersonal from './components/pc/content_personal'
+import MobileContentAccount from './components/mobile/content_account/index'
+import MobileContentCompany from './components/mobile/content_company/index'
+import MobileContentPersonal from './components/mobile/content_personal/index'
 import Button from './components/button'
-import Map from './components/map'
+import Map from './components/pc/map'
 import Dialog from '@/components/dialog/dialog'
+import CustomBackground2 from '@/components/BackgroundTwocolors//page'
+
 
 function Page() {
   const { state, setState } = useContext(StateContext);
@@ -27,22 +32,35 @@ function Page() {
   }, [state.pageloader]);
 
   return (
-    <Box sx={{ background: `linear-gradient(108deg, #84BAA1 0%, #FFFBE2 100%)`, height: "100vh" }} style={{ filter: state.pageloader ? 'blur(4px)' : 'none', pointerEvents: state.pageloader ? 'none' : 'auto' }}>
+    <CustomBackground2>
+    
+      <Box sx={{display:{xs:"none",md:"flex"},width:'100%',m:2}}>
       <Dialog />
       <Grid container >
         <Grid item >
-          <Box sx={{ display: { md: 'flex', xs: 'block' }, alignItems: "center", p: 5, height: "100vh", width: "85%", background: "#fff", borderRadius: "0px 14px 14px 0px" }}>
-            <Box pt >
+          <Box sx={{display:'flex'}}>
+          <Box sx={{display:'flex',flexDirection:"column",width:'70%'}}>
               <ContentAccount />
               <ContentCompany />
               <ContentPersonal />
               <Button />
             </Box>
-            <Map />
+            <Box sx={{display:'flex',alignItems:'center'}}>
+            <Map/>
+            </Box>
           </Box>
         </Grid>
       </Grid>
     </Box>
+    <Box sx={{ display: { xs: "flex", md: "none" },flexDirection:'column',width:'90%'}}>
+      <MobileContentAccount />
+      <MobileContentCompany />
+      <MobileContentPersonal />
+      <Button />
+      <Map/>
+    </Box>
+  
+    </CustomBackground2>
   )
 }
 

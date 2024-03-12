@@ -8,6 +8,7 @@ import { StateContext } from '@/context/Context';
 import handlecompany from "@/handle/addcompany"
 import AddAPhotoIcon from '@mui/icons-material/AddAPhoto';
 import { useRouter, useSearchParams } from 'next/navigation'
+import CustomBackground2 from '@/components/BackgroundTwocolors//page'
 
 function Page() {
   const { state, setState } = useContext(StateContext);
@@ -33,7 +34,8 @@ function Page() {
     }
   };
   return (
-    <Box sx={{ display: 'flex', flexDirection: 'column', justifyContent: 'space-between', alignItems: 'flex-start', p: 1, }}>
+    <CustomBackground2>
+    <Box sx={{ display: 'flex', flexDirection: 'column',  alignItems: 'flex-start',}}>
       <Box >
         <Box sx={{ display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
           <Image src={Subtract} alt="logo" style={{ width: "80px" }} />
@@ -52,8 +54,8 @@ function Page() {
             <Box sx={{ mt: '2%', width: '100px', height: '100px', background: '#D9D9D9', display: 'flex', justifyContent: 'center', alignItems: 'center', borderRadius: '50%', marginLeft: 'auto', marginRight: 'auto' }}>
               <input accept='image/*' style={{ display: 'none' }} id='raised-button-file' type='file' onChange={handleFileChange} />
               <label htmlFor='raised-button-file'>
-                {state.logoImage ? (
-                  <img src={state.logoImage} alt='Selected' style={{ width: '100px', height: '100px', borderRadius: '100%' }} />
+                {state.selectedImage ? (
+                  <img src={state.selectedImage} alt='' style={{ width: '100px', height: '100px', borderRadius: '100%' }} />
                 ) : (<IconButton sx={{ color: '#1F2939' }} component='span'>
                     <AddAPhotoIcon />
                   </IconButton>
@@ -106,7 +108,7 @@ function Page() {
                 <Box sx={{ display: 'flex', alignItems: 'center' }}>
                   <Box sx={{ pt: 1.5, width: '150px', color: '#1F2939', fontWeight: '500',fontSize:"13px"  }}>District</Box>
                   <Select labelId="amphoe-select-label" variant="standard" id="amphoe-select" value={state.selectedAmphoe} label="Amphoe" onChange={Handlecompany.handleAmphoeChange}
-                    sx={{ width: "250px" }} size='small'>
+                    sx={{ width: "200px" }} size='small'>
                     {state.selectedProvince && state.amphures?.map((amphoe) => (
                       <MenuItem key={amphoe} value={amphoe}>
                         {amphoe}
@@ -116,7 +118,7 @@ function Page() {
                 <Box sx={{ display: 'flex', alignItems: 'center' }}>
                   <Box sx={{ pt: 1.5, width: '150px', color: '#1F2939', fontWeight: '500',fontSize:"13px"  }}>Sub-Distric</Box>
                   <Select labelId="tambon-select-label" variant="standard" id="tambon-select" value={state.selectedTambon} label="Tambon"
-                    onChange={Handlecompany.handleTambonChange} sx={{ width: "250px" }} size='small'>
+                    onChange={Handlecompany.handleTambonChange} sx={{ width: "200px" }} size='small'>
                     {state.selectedAmphoe && state.tambons?.map((tambon) => (
                       <MenuItem key={tambon} value={tambon}>
                         {tambon}
@@ -125,19 +127,19 @@ function Page() {
                   </Select></Box>
                 <Box sx={{ display: 'flex', alignItems: 'center' }}>
                   <Box sx={{ pt: 1.5, width: '150px', color: '#1F2939', fontWeight: '500',fontSize:"13px"  }}>ZIP Code</Box>
-                  <TextField variant="standard" size='small' value={state.zipcode} InputProps={{ readOnly: true, }} sx={{ width: "250px" }} />
+                  <TextField variant="standard" size='small' value={state.zipcode} InputProps={{ readOnly: true, }} sx={{ width: "200px" }} />
                 </Box>
                 <Box sx={{ display: 'flex', alignItems: 'center' }}>
                   <Box sx={{ pt: 1.5, width: '150px', color: '#1F2939', fontWeight: '500',fontSize:"13px"  }}>Phone Number</Box>
-                  <TextField id="standard-basic" variant="standard" inputProps={{ maxLength: 10, inputMode: 'numeric' }} value={state.phoneNumber} onChange={Handlecompany.phoneNumber} sx={{ width: "250px" }} />
+                  <TextField id="standard-basic" variant="standard" inputProps={{ maxLength: 10, inputMode: 'numeric' }} value={state.phoneNumber} onChange={Handlecompany.phoneNumber} sx={{ width: "200px" }} />
                 </Box>
                 <Box sx={{ display: 'flex', alignItems: 'center' }}>
                   <Box sx={{ pt: 1.5, width: '150px', color: '#1F2939', fontWeight: '500',fontSize:"13px"  }}>Google Maps</Box>
-                  <TextField id="standard-basic" variant="standard" value={state.googlemaps} onChange={Handlecompany.GoogleMaps} sx={{ width: "250px" }} />
+                  <TextField id="standard-basic" variant="standard" value={state.googlemaps} onChange={Handlecompany.GoogleMaps} sx={{ width: "200px" }} />
                 </Box>
                 <Box sx={{ display: 'flex', alignItems: 'center' }}>
                   <Box sx={{ pt: 1.5, width: '150px', color: '#1F2939', fontWeight: '500',fontSize:"13px"  }}>Website</Box>
-                  <TextField id="standard-basic" variant="standard" value={state.webSite} onChange={Handlecompany.webSite} sx={{ width: "250px" }} />
+                  <TextField id="standard-basic" variant="standard" value={state.webSite} onChange={Handlecompany.webSite} sx={{ width: "200px" }} />
                 </Box>
               </Box>
             </Grid>
@@ -152,6 +154,7 @@ function Page() {
         </Button>
       </Box>
     </Box>
+    </CustomBackground2>
   )
 }
 

@@ -22,6 +22,7 @@ function Index() {
     const selectedJobTitle = state.jobtitle.dataResponse.jobtitle_list.find(jobtitle => jobtitle.jobtitle === event.target.value);
     setState(prevState => ({ ...prevState, jobtitlename: selectedJobTitle.jobtitle }));
   };
+
   return (
     <Box>
       <Box sx={{ mb: 3 }}>

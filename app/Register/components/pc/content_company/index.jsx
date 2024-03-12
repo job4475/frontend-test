@@ -18,7 +18,7 @@ function Index() {
       <Box sx={{ display: "flex" }}>
         <Box sx={{ mr: 1, width: '100px' }} >
           {state.logoImage ? (
-            <Box>
+            <Box sx={{mt:2}}>
               {state.logoImage || state.selectedImage ? (
                 <Image width={80} height={80} alt="logo" src={state.selectedImage || state.logoImage}></Image>
               ) : (
