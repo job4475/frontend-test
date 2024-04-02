@@ -1,137 +1,102 @@
-'use client'
-import { data_register, input_data } from '@/data/register'
-import { Box, FormControl, Grid, Input, MenuItem, Select, Skeleton, TextField } from '@mui/material'
-import React, { useContext } from 'react'
-import { StateContext } from '@/context/Context'
-import handleregister from "@/handle/register"
+"use client";
+import React, { useState } from 'react'
+import Arrow from '@mui/icons-material/KeyboardArrowLeftRounded';
+import Profile from '@mui/icons-material/AccountCircleRounded';
+import SpaceDashboardOutlinedIcon from '@mui/icons-material/SpaceDashboardOutlined';
+import NotificationsNoneOutlinedIcon from '@mui/icons-material/NotificationsNoneOutlined';
+import AdminPanelSettingsOutlinedIcon from '@mui/icons-material/AdminPanelSettingsOutlined';
+import SettingsOutlinedIcon from '@mui/icons-material/SettingsOutlined';
+import HubOutlinedIcon from '@mui/icons-material/HubOutlined';
+import PostAddOutlinedIcon from '@mui/icons-material/PostAddRounded';
+import SignalCellularAltRoundedIcon from '@mui/icons-material/SignalCellularAltRounded';
+import TaskAltRoundedIcon from '@mui/icons-material/TaskAltRounded';
+import CastRoundedIcon from '@mui/icons-material/CastRounded';
+import MenuRoundedIcon from '@mui/icons-material/MenuRounded';
 
-function Index() {
-  const { state, setState } = useContext(StateContext);
-  const Handleregister = handleregister();
-  const HandleChangeTitle = (event) => {
-    const value = event.target.value;
-    setState((prevState) => ({ ...prevState, titleselect: value }));
-  };
-  const changedepartment = (event) => {
-    const selectedDepartmentId = event.target.value;
-    const selectedDepartment = state.department.dataResponse.department_list.find(department => department.id === selectedDepartmentId);
-    const selectedDepartmentName = selectedDepartment ? selectedDepartment.department : '';
-    setState(prevState => ({ ...prevState, departmentid: selectedDepartmentId, departmentname: selectedDepartmentName }));
-  }
-  const changejobtitle = (event) => {
-    const selectedJobTitle = state.jobtitle.dataResponse.jobtitle_list.find(jobtitle => jobtitle.jobtitle === event.target.value);
-    setState(prevState => ({ ...prevState, jobtitlename: selectedJobTitle.jobtitle }));
-  };
+const Sidebar = ({
+  children,
+})=> {
+  const [open, setOpen] = useState(true);
+  const [navmobile, setnavmobile] = useState(true);
+
+  const Menus = [
+    { mainmenu: "Home" },
+    { mainmenu: "Notification", icon: <NotificationsNoneOutlinedIcon /> },
+    { mainmenu: "Administrator", icon: <AdminPanelSettingsOutlinedIcon /> },
+    { mainmenu: "Setting", icon: <SettingsOutlinedIcon /> },
+    { mainmenu: "Social Connect", icon: <HubOutlinedIcon /> },
+  ];
+
+  const workSpaceMenu = [
+    { mainmenu: "Share Documents" },
+    { mainmenu: "MyOpportunity", icon: <SignalCellularAltRoundedIcon /> },
+    { mainmenu: "Under Review", icon: <TaskAltRoundedIcon /> },
+    { mainmenu: "Remote Support", icon: <CastRoundedIcon /> },
+  ];
+
+
   return (
-    <Box>
-      <Box sx={{ mb: 3 }}>
-        {state.logoImage ? (
-          <Box sx={{ fontWeight: 600,fontSize:"13px"  }}>
-            Personal Information
-          </Box>
-        ) : (<Skeleton variant="rectangular" width={200} height={25} style={{ borderRadius: '6px' }} />)}
-      </Box>
-   
-      
-      <Grid container spacing={2} columns={{ xs: 8, sm: 8, md: 16 }}>
-        <Grid item xs={8}>  
-              <Box>
-                {state.logoImage ? (
-                  <Box sx={{ display: 'flex', alignItems: 'center',fontSize:"13px"  }}>
-                    Title
-                    <Box sx={{ ml: 8 }}>
-                      <FormControl variant="standard" sx={{ minWidth: 220 }}>
-                        <Box sx={{ width: 202 }}>
-                          <Select name="titleselect" value={state.titleselect} onChange={HandleChangeTitle} sx={{ width: '110%' }}>
-                            <MenuItem value="Miss">Miss</MenuItem>
-                            <MenuItem value="Mr">Mr</MenuItem>
-                            <MenuItem value="Mrs">Mrs</MenuItem>
-                          </Select>
-                        </Box>
-                      </FormControl>
-                    </Box>
-                  </Box>
-                ) : (<Skeleton variant="rectangular" width={330} height={35} style={{ borderRadius: '6px' }} />)}
-              </Box>
-            </Grid>
-            <Grid item xs={8}>
-              <Box>
-                {state.logoImage ? (
-                  <Box sx={{ display: 'flex', alignItems: 'center',fontSize:"13px"  }}>
-                    Phone number
-                    <Box sx={{ minWidth: 220, ml: 3 }}>
-                      <TextField id="standard-basic" variant="standard" value={state.phone_number} onChange={Handleregister.phone_number} sx={{ width: "220px" }} inputProps={{ maxLength: 10, inputMode: 'numeric' }} />
-                    </Box>
-                  </Box>
-                ) : (<Skeleton variant="rectangular" width={330} height={35} style={{ borderRadius: '6px' }} />)}
-              </Box>
-            </Grid>
-       
-            <Grid item xs={8}>
-              <Box>
-                {state.logoImage ? (
-                  <Box sx={{ display: 'flex', alignItems: 'center',fontSize:"13px"  }}>
-                    First name
-                    <Box sx={{ ml: 2.7 }}>
-                      <TextField id="standard-basic" variant="standard" value={state.first_name} onChange={Handleregister.first_name} sx={{ width: "220px" }} />
-                    </Box>
-                  </Box>
-                ) : (<Skeleton variant="rectangular" width={330} height={35} style={{ borderRadius: '6px' }} />)}
-              </Box>
-            </Grid>
-            <Grid item xs={8}>
-              <Box>
-                {state.logoImage ? (
-                  <Box sx={{ display: 'flex', alignItems: 'center',fontSize:"13px"  }}>
-                    Last name
-                    <Box sx={{ minWidth: 220, ml: 7 }}>
-                      <TextField id="standard-basic" variant="standard" value={state.last_name} onChange={Handleregister.last_name} sx={{ width: "220px" }} />
-                    </Box>
-                  </Box>
-                ) : (<Skeleton variant="rectangular" width={330} height={35} style={{ borderRadius: '6px' }} />)}
-              </Box>
-            </Grid>
-            <Grid item xs={8}>
-              <Box>
-                {state.logoImage ? (
-                  <Box sx={{ display: 'flex', alignItems: 'center',fontSize:"13px"  }}>
-                    Department
-                    <Box sx={{ ml: 1 }}>
-                      <FormControl variant="standard" sx={{ minWidth: 220 }}>
-                        <Select name="departmentname" value={state.departmentid }  onChange={changedepartment} sx={{ width: '100%' }}>
-                          {state.department && state.department.dataResponse && state.department.dataResponse.department_list.map(department => (
-                            <MenuItem key={department.id} value={department.id}>
-                              {department.department}
-                            </MenuItem>))}
-                        </Select>
-                      </FormControl>
-                    </Box>
-                  </Box>
-                ) : (<Skeleton variant="rectangular" width={330} height={35} style={{ borderRadius: '6px' }} />)}
-              </Box>
-            </Grid>
-            <Grid item xs={8}>
-              <Box>
-                {state.logoImage ? (
-                  <Box sx={{ display: 'flex', alignItems: 'center',fontSize:"13px"  }}>
-                    Jobtitle
-                    <Box sx={{ ml: 9.5 }}>
-                      <FormControl variant="standard" sx={{ minWidth: 220 }}>
-                        <Select name="additionalSelect2" value={state.jobtitlename} onChange={changejobtitle} sx={{ width: '100%' }} disabled={!state.departmentid}>
-                          {state.jobtitle && state.jobtitle.dataResponse && state.jobtitle.dataResponse.jobtitle_list.map(jobtitle => (
-                            <MenuItem key={jobtitle.id} value={jobtitle.jobtitle}>
-                              {jobtitle.jobtitle}
-                            </MenuItem>))}
-                        </Select>
-                      </FormControl>
-                    </Box>
-                  </Box>
-                ) : (<Skeleton variant="rectangular" width={330} height={35} style={{ borderRadius: '6px' }} />)}
-              </Box>
-            </Grid>
-          </Grid>
-    </Box>
-  );
+    <div className='flex bg-[#f8fafc]'>
+      <div className={` bg-[#fff] h-screen px-4 py-6 duration-100 ${navmobile ? "max-sm:hidden" : "visible"} ${open ? "w-64" : "w-20"}`}>
+        <Arrow sx={{ fontSize: '35px' }} className={`text-[#000] absolute -right-9 top-1/2 cursor-pointer ${!open && "rotate-180"}`} onClick={() => setOpen(!open)} />
+        <div className='inline-flex'>
+          <Profile sx={{ fontSize: '40px' }} className={`rounded-full block float-left mr-2 cursor-pointer`} />
+          <div className={`flex-col ${!open && "scale-0"}`}>
+            <h1 className={`text-[14px] origin-left font-semibold`}>Name Surname</h1>
+            <p className={`text-[12px] origin-left font-semibold`}>Job title</p>
+          </div>
+        </div>
+        <div className={`flex mt-3 ${!open && "scale-0"}`}>
+          <p className={`text-[10px] text-[#] font-medium uppercase`}>menu</p>
+        </div>
+        <ul>
+          {Menus.map((menu, index) => (
+            <>
+              <li key={index} className='text-[#1F2939] rounded-md text-sm font-medium flex items-center gap-x-3 cursor-pointer px-2 py-2.5 mt-1 hover:bg-[#1F2939] hover:text-[#fff] has-[:checked]:bg-indigo-50'>
+                <span className='block float-left '>
+                  {menu.icon ? menu.icon : <SpaceDashboardOutlinedIcon />}
+                </span>
+                <span className={`${!open && "hidden"}`}>
+                  {menu.mainmenu}
+                </span>
+              </li>
+            </>
+          ))}
+        </ul >
+        <div className={`flex mt-5 ${!open && "scale-0"}`}>
+          <p className={`text-[10px] text-[#] font-medium uppercase`}>work space</p>
+        </div>
+        <ul>
+          {workSpaceMenu.map((menu, index) => (
+            <>
+              <li key={index} className='text-[#1F2939] rounded-md text-sm font-medium flex items-center gap-x-3 cursor-pointer px-2 py-2.5 mt-1 hover:bg-[#1F2939] hover:text-[#fff]'>
+                <span className='block float-left'>
+                  {menu.icon ? menu.icon : <PostAddOutlinedIcon />}
+                </span>
+                <span className={`${!open && "hidden"}`}>
+                  {menu.mainmenu}
+                </span>
+              </li>
+            </>
+          ))}
+        </ul >
+      </div>
+      <div className="w-[100%] mx-auto px-4 py-4">
+
+      <div className='bg-[#fff] w-auto rounded-md h-16 flex items-center p-7'>
+        <div className={` sm:hidden `} onClick={() => setnavmobile(!navmobile)}>
+          <MenuRoundedIcon sx={{ width: '35px', height: 'auto', cursor: 'pointer' }} />
+        </div>
+        
+      </div>
+
+      <div className='bg-[#fff] mt-4 h-screen w-auto rounded-md p-7'>
+        {children}
+      </div>
+
+      </div>
+    </div>
+  )
 }
 
-export default Index;
+export default Sidebar

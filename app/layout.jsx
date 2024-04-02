@@ -29,7 +29,8 @@ export default function RootLayout({ children, isComingSoon }) {
             <ComingSoon />
           </div> */}
           <div >
-            <header></header>
+            <header>
+            </header>
             <StateProvider>
               {children}
               <SpeedInsights />

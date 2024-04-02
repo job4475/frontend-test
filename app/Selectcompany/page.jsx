@@ -21,9 +21,9 @@ const Page = () => {
     window.location.href = "/CreateCompany"
   } 
   return (
-    <Box>
+    <Box >
       <CustomBackground2>
-        <Box>
+        <Box sx={{m:5}}>
       {state.backdrop ? <Backdrop /> : ""}
           {state.logoImage ? (
             <Box sx={{width: '100%', fontWeight: 700,fontSize: {xs: '18px',   md: '18px',   lg: '24px'},}}>

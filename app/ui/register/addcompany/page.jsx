@@ -15,7 +15,7 @@ function Page() {
   const router = useRouter();
   const searchParams = useSearchParams();
   const emailParam = searchParams.get('email');
-
+  
   useEffect(() => {
     const emailParam = searchParams.get('email');
     if(emailParam){

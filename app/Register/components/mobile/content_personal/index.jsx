@@ -25,97 +25,81 @@ function Index() {
 
   return (
     <Box sx={{width:'100%'}}>
-      <Box sx={{mt:2,width:'100%'}}>
+      <Box sx={{mt:3,width:'100%'}}>
         {state.logoImage ? (
           <Box sx={{ fontWeight: 600,fontSize:"13px"  }}>
             Personal Information
           </Box>
         ) : (<Skeleton variant="rectangular" width={200} height={25} style={{ borderRadius: '6px' }} />)}
       </Box>
-            <Box sx={{display:'flex',flexDirection:'column'}}>
-              <Box>
-                {state.logoImage ? (
-                  <Box sx={{display:'flex', fontSize:"13px"  }}>
-                    Title
-                    <Box sx={{ ml: 12.3 }}>
-                      <FormControl variant="standard" sx={{ minWidth: 200 }}>
-                        <Box sx={{ width: 182 }}>
-                          <Select name="titleselect" value={state.titleselect} onChange={HandleChangeTitle} sx={{ width: '110%' }}>
+            <Box sx={{display:'flex',flexDirection:'column',mt:5}}>
+            <Grid container spacing={2} columns={16} style={{ marginBottom: 5 }}>
+              <Grid item xs={8}>
+                <Box>Title</Box>
+              </Grid>
+              <Grid item xs={8}>
+                <Box>
+                <FormControl variant="standard" sx={{ minWidth: 220 }}>
+                        <Box sx={{ width: 202 }}>
+                          <Select name="titleselect" value={state.titleselect} onChange={HandleChangeTitle} sx={{ width: '150px' }}>
                             <MenuItem value="Miss">Miss</MenuItem>
                             <MenuItem value="Mr">Mr</MenuItem>
                             <MenuItem value="Mrs">Mrs</MenuItem>
                           </Select>
                         </Box>
                       </FormControl>
-                    </Box>
-                  </Box>
-                ) : (<Skeleton variant="rectangular" width={330} height={35} style={{ borderRadius: '6px' }} />)}
-              </Box>
-              <Box>
-                {state.logoImage ? (
-                  <Box sx={{ display: 'flex', alignItems: 'center',fontSize:"13px"  }}>
-                    Phone number
-                    <Box sx={{ minWidth: 220, ml: 9 }}>
-                      <TextField id="standard-basic" variant="standard" value={state.phone_number} onChange={Handleregister.phone_number} sx={{ width: "90%" }} inputProps={{ maxLength: 10, inputMode: 'numeric' }} />
-                    </Box>
-                  </Box>
-                ) : (<Skeleton variant="rectangular" width={330} height={35} style={{ borderRadius: '6px' }} />)}
-              </Box>
-              <Box>
-                {state.logoImage ? (
-                  <Box sx={{ display: 'flex', alignItems: 'center',fontSize:"13px" }}>
-                    First name
-                    <Box sx={{ ml: 7 }}>
-                      <TextField id="standard-basic" variant="standard" value={state.first_name} onChange={Handleregister.first_name} sx={{ width: "197px" }} />
-                    </Box>
-                  </Box>
-                ) : (<Skeleton variant="rectangular" width={330} height={35} style={{ borderRadius: '6px' }} />)}
-              </Box>
-              <Box>
-                {state.logoImage ? (
-                  <Box sx={{ display: 'flex', alignItems: 'center',fontSize:"13px"  }}>
-                    Last name
-                    <Box sx={{ minWidth: 220, ml:11 }}>
-                      <TextField id="standard-basic" variant="standard" value={state.last_name} onChange={Handleregister.last_name} sx={{ width: "195px" }} />
-                    </Box>
-                  </Box>
-                ) : (<Skeleton variant="rectangular" width={330} height={35} style={{ borderRadius: '6px' }} />)}
-              </Box>
-              <Box>
-                {state.logoImage ? (
-                  <Box sx={{ display: 'flex', alignItems: 'center',fontSize:"13px"  }}>
-                    Department
-                    <Box sx={{ ml: 5.5 }}>
-                      <FormControl variant="standard" sx={{ minWidth: 220 }}>
-                        <Select name="departmentname" value={state.departmentid }  onChange={changedepartment} sx={{ width: '93%' }}>
+                </Box>
+              </Grid>
+              <Grid item xs={8}>
+                <Box>Phone number</Box>
+              </Grid>
+              <Grid item xs={8}>
+              <TextField id="standard-basic" variant="standard" value={state.phone_number} onChange={Handleregister.phone_number} sx={{ width: "150px" }} inputProps={{ maxLength: 10, inputMode: 'numeric' }} />
+              </Grid>
+              <Grid item xs={8}>
+                <Box>First name</Box>
+              </Grid>
+              <Grid item xs={8}>
+              <TextField id="standard-basic" variant="standard" value={state.first_name} onChange={Handleregister.first_name} sx={{ width: "150px" }} />
+              </Grid>
+              <Grid item xs={8}>
+                <Box>Last name</Box>
+              </Grid>
+              <Grid item xs={8}>
+              <TextField id="standard-basic" variant="standard" value={state.last_name} onChange={Handleregister.last_name} sx={{ width: "150px" }} />
+              </Grid>
+              <Grid item xs={8}>
+                <Box>Department</Box>
+              </Grid>
+              <Grid item xs={8}>
+                <Box>
+                <FormControl variant="standard" sx={{ minWidth: 220 }}>
+                        <Select name="departmentname" value={state.departmentid }  onChange={changedepartment} sx={{ width: '150px' }}>
                           {state.department && state.department.dataResponse && state.department.dataResponse.department_list.map(department => (
                             <MenuItem key={department.id} value={department.id}>
                               {department.department}
                             </MenuItem>))}
                         </Select>
                       </FormControl>
-                    </Box>
-                  </Box>
-                ) : (<Skeleton variant="rectangular" width={330} height={35} style={{ borderRadius: '6px' }} />)}
-              </Box>
-              <Box>
-                {state.logoImage ? (
-                  <Box sx={{ display: 'flex', alignItems: 'center',fontSize:"13px"  }}>
-                    Jobtitle
-                    <Box sx={{ ml: 9.5 }}>
-                      <FormControl variant="standard" sx={{ minWidth: 220 }}>
-                        <Select name="additionalSelect2" value={state.jobtitlename} onChange={changejobtitle} sx={{ width: '93%' }} disabled={!state.departmentid}>
+                </Box>
+              </Grid>
+              <Grid item xs={8}>
+                <Box>Jobtitle</Box>
+              </Grid>
+              <Grid item xs={8}>
+                <Box>
+                <FormControl variant="standard" sx={{ minWidth: 220 }}>
+                        <Select name="additionalSelect2" value={state.jobtitlename} onChange={changejobtitle} sx={{ width: '150px' }} disabled={!state.departmentid}>
                           {state.jobtitle && state.jobtitle.dataResponse && state.jobtitle.dataResponse.jobtitle_list.map(jobtitle => (
                             <MenuItem key={jobtitle.id} value={jobtitle.jobtitle}>
                               {jobtitle.jobtitle}
                             </MenuItem>))}
                         </Select>
                       </FormControl>
-                    </Box>
-                  </Box>
-                ) : (<Skeleton variant="rectangular" width={330} height={35} style={{ borderRadius: '6px' }} />)}
-              </Box>
-              </Box>
+                </Box>
+              </Grid>
+            </Grid> 
+            </Box>
     </Box>
   );
 }
