@@ -12,7 +12,6 @@ function Address() {
         })
         .catch(error => console.error('Error fetching data: ', error));
       }, []);
-       
   return null;
 }
 export default Address;
