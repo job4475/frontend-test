@@ -12,6 +12,7 @@ import CustomBackground from '@/components/Background/page'
 
 function SelectVerify() {
     const { state, setState } = useContext(StateContext);
+
     const router = useRouter();
 
     const [isClickedMail, setIsClickedMail] = useState(false);
@@ -20,11 +21,15 @@ function SelectVerify() {
     const handleImageClickMail = () => {
         setIsClickedMail(!isClickedMail);
         setIsClickedAut(false);
+
+        console.log('Image clicked!');
     }
 
     const handleImageClickAut = () => {
         setIsClickedAut(!isClickedAut);
         setIsClickedMail(false);
+
+        console.log('Image clicked!');
     }
 
     const sendOTPEmail = () => {
@@ -45,11 +50,12 @@ function SelectVerify() {
             .then(result => {
                 if (result.status === "OK") {
                     setState({ ...state, referenceID: result.referenceID, loading: false });
-                    localStorage.setItem("referenceID", result.referenceID);
-                    getadminid()
                     router.push('/OTPverify');
                 } else {
                     setState((prevData) => ({ ...prevData, loading: false, alert: true, alert_text: result.message, alert_type: "error" }));
+                    setTimeout(() => {
+                        window.location.reload();
+                    }, 2000);
                 }
             })
             .catch(error => console.error('Error:', error));
@@ -74,9 +80,11 @@ function SelectVerify() {
             .then(result => {
                 console.log(result);
                 if (result.status === "OK") {
+                    console.log("🚀 ~ getQR ~ result:", result)
                     localStorage.setItem("qrcode", JSON.stringify(result.qrCodeURL));
                     setState({ ...state, qrcodeurl: result.qrCodeURL, loading: false });
                     router.push('/Authenticator');
+
                 } else if (result.statusqr === false && (state.qrcode === "" && state.qrcodeurl === "")) {
                     router.push('/Authenverify');
                 } else {
@@ -88,32 +96,14 @@ function SelectVerify() {
     const handlenext = () => {
         if (isClickedMail) {
             router.push('/OTPverify');
-            
             sendOTPEmail();
-            
         } else if (isClickedAut) {
-            getadminid()
             router.push('/Authenticator');
             getQR();
         }
+
+
     }
-    const getadminid =() =>{
-        if(state.decode_token.FirstTimeLogin){
-            const requestOptions = {
-                method: "GET",
-                redirect: "follow"
-              };
-              fetch(`${process.env.NEXT_PUBLIC_API_ENDPOINT_GET}:${process.env.NEXT_PUBLIC_API_PORT_LOGIN}/api/getAdminInfoByCompanyID/${state.decode_token.CompanyID}`, requestOptions)
-                .then((response) => response.json())
-                .then(result => {
-                    if (result.status === "OK") {
-                        setState(prevState => ({ ...prevState, admin_id: result }));
-                    } 
-                } )
-                .catch((error) => console.error(error));
-        }
-    }
-    
     return (
         <CustomBackground>
             <Box>

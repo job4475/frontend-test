@@ -142,6 +142,7 @@ function Leadlist() {
       }
 
     const handleClickApprove = (order) => {
+        console.log("🚀 ~ handleClickApprove ~ order:", order)
         setState((prevData) => ({ ...prevData, pageloader: true }));
         const formdata = new FormData();
         order.forEach(orderItem => {
@@ -160,6 +161,7 @@ function Leadlist() {
                     let updatedCommand = command.replace(/-browserview/, '-update_file_info_ex');
                     updatedCommand = updatedCommand.replace(/(-macro_deny|-encrypt) +/g, '');
                     updatedCommand = updatedCommand.replace(/-watermark:[^ ]+/, '');
+                    updatedCommand = updatedCommand.replace(/-mail:[^ ]+/, '');
                     updatedCommand = updatedCommand.replace(/-scrnwatermark:[^ ]+/, '');
                     const destMatch = command.match(/-dest:([^ ]+)/);
                     if (destMatch && destMatch[1]) {
@@ -168,16 +170,18 @@ function Leadlist() {
                         updatedCommand = updatedCommand.replace(/-src:[^ ]+/, '');
                         updatedCommand += ` -src:${srcValue}`;
                     }
-                    const recipients = orderItem.scdact_reciepient.split(',');
-                    const recipientsString = recipients.map(recipient => `-mail:${recipient}`).join(' ');
-                    updatedCommand = updatedCommand.replace(/-mail:[^ ]+/, '');
-                    updatedCommand += ` ${recipientsString}`;
+                    const recipients = new Set(orderItem.scdact_reciepient.split(',')); // Create a Set to store unique email addresses
+                    const recipientsString = [...recipients].map(recipient => recipient).join(','); // Convert Set back to array and join with comma
+                    
+                    // Append the recipientsString to the updatedCommand with -mail: prefix
+                    updatedCommand += ` -mail:${recipientsString},${orderItem.scdact_sender}`;
+                    
 
                     if (orderItem.scdact_print) {
                         if (updatedCommand.includes(' -noprint')) {
                             updatedCommand = updatedCommand.replace(/-noprint/, ' -print');
                           } else {
-                            updatedCommand += ' -print'; // Add watermark
+                            updatedCommand += ' -print';
                           }
                     } else {
                         // Remove watermark if exists
@@ -221,23 +225,6 @@ function Leadlist() {
                           } // Add watermark
                     }
     
-                    // Check if watermark exists
-                    // if (orderItem.scdact_watermark) {
-                    //     updatedCommand += ' -watermark:2098'; // Add watermark
-                    // } else {
-                    //     // Remove watermark if exists
-                    //     updatedCommand = updatedCommand.replace(/-watermark:[^ ]+/, '');
-                    // }
-    
-                    // // Check if scrnwatermark exists
-                    // if (orderItem.scdact_scrwatermark) {
-                    //     updatedCommand += ' -scrnwatermark:2096'; // Add scrnwatermark
-                    // } else {
-                    //     // Remove scrnwatermark if exists
-                    //     updatedCommand = updatedCommand.replace(/-scrnwatermark:[^ ]+/, '');
-                    // }
-    
-    
                     formdata.append("scdact_command", updatedCommand);
                 });
             } else {
@@ -245,6 +232,7 @@ function Leadlist() {
                 let updatedCommand = orderItem.scdact_command.replace(/-browserview/, '-update_file_info_ex');
                 updatedCommand = updatedCommand.replace(/(-macro_deny|-encrypt) +/g, '');
                 updatedCommand = updatedCommand.replace(/-watermark:[^ ]+/, '');
+                updatedCommand = updatedCommand.replace(/-mail:[^ ]+/, '');
                 updatedCommand = updatedCommand.replace(/-scrnwatermark:[^ ]+/, '');
                 const destMatch = orderItem.scdact_command.match(/-dest:([^ ]+)/);
                 if (destMatch && destMatch[1]) {
@@ -253,10 +241,13 @@ function Leadlist() {
                     updatedCommand = updatedCommand.replace(/-src:[^ ]+/, '');
                     updatedCommand += ` -src:${srcValue}`;
                 }
-                const recipients = orderItem.scdact_reciepient.split(',');
-                const recipientsString = recipients.map(recipient => `-mail:${recipient}`).join(' ');
-                updatedCommand = updatedCommand.replace(/-mail:[^ ]+/, '');
-                updatedCommand += ` ${recipientsString}`;
+                const recipients = new Set(orderItem.scdact_reciepient.split(',')); // Create a Set to store unique email addresses
+                const recipientsString = [...recipients].map(recipient => recipient).join(','); // Convert Set back to array and join with comma
+                
+                // Append the recipientsString to the updatedCommand with -mail: prefix
+                updatedCommand += ` -mail:${recipientsString},${orderItem.scdact_sender}`;
+
+                
 
                 if (orderItem.scdact_print) {
                     if (updatedCommand.includes(' -noprint')) {
@@ -306,23 +297,6 @@ function Leadlist() {
                       } // Add watermark
                 }
     
-                // Check if watermark exists
-                // if (orderItem.scdact_watermark) {
-                //     updatedCommand += ' -watermark:2098'; // Add watermark
-                // } else {
-                //     // Remove watermark if exists
-                //     updatedCommand = updatedCommand.replace(/-watermark:[^ ]+/, '');
-                // }
-
-                // Check if scrnwatermark exists
-                // if (orderItem.scdact_scrwatermark) {
-                //     updatedCommand += ' -scrnwatermark:2096'; // Add scrnwatermark
-                // } else {
-                //     // Remove scrnwatermark if exists
-                //     updatedCommand = updatedCommand.replace(/-scrnwatermark:[^ ]+/, '');
-                // }
-
-    
                 formdata.append("scdact_command", updatedCommand);
             }
         });
@@ -342,6 +316,7 @@ function Leadlist() {
             .then((response) => response.json())
             .then((result) => {
                 if (result.status === "OK") {
+                    // console.log("🚀 ~ .then ~ result:", result)
                     handleApprove(order);
                 }
             })

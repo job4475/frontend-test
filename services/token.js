@@ -11,7 +11,6 @@ function Token() {
     const dataCompany = JSON.parse(localStorage.getItem('datacompanylc'));
     const userEmail = localStorage.getItem('useremail');
     const token = localStorage.getItem('token');
-    const ReferenceID = localStorage.getItem('referenceID');
     
     if (items) {
       setState(prevState => ({ ...prevState, decode_token: items }));
@@ -26,10 +25,7 @@ function Token() {
     if (token) {
       setState(prevState => ({ ...prevState, token: token }));
     }
-    if (ReferenceID) {
-      setState(prevState => ({ ...prevState, referenceID: ReferenceID }));
-    }
-   
+
     
   }, []); 
   

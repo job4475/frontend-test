@@ -341,8 +341,9 @@ const handleUpload = useCallback(async () => {
     const orderId = uuid.v4();
     const currentDate = new Date();
     const timestampInSeconds = Math.floor(currentDate.getTime() / 1000);
-    const usernames = state.teamlead_email.map(user => user.username);
-
+    const usernames = state.teamlead_email.filter(user => user.status==="Active").map(user => user.username);
+    const emailText = state.recipient.map((recipient, index) => `${recipient}`) 
+    
       formdata.append("scdact_status", "Pending");
       formdata.append("scdact_reqid", orderId);
       formdata.append("scdact_name", state.messageBody?state.messageBody:"");
@@ -380,7 +381,6 @@ const handleUpload = useCallback(async () => {
       for (let i = 0; i < state.selectedFile.length; i++) {
         const file = state.selectedFile[i];
         const sanitizedFileName = file.name.replace(/[\[\]{}()&]/g, '').replace(/\s+/g, '-');
-        const emailText = state.recipient.map((recipient, index) => `${recipient}`) 
         const id = uuid.v4();
         const fileType = state.selectedFile[i].type
 

@@ -27,7 +27,7 @@ function Page() {
     if (file) {
       const reader = new FileReader();
       reader.onload = (e) => {
-        setState({ ...state, selectedImage: e.target.result, selectedFile: file });
+        setState({ ...state, logoImage: e.target.result, selectedFile: file });
       };
       reader.readAsDataURL(file);
     }
