@@ -8,20 +8,19 @@ import { StateContext } from '@/context/Context'
 function Index() {
   const { state } = useContext(StateContext);
 
-  return (
-    <Box sx={{ display: "flex", alignItems: "center",mb:4 }}>
-      {state.logoImage ? (
-        <Image alt="account" src={accountimg} style={{ width: "80px" }}/>
-      ) : (<Skeleton variant="rectangular" width={80} height={100} style={{ borderRadius: '100px' }} />)}
-      <Box sx={{ ml: 2 }}>
+  return ( 
+    <Box sx={{pt:2,flexDirection:"column"}}>
+    <Box >
+      <Box sx={{width:'100%',height:'auto'}}>
         {state.logoImage ? (
-           <Box sx={{  fontSize: '15px' }}>Hello good morning <b>{state.emailconfirm?state.emailconfirm: state.email}</b> <br></br>Welcome to ChicCRM registration process now you are in</Box>
+           <Box sx={{  fontSize: '10' }}>Hello good morning <b>{state.emailconfirm?state.emailconfirm: state.email}</b>   Welcome to ChicCRM registration process  now you are in</Box>
         ) : (<Skeleton variant="rectangular" width={400} height={20} style={{ borderRadius: '6px', marginBottom:'10px' }} />)}
         {state.logoImage ? (
           <Box sx={{ fontSize: "12px", mt: 0.5 }} dangerouslySetInnerHTML={{ __html: data_register[0].detail_msg }} />
         ) : (<Skeleton variant="rectangular" width={300} height={20} style={{ borderRadius: '6px' }} />)}
       </Box>
     </Box>
+    </Box>  
   );
 }
 export default Index;

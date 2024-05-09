@@ -1,9 +1,9 @@
 "use client";
 import React, { useContext, useEffect } from "react";
-import Addcompany from '../ui/register/addcompany/page'
+import AddcompanyPc from './components/pc/page'
+import Addcompanymobile from './components/mobile/page'
 import { StateContext } from "@/context/Context";
 import { Box } from "@mui/material";
-
 
 const Page = () => {
     const {state} = useContext(StateContext);
@@ -23,9 +23,14 @@ const Page = () => {
         }
     }, [state.pageloader]);
     return (
-      
-      <Addcompany/>
-      
+    <Box >
+      <Box sx={{display:{xs:"none",md:"flex"}}}>
+      <AddcompanyPc/>
+      </Box>
+      <Box sx={{display:{xs:"flex",md:"none"}}}>
+        <Addcompanymobile/>
+      </Box>
+    </Box>
   );
 };
 

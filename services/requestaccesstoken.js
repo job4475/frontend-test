@@ -9,11 +9,10 @@ function Request_access_token() {
   const localStorageAccessToken  = localStorage.getItem('access_token');
   const localStorageCode = localStorage.getItem('code');
   
-
     const { state, setState } = useContext(StateContext);
 
     useEffect(() => {
-        if(state.code ){
+        if(state.code){
         const myHeaders = new Headers();
         const apiEndpoint = process.env.NEXT_PUBLIC_API_ENDPOINT_LINELOGIN
         myHeaders.append("Content-Type", "application/x-www-form-urlencoded");
@@ -48,7 +47,6 @@ function Request_access_token() {
         setState(prevState => ({ ...prevState, access_token: localStorageAccessToken }));
       }
     }, [localStorageAccessToken])
-    
     
   return null;
 }

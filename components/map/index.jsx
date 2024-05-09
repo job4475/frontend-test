@@ -1,18 +1,65 @@
-'use client'
-import React from 'react'
+"use client"
+import { StateContext } from '@/context/Context';
+import { Box } from '@mui/system';
+import React, { useContext, useEffect } from 'react';
 
-function Location (props)  {
-  return (
-    <iframe
-    title="Map"
-    src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3872.8587671145247!2d100.57718059999999!3d13.9073888!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x30e282584e6bd939%3A0x3ab694bb30ce43e!2sTRAC%3A%20The%20Recovery%20Advisor%20Co.%2C%20Ltd.!5e0!3m2!1sth!2sth!4v1708570336057!5m2!1sth!2sth"
-    width={props.width}
-    height={props.height}
-    style={{border:0}}
-    allowFullScreen
-    referrerPolicy="no-referrer-when-downgrade"
-  />
-  )
+const PlaceSearch = () => {
+  const { state, setState } = useContext(StateContext);
+  useEffect(() => {
+    const script = document.createElement("script");
+    script.src = `https://maps.googleapis.com/maps/api/js?key=AIzaSyDypFNK4IIYjtMucy8PPz0EFvlX2EJK9Bo&libraries=places`;
+    script.async = true;
+    script.onload = () => {
+      initMap();
+    };
+    document.body.appendChild(script);
+
+    return () => {
+      document.body.removeChild(script);
+    };
+  }, []);
+  
+  function initMap() {
+    const sydney = new google.maps.LatLng(13.907394, 100.5746057);
+    const map = new google.maps.Map(document.getElementById("map"), {
+      center: sydney,
+      zoom: 15
+    });
+  
+    const request = {
+      query: state.companyname?state.companyname:"The Recovery Advisor Company Limited",
+      fields: ["name", "geometry"]
+    };
+  
+    const service = new google.maps.places.PlacesService(map);
+    service.findPlaceFromQuery(request, (results, status) => {
+      if (status === google.maps.places.PlacesServiceStatus.OK && results) {
+        for (let i = 0; i < results.length; i++) {
+          createMarker(results[i], map);
+        }
+        map.setCenter(results[0].geometry.location);
+      }
+    });
   }
+  
+  function createMarker(place, map) {
+    if (!place.geometry || !place.geometry.location) return;
+    const marker = new google.maps.Marker({
+      map: map,
+      position: place.geometry.location
+    });
+  
+    google.maps.event.addListener(marker, "click", () => {
+      infowindow.setContent(place.name || "");
+      infowindow.open(map);
+    });
+  }
+  
+  return (
+    <Box>
+      <Box id="map" style={{ height: "300px", width: "100%" }}></Box>
+    </Box>
+  );
+};
 
-export default Location
+export default PlaceSearch;

@@ -113,7 +113,7 @@ function Index() {
       <Box sx={{display: "flex",justifyContent: "flex-start",alignItems: "center",gap: 1,width: 300,height: 26,}}>
         <Box sx={{width: 15,height: 15,borderRadius: 9999,border: "1px #E4E7EB solid", background: (state.password === state.confirmPassword) ? '#2AB930' : '#ffffff' }}/>
         <Typography variant="body2" color="#828895">
-          Password must contain an.
+          Password matched.
         </Typography>
       </Box>
     </Box>

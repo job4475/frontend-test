@@ -32,11 +32,10 @@ function Index() {
           </Box>
         ) : (<Skeleton variant="rectangular" width={200} height={25} style={{ borderRadius: '6px' }} />)}
       </Box>
-      <Grid item xs={12} md={6}></Grid>
-      <Grid container spacing={2}>
-        <Grid item xs={12} md={6}>
-          <Grid container spacing={2}>
-            <Grid item xs={12}>
+   
+      
+      <Grid container spacing={2} columns={{ xs: 8, sm: 8, md: 16 }}>
+        <Grid item xs={8}>  
               <Box>
                 {state.logoImage ? (
                   <Box sx={{ display: 'flex', alignItems: 'center',fontSize:"13px"  }}>
@@ -56,7 +55,20 @@ function Index() {
                 ) : (<Skeleton variant="rectangular" width={330} height={35} style={{ borderRadius: '6px' }} />)}
               </Box>
             </Grid>
-            <Grid item xs={12}>
+            <Grid item xs={8}>
+              <Box>
+                {state.logoImage ? (
+                  <Box sx={{ display: 'flex', alignItems: 'center',fontSize:"13px"  }}>
+                    Phone number
+                    <Box sx={{ minWidth: 220, ml: 3 }}>
+                      <TextField id="standard-basic" variant="standard" value={state.phone_number} onChange={Handleregister.phone_number} sx={{ width: "220px" }} inputProps={{ maxLength: 10, inputMode: 'numeric' }} />
+                    </Box>
+                  </Box>
+                ) : (<Skeleton variant="rectangular" width={330} height={35} style={{ borderRadius: '6px' }} />)}
+              </Box>
+            </Grid>
+       
+            <Grid item xs={8}>
               <Box>
                 {state.logoImage ? (
                   <Box sx={{ display: 'flex', alignItems: 'center',fontSize:"13px"  }}>
@@ -68,7 +80,19 @@ function Index() {
                 ) : (<Skeleton variant="rectangular" width={330} height={35} style={{ borderRadius: '6px' }} />)}
               </Box>
             </Grid>
-            <Grid item xs={12}>
+            <Grid item xs={8}>
+              <Box>
+                {state.logoImage ? (
+                  <Box sx={{ display: 'flex', alignItems: 'center',fontSize:"13px"  }}>
+                    Last name
+                    <Box sx={{ minWidth: 220, ml: 7 }}>
+                      <TextField id="standard-basic" variant="standard" value={state.last_name} onChange={Handleregister.last_name} sx={{ width: "220px" }} />
+                    </Box>
+                  </Box>
+                ) : (<Skeleton variant="rectangular" width={330} height={35} style={{ borderRadius: '6px' }} />)}
+              </Box>
+            </Grid>
+            <Grid item xs={8}>
               <Box>
                 {state.logoImage ? (
                   <Box sx={{ display: 'flex', alignItems: 'center',fontSize:"13px"  }}>
@@ -87,35 +111,7 @@ function Index() {
                 ) : (<Skeleton variant="rectangular" width={330} height={35} style={{ borderRadius: '6px' }} />)}
               </Box>
             </Grid>
-          </Grid>
-        </Grid>
-        <Grid item xs={12} md={6}>
-          <Grid container spacing={2}>
-            <Grid item xs={12}>
-              <Box>
-                {state.logoImage ? (
-                  <Box sx={{ display: 'flex', alignItems: 'center',fontSize:"13px"  }}>
-                    Phone number
-                    <Box sx={{ minWidth: 220, ml: 3 }}>
-                      <TextField id="standard-basic" variant="standard" value={state.phone_number} onChange={Handleregister.phone_number} sx={{ width: "220px" }} inputProps={{ maxLength: 10, inputMode: 'numeric' }} />
-                    </Box>
-                  </Box>
-                ) : (<Skeleton variant="rectangular" width={330} height={35} style={{ borderRadius: '6px' }} />)}
-              </Box>
-            </Grid>
-            <Grid item xs={12}>
-              <Box>
-                {state.logoImage ? (
-                  <Box sx={{ display: 'flex', alignItems: 'center',fontSize:"13px"  }}>
-                    Last name
-                    <Box sx={{ minWidth: 220, ml: 7 }}>
-                      <TextField id="standard-basic" variant="standard" value={state.last_name} onChange={Handleregister.last_name} sx={{ width: "220px" }} />
-                    </Box>
-                  </Box>
-                ) : (<Skeleton variant="rectangular" width={330} height={35} style={{ borderRadius: '6px' }} />)}
-              </Box>
-            </Grid>
-            <Grid item xs={12}>
+            <Grid item xs={8}>
               <Box>
                 {state.logoImage ? (
                   <Box sx={{ display: 'flex', alignItems: 'center',fontSize:"13px"  }}>
@@ -135,8 +131,6 @@ function Index() {
               </Box>
             </Grid>
           </Grid>
-        </Grid>
-      </Grid>
     </Box>
   );
 }

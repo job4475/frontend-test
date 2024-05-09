@@ -1,17 +1,17 @@
 
 'use client'
 import { StateContext } from '@/context/Context';
-import { Box, Grid } from '@mui/material';
+import { Box, Grid, useMediaQuery } from '@mui/material';
 import React, { useContext, useEffect } from 'react'
-import ContentAccount from './components/content_account'
-import ContentCompany from './components/content_company'
-import ContentPersonal from './components/content_personal'
-import Button from './components/button'
-import Map from './components/map'
 import Dialog from '@/components/dialog/dialog'
+import Pc from './components/pc/index'
+import Mobile from './components/mobile/index'
+import CustomBackground2 from '@/components/BackgroundTwocolors/page'
+
 
 function Page() {
   const { state, setState } = useContext(StateContext);
+  const isMobile = useMediaQuery('(max-width:1024px)');
   useEffect(() => {
     const handleBeforeUnload = (event) => {
       if (state.pageloader) {
@@ -27,22 +27,12 @@ function Page() {
   }, [state.pageloader]);
 
   return (
-    <Box sx={{ background: `linear-gradient(108deg, #84BAA1 0%, #FFFBE2 100%)`, height: "100vh" }} style={{ filter: state.pageloader ? 'blur(4px)' : 'none', pointerEvents: state.pageloader ? 'none' : 'auto' }}>
-      <Dialog />
-      <Grid container >
-        <Grid item >
-          <Box sx={{ display: { md: 'flex', xs: 'block' }, alignItems: "center", p: 5, height: "100vh", width: "85%", background: "#fff", borderRadius: "0px 14px 14px 0px" }}>
-            <Box pt >
-              <ContentAccount />
-              <ContentCompany />
-              <ContentPersonal />
-              <Button />
-            </Box>
-            <Map />
-          </Box>
-        </Grid>
-      </Grid>
-    </Box>
+  
+    <CustomBackground2>
+      {isMobile?
+        <Mobile/>:<Pc/>
+  }
+    </CustomBackground2>
   )
 }
 

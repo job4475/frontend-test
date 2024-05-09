@@ -14,8 +14,9 @@ const Layout = ({ children }) => {
         window.location.href = "/"
     };
     const isMobile = useMediaQuery('(max-width:1024px)');
-    return (
-        <Box display="flex" height="100vh" justifyContent="center" alignItems="center" bgcolor="#FFFFFF" px="70px" py="50px">
+
+    return ( 
+        <Box display="flex" height="100vh" justifyContent="center" alignItems="center" bgcolor="#FFFFF" px="70px" py="50px">
             {!isMobile && (
                 <Box width="60%" height="100%" bgcolor="" display="flex" flexDirection="column" justifyContent="start" gap="20px">
                     <Image onClick={backToLogin} src={Chiclogo} alt="logo" className="w-[80px] h-[auto] hover:scale-110 duration-500 cursor-pointer" />
@@ -38,5 +39,4 @@ const Layout = ({ children }) => {
 Layout.propTypes = {
     children: PropTypes.node,
 };
-
 export default Layout;

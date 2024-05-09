@@ -21,9 +21,9 @@ const Page = () => {
     window.location.href = "/CreateCompany"
   } 
   return (
-    <Box>
+    <Box >
       <CustomBackground2>
-        <Box>
+        <Box sx={{m:5}}>
       {state.backdrop ? <Backdrop /> : ""}
           {state.logoImage ? (
             <Box sx={{width: '100%', fontWeight: 700,fontSize: {xs: '18px',   md: '18px',   lg: '24px'},}}>
@@ -96,10 +96,11 @@ const Page = () => {
             <Box sx={{ transition: 'transform 0.3s ease', '&:hover': { transform: 'scale(1.3)' } }}>
               <Box sx={{ width: '90px', height: '150px', display: 'flex', justifyContent: 'center', alignItems: 'center' }}>
                 {state.logoImage ? (
+                  <Box sx={{width:'90',height:'90'}}>
                   <svg
                     xmlns="http://www.w3.org/2000/svg"
-                    width="41"
-                    height="41"
+                    width="40"
+                    height="90"
                     viewBox="0 0 41 41"
                     fill="none"
                   >
@@ -116,6 +117,7 @@ const Page = () => {
                       strokeLinecap="round"
                     />
                   </svg>
+                  </Box>
                 ) : (
                   <Skeleton variant="rectangular" width={90} height={90} style={{ borderRadius: '6px' }} />
                 )}
