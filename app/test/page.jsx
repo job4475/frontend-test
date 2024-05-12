@@ -1,50 +1,38 @@
 "use client"
-import React, { useContext, useEffect } from 'react'
-import Navbar from '@/components/navbar/navbar'
-import Button from '@mui/material/Button';
-import Autocomplete from '@mui/material/Autocomplete';
-import TextField from '@mui/material/TextField';
-import Paper from '@mui/material/Paper';
-import Table from '@mui/material/Table';
-import TableBody from '@mui/material/TableBody';
-import TableCell from '@mui/material/TableCell';
-import TableContainer from '@mui/material/TableContainer';
-import TableHead from '@mui/material/TableHead';
-import TablePagination from '@mui/material/TablePagination';
-import TableRow from '@mui/material/TableRow';
-import { StateContext } from '@/context/Context';
-import { Box, display } from '@mui/system';
+import React, { useState } from 'react';
 
-function page() {
-  const { state, setState } = useContext(StateContext);
-  useEffect(() => {
-    const requestOptions = {
-      method: "GET",
-      redirect: "follow"
-    };
-    
-    fetch("http://192.168.5.56:8888/api/getAllServiceRate", requestOptions)
-      .then((response) => response.json())
-      .then((result) =>  {
-        console.log("🚀 ~ .then ~ result:", result)
-        if(result.status === "OK"){
-          setState(prevState => ({ ...prevState, servicesRate: result }));
-        }
-      })
-      .catch((error) => console.error(error));
-  }, [])
+function Page() {
+  const [isAnimating, setIsAnimating] = useState(false);
+
+  const handleAnimation = () => {
+    setIsAnimating(true);
+    setTimeout(() => {
+      setIsAnimating(false);
+    }, 2000); 
+  };
+
   return (
-  <Box>
-    <Navbar/>
-    <Box>
-      <Box>Service Rate</Box>
-      <Box sx={{display:'flex',justifyContent:"center"}}>
-      </Box>
-    </Box>
-  </Box>
-    
-    
-  )
+    <div>
+      <style jsx>{`
+        .box {
+          width: 100px;
+          height: 100px;
+          background-color: blue;
+          transition: transform 1s ease;
+        }
+
+        .move {
+          transform: translateX(100px);
+        }
+      `}</style>
+      <div
+        className={`box ${isAnimating ? 'move' : ''}`}
+        onClick={handleAnimation}
+      >
+        Click me
+      </div>
+    </div>
+  );
 }
 
-export default page
+export default Page;
